@@ -24,9 +24,7 @@ struct NewTweetView: View {
   @Binding public var isPresentedDismiss: Bool
   @StateObject public var viewModel: NewTweetViewModel
   @FocusState private var showKeyboard: Bool
-  @State public var isPresentedPhotoPicker = false
-  @State public var results: [PhotoResult] = []
-  @State public var didPickPhoto = true
+
   
   var body: some View {
     ScrollView {
@@ -39,10 +37,16 @@ struct NewTweetView: View {
         Spacer()
         Text("New Tweet")
         Spacer()
-        Button(action: {}, label: {
+        Button(action: {
+          Task {
+						await viewModel.tweet()
+						isPresentedDismiss = false
+          }
+        }, label: {
           Text("Tweet")
         })
 				.disabled(viewModel.disableTweetButton)
+				.buttonStyle(.bordered)
       }
       HStack(alignment: .top) {
         Image(systemName: "person")
@@ -74,8 +78,8 @@ struct NewTweetView: View {
       }
       
       LazyVGrid(columns: [.init(), .init()]) {
-        ForEach(0..<results.count, id: \.self) { i in
-          PhotoView(provider: results[i].provider, item: .init(get: { results[i].item }, set: { results[i].item = $0 }))
+				ForEach(0..<viewModel.results.count, id: \.self) { i in
+					PhotoView(provider: viewModel.results[i].provider, item: .init(get: { viewModel.results[i].item }, set: { viewModel.results[i].item = $0 }))
             .frame(width: 100, height: 100, alignment: .center)
             .scaledToFit()
 
@@ -103,13 +107,13 @@ struct NewTweetView: View {
       
       HStack {
         Button(action: {
-          isPresentedPhotoPicker.toggle()
+					viewModel.isPresentedPhotoPicker.toggle()
         }, label: {
           Image(systemName: "photo")
         })
-        .disabled(!didPickPhoto)
-        .sheet(isPresented: $isPresentedPhotoPicker) {
-          PhotoPicker(results: $results, didPickPhoto: $didPickPhoto)
+				.disabled(!viewModel.didPickPhoto)
+				.sheet(isPresented: $viewModel.isPresentedPhotoPicker) {
+					PhotoPicker(results: $viewModel.results, didPickPhoto: $viewModel.didPickPhoto)
         }
                 
         Button(action: {

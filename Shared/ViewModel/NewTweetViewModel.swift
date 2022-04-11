@@ -26,8 +26,10 @@ enum NewTweetError: Error, LocalizedError {
   @Published public var locationString: String?
   @Published public var poll: Sweet.PostPollModel?
   @Published public var medias: [String] = []
+	@Published public var isPresentedPhotoPicker = false
+	@Published public var results: [PhotoResult] = []
+	@Published public var didPickPhoto = true
   @Published public var error: Error?
-  
 
 	public var disableTweetButton: Bool {
 		if let poll = poll {
