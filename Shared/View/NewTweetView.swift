@@ -42,6 +42,7 @@ struct NewTweetView: View {
         Button(action: {}, label: {
           Text("Tweet")
         })
+				.disabled(viewModel.disableTweetButton)
       }
       HStack(alignment: .top) {
         Image(systemName: "person")

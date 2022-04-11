@@ -32,6 +32,29 @@ enum NewTweetError: Error, LocalizedError {
     let tweet = Sweet.PostTweetModel(text: text, directMessageDeepLink: nil, forSuperFollowersOnly: false, geo: nil, media: nil, poll: poll, quoteTweetID: nil, reply: nil, replySettings: selectedReplySetting)
     let sweet = try await Sweet()
     let _ = try await sweet.createTweet(tweet)
+	public var disableTweetButton: Bool {
+		if let poll = poll {
+			for option in poll.options {
+				if option.count < 1 {
+					return true
+				}
+			}
+		}
+
+		if text.count > 280 {
+			return true
+		}
+
+		if medias.count > 1 {
+			return false
+		}
+
+		if text.count < 1 {
+			return true
+		}
+
+		return false
+	}
   }
   
   public func getLeftTweetCount() -> Int {
