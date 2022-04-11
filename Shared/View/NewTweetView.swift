@@ -10,16 +10,6 @@ import Sweet
 import Accelerate
 import CoreLocation
 
-extension Sweet.ReplySetting {
-  public var description: String {
-    switch self {
-      case .mentionedUsers: return "People you mention"
-      case .following: return "People you follow or mention"
-      case .everyone: return "Everyone"
-    }
-  }
-}
-
 struct NewTweetView<ViewModel: NewTweetViewModelProtocol>: View {
   @Binding public var isPresentedDismiss: Bool
   @StateObject public var viewModel: ViewModel
