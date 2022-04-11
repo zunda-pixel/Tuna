@@ -77,12 +77,18 @@ enum NewTweetError: Error, LocalizedError {
       locationManager.requestWhenInUseAuthorization()
       return
     }
-    
-    let geocoder = CLGeocoder()
-    
-    let places = try? await geocoder.reverseGeocodeLocation(location)
-        
-    self.locationString =  places?.last?.name
+
+    do {
+      let places = try await CLGeocoder().reverseGeocodeLocation(location)
+      
+      guard let place = places.first else {
+        return
+      }
+      
+      self.locationString = (place.locality ?? "") + (place.name ?? "")
+    } catch {
+			self.error = NewTweetError.reverseGeocodeLocation
+    }
   }
 }
 
