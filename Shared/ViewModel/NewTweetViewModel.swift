@@ -11,7 +11,7 @@ import CoreLocation
 
 enum NewTweetError: Error, LocalizedError {
   case reverseGeocodeLocation
-	
+
 	var localizedDescription: String {
 		switch self {
 			case .reverseGeocodeLocation: return "can not get geocode"
@@ -19,19 +19,36 @@ enum NewTweetError: Error, LocalizedError {
 	}
 }
 
-@MainActor final class NewTweetViewModel: ObservableObject {
-  @Published public var text = ""
-  @Published public var selectedReplySetting: Sweet.ReplySetting = .everyone
-  @Published public var didFail = false
-  @Published public var locationString: String?
-  @Published public var poll: Sweet.PostPollModel?
-  @Published public var medias: [String] = []
-	@Published public var isPresentedPhotoPicker = false
-	@Published public var results: [PhotoResult] = []
-	@Published public var didPickPhoto = true
-  @Published public var error: Error?
+@MainActor protocol NewTweetViewModelProtocol: ObservableObject {
+	var text: String { get set }
+	var selectedReplySetting: Sweet.ReplySetting { get set }
+	var didFail:Bool { get set }
+	var locationString: String? { get set }
+	var poll: Sweet.PostPollModel?  { get set }
+	var medias: [String]  { get set }
+	var isPresentedPhotoPicker: Bool  { get set }
+	var results: [PhotoResult]  { get set }
+	var didPickPhoto: Bool  { get set }
+	var error: Error? { get set }
+	var disableTweetButton: Bool { get }
+	var leftTweetCount: Int { get }
+	func tweet() async
+	func setLocation() async
+}
 
-	public var disableTweetButton: Bool {
+@MainActor final class NewTweetViewModel: NewTweetViewModelProtocol {
+  @Published var text = ""
+  @Published var selectedReplySetting: Sweet.ReplySetting = .everyone
+  @Published var didFail = false
+  @Published var locationString: String?
+  @Published var poll: Sweet.PostPollModel?
+  @Published var medias: [String] = []
+	@Published var isPresentedPhotoPicker = false
+	@Published var results: [PhotoResult] = []
+	@Published var didPickPhoto = true
+  @Published var error: Error?
+
+	var disableTweetButton: Bool {
 		if let poll = poll {
 			for option in poll.options {
 				if option.count < 1 {
@@ -55,7 +72,7 @@ enum NewTweetError: Error, LocalizedError {
 		return false
 	}
 
-  public func tweet() async {
+	func tweet() async {
     let tweet = Sweet.PostTweetModel(text: text, directMessageDeepLink: nil,
                                      forSuperFollowersOnly: false, geo: nil,
                                      media: nil, poll: poll, quoteTweetID: nil,
@@ -68,11 +85,11 @@ enum NewTweetError: Error, LocalizedError {
     }
   }
   
-  public func getLeftTweetCount() -> Int {
+	var leftTweetCount: Int {
     return 280 - text.count
   }
   
-  public func setLocation() async {
+	func setLocation() async {
     let locationManager = CLLocationManager()
 
     guard let location = locationManager.location else {

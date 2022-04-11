@@ -20,12 +20,11 @@ extension Sweet.ReplySetting {
   }
 }
 
-struct NewTweetView: View {
+struct NewTweetView<ViewModel: NewTweetViewModelProtocol>: View {
   @Binding public var isPresentedDismiss: Bool
-  @StateObject public var viewModel: NewTweetViewModel
+  @StateObject public var viewModel: ViewModel
   @FocusState private var showKeyboard: Bool
 
-  
   var body: some View {
     ScrollView {
       HStack {
@@ -61,7 +60,7 @@ struct NewTweetView: View {
               Text(viewModel.text).opacity(0)
             }
             
-            Text("\(viewModel.getLeftTweetCount())")
+            Text("\(viewModel.leftTweetCount)")
           }
           
           if let poll = viewModel.poll, poll.options.count > 1 {
@@ -149,6 +148,7 @@ struct NewTweetView: View {
 struct NewTweetView_Previews: PreviewProvider {
   @State static var isPresentedDismiss = false
   static var previews: some View {
-    NewTweetView(isPresentedDismiss: $isPresentedDismiss, viewModel: .init())
+		let viewModel = NewTweetViewModel()
+    NewTweetView(isPresentedDismiss: $isPresentedDismiss, viewModel: viewModel)
   }
 }
