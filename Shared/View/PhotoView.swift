@@ -29,19 +29,19 @@ struct PhotoView: View {
               LivePhoto(livePhoto: livePhoto)
             }
         }
-        else if let uiimage = item as? UIImage {
-          Image(uiImage: uiimage)
+        else if let uiImage = item as? UIImage {
+          Image(uiImage: uiImage)
             .resizable()
             .onTapGesture {
               tappedImage = true
             }
             .sheet(isPresented: $tappedImage) {
-              Image(uiImage: uiimage)
+              Image(uiImage: uiImage)
                 .resizable()
             }
         } else if let url = item as? URL {
           ZStack {
-            let uiImage = try! UIImage(movieURL: url)
+            let uiImage = try! UIImage(videoURL: url)
             Image(uiImage: uiImage)
               .resizable()
             
