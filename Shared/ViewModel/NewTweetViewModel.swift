@@ -9,6 +9,16 @@ import Foundation
 import Sweet
 import CoreLocation
 
+enum NewTweetError: Error, LocalizedError {
+  case reverseGeocodeLocation
+	
+	var localizedDescription: String {
+		switch self {
+			case .reverseGeocodeLocation: return "can not get geocode"
+		}
+	}
+}
+
 @MainActor final class NewTweetViewModel: ObservableObject {
   @Published public var text = ""
   @Published public var selectedReplySetting: Sweet.ReplySetting = .everyone
