@@ -28,10 +28,7 @@ enum NewTweetError: Error, LocalizedError {
   @Published public var medias: [String] = []
   @Published public var error: Error?
   
-  public func tweet() async throws {
-    let tweet = Sweet.PostTweetModel(text: text, directMessageDeepLink: nil, forSuperFollowersOnly: false, geo: nil, media: nil, poll: poll, quoteTweetID: nil, reply: nil, replySettings: selectedReplySetting)
-    let sweet = try await Sweet()
-    let _ = try await sweet.createTweet(tweet)
+
 	public var disableTweetButton: Bool {
 		if let poll = poll {
 			for option in poll.options {
@@ -55,6 +52,18 @@ enum NewTweetError: Error, LocalizedError {
 
 		return false
 	}
+
+  public func tweet() async {
+    let tweet = Sweet.PostTweetModel(text: text, directMessageDeepLink: nil,
+                                     forSuperFollowersOnly: false, geo: nil,
+                                     media: nil, poll: poll, quoteTweetID: nil,
+                                     reply: nil, replySettings: selectedReplySetting)
+    do {
+      let sweet = try await Sweet()
+      let _ = try await sweet.createTweet(tweet)
+    } catch {
+      self.error = error
+    }
   }
   
   public func getLeftTweetCount() -> Int {
