@@ -5,12 +5,12 @@
 //  Created by zunda on 2022/03/29.
 //
 
-import SwiftUI
 import Sweet
+import SwiftUI
 
 struct ListCellView: View {
-	let list: Sweet.ListModel
-  
+  let list: Sweet.ListModel
+
   var body: some View {
     HStack {
       Image(systemName: "person")
@@ -27,7 +27,7 @@ struct ListCellView: View {
           }
         }
         .lineLimit(1)
-        
+
         Text(list.ownerID ?? "nothing")
       }
       Spacer()

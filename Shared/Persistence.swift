@@ -9,9 +9,9 @@ import CoreData
 
 struct PersistenceController {
   static let shared = PersistenceController()
-  
+
   let container: NSPersistentCloudKitContainer
-  
+
   init(inMemory: Bool = false) {
     container = NSPersistentCloudKitContainer(name: "Tuna")
     if inMemory {

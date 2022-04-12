@@ -9,7 +9,7 @@ import Foundation
 import Sweet
 
 extension Sweet.PlaceModel {
-	init(place: Place) {
+  init(place: Place) {
     self.init(name: place.name!, id: place.id!)
   }
 }

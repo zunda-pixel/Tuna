@@ -9,7 +9,7 @@ import Foundation
 import Sweet
 
 extension Tweet {
-	func setTweetModel(_ tweet: Sweet.TweetModel) throws {
+  func setTweetModel(_ tweet: Sweet.TweetModel) throws {
     self.id = tweet.id
     self.text = tweet.text
     self.authorID = tweet.authorID
@@ -19,7 +19,7 @@ extension Tweet {
     self.conversationID = tweet.conversationID
     self.source = tweet.source
     self.replyUserID = tweet.replyUserID
-    
+
     let encoder = JSONEncoder()
     self.geo = try encoder.encode(tweet.geo)
     self.entities = try encoder.encode(tweet.entity)
@@ -28,7 +28,7 @@ extension Tweet {
     self.organicMetrics = try encoder.encode(tweet.organicMetrics)
     self.privateMetrics = try encoder.encode(tweet.privateMetrics)
     self.promotedMetrics = try encoder.encode(tweet.promotedMetrics)
-    self.publicMetrics =  try encoder.encode(tweet.publicMetrics)
+    self.publicMetrics = try encoder.encode(tweet.publicMetrics)
     self.referencedTweet = try encoder.encode(tweet.referencedTweet)
     self.withheld = try encoder.encode(tweet.withheld)
   }

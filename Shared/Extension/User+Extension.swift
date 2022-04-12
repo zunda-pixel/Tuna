@@ -9,7 +9,7 @@ import Foundation
 import Sweet
 
 extension User {
-	func setUserModel(_ user: Sweet.UserModel) throws {
+  func setUserModel(_ user: Sweet.UserModel) throws {
     self.id = user.id
     self.name = user.name
     self.userName = user.userName
@@ -21,7 +21,7 @@ extension User {
     self.createdAt = user.createdAt
     self.location = user.location
     self.pinnedTweetID = user.pinnedTweetID
-    
+
     let encoder = JSONEncoder()
     self.metrics = try encoder.encode(user.metrics)
     self.withheld = try encoder.encode(user.withheld)

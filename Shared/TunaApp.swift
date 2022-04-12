@@ -5,9 +5,9 @@
 //  Created by zunda on 2022/03/21.
 //
 
-import SwiftUI
-import Sweet
 import KeychainAccess
+import Sweet
+import SwiftUI
 
 @main
 struct TunaApp: App {
@@ -17,23 +17,23 @@ struct TunaApp: App {
   @State var isPresentedCreateTweetView = false
   @State var isPresented = false
   @State var providers: [NSItemProvider] = []
-  
+
   init() {
     self.userID = UserDefaults().string(forKey: "currentUserID")
   }
-  
+
   var body: some Scene {
     WindowGroup {
-      TabView{
+      TabView {
         NavigationView {
           TweetsView()
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
             .navigationTitle("Timeline")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-              ToolbarItem(placement: .navigationBarLeading){
+              ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: {
-                  
+
                 }) {
                   Image(systemName: "person")
                 }
@@ -59,7 +59,7 @@ struct TunaApp: App {
           .tabItem {
             Image(systemName: "list.dash.header.rectangle")
           }
-        
+
         LoginView()
           .onOpenURL { url in
             Task {
@@ -78,7 +78,7 @@ struct TunaApp: App {
             Image(systemName: "arrowshape.zigzag.forward")
           }
       }
-      
+
     }
   }
 }

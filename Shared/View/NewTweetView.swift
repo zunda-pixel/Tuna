@@ -5,10 +5,10 @@
 //  Created by zunda on 2022/03/25.
 //
 
-import SwiftUI
-import Sweet
 import Accelerate
 import CoreLocation
+import Sweet
+import SwiftUI
 
 struct NewTweetView<ViewModel: NewTweetViewModelProtocol>: View {
   @Binding var isPresentedDismiss: Bool
@@ -18,24 +18,29 @@ struct NewTweetView<ViewModel: NewTweetViewModelProtocol>: View {
   var body: some View {
     ScrollView {
       HStack {
-        Button(action: {
-          isPresentedDismiss = false
-        }, label: {
-          Text("Close")
-        })
+        Button(
+          action: {
+            isPresentedDismiss = false
+          },
+          label: {
+            Text("Close")
+          })
         Spacer()
         Text("New Tweet")
         Spacer()
-        Button(action: {
-          Task {
-						await viewModel.tweet()
-						isPresentedDismiss = false
+        Button(
+          action: {
+            Task {
+              await viewModel.tweet()
+              isPresentedDismiss = false
+            }
+          },
+          label: {
+            Text("Tweet")
           }
-        }, label: {
-          Text("Tweet")
-        })
-				.disabled(viewModel.disableTweetButton)
-				.buttonStyle(.bordered)
+        )
+        .disabled(viewModel.disableTweetButton)
+        .buttonStyle(.bordered)
       }
       HStack(alignment: .top) {
         Image(systemName: "person")
@@ -49,79 +54,94 @@ struct NewTweetView<ViewModel: NewTweetViewModelProtocol>: View {
                 }
               Text(viewModel.text).opacity(0)
             }
-            
+
             Text("\(viewModel.leftTweetCount)")
           }
-          
+
           if let poll = viewModel.poll, poll.options.count > 1 {
             NewPollView(
               options: .init(
                 get: { viewModel.poll!.options },
                 set: { viewModel.poll?.options = $0 }
               ),
-              duration: .init(get: { TimeInterval(poll.durationMinutes * 60)},
-                              set: { viewModel.poll?.durationMinutes = Int($0 / 60) }))
+              duration: .init(
+                get: { TimeInterval(poll.durationMinutes * 60) },
+                set: { viewModel.poll?.durationMinutes = Int($0 / 60) })
+            )
             .border(.gray)
           }
         }
       }
-      
+
       LazyVGrid(columns: [.init(), .init()]) {
-				ForEach(0..<viewModel.results.count, id: \.self) { i in
-					PhotoView(provider: viewModel.results[i].provider, item: .init(get: { viewModel.results[i].item }, set: { viewModel.results[i].item = $0 }))
-            .frame(width: 100, height: 100, alignment: .center)
-            .scaledToFit()
+        ForEach(0..<viewModel.results.count, id: \.self) { i in
+          PhotoView(
+            provider: viewModel.results[i].provider,
+            item: .init(get: { viewModel.results[i].item }, set: { viewModel.results[i].item = $0 })
+          )
+          .frame(width: 100, height: 100, alignment: .center)
+          .scaledToFit()
 
         }
       }
-      
+
       if let location = viewModel.locationString {
         HStack {
           Text(location)
             .foregroundColor(.gray)
-          
-          Button(action: {
-            self.viewModel.locationString = nil
-          }, label: {
-            Image(systemName: "multiply.circle")
-          })
+
+          Button(
+            action: {
+              self.viewModel.locationString = nil
+            },
+            label: {
+              Image(systemName: "multiply.circle")
+            })
         }
       }
-      
+
       Picker("ReplySetting", selection: $viewModel.selectedReplySetting) {
         ForEach(Sweet.ReplySetting.allCases, id: \.rawValue) { replySetting in
           Text(replySetting.description)
         }
       }
-      
+
       HStack {
-        Button(action: {
-					viewModel.isPresentedPhotoPicker.toggle()
-        }, label: {
-          Image(systemName: "photo")
-        })
-				.disabled(!viewModel.didPickPhoto)
-				.sheet(isPresented: $viewModel.isPresentedPhotoPicker) {
-					PhotoPicker(results: $viewModel.results, didPickPhoto: $viewModel.didPickPhoto)
+        Button(
+          action: {
+            viewModel.isPresentedPhotoPicker.toggle()
+          },
+          label: {
+            Image(systemName: "photo")
+          }
+        )
+        .disabled(!viewModel.didPickPhoto)
+        .sheet(isPresented: $viewModel.isPresentedPhotoPicker) {
+          PhotoPicker(results: $viewModel.results, didPickPhoto: $viewModel.didPickPhoto)
         }
-                
-        Button(action: {
-          Task {
-            await viewModel.setLocation()
+
+        Button(
+          action: {
+            Task {
+              await viewModel.setLocation()
+            }
+          },
+          label: {
+            Image(systemName: "location")
+          })
+
+        Button(
+          action: {
+            if viewModel.poll?.options == nil || viewModel.poll!.options.count < 2 {
+              viewModel.poll = .init(options: ["", ""], durationMinutes: 10)
+            } else {
+              viewModel.poll = nil
+            }
+          },
+          label: {
+            Image(systemName: "chart.bar.xaxis")
           }
-        }, label: {
-          Image(systemName: "location")
-        })
-        
-        Button(action: {
-          if viewModel.poll?.options == nil || viewModel.poll!.options.count < 2 {
-            viewModel.poll = .init(options: ["", ""], durationMinutes: 10)
-          } else {
-            viewModel.poll = nil
-          }
-        }, label: {
-          Image(systemName: "chart.bar.xaxis")
-        })
+        )
         .disabled(viewModel.medias.count != 0)
       }
       .alert("", isPresented: $viewModel.didFail) {
@@ -138,7 +158,7 @@ struct NewTweetView<ViewModel: NewTweetViewModelProtocol>: View {
 struct NewTweetView_Previews: PreviewProvider {
   @State static var isPresentedDismiss = false
   static var previews: some View {
-		let viewModel = NewTweetViewModel()
+    let viewModel = NewTweetViewModel()
     NewTweetView(isPresentedDismiss: $isPresentedDismiss, viewModel: viewModel)
   }
 }

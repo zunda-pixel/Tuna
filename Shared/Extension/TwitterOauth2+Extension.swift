@@ -8,7 +8,7 @@
 import Foundation
 
 extension TwitterOAuth2 {
-	init() {
+  init() {
     self.init(clientID: Secret.clientID, clientSecretKey: Secret.clientSecretKey)
   }
 }

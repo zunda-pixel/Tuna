@@ -5,18 +5,18 @@
 //  Created by zunda on 2022/04/07.
 //
 
-import SwiftUI
-import PhotosUI
 import AVKit
+import PhotosUI
+import SwiftUI
 
 struct PhotoView: View {
   let provider: NSItemProvider
-  
+
   @Binding var item: NSItemProviderReading?
   @State var tappedImage = false
   @State var tappedLivePhoto = false
   @State var isPresentedVideoPlayer = false
-  
+
   var body: some View {
     GeometryReader { geometry in
       if let item = item {
@@ -28,8 +28,7 @@ struct PhotoView: View {
             .sheet(isPresented: $tappedLivePhoto) {
               LivePhoto(livePhoto: livePhoto)
             }
-        }
-        else if let uiImage = item as? UIImage {
+        } else if let uiImage = item as? UIImage {
           Image(uiImage: uiImage)
             .resizable()
             .onTapGesture {
@@ -44,7 +43,7 @@ struct PhotoView: View {
             let uiImage = try! UIImage(videoURL: url)
             Image(uiImage: uiImage)
               .resizable()
-            
+
             Image(systemName: "play")
           }
           .onTapGesture {

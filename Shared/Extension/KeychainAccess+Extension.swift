@@ -9,7 +9,7 @@ import Foundation
 import KeychainAccess
 
 extension Keychain {
-	convenience init() {
+  convenience init() {
     self.init(service: Secret.bundleIdentifier)
   }
 }

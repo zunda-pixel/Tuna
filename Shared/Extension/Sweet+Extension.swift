@@ -9,8 +9,6 @@ import Foundation
 import Sweet
 import KeychainAccess
 
-// refresh
-
 extension Sweet {
 	static func updateUserBearerToken() async throws {
     let refreshToken = Secret.refreshToken
