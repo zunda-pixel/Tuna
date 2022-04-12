@@ -10,7 +10,7 @@ import SwiftUI
 import AVKit
 
 extension UIImage {
-  public convenience init(videoURL url: URL) throws {
+	convenience init(videoURL url: URL) throws {
     let asset: AVAsset = .init(url: url)
     let generator = AVAssetImageGenerator(asset: asset)
     let cgImage = try generator.copyCGImage(at: asset.duration, actualTime: nil)

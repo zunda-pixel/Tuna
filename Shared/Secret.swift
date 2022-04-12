@@ -9,30 +9,27 @@ import Foundation
 import KeychainAccess
 import Sweet
 
-internal struct Secret {
-  public static let clientID = ""
-  public static let clientSecretKey = ""
-  public static let callBackURL: URL = .init(string: "tuna://")!
-  public static let bundleIdentifier = "com.zunda.tuna"
+struct Secret {
+	static let bundleIdentifier = "com.zunda.tuna"
   
   private static let currentUserIDKey = "currentUserID"
   private static let expireDateKey = "\(currentUserID)-expireDate"
-  private static let refleshTokenKey = "\(currentUserID)-refleshToken"
+  private static let refreshTokenKey = "\(currentUserID)-refreshToken"
   private static let userBearerTokenKey = "\(currentUserID)-userBearerToken"
   private static let challengeKey =  "challenge"
   private static let stateKey = "state"
   
-  public static func removeChallenge() throws {
+	static func removeChallenge() throws {
     let keychain = Keychain()
     try keychain.remove(challengeKey)
   }
   
-  public static func removeState() throws {
+	static func removeState() throws {
     let keychain = Keychain()
     try keychain.remove(stateKey)
   }
   
-  public static var challenge: String? {
+	static var challenge: String? {
     get {
       let keychain = Keychain()
       let challenge = keychain[challengeKey]
@@ -44,7 +41,7 @@ internal struct Secret {
     }
   }
   
-  public static var state: String? {
+	static var state: String? {
     get {
       let keychain = Keychain()
       let state = keychain[stateKey]
@@ -56,11 +53,11 @@ internal struct Secret {
     }
   }
 
-  public static var userBearerToken: String {
+	static var userBearerToken: String {
     get {
       let keychain = Keychain()
-      let refleshToken = keychain[userBearerTokenKey]!
-      return refleshToken
+      let refreshToken = keychain[userBearerTokenKey]!
+      return refreshToken
     }
     set {
       let keychain = Keychain()
@@ -68,19 +65,19 @@ internal struct Secret {
     }
   }
   
-  public static var refleshToken: String {
+	static var refreshToken: String {
     get {
       let keychain = Keychain()
-      let refleshToken = keychain[refleshTokenKey]!
-      return refleshToken
+      let refreshToken = keychain[refreshTokenKey]!
+      return refreshToken
     }
     set {
       let keychain = Keychain()
-      keychain[refleshTokenKey] = newValue
+      keychain[refreshTokenKey] = newValue
     }
   }
   
-  public static var expireDate: Date {
+	static var expireDate: Date {
     get {
       let expireDateString = UserDefaults().string(forKey: expireDateKey)!
       let expireDate = Sweet.TwitterDateFormatter().date(from: expireDateString)!
@@ -93,7 +90,7 @@ internal struct Secret {
     }
   }
   
-  public static var currentUserID: String {
+	static var currentUserID: String {
     get {
       return UserDefaults().string(forKey: currentUserIDKey)!
     }

@@ -9,7 +9,7 @@ import Foundation
 import Sweet
 
 extension Sweet.UserModel {
-  public init(user: User) {
+	init(user: User) {
     let decoder = JSONDecoder()
     let emptyData = Data()
     let metrics = try? decoder.decode(Sweet.UserPublicMetrics.self, from: user.metrics ?? emptyData)

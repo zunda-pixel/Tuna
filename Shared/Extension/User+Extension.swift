@@ -9,7 +9,7 @@ import Foundation
 import Sweet
 
 extension User {
-  public func setUserModel(_ user: Sweet.UserModel) throws {
+	func setUserModel(_ user: Sweet.UserModel) throws {
     self.id = user.id
     self.name = user.name
     self.userName = user.userName

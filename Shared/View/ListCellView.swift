@@ -9,7 +9,7 @@ import SwiftUI
 import Sweet
 
 struct ListCellView: View {
-  public let list: Sweet.ListModel
+	let list: Sweet.ListModel
   
   var body: some View {
     HStack {

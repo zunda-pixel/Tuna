@@ -9,12 +9,12 @@ import SwiftUI
 import Sweet
 
 struct ListDetailView: View {
-  public let list: Sweet.ListModel
-  
-  private var paginationToken: String? = nil
+	let list: Sweet.ListModel
+	var paginationToken: String? = nil
+	
   @State private var tweets: [Sweet.TweetModel] = []
   
-  public init(list: Sweet.ListModel) {
+	init(list: Sweet.ListModel) {
     self.list = list
   }
   

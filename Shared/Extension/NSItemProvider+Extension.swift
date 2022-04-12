@@ -9,7 +9,7 @@ import Foundation
 import PhotosUI
 
 extension NSItemProvider {
-  public func loadFileRepresentation(forTypeIdentifier typeIdentifier: String) async throws -> URL {
+	func loadFileRepresentation(forTypeIdentifier typeIdentifier: String) async throws -> URL {
     try await withCheckedThrowingContinuation { continuation in
       self.loadFileRepresentation(forTypeIdentifier: typeIdentifier) { url, error in
         if let error = error {
@@ -34,7 +34,7 @@ extension NSItemProvider {
     }
   }
   
-  public func loadObject(ofClass aClass : NSItemProviderReading.Type) async throws -> NSItemProviderReading {
+	func loadObject(ofClass aClass : NSItemProviderReading.Type) async throws -> NSItemProviderReading {
     try await withCheckedThrowingContinuation { continuation in
       self.loadObject(ofClass: aClass) { data, error in
         if let error = error {
@@ -50,7 +50,7 @@ extension NSItemProvider {
     }
   }
   
-  public func loadPhoto() async throws -> NSItemProviderReading {
+	func loadPhoto() async throws -> NSItemProviderReading {
     if self.canLoadObject(ofClass: PHLivePhoto.self) {
       return try await self.loadObject(ofClass: PHLivePhoto.self)
     }

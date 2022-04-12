@@ -10,8 +10,8 @@ import SwiftUI
 import PhotosUI
 
 struct PhotoPicker: UIViewControllerRepresentable {
-  @Binding public var results: [PhotoResult]
-  @Binding public var didPickPhoto: Bool
+  @Binding var results: [PhotoResult]
+  @Binding var didPickPhoto: Bool
   
   init(results: Binding<[PhotoResult]>, didPickPhoto: Binding<Bool>) {
     self._results = results

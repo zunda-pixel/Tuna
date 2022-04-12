@@ -8,7 +8,7 @@
 import Sweet
 
 extension Sweet.ReplySetting {
-	public var description: String {
+	var description: String {
 		switch self {
 			case .mentionedUsers: return "People you mention"
 			case .following: return "People you follow or mention"

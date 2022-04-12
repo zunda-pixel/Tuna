@@ -8,7 +8,7 @@
 import Foundation
 
 extension DateComponents {
-  public func getTime(with component: Calendar.Component) -> Int? {
+	func getTime(with component: Calendar.Component) -> Int? {
     switch component {
       case .second: return second
       case .era: return era

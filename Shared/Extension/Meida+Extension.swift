@@ -9,7 +9,7 @@ import Foundation
 import Sweet
 
 extension Media {
-  public func setMeidaModel(_ media: Sweet.MediaModel) {
+	func setMeidaModel(_ media: Sweet.MediaModel) {
     self.key = media.key
     self.width = media.size.width
     self.height = media.size.height

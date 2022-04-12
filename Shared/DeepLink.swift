@@ -10,7 +10,7 @@ import KeychainAccess
 import Sweet
 
 struct DeepLink {
-  public static func doSomething(_ url: URL) async throws {
+	static func doSomething(_ url: URL) async throws {
     let components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
     
     guard let queryItems = components.queryItems,
@@ -19,7 +19,7 @@ struct DeepLink {
     if let state = queryItems.first(where: { $0.name == "state" })?.value,
        let code = queryItems.first(where: { $0.name == "code" })?.value,
        state == savedState {
-      try await saveOauthData(code: code)
+      try await saveOAuthData(code: code)
     }
   }
   
@@ -29,19 +29,19 @@ struct DeepLink {
     return response.user.id
   }
   
-  private static func saveOauthData(code: String) async throws {
-    guard let challenage = Secret.challenge else {
+  private static func saveOAuthData(code: String) async throws {
+    guard let challenge = Secret.challenge else {
       return
     }
     
-    let response = try await TwitterOauth2().getUserBearerToken(code: code, callBackURL: Secret.callBackURL, challenge: challenage)
+    let response = try await TwitterOAuth2().getUserBearerToken(code: code, callBackURL: Secret.callBackURL, challenge: challenge)
     
     let userID = try await getMyUserID(userBearerToken: response.bearerToken)
     
     Secret.currentUserID = userID
     
     Secret.userBearerToken = response.bearerToken
-    Secret.refleshToken = response.refleshToken
+    Secret.refreshToken = response.refreshToken
     
     var dateComponent = DateComponents()
     dateComponent.second = response.expiredSeconds

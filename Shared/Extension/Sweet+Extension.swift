@@ -9,22 +9,24 @@ import Foundation
 import Sweet
 import KeychainAccess
 
+// refresh
+
 extension Sweet {
-  public static func updateUserBearerToken() async throws {
-    let refleshToken = Secret.refleshToken
-    let response = try await TwitterOauth2().getRefreshUserBearerToken(refleshToken: refleshToken)
+	static func updateUserBearerToken() async throws {
+    let refreshToken = Secret.refreshToken
+		let response = try await TwitterOAuth2().getRefreshUserBearerToken(refreshToken: refreshToken)
     
     var dateComponent = DateComponents()
     dateComponent.second = response.expiredSeconds
     
     let expireDate = Calendar.current.date(byAdding: dateComponent, to: Date())!
     
-    Secret.refleshToken = response.refleshToken
+    Secret.refreshToken = response.refreshToken
     Secret.userBearerToken = response.bearerToken
     Secret.expireDate = expireDate
   }
   
-  public init() async throws {
+	init() async throws {
     let expireDate = Secret.expireDate
     
     if expireDate < Date() {

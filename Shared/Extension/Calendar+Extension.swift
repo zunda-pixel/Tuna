@@ -7,7 +7,7 @@
 import Foundation
 
 extension Calendar.Component {
-  public var unit: NSCalendar.Unit {
+	var unit: NSCalendar.Unit {
     switch self {
       case .second: return .second
       case .era: return .era
@@ -32,7 +32,7 @@ extension Calendar.Component {
 }
 
 extension Calendar {
-  public func durationString(candidate components: [Calendar.Component],
+	func durationString(candidate components: [Calendar.Component],
                              from start: Date, to end: Date) -> String? {
     for component in components {
       let dateComponents = self.dateComponents([component], from: start, to: end)

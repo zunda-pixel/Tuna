@@ -1,5 +1,5 @@
 //
-//  TwitterOauth2.swift
+//  TwitterOAuth2.swift
 //  Tuna
 //
 //  Created by zunda on 2022/03/23.
@@ -9,11 +9,11 @@ import Foundation
 import HTTPClient
 import Sweet
 
-struct TwitterOauth2 {
+struct TwitterOAuth2 {
   private let clientID: String
   private let clientSecretKey: String
   
-  public init(clientID: String, clientSecretKey: String) {
+	init(clientID: String, clientSecretKey: String) {
     self.clientID = clientID
     self.clientSecretKey = clientSecretKey
   }
@@ -40,7 +40,7 @@ struct TwitterOauth2 {
     return urlComponents.url!
   }
   
-  func getUserBearerToken(code: String, callBackURL: URL, challenge: String) async throws -> Oauth2ModelResponse {
+  func getUserBearerToken(code: String, callBackURL: URL, challenge: String) async throws -> OAuth2ModelResponse {
     // https://developer.twitter.com/en/docs/authentication/oauth-2-0/user-access-token
     
     let basicAuthorization = getBasicAuthorization(user: clientID, password: clientSecretKey)
@@ -62,7 +62,7 @@ struct TwitterOauth2 {
     
     let (data, urlResponse) = try await HTTPClient.post(url: url, headers: headers, queries: queries)
         
-    if let response = try? JSONDecoder().decode(Oauth2ModelResponse.self, from: data) {
+    if let response = try? JSONDecoder().decode(OAuth2ModelResponse.self, from: data) {
       return response
     }
     
@@ -70,23 +70,23 @@ struct TwitterOauth2 {
       throw Sweet.TwitterError.invalidRequest(error: response)
     }
     
-    throw Sweet.TwitterError.unknwon(data: data, response: urlResponse)
+    throw Sweet.TwitterError.unknown(data: data, response: urlResponse)
   }
   
-  func getRefreshUserBearerToken(refleshToken: String) async throws -> Oauth2ModelResponse {
+  func getRefreshUserBearerToken(refreshToken: String) async throws -> OAuth2ModelResponse {
     // https://developer.twitter.com/en/docs/authentication/oauth-2-0/authorization-code
     
     let url: URL = .init(string: "https://api.twitter.com/2/oauth2/token")!
       
     let queries = [
-      "refresh_token": refleshToken,
+      "refresh_token": refreshToken,
       "grant_type": "refresh_token",
       "client_id": clientID,
     ]
         
     let (data, urlResponse) = try await HTTPClient.post(url: url, queries: queries)
         
-    if let response = try? JSONDecoder().decode(Oauth2ModelResponse.self, from: data) {
+    if let response = try? JSONDecoder().decode(OAuth2ModelResponse.self, from: data) {
       return response
     }
     
@@ -94,37 +94,37 @@ struct TwitterOauth2 {
       throw Sweet.TwitterError.invalidRequest(error: response)
     }
     
-    throw Sweet.TwitterError.unknwon(data: data, response: urlResponse)
+    throw Sweet.TwitterError.unknown(data: data, response: urlResponse)
   }
   
   func getBasicAuthorization(user: String, password: String) -> String {
     let value = "\(user):\(password)"
     let encodedValue = value.data(using: .utf8)!
-    let endoded64Value = encodedValue.base64EncodedString()
-    return endoded64Value
+    let encoded64Value = encodedValue.base64EncodedString()
+    return encoded64Value
   }
 }
 
-struct Oauth2ModelResponse: Decodable {
-  public let bearerToken: String
-  public let refleshToken: String
-  public let expiredSeconds: Int
+struct OAuth2ModelResponse: Decodable {
+	let bearerToken: String
+	let refreshToken: String
+	let expiredSeconds: Int
   
   private enum CodingKeys: String, CodingKey {
     case accessToken = "access_token"
-    case refleshToken = "refresh_token"
+    case refreshToken = "refresh_token"
     case expiredSeconds = "expires_in"
   }
   
-  public init(from decoder: Decoder) throws {
+	init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
     self.bearerToken = try values.decode(String.self, forKey: .accessToken)
-    self.refleshToken = try values.decode(String.self, forKey: .refleshToken)
+    self.refreshToken = try values.decode(String.self, forKey: .refreshToken)
     self.expiredSeconds = try values.decode(Int.self, forKey: .expiredSeconds)
   }
 }
 
-public enum TwitterScope: String, CaseIterable  {
+enum TwitterScope: String, CaseIterable  {
   case tweetRead = "tweet.read"
   case tweetWrite = "tweet.write"
   case tweetModerateWrite = "tweet.moderate.write"

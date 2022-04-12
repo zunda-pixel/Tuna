@@ -10,24 +10,24 @@ import Sweet
 import SwiftUI
 
 @MainActor class TweetCellViewModel: ObservableObject {
-  public var error: Error?
-  public let tweet: Sweet.TweetModel
-  public let retweetTweet: Sweet.TweetModel?
-  public let authorUser: Sweet.UserModel
-  public let retweetUser: Sweet.UserModel?
-  public let medias: [Sweet.MediaModel]
-  public let poll: Sweet.PollModel?
-  public let place: Sweet.PlaceModel?
+	var error: Error?
+	let tweet: Sweet.TweetModel
+	let retweetTweet: Sweet.TweetModel?
+	let authorUser: Sweet.UserModel
+	let retweetUser: Sweet.UserModel?
+	let medias: [Sweet.MediaModel]
+	let poll: Sweet.PollModel?
+	let place: Sweet.PlaceModel?
   
-  public var selectedMediaURL: URL?
-  public var isRetweet: Bool
+	var selectedMediaURL: URL?
+	var isRetweet: Bool
   
   @Published var isPresentedImageView = false
   @Published var isPresentedErrorAlert = false
   @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
   @Published var nowDate: Date = Date()
   
-  public init(isRetweet: Bool = false, tweet: Sweet.TweetModel, retweet retweetTweet : Sweet.TweetModel? = nil,
+	init(isRetweet: Bool = false, tweet: Sweet.TweetModel, retweet retweetTweet : Sweet.TweetModel? = nil,
               author authorUser : Sweet.UserModel, retweetUser: Sweet.UserModel? = nil, medias: [Sweet.MediaModel] = [],
               poll: Sweet.PollModel? = nil, place: Sweet.PlaceModel? = nil) {
     self.isRetweet = isRetweet
@@ -40,7 +40,7 @@ import SwiftUI
     self.place = place
   }
   
-  public var tweetText: String {
+	var tweetText: String {
     if tweet.referencedTweet?.type == .retweeted {
       return retweetTweet!.text
     } else {
@@ -48,7 +48,7 @@ import SwiftUI
     }
   }
   
-  public var duration: String {
+	var duration: String {
     guard let createdAt = (retweetTweet ?? tweet).createdAt else {
       return ""
     }
@@ -60,7 +60,7 @@ import SwiftUI
     return durationString!
   }
   
-  public var iconUser: Sweet.UserModel {
+	var iconUser: Sweet.UserModel {
     guard let type = tweet.referencedTweet?.type else {
       return authorUser
     }
@@ -89,7 +89,7 @@ import SwiftUI
 }
 
 extension Sweet.PollModel {
-  public var totalVote: Int {
+	var totalVote: Int {
     return self.options.reduce(into: 0) { $0 = $0 + $1.votes }
   }
 }

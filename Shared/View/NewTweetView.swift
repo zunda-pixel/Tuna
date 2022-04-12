@@ -11,8 +11,8 @@ import Accelerate
 import CoreLocation
 
 struct NewTweetView<ViewModel: NewTweetViewModelProtocol>: View {
-  @Binding public var isPresentedDismiss: Bool
-  @StateObject public var viewModel: ViewModel
+  @Binding var isPresentedDismiss: Bool
+  @StateObject var viewModel: ViewModel
   @FocusState private var showKeyboard: Bool
 
   var body: some View {

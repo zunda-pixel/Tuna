@@ -9,19 +9,19 @@ import SwiftUI
 import KeychainAccess
 
 struct LoginView: View {
-  func getRandomeString() -> String {
+  func getRandomString() -> String {
     let challenge = SecurityRandom.secureRandomBytes(count: 10)
     return challenge.reduce(into: "") { $0 = $0 + "\($1)" }
   }
   
   func getAuthorizeURL() -> URL {
-    let challenge = getRandomeString()
+    let challenge = getRandomString()
     Secret.challenge = challenge
     
-    let state = getRandomeString()
+    let state = getRandomString()
     Secret.state = state
     
-    let url = TwitterOauth2().getAuthorizeURL(
+    let url = TwitterOAuth2().getAuthorizeURL(
       scopes: TwitterScope.allCases,
       callBackURL: Secret.callBackURL,
       challenge: challenge,

@@ -69,6 +69,8 @@
 		2E5324EE27FF1D41008D5EFB /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5324EC27FF1D41008D5EFB /* PhotoView.swift */; };
 		2E5324F027FF1D8E008D5EFB /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5324EF27FF1D8E008D5EFB /* UIImage+Extension.swift */; };
 		2E5324F127FF1D8E008D5EFB /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5324EF27FF1D8E008D5EFB /* UIImage+Extension.swift */; };
+		2E5324F328046AD0008D5EFB /* ReplySetting+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5324F228046AD0008D5EFB /* ReplySetting+Extension.swift */; };
+		2E5324F428046AD0008D5EFB /* ReplySetting+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5324F228046AD0008D5EFB /* ReplySetting+Extension.swift */; };
 		2E5E4F6627EB593A009D6D53 /* Sweet in Frameworks */ = {isa = PBXBuildFile; productRef = 2E5E4F6527EB593A009D6D53 /* Sweet */; };
 		2E5E4F6927EB59A9009D6D53 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 2E5E4F6827EB59A9009D6D53 /* KeychainAccess */; };
 		2E5E4F6C27EB59BB009D6D53 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 2E5E4F6B27EB59BB009D6D53 /* Kingfisher */; };
@@ -153,6 +155,7 @@
 		2E5324E927FF1D07008D5EFB /* LivePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivePhoto.swift; sourceTree = "<group>"; };
 		2E5324EC27FF1D41008D5EFB /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 		2E5324EF27FF1D8E008D5EFB /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		2E5324F228046AD0008D5EFB /* ReplySetting+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReplySetting+Extension.swift"; sourceTree = "<group>"; };
 		2E5E4F6E27EB88B0009D6D53 /* TweetModel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TweetModel+Extension.swift"; sourceTree = "<group>"; };
 		2E63898427EAB95500964EC8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		2E63898727EAB9C200964EC8 /* TwitterOauth2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterOauth2.swift; sourceTree = "<group>"; };
@@ -318,6 +321,7 @@
 				2E10384127ED80A500E8E67B /* PlaceModel+Extension.swift */,
 				2E5324E627FF1CEA008D5EFB /* NSItemProvider+Extension.swift */,
 				2E5324EF27FF1D8E008D5EFB /* UIImage+Extension.swift */,
+				2E5324F228046AD0008D5EFB /* ReplySetting+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -508,6 +512,7 @@
 				2EF3987227EB4B3800EEFA51 /* Tweet+Extension.swift in Sources */,
 				2E10387B27F49F4A00E8E67B /* PhotoPicker.swift in Sources */,
 				2EA6539027E9A188003E99AE /* Calendar+Extension.swift in Sources */,
+				2E5324F328046AD0008D5EFB /* ReplySetting+Extension.swift in Sources */,
 				2E63899427EAC39D00964EC8 /* TwitterOauth2+Extension.swift in Sources */,
 				2E5324ED27FF1D41008D5EFB /* PhotoView.swift in Sources */,
 				2E5324EA27FF1D07008D5EFB /* LivePhoto.swift in Sources */,
@@ -554,6 +559,7 @@
 				2EF3987327EB4B3800EEFA51 /* Tweet+Extension.swift in Sources */,
 				2E10387C27F49F4A00E8E67B /* PhotoPicker.swift in Sources */,
 				2E63898327EAB88300964EC8 /* Calendar+Extension.swift in Sources */,
+				2E5324F428046AD0008D5EFB /* ReplySetting+Extension.swift in Sources */,
 				2E63899527EAC39D00964EC8 /* TwitterOauth2+Extension.swift in Sources */,
 				2E5324EE27FF1D41008D5EFB /* PhotoView.swift in Sources */,
 				2E5324EB27FF1D07008D5EFB /* LivePhoto.swift in Sources */,
@@ -996,7 +1002,7 @@
 			repositoryURL = "https://github.com/zunda-pixel/Sweet";
 			requirement = {
 				kind = exactVersion;
-				version = 1.5.7;
+				version = 1.5.9;
 			};
 		};
 		2E5E4F6727EB59A9009D6D53 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {

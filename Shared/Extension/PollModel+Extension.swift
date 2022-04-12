@@ -9,7 +9,7 @@ import Foundation
 import Sweet
 
 extension Sweet.PollModel {
-  public init(poll: Poll) {
+	init(poll: Poll) {
     let options = try? JSONDecoder().decode([Sweet.PollItem].self, from: poll.options ?? Data())
     
     let status: Sweet.PollStatus = .init(rawValue: poll.votingStatus!)!
