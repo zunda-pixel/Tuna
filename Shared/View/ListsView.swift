@@ -9,23 +9,25 @@ import Sweet
 import SwiftUI
 
 struct ListsView: View {
+  let userID: String
+
   @State var pinnedLists: [Sweet.ListModel] = []
   @State var ownedLists: [Sweet.ListModel] = []
   @State var followingLists: [Sweet.ListModel] = []
 
   func fetchOwnedLists() async throws {
-    let response = try await Sweet().fetchOwnedLists(userID: Secret.currentUserID!)
+    let response = try await Sweet().fetchOwnedLists(userID: userID)
     self.ownedLists = response.lists
   }
 
   func fetchFollowingLists() async throws {
     let response = try await Sweet().fetchFollowingLists(
-      userID: Secret.currentUserID!, maxResults: 100)
+      userID: userID, maxResults: 100)
     self.followingLists = response.lists
   }
 
   func fetchPinnedLists() async throws {
-    let response = try await Sweet().fetchPinnedLists(userID: Secret.currentUserID!)
+    let response = try await Sweet().fetchPinnedLists(userID: userID)
     self.pinnedLists = response.lists
   }
 
@@ -50,7 +52,7 @@ struct ListsView: View {
             let list = pinnedLists[offsets.first!]
 
             Task {
-              try? await Sweet().unPinList(userID: Secret.currentUserID!, listID: list.id)
+              try? await Sweet().unPinList(userID: userID, listID: list.id)
             }
 
             pinnedLists.remove(atOffsets: offsets)
@@ -99,7 +101,7 @@ struct ListsView: View {
             let list = followingLists[offsets.first!]
 
             Task {
-              try? await Sweet().unFollowList(userID: Secret.currentUserID!, listID: list.id)
+              try? await Sweet().unFollowList(userID: userID, listID: list.id)
             }
 
             followingLists.remove(atOffsets: offsets)
@@ -140,6 +142,6 @@ struct ListsView: View {
 
 struct ListsView_Previews: PreviewProvider {
   static var previews: some View {
-    ListsView()
+    ListsView(userID: "")
   }
 }
