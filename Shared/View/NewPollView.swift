@@ -43,7 +43,7 @@ struct DurationPicker: UIViewRepresentable {
 struct NewPollView: View {
   @Binding var options: [String]
   @Binding var duration: TimeInterval
-  @State var isPresentedDatePikcer = false
+  @State var isPresentedDatePicker = false
 
   var displayDate: String {
     let dateFormatter = DateComponentsFormatter()
@@ -78,17 +78,17 @@ struct NewPollView: View {
 
       Button(
         action: {
-          isPresentedDatePikcer.toggle()
+          isPresentedDatePicker.toggle()
         },
         label: {
           HStack {
             Text("Vote Duration")
             Spacer()
             Text(displayDate)
-            Image(systemName: isPresentedDatePikcer ? "chevron.up" : "chevron.down")
+            Image(systemName: isPresentedDatePicker ? "chevron.up" : "chevron.down")
           }
         })
-      if isPresentedDatePikcer {
+      if isPresentedDatePicker {
         DurationPicker(duration: $duration)
       }
     }
