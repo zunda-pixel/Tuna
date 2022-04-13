@@ -42,6 +42,7 @@ struct DeepLink {
     let userID = try await getMyUserID(userBearerToken: response.bearerToken)
 
     Secret.currentUserID = userID
+    Secret.addLoginUser(userID)
 
     Secret.userBearerToken = response.bearerToken
     Secret.refreshToken = response.refreshToken
