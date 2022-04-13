@@ -17,17 +17,16 @@ struct TunaApp: App {
   @State var isPresentedCreateTweetView = false
   @State var isPresented = false
   @State var providers: [NSItemProvider] = []
-  @State var selectedUserID: String?
 
   var body: some Scene {
     WindowGroup {
       TabView {
-        SelectUserView(userID: $selectedUserID)
+        SelectUserView(userID: $userID)
           .environment(\.managedObjectContext, persistenceController.container.viewContext)
           .tabItem {
             Text("Users")
           }
-          .onChange(of: selectedUserID) { userID in
+          .onChange(of: userID) { userID in
             Secret.currentUserID = userID
           }
         if let userID = userID {
@@ -61,7 +60,7 @@ struct TunaApp: App {
           .tabItem {
             Image(systemName: "house")
           }
-          ListsView()
+          ListsView(userID: userID)
             .tabItem {
               Image(systemName: "list.dash.header.rectangle")
             }
