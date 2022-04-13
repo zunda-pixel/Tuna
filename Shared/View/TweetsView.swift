@@ -90,9 +90,13 @@ struct TweetsView: View {
     return retweetTweetModel
   }
 
-  init() {
-    self._timelines = FetchRequest(entity: Timeline.entity(), sortDescriptors: [])
-
+  init(userID: String) {
+    self._timelines = FetchRequest(
+      entity: Timeline.entity(),
+      sortDescriptors: [],
+      predicate: .init(format: "ownerID = %@", userID)
+    )
+    
     self._showTweets = FetchRequest(
       entity: Tweet.entity(),
       sortDescriptors: [NSSortDescriptor(keyPath: \Tweet.createdAt, ascending: false)]
@@ -152,11 +156,11 @@ struct TweetsView: View {
   }
 
   func addMedia(_ media: Sweet.MediaModel) throws {
-    if let firstMeida = allMedias.first(where: { $0.key == media.key }) {
-      firstMeida.setMeidaModel(media)
+    if let firstMedia = allMedias.first(where: { $0.key == media.key }) {
+      firstMedia.setMediaModel(media)
     } else {
       let newMedia = Media(context: viewContext)
-      newMedia.setMeidaModel(media)
+      newMedia.setMediaModel(media)
     }
     try viewContext.save()
   }
@@ -208,6 +212,7 @@ struct TweetsView: View {
       updateTimeLine()
     } catch {
       print(error)
+      fatalError()
     }
   }
 
@@ -280,6 +285,6 @@ struct TweetsView: View {
 
 struct TweetsView_Previews: PreviewProvider {
   static var previews: some View {
-    TweetsView()
+    TweetsView(userID: "")
   }
 }
