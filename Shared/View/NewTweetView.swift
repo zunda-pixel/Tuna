@@ -68,7 +68,12 @@ struct NewTweetView<ViewModel: NewTweetViewModelProtocol>: View {
                 get: { TimeInterval(poll.durationMinutes * 60) },
                 set: { viewModel.poll?.durationMinutes = Int($0 / 60) })
             )
-            .border(.gray)
+            .padding()
+            .overlay(
+              RoundedRectangle(cornerRadius: 20)
+                .stroke(.black.opacity(0.2), lineWidth: 2)
+            )
+            .padding(.horizontal, 2)
           }
         }
       }
@@ -158,7 +163,14 @@ struct NewTweetView<ViewModel: NewTweetViewModelProtocol>: View {
 struct NewTweetView_Previews: PreviewProvider {
   @State static var isPresentedDismiss = false
   static var previews: some View {
-    let viewModel = NewTweetViewModel()
+
+    let viewModel: NewTweetViewModel = {
+      let viewModel = NewTweetViewModel()
+      viewModel.poll = .init(options: ["", ""], durationMinutes: 10)
+      viewModel.locationString = "sample geo"
+      return viewModel
+    }()
+
     NewTweetView(isPresentedDismiss: $isPresentedDismiss, viewModel: viewModel)
   }
 }
