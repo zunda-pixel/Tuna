@@ -14,18 +14,18 @@ struct ListsView: View {
   @State var followingLists: [Sweet.ListModel] = []
 
   func fetchOwnedLists() async throws {
-    let response = try await Sweet().fetchOwnedLists(userID: Secret.currentUserID)
+    let response = try await Sweet().fetchOwnedLists(userID: Secret.currentUserID!)
     self.ownedLists = response.lists
   }
 
   func fetchFollowingLists() async throws {
     let response = try await Sweet().fetchFollowingLists(
-      userID: Secret.currentUserID, maxResults: 100)
+      userID: Secret.currentUserID!, maxResults: 100)
     self.followingLists = response.lists
   }
 
   func fetchPinnedLists() async throws {
-    let response = try await Sweet().fetchPinnedLists(userID: Secret.currentUserID)
+    let response = try await Sweet().fetchPinnedLists(userID: Secret.currentUserID!)
     self.pinnedLists = response.lists
   }
 
@@ -50,7 +50,7 @@ struct ListsView: View {
             let list = pinnedLists[offsets.first!]
 
             Task {
-              try? await Sweet().unPinList(userID: Secret.currentUserID, listID: list.id)
+              try? await Sweet().unPinList(userID: Secret.currentUserID!, listID: list.id)
             }
 
             pinnedLists.remove(atOffsets: offsets)
@@ -99,7 +99,7 @@ struct ListsView: View {
             let list = followingLists[offsets.first!]
 
             Task {
-              try? await Sweet().unFollowList(userID: Secret.currentUserID, listID: list.id)
+              try? await Sweet().unFollowList(userID: Secret.currentUserID!, listID: list.id)
             }
 
             followingLists.remove(atOffsets: offsets)

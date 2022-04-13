@@ -1,5 +1,5 @@
 //
-//  Meida+Extension.swift
+//  Media+Extension.swift
 //  Tuna
 //
 //  Created by zunda on 2022/03/24.
@@ -9,7 +9,7 @@ import Foundation
 import Sweet
 
 extension Media {
-  func setMeidaModel(_ media: Sweet.MediaModel) {
+  func setMediaModel(_ media: Sweet.MediaModel) {
     self.key = media.key
     self.width = media.size.width
     self.height = media.size.height

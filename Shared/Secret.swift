@@ -14,9 +14,9 @@ struct Secret {
   static let bundleIdentifier = "com.zunda.tuna"
 
   private static let currentUserIDKey = "currentUserID"
-  private static let expireDateKey = "\(currentUserID)-expireDate"
-  private static let refreshTokenKey = "\(currentUserID)-refreshToken"
-  private static let userBearerTokenKey = "\(currentUserID)-userBearerToken"
+  private static let expireDateKey = "\(currentUserID!)-expireDate"
+  private static let refreshTokenKey = "\(currentUserID!)-refreshToken"
+  private static let userBearerTokenKey = "\(currentUserID!)-userBearerToken"
   private static let challengeKey = "challenge"
   private static let stateKey = "state"
 
@@ -91,9 +91,9 @@ struct Secret {
     }
   }
 
-  static var currentUserID: String {
+  static var currentUserID: String? {
     get {
-      return UserDefaults().string(forKey: currentUserIDKey)!
+      return UserDefaults().string(forKey: currentUserIDKey)
     }
     set {
       UserDefaults().set(newValue, forKey: currentUserIDKey)

@@ -236,7 +236,7 @@ struct TweetsView: View {
           Button(
             action: {
               Task {
-                try! await Sweet().retweet(userID: Secret.currentUserID, tweetID: tweetModel.id)
+                try! await Sweet().retweet(userID: Secret.currentUserID!, tweetID: tweetModel.id)
               }
             },
             label: {
@@ -250,9 +250,9 @@ struct TweetsView: View {
               Task {
                 if retweeted {
                   try await Sweet().deleteRetweet(
-                    userID: Secret.currentUserID, tweetID: tweetModel.id)
+                    userID: Secret.currentUserID!, tweetID: tweetModel.id)
                 } else {
-                  try await Sweet().retweet(userID: Secret.currentUserID, tweetID: tweetModel.id)
+                  try await Sweet().retweet(userID: Secret.currentUserID!, tweetID: tweetModel.id)
                 }
               }
             },
