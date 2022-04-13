@@ -12,59 +12,68 @@ import SwiftUI
 @main
 struct TunaApp: App {
   let persistenceController = PersistenceController.shared
-  let userID: String?
+  @State var userID: String?
 
   @State var isPresentedCreateTweetView = false
   @State var isPresented = false
   @State var providers: [NSItemProvider] = []
-
-  init() {
-    self.userID = UserDefaults().string(forKey: "currentUserID")
-  }
+  @State var selectedUserID: String?
 
   var body: some Scene {
     WindowGroup {
       TabView {
-        NavigationView {
-          TweetsView()
-            .environment(\.managedObjectContext, persistenceController.container.viewContext)
-            .navigationTitle("Timeline")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-              ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
+        SelectUserView(userID: $selectedUserID)
+          .environment(\.managedObjectContext, persistenceController.container.viewContext)
+          .tabItem {
+            Text("Users")
+          }
+          .onChange(of: selectedUserID) { userID in
+            Secret.currentUserID = userID
+          }
+        if let userID = userID {
+          NavigationView {
+            TweetsView(userID: userID)
+              .environment(\.managedObjectContext, persistenceController.container.viewContext)
+              .navigationTitle("Timeline")
+              .navigationBarTitleDisplayMode(.inline)
+              .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                  Button(action: {
 
-                }) {
-                  Image(systemName: "person")
+                  }) {
+                    Image(systemName: "person")
+                  }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                  Button(action: {
+                    isPresentedCreateTweetView.toggle()
+                  }) {
+                    Image(systemName: "plus.message")
+                  }
                 }
               }
-              ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                  isPresentedCreateTweetView.toggle()
-                }) {
-                  Image(systemName: "plus.message")
-                }
-              }
+          }
+          .navigationViewStyle(.stack)
+          .sheet(isPresented: $isPresentedCreateTweetView) {
+            let viewModel = NewTweetViewModel()
+            NewTweetView(isPresentedDismiss: $isPresentedCreateTweetView, viewModel: viewModel)
+          }
+          .tabItem {
+            Image(systemName: "house")
+          }
+          ListsView()
+            .tabItem {
+              Image(systemName: "list.dash.header.rectangle")
             }
         }
-        .navigationViewStyle(.stack)
-        .sheet(isPresented: $isPresentedCreateTweetView) {
-          let viewModel = NewTweetViewModel()
-          NewTweetView(isPresentedDismiss: $isPresentedCreateTweetView, viewModel: viewModel)
-        }
-        .tabItem {
-          Image(systemName: "house")
-        }
-        ListsView()
-          .tabItem {
-            Image(systemName: "list.dash.header.rectangle")
-          }
+
 
         LoginView()
           .onOpenURL { url in
             Task {
               do {
                 try await DeepLink.doSomething(url)
+                self.userID = Secret.currentUserID
               } catch {
                 print(error)
               }
@@ -77,6 +86,9 @@ struct TunaApp: App {
           .tabItem {
             Image(systemName: "arrowshape.zigzag.forward")
           }
+      }
+      .onAppear{
+        self.userID = Secret.currentUserID
       }
 
     }
