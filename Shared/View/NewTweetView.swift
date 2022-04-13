@@ -5,7 +5,6 @@
 //  Created by zunda on 2022/03/25.
 //
 
-import Accelerate
 import CoreLocation
 import Sweet
 import SwiftUI
