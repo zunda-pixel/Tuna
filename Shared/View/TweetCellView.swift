@@ -15,7 +15,8 @@ struct TweetCellView: View {
   var body: some View {
     HStack(alignment: .top) {
       if !viewModel.isRetweet {
-        ProfileImageView(viewModel.iconUser.profileImageURL, size: 50)
+        ProfileImageView(viewModel.iconUser.profileImageURL)
+          .frame(width: 50, height: 50)
       }
 
       VStack(alignment: .leading) {
@@ -121,7 +122,8 @@ struct TweetCellView: View {
           HStack {
             Image(systemName: "arrow.2.squarepath")
               .font(.system(size: 15, weight: .medium, design: .default))
-            ProfileImageView(viewModel.authorUser.profileImageURL, size: 20)
+            ProfileImageView(viewModel.authorUser.profileImageURL)
+              .frame(width: 20, height: 20)
             Text(viewModel.authorUser.name)
           }
         }
