@@ -19,6 +19,7 @@ struct Secret {
   private static let userBearerTokenKey = "\(currentUserID!)-userBearerToken"
   private static let challengeKey = "challenge"
   private static let stateKey = "state"
+  private static let loginUserIDsKey = "loginUserID"
 
   static func removeChallenge() throws {
     let keychain = Keychain()
@@ -76,6 +77,25 @@ struct Secret {
       let keychain = Keychain()
       keychain[refreshTokenKey] = newValue
     }
+  }
+
+  static var loginUserIDs: [String] {
+    get {
+      let loginUserIDs = UserDefaults().stringArray(forKey: loginUserIDsKey)
+
+      return loginUserIDs ?? []
+    }
+  }
+
+  static func addLoginUser(_ userID: String) {
+    var loginUserIDs = loginUserIDs
+    loginUserIDs.append(userID)
+    UserDefaults().set(loginUserIDs, forKey: loginUserIDsKey)
+  }
+
+  static func removeLoginUser(_ userID: String){
+    let loginUserIDs = loginUserIDs.filter { $0 != userID }
+    UserDefaults().set(loginUserIDs, forKey: loginUserIDsKey)
   }
 
   static var expireDate: Date {
