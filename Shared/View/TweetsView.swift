@@ -11,9 +11,12 @@ import Sweet
 import SwiftUI
 
 struct TweetsView: View {
+  let userID: String
+
   @Environment(\.managedObjectContext) private var viewContext
 
   @FetchRequest private var timelines: FetchedResults<Timeline>
+
   @FetchRequest private var allTweets: FetchedResults<Tweet>
   @FetchRequest private var allUsers: FetchedResults<User>
   @FetchRequest private var allMedias: FetchedResults<Media>
@@ -21,6 +24,31 @@ struct TweetsView: View {
   @FetchRequest private var allPlaces: FetchedResults<Place>
 
   @FetchRequest private var showTweets: FetchedResults<Tweet>
+
+  init(userID: String) {
+    self.userID = userID
+
+    self._timelines = FetchRequest(
+      entity: Timeline.entity(),
+      sortDescriptors: [],
+      predicate: .init(format: "ownerID = %@", userID)
+    )
+
+    self._showTweets = FetchRequest(
+      entity: Tweet.entity(),
+      sortDescriptors: [NSSortDescriptor(keyPath: \Tweet.createdAt, ascending: false)]
+    )
+
+    self._allTweets = FetchRequest(
+      entity: Tweet.entity(),
+      sortDescriptors: [NSSortDescriptor(keyPath: \Tweet.createdAt, ascending: false)]
+    )
+
+    self._allUsers = FetchRequest(entity: User.entity(), sortDescriptors: [])
+    self._allMedias = FetchRequest(entity: Media.entity(), sortDescriptors: [])
+    self._allPolls = FetchRequest(entity: Poll.entity(), sortDescriptors: [])
+    self._allPlaces = FetchRequest(entity: Place.entity(), sortDescriptors: [])
+  }
 
   private func updateTimeLine() {
     let tweetIDs = timelines.compactMap(\.tweetID)
@@ -90,29 +118,6 @@ struct TweetsView: View {
     return retweetTweetModel
   }
 
-  init(userID: String) {
-    self._timelines = FetchRequest(
-      entity: Timeline.entity(),
-      sortDescriptors: [],
-      predicate: .init(format: "ownerID = %@", userID)
-    )
-    
-    self._showTweets = FetchRequest(
-      entity: Tweet.entity(),
-      sortDescriptors: [NSSortDescriptor(keyPath: \Tweet.createdAt, ascending: false)]
-    )
-
-    self._allTweets = FetchRequest(
-      entity: Tweet.entity(),
-      sortDescriptors: [NSSortDescriptor(keyPath: \Tweet.createdAt, ascending: false)]
-    )
-
-    self._allUsers = FetchRequest(entity: User.entity(), sortDescriptors: [])
-    self._allMedias = FetchRequest(entity: Media.entity(), sortDescriptors: [])
-    self._allPolls = FetchRequest(entity: Poll.entity(), sortDescriptors: [])
-    self._allPlaces = FetchRequest(entity: Place.entity(), sortDescriptors: [])
-  }
-
   func addPlace(_ place: Sweet.PlaceModel) throws {
     if let firstPlace = allPlaces.first(where: { $0.id == place.id }) {
       firstPlace.setPlaceModel(place)
@@ -177,8 +182,6 @@ struct TweetsView: View {
   }
 
   func getTimeline() async {
-    let userID = UserDefaults().string(forKey: "currentUserID")!
-
     do {
       let sweet = try await Sweet()
 
@@ -241,7 +244,7 @@ struct TweetsView: View {
           Button(
             action: {
               Task {
-                try! await Sweet().retweet(userID: Secret.currentUserID!, tweetID: tweetModel.id)
+                try! await Sweet().retweet(userID: userID, tweetID: tweetModel.id)
               }
             },
             label: {
@@ -255,9 +258,9 @@ struct TweetsView: View {
               Task {
                 if retweeted {
                   try await Sweet().deleteRetweet(
-                    userID: Secret.currentUserID!, tweetID: tweetModel.id)
+                    userID: userID, tweetID: tweetModel.id)
                 } else {
-                  try await Sweet().retweet(userID: Secret.currentUserID!, tweetID: tweetModel.id)
+                  try await Sweet().retweet(userID: userID, tweetID: tweetModel.id)
                 }
               }
             },
