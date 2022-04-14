@@ -93,7 +93,7 @@ struct Secret {
     UserDefaults().set(loginUserIDs, forKey: loginUserIDsKey)
   }
 
-  static func removeLoginUser(_ userID: String){
+  static func removeLoginUser(_ userID: String) {
     let loginUserIDs = loginUserIDs.filter { $0 != userID }
     UserDefaults().set(loginUserIDs, forKey: loginUserIDsKey)
   }
@@ -102,7 +102,6 @@ struct Secret {
     get {
       let expireDateString = UserDefaults().string(forKey: expireDateKey)!
       let expireDate = Sweet.TwitterDateFormatter().date(from: expireDateString)!
-
       return expireDate
     }
     set {

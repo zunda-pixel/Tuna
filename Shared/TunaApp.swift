@@ -60,21 +60,26 @@ struct TunaApp: App {
               .tabItem {
                 Image(systemName: "list.dash.header.rectangle")
               }
+            SelectUserView(userID: .init(get: { userID }, set: { self.userID = $0 }))
+              .environment(\.managedObjectContext, persistenceController.container.viewContext)
+              .tabItem{
+                Image(systemName: "house")
+              }
           }
         } else {
           LoginView()
+            .tabItem {
+              Image(systemName: "person")
+            }
             .onOpenURL { url in
               Task {
                 do {
                   try await DeepLink.doSomething(url)
-                  self.userID = Secret.currentUserID
                 } catch {
                   print(error)
+                  fatalError()
                 }
               }
-            }
-            .tabItem {
-              Image(systemName: "person")
             }
         }
       }

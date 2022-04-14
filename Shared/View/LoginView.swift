@@ -32,10 +32,8 @@ struct LoginView: View {
   }
 
   var body: some View {
-    VStack(alignment: .center) {
-      let url = getAuthorizeURL()
-      Link("LOGIN", destination: url)
-    }
+    let url = getAuthorizeURL()
+    Link("LOGIN", destination: url)
   }
 }
 
