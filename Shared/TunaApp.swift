@@ -20,76 +20,67 @@ struct TunaApp: App {
 
   var body: some Scene {
     WindowGroup {
-      TabView {
-        SelectUserView(userID: $userID)
-          .environment(\.managedObjectContext, persistenceController.container.viewContext)
-          .tabItem {
-            Text("Users")
-          }
-          .onChange(of: userID) { userID in
-            Secret.currentUserID = userID
-          }
+      Group {
         if let userID = userID {
-          NavigationView {
-            TweetsView(userID: userID)
-              .environment(\.managedObjectContext, persistenceController.container.viewContext)
-              .navigationTitle("Timeline")
-              .navigationBarTitleDisplayMode(.inline)
-              .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                  Button(action: {
+          TabView {
+            NavigationView {
+              TweetsView(userID: userID)
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .navigationTitle("Timeline")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                  ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
 
-                  }) {
-                    Image(systemName: "person")
+                    }) {
+                      Image(systemName: "person")
+                    }
+                  }
+                  ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                      isPresentedCreateTweetView.toggle()
+                    }) {
+                      Image(systemName: "plus.message")
+                    }
                   }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                  Button(action: {
-                    isPresentedCreateTweetView.toggle()
-                  }) {
-                    Image(systemName: "plus.message")
-                  }
-                }
+            }
+            .navigationViewStyle(.stack)
+            .sheet(isPresented: $isPresentedCreateTweetView) {
+              let viewModel = NewTweetViewModel()
+              NewTweetView(isPresentedDismiss: $isPresentedCreateTweetView, viewModel: viewModel)
+            }
+            .tabItem {
+              Image(systemName: "house")
+            }
+            ListsView(userID: userID)
+              .navigationBarTitleDisplayMode(.inline)
+              .navigationViewStyle(.stack)
+              .navigationTitle("List")
+              .tabItem {
+                Image(systemName: "list.dash.header.rectangle")
               }
           }
-          .navigationViewStyle(.stack)
-          .sheet(isPresented: $isPresentedCreateTweetView) {
-            let viewModel = NewTweetViewModel()
-            NewTweetView(isPresentedDismiss: $isPresentedCreateTweetView, viewModel: viewModel)
-          }
-          .tabItem {
-            Image(systemName: "house")
-          }
-          ListsView(userID: userID)
+        } else {
+          LoginView()
+            .onOpenURL { url in
+              Task {
+                do {
+                  try await DeepLink.doSomething(url)
+                  self.userID = Secret.currentUserID
+                } catch {
+                  print(error)
+                }
+              }
+            }
             .tabItem {
-              Image(systemName: "list.dash.header.rectangle")
+              Image(systemName: "person")
             }
         }
-
-
-        LoginView()
-          .onOpenURL { url in
-            Task {
-              do {
-                try await DeepLink.doSomething(url)
-                self.userID = Secret.currentUserID
-              } catch {
-                print(error)
-              }
-            }
-          }
-          .tabItem {
-            Image(systemName: "person")
-          }
-        Text("hello")
-          .tabItem {
-            Image(systemName: "arrowshape.zigzag.forward")
-          }
       }
-      .onAppear{
+      .onAppear {
         self.userID = Secret.currentUserID
       }
-
     }
   }
 }

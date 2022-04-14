@@ -16,13 +16,11 @@ struct TweetsView: View {
   @Environment(\.managedObjectContext) private var viewContext
 
   @FetchRequest private var timelines: FetchedResults<Timeline>
-
   @FetchRequest private var allTweets: FetchedResults<Tweet>
   @FetchRequest private var allUsers: FetchedResults<User>
   @FetchRequest private var allMedias: FetchedResults<Media>
   @FetchRequest private var allPolls: FetchedResults<Poll>
   @FetchRequest private var allPlaces: FetchedResults<Place>
-
   @FetchRequest private var showTweets: FetchedResults<Tweet>
 
   init(userID: String) {
@@ -257,15 +255,15 @@ struct TweetsView: View {
             action: {
               Task {
                 if retweeted {
-                  try await Sweet().deleteRetweet(
+                  try! await Sweet().deleteRetweet(
                     userID: userID, tweetID: tweetModel.id)
                 } else {
-                  try await Sweet().retweet(userID: userID, tweetID: tweetModel.id)
+                  try! await Sweet().retweet(userID: userID, tweetID: tweetModel.id)
                 }
               }
             },
             label: {
-              Label(retweeted ? "remove" : "retweet", systemImage: "arrow.2.squarepath")
+              Label(retweeted ? "remove" : "retweet", systemImage: "repeat")
             }
           )
           .tint(retweeted ? .red : .green)

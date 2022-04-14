@@ -108,9 +108,6 @@ struct ListsView: View {
           }
         }
       }
-      .navigationBarTitleDisplayMode(.inline)
-      .navigationViewStyle(.stack)
-      .navigationTitle("List")
       .listStyle(.insetGrouped)
       .toolbar {
         ToolbarItem(
