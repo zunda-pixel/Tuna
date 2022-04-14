@@ -8,13 +8,45 @@
 import SwiftUI
 
 struct SelectUserView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+  @Binding var selectedUserID: String?
+  @FetchRequest private var users: FetchedResults<User>
+
+  init(userID: Binding<String?>) {
+    self._selectedUserID = userID
+
+    self._users = FetchRequest(
+      entity: User.entity(),
+      sortDescriptors: [],
+      predicate: .init(format: "id IN %@", Secret.loginUserIDs)
+    )
+  }
+
+  var body: some View {
+    VStack {
+      ForEach(users, id: \.id) { user in
+        HStack {
+          ProfileImageView(user.profileImageURL)
+            .frame(width: 30, height: 30)
+          VStack(alignment: .leading) {
+            Text(user.name ?? "")
+            Text(user.userName ?? "")
+          }
+          Image(systemName: user.id == selectedUserID ? "checkmark.circle.fill" : "circle")
+        }
+        .onTapGesture {
+          selectedUserID = user.id
+        }
+      }
+
+      LoginView()
     }
+    .background(.red)
+  }
 }
 
 struct SelectUserView_Previews: PreviewProvider {
-    static var previews: some View {
-        SelectUserView()
-    }
+  @State static var userID = ""
+  static var previews: some View {
+    SelectUserView(userID: .init(get: {userID}, set: {userID = $0!}))
+  }
 }
