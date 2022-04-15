@@ -71,12 +71,15 @@ struct TweetCellView: View {
           .overlay(RoundedRectangle(cornerRadius: 20).stroke(.gray, lineWidth: 2))
         }
 
-        let gridItem: GridItem = .init(.fixed(100))
+        let gridItem: GridItem = .init(.flexible())
 
         LazyVGrid(columns: [gridItem, gridItem]) {
           ForEach(viewModel.medias, id: \.key) { media in
             if let mediaURL = media.url ?? media.previewImageURL {
               KFImage(mediaURL)
+                .placeholder { p in
+                  ProgressView(p)
+                }
                 .resizable()
                 .frame(height: 100)
                 .aspectRatio(contentMode: .fill)
@@ -100,7 +103,6 @@ struct TweetCellView: View {
                 }
             }
           }
-
         }
 
         if let placeName = viewModel.place?.name {
@@ -141,9 +143,3 @@ struct TweetCellView: View {
     }
   }
 }
-
-/*struct TweetView_Previews: PreviewProvider {
- static var previews: some View {
- TweetView(tweet: .init())
- }
- }*/
