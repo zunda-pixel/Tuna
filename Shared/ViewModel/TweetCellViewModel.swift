@@ -61,17 +61,15 @@ import SwiftUI
   }
 
   var iconUser: Sweet.UserModel {
-    guard let type = tweet.referencedTweet?.type else {
-      return authorUser
-    }
-
-    switch type {
-    case .repliedTo:
-      return authorUser
-    case .retweeted:
-      return retweetUser!
-    case .quoted:
-      return retweetUser!
+    switch tweet.referencedTweet?.type {
+      case .repliedTo:
+        return authorUser
+      case .retweeted:
+        return retweetUser!
+      case .quoted:
+        return authorUser
+      case .none:
+        return authorUser
     }
   }
 
