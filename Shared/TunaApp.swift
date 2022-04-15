@@ -12,11 +12,9 @@ import SwiftUI
 @main
 struct TunaApp: App {
   let persistenceController = PersistenceController.shared
-  @State var userID: String?
 
+  @State var userID: String?
   @State var isPresentedCreateTweetView = false
-  @State var isPresented = false
-  @State var providers: [NSItemProvider] = []
 
   var body: some Scene {
     WindowGroup {
