@@ -23,6 +23,8 @@
 		2E044A9727EAE7D000736B9F /* KeychainAccess+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E044A9527EAE7D000736B9F /* KeychainAccess+Extension.swift */; };
 		2E044A9927EAF3B200736B9F /* DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E044A9827EAF3B200736B9F /* DeepLink.swift */; };
 		2E044A9A27EAF3B200736B9F /* DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E044A9827EAF3B200736B9F /* DeepLink.swift */; };
+		2E0981452809482A00431C50 /* QuotedTweetCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0981442809482A00431C50 /* QuotedTweetCellView.swift */; };
+		2E0981462809482A00431C50 /* QuotedTweetCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0981442809482A00431C50 /* QuotedTweetCellView.swift */; };
 		2E10382A27EC05FE00E8E67B /* User+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E10382927EC05FD00E8E67B /* User+Extension.swift */; };
 		2E10382B27EC05FE00E8E67B /* User+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E10382927EC05FD00E8E67B /* User+Extension.swift */; };
 		2E10382D27EC31E400E8E67B /* UserModel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E10382C27EC31E400E8E67B /* UserModel+Extension.swift */; };
@@ -134,6 +136,7 @@
 		2E044A8E27EAE49100736B9F /* Tuna--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Tuna--iOS--Info.plist"; sourceTree = "<group>"; };
 		2E044A9527EAE7D000736B9F /* KeychainAccess+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeychainAccess+Extension.swift"; sourceTree = "<group>"; };
 		2E044A9827EAF3B200736B9F /* DeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLink.swift; sourceTree = "<group>"; };
+		2E0981442809482A00431C50 /* QuotedTweetCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotedTweetCellView.swift; sourceTree = "<group>"; };
 		2E10382927EC05FD00E8E67B /* User+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+Extension.swift"; sourceTree = "<group>"; };
 		2E10382C27EC31E400E8E67B /* UserModel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserModel+Extension.swift"; sourceTree = "<group>"; };
 		2E10382F27EC909600E8E67B /* ProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
@@ -294,6 +297,7 @@
 				2E5324E927FF1D07008D5EFB /* LivePhoto.swift */,
 				2E5324EC27FF1D41008D5EFB /* PhotoView.swift */,
 				2E633522280673E500368C51 /* SelectUserView.swift */,
+				2E0981442809482A00431C50 /* QuotedTweetCellView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -525,6 +529,7 @@
 				2E10383627EC997C00E8E67B /* MediaModel+Extension.swift in Sources */,
 				2E10384527EDACF400E8E67B /* NewTweetView.swift in Sources */,
 				2E63899727EAC56000964EC8 /* Sweet+Extension.swift in Sources */,
+				2E0981452809482A00431C50 /* QuotedTweetCellView.swift in Sources */,
 				2E027FBB27E8269A00521378 /* TunaApp.swift in Sources */,
 				2E63898827EAB9C200964EC8 /* TwitterOauth2.swift in Sources */,
 				2E044A9927EAF3B200736B9F /* DeepLink.swift in Sources */,
@@ -573,6 +578,7 @@
 				2E10383727EC997C00E8E67B /* MediaModel+Extension.swift in Sources */,
 				2E10384627EDACF400E8E67B /* NewTweetView.swift in Sources */,
 				2E63899827EAC56000964EC8 /* Sweet+Extension.swift in Sources */,
+				2E0981462809482A00431C50 /* QuotedTweetCellView.swift in Sources */,
 				2E027FBC27E8269A00521378 /* TunaApp.swift in Sources */,
 				2E63898927EAB9C200964EC8 /* TwitterOauth2.swift in Sources */,
 				2E044A9A27EAF3B200736B9F /* DeepLink.swift in Sources */,
