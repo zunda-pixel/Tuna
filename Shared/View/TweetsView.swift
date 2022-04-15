@@ -55,7 +55,7 @@ struct TweetsView: View {
 
   private func getPlace(placeID: String?) -> Sweet.PlaceModel? {
     guard let placeID = placeID,
-      let firstPlace = allPlaces.first(where: { $0.id == placeID })
+          let firstPlace = allPlaces.first(where: { $0.id == placeID })
     else {
       return nil
     }
@@ -179,11 +179,11 @@ struct TweetsView: View {
     try viewContext.save()
   }
 
-  func getTimeline() async {
+  func getTimeline(lastTweetID: String? = nil) async {
     do {
       let sweet = try await Sweet()
 
-      let response = try await sweet.fetchTimeLine(by: userID, maxResults: 100)
+      let response = try await sweet.fetchTimeLine(by: userID, maxResults: 100, untilID: lastTweetID)
 
       try response.tweets.forEach { tweet in
         try addTweet(tweet)
@@ -238,6 +238,17 @@ struct TweetsView: View {
             tweet: tweetModel, retweet: retweetTweetModel, author: authorUser,
             retweetUser: retweetUser, medias: medias, poll: poll, place: place)
         )
+        .onAppear {
+          guard let lastTweet = showTweets.last else{
+            return
+          }
+
+          if tweet.id == lastTweet.id {
+            Task {
+              await getTimeline(lastTweetID: tweet.id)
+            }
+          }
+        }
         .swipeActions(edge: .leading) {
           Button(
             action: {
