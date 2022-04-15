@@ -20,20 +20,16 @@ import SwiftUI
   let place: Sweet.PlaceModel?
 
   var selectedMediaURL: URL?
-  var isRetweet: Bool
 
   @Published var isPresentedImageView = false
   @Published var isPresentedErrorAlert = false
   @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
   @Published var nowDate: Date = Date()
 
-  init(
-    isRetweet: Bool = false, tweet: Sweet.TweetModel, retweet retweetTweet: Sweet.TweetModel? = nil,
-    author authorUser: Sweet.UserModel, retweetUser: Sweet.UserModel? = nil,
-    medias: [Sweet.MediaModel] = [],
-    poll: Sweet.PollModel? = nil, place: Sweet.PlaceModel? = nil
+  init(tweet: Sweet.TweetModel, retweet retweetTweet: Sweet.TweetModel? = nil,
+       author authorUser: Sweet.UserModel, retweetUser: Sweet.UserModel? = nil,
+       medias: [Sweet.MediaModel] = [],poll: Sweet.PollModel? = nil, place: Sweet.PlaceModel? = nil
   ) {
-    self.isRetweet = isRetweet
     self.tweet = tweet
     self.retweetTweet = retweetTweet
     self.authorUser = authorUser
