@@ -32,10 +32,7 @@ extension Calendar.Component {
 }
 
 extension Calendar {
-  func durationString(
-    candidate components: [Calendar.Component],
-    from start: Date, to end: Date
-  ) -> String? {
+  func durationString(candidate components: [Calendar.Component], from start: Date, to end: Date) -> String? {
     for component in components {
       let dateComponents = self.dateComponents([component], from: start, to: end)
       if let time = dateComponents.getTime(with: component) {
