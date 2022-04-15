@@ -14,10 +14,8 @@ struct TweetCellView: View {
 
   var body: some View {
     HStack(alignment: .top) {
-      if !viewModel.isRetweet {
-        ProfileImageView(viewModel.iconUser.profileImageURL)
-          .frame(width: 50, height: 50)
-      }
+      ProfileImageView(viewModel.iconUser.profileImageURL)
+        .frame(width: 50, height: 50)
 
       VStack(alignment: .leading) {
         HStack {
@@ -111,13 +109,10 @@ struct TweetCellView: View {
         }
 
         if viewModel.tweet.referencedTweet?.type == .quoted {
-          TweetCellView(
-            viewModel: .init(
-              isRetweet: true, tweet: viewModel.retweetTweet!, author: viewModel.retweetUser!)
-          )
-          .padding(.horizontal, 10)
-          .padding(.vertical, 5)
-          .overlay(RoundedRectangle(cornerRadius: 20).stroke(.gray, lineWidth: 2))
+          QuotedTweetCellView(tweet: viewModel.retweetTweet!, user: viewModel.retweetUser!)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
+            .overlay(RoundedRectangle(cornerRadius: 20).stroke(.gray, lineWidth: 2))
         }
 
         if viewModel.tweet.referencedTweet?.type == .retweeted {
