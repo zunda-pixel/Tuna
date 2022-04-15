@@ -122,7 +122,7 @@ struct TweetCellView: View {
 
         if viewModel.tweet.referencedTweet?.type == .retweeted {
           HStack {
-            Image(systemName: "arrow.2.squarepath")
+            Image(systemName: "repeat")
               .font(.system(size: 15, weight: .medium, design: .default))
             ProfileImageView(viewModel.authorUser.profileImageURL)
               .frame(width: 20, height: 20)
