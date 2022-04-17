@@ -228,6 +228,7 @@
 		2E027F8D27E8269800521378 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				2E612BC2280997FE00CD4111 /* Model */,
 				2EA6538A27E9A137003E99AE /* ViewModel */,
 				2E4E983327E9959D00D9A15F /* View */,
 				2E5E4F6D27EB632B009D6D53 /* Extension */,
@@ -332,6 +333,13 @@
 				2E5324F228046AD0008D5EFB /* ReplySetting+Extension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		2E612BC2280997FE00CD4111 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		2EA6538A27E9A137003E99AE /* ViewModel */ = {
@@ -1014,7 +1022,7 @@
 			repositoryURL = "https://github.com/zunda-pixel/Sweet";
 			requirement = {
 				kind = exactVersion;
-				version = 1.5.9;
+				version = 1.6.2;
 			};
 		};
 		2E5E4F6727EB59A9009D6D53 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
