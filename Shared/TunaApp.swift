@@ -52,6 +52,7 @@ struct TunaApp: App {
               Image(systemName: "house")
             }
             ListsView(userID: userID)
+              .environment(\.managedObjectContext, persistenceController.container.viewContext)
               .navigationBarTitleDisplayMode(.inline)
               .navigationViewStyle(.stack)
               .navigationTitle("List")

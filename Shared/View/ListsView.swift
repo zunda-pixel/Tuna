@@ -10,7 +10,8 @@ import SwiftUI
 
 struct ListsView: View {
   let userID: String
-
+  @Environment(\.managedObjectContext) private var viewContext
+  
   @State var pinnedLists: [Sweet.ListModel] = []
   @State var ownedLists: [Sweet.ListModel] = []
   @State var followingLists: [Sweet.ListModel] = []
@@ -39,7 +40,7 @@ struct ListsView: View {
             Text("not found list")
           }
 
-          ForEach(pinnedLists, id: \.id) { list in
+          ForEach(pinnedLists) { list in
             NavigationLink(
               destination: {
                 ListDetailView(list: list)
@@ -64,7 +65,7 @@ struct ListsView: View {
             Text("not found list")
           }
 
-          ForEach(ownedLists, id: \.id) { list in
+          ForEach(ownedLists) { list in
             NavigationLink(
               destination: {
                 ListDetailView(list: list)
@@ -88,7 +89,7 @@ struct ListsView: View {
             Text("not found list")
           }
 
-          ForEach(followingLists, id: \.id) { list in
+          ForEach(followingLists) { list in
             NavigationLink(
               destination: {
                 ListDetailView(list: list)

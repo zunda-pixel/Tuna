@@ -39,7 +39,7 @@ struct TweetCellView: View {
 
         if let poll = viewModel.poll {
           VStack {
-            ForEach(poll.options, id: \.position) { option in
+            ForEach(poll.options) { option in
               GeometryReader { geometry in
                 HStack {
                   ZStack {
@@ -72,7 +72,7 @@ struct TweetCellView: View {
         let gridItem: GridItem = .init(.flexible())
 
         LazyVGrid(columns: [gridItem, gridItem]) {
-          ForEach(viewModel.medias, id: \.key) { media in
+          ForEach(viewModel.medias) { media in
             if let mediaURL = media.url ?? media.previewImageURL {
               KFImage(mediaURL)
                 .placeholder { p in

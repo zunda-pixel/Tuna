@@ -23,7 +23,7 @@ struct SelectUserView: View {
 
   var body: some View {
     VStack {
-      ForEach(users, id: \.id) { user in
+      ForEach(users) { user in
         HStack {
           ProfileImageView(user.profileImageURL)
             .frame(width: 30, height: 30)

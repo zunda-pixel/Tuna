@@ -219,7 +219,7 @@ struct TweetsView: View {
 
   var body: some View {
     List {
-      ForEach(showTweets, id: \.id!) { tweet in
+      ForEach(showTweets) { tweet in
         let tweetModel: Sweet.TweetModel = .init(tweet: tweet)
 
         let retweetTweetModel = getRetweetTweet(retweetID: tweetModel.referencedTweet?.id)
