@@ -59,6 +59,10 @@ struct TunaApp: App {
               .tabItem {
                 Image(systemName: "list.dash.header.rectangle")
               }
+            SearchView()
+              .tabItem {
+                Image(systemName: "magnifyingglass")
+              }
             SelectUserView(userID: .init(get: { userID }, set: { self.userID = $0 }))
               .environment(\.managedObjectContext, persistenceController.container.viewContext)
               .tabItem{
