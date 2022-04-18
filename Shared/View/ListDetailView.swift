@@ -23,7 +23,7 @@ struct ListDetailView: View {
     self.list = list
   }
 
-  private func getPlace(placeID: String?) -> Sweet.PlaceModel? {
+  private func getPlace(id placeID: String?) -> Sweet.PlaceModel? {
     guard let placeID = placeID,
           let firstPlace = allPlaces.first(where: { $0.id == placeID })
     else {
@@ -33,9 +33,9 @@ struct ListDetailView: View {
     return firstPlace
   }
 
-  private func getPoll(pollKey: String?) -> Sweet.PollModel? {
+  private func getPoll(key pollKey: String?) -> Sweet.PollModel? {
     guard let pollKey = pollKey,
-      let firstPoll = allPolls.first(where: { $0.id == pollKey })
+          let firstPoll = allPolls.first(where: { $0.id == pollKey })
     else {
       return nil
     }
@@ -43,7 +43,7 @@ struct ListDetailView: View {
     return firstPoll
   }
 
-  private func getMedias(mediaKeys: [String]?) -> [Sweet.MediaModel] {
+  private func getMedias(keys mediaKeys: [String]?) -> [Sweet.MediaModel] {
     guard let mediaKeys = mediaKeys else {
       return []
     }
@@ -53,22 +53,20 @@ struct ListDetailView: View {
     return medias
   }
 
-  private func getAuthorUser(authorID: String?) -> Sweet.UserModel? {
-    guard let authorID = authorID,
-      let user = allUsers.first(where: { $0.id == authorID })
-    else {
-      return nil
-    }
+  private func getUser(_ userID: String?) -> Sweet.UserModel? {
+    guard let userID = userID else { return nil }
+
+    let user = allUsers.first(where: { $0.id == userID })
 
     return user
   }
 
-  private func getRetweetTweet(retweetID: String?) -> Sweet.TweetModel? {
-    guard let retweetID = retweetID else {
+  private func getTweet(_ tweetID: String?) -> Sweet.TweetModel? {
+    guard let tweetID = tweetID else {
       return nil
     }
 
-    let retweetTweet = allTweets.first { $0.id == retweetID }
+    let retweetTweet = allTweets.first { $0.id == tweetID }
 
     return retweetTweet
   }
@@ -81,14 +79,35 @@ struct ListDetailView: View {
 
     let tweetIDs = listResponse.tweets.map(\.id)
 
+    if tweetIDs.isEmpty {
+      return
+    }
+
     let tweetResponse = try await sweet.lookUpTweets(by: tweetIDs)
 
-    allTweets.append(contentsOf: tweetResponse.tweets)
-    allTweets.append(contentsOf: tweetResponse.relatedTweets)
-    allUsers.append(contentsOf: tweetResponse.users)
-    allPolls.append(contentsOf: tweetResponse.polls)
-    allMedias.append(contentsOf: tweetResponse.medias)
-    allPlaces.append(contentsOf: tweetResponse.places)
+    tweetResponse.tweets.forEach {
+      allTweets.appendIfNotContains($0)
+    }
+
+    tweetResponse.relatedTweets.forEach {
+      allTweets.appendIfNotContains($0)
+    }
+
+    tweetResponse.users.forEach {
+      allUsers.appendIfNotContains($0)
+    }
+
+    tweetResponse.polls.forEach {
+      allPolls.appendIfNotContains($0)
+    }
+
+    tweetResponse.medias.forEach {
+      allMedias.appendIfNotContains($0)
+    }
+
+    tweetResponse.places.forEach {
+      allPlaces.appendIfNotContains($0)
+    }
 
     timelines.append(contentsOf: tweetIDs)
   }
@@ -112,35 +131,36 @@ struct ListDetailView: View {
     List(timelines, id: \.self) { tweetID in
       let tweetModel = getTweet(tweetID)!
 
-      let retweetTweetModel = getRetweetTweet(retweetID: tweetModel.referencedTweet?.id)
+      let retweetTweetModel = getTweet(tweetModel.referencedTweet?.id)
 
-      let authorUser = getAuthorUser(authorID: tweetModel.authorID!) ?? .init(id: "", name: "", userName: "")
-      let retweetUser = getAuthorUser(authorID: retweetTweetModel?.authorID)
+      let authorUser = getUser(tweetModel.authorID!)!
 
-      let medias = getMedias(mediaKeys: tweetModel.attachments?.mediaKeys)
+      let retweetUser = getUser(retweetTweetModel?.authorID)
 
-      let poll = getPoll(pollKey: tweetModel.attachments?.pollID)
+      let medias = getMedias(keys: tweetModel.attachments?.mediaKeys)
 
-      let place = getPlace(placeID: tweetModel.geo?.placeID)
+      let poll = getPoll(key: tweetModel.attachments?.pollID)
+
+      let place = getPlace(id: tweetModel.geo?.placeID)
 
       TweetCellView(viewModel: .init(tweet: tweetModel, retweet: retweetTweetModel, author: authorUser, retweetUser: retweetUser, medias: medias, poll: poll, place: place))
 
-      .onAppear {
-        guard let lastTweetID = timelines.last else{
-          return
-        }
+        .onAppear {
+          guard let lastTweetID = timelines.last else{
+            return
+          }
 
-        if tweetModel.id == lastTweetID {
-          Task {
-            do {
-              try await getListTweets()
-            } catch {
-              print(error)
-              fatalError()
+          if tweetModel.id == lastTweetID {
+            Task {
+              do {
+                try await getListTweets()
+              } catch {
+                print(error)
+                fatalError()
+              }
             }
           }
         }
-      }
     }
     .onAppear {
       Task {
