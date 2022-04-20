@@ -43,7 +43,8 @@ struct ListsView: View {
           ForEach(pinnedLists) { list in
             NavigationLink(
               destination: {
-                ListDetailView(list: list)
+                let listDetailViewModel: ListDetailViewModel = .init(list: list)
+                ListDetailView(viewModel: listDetailViewModel)
               },
               label: {
                 ListCellView(list: list)
@@ -68,7 +69,8 @@ struct ListsView: View {
           ForEach(ownedLists) { list in
             NavigationLink(
               destination: {
-                ListDetailView(list: list)
+                let listDetailViewModel: ListDetailViewModel = .init(list: list)
+                ListDetailView(viewModel: listDetailViewModel)
               },
               label: {
                 ListCellView(list: list)
@@ -92,7 +94,8 @@ struct ListsView: View {
           ForEach(followingLists) { list in
             NavigationLink(
               destination: {
-                ListDetailView(list: list)
+                let listDetailViewModel: ListDetailViewModel = .init(list: list)
+                ListDetailView(viewModel: listDetailViewModel)
               },
               label: {
                 ListCellView(list: list)
