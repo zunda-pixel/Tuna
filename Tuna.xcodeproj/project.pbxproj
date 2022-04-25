@@ -106,6 +106,14 @@
 		2EA6538C27E9A148003E99AE /* TweetCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA6538B27E9A148003E99AE /* TweetCellViewModel.swift */; };
 		2EA6538E27E9A16A003E99AE /* DateComponents+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA6538D27E9A16A003E99AE /* DateComponents+Extension.swift */; };
 		2EA6539027E9A188003E99AE /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA6538F27E9A188003E99AE /* Calendar+Extension.swift */; };
+		2EEE9DFD2816DB0300721ADD /* UsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9DFC2816DB0300721ADD /* UsersView.swift */; };
+		2EEE9DFE2816DB0300721ADD /* UsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9DFC2816DB0300721ADD /* UsersView.swift */; };
+		2EEE9E002816E8F000721ADD /* UserCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9DFF2816E8F000721ADD /* UserCellView.swift */; };
+		2EEE9E012816E8F000721ADD /* UserCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9DFF2816E8F000721ADD /* UserCellView.swift */; };
+		2EEE9E032816E93E00721ADD /* UsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9E022816E93E00721ADD /* UsersViewModel.swift */; };
+		2EEE9E042816E93E00721ADD /* UsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9E022816E93E00721ADD /* UsersViewModel.swift */; };
+		2EEE9E062816E96600721ADD /* ListMembersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9E052816E96600721ADD /* ListMembersViewModel.swift */; };
+		2EEE9E072816E96600721ADD /* ListMembersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9E052816E96600721ADD /* ListMembersViewModel.swift */; };
 		2EF3987227EB4B3800EEFA51 /* Tweet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF3987127EB4B3800EEFA51 /* Tweet+Extension.swift */; };
 		2EF3987327EB4B3800EEFA51 /* Tweet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF3987127EB4B3800EEFA51 /* Tweet+Extension.swift */; };
 /* End PBXBuildFile section */
@@ -185,6 +193,10 @@
 		2EA6538B27E9A148003E99AE /* TweetCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetCellViewModel.swift; sourceTree = "<group>"; };
 		2EA6538D27E9A16A003E99AE /* DateComponents+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateComponents+Extension.swift"; sourceTree = "<group>"; };
 		2EA6538F27E9A188003E99AE /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
+		2EEE9DFC2816DB0300721ADD /* UsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersView.swift; sourceTree = "<group>"; };
+		2EEE9DFF2816E8F000721ADD /* UserCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCellView.swift; sourceTree = "<group>"; };
+		2EEE9E022816E93E00721ADD /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
+		2EEE9E052816E96600721ADD /* ListMembersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMembersViewModel.swift; sourceTree = "<group>"; };
 		2EF3987127EB4B3800EEFA51 /* Tweet+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tweet+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -312,6 +324,8 @@
 				2E633522280673E500368C51 /* SelectUserView.swift */,
 				2E0981442809482A00431C50 /* QuotedTweetCellView.swift */,
 				2E13ED49280D175C00BF79CD /* SearchView.swift */,
+				2EEE9DFC2816DB0300721ADD /* UsersView.swift */,
+				2EEE9DFF2816E8F000721ADD /* UserCellView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -363,6 +377,8 @@
 				2E10384727EE1B7800E8E67B /* NewTweetViewModel.swift */,
 				2E0A3AEC28105BA7002D5F39 /* TweetsViewModel.swift */,
 				2E0A3AEF28105CC1002D5F39 /* ListDetailViewModel.swift */,
+				2EEE9E022816E93E00721ADD /* UsersViewModel.swift */,
+				2EEE9E052816E96600721ADD /* ListMembersViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -541,9 +557,11 @@
 				2E10387227F2AF3700E8E67B /* ListCellView.swift in Sources */,
 				2E10383327EC98AF00E8E67B /* Media+Extension.swift in Sources */,
 				2E0A3AF028105CC1002D5F39 /* ListDetailViewModel.swift in Sources */,
+				2EEE9E062816E96600721ADD /* ListMembersViewModel.swift in Sources */,
 				2E027FB927E8269A00521378 /* Tuna.xcdatamodeld in Sources */,
 				2EF3987227EB4B3800EEFA51 /* Tweet+Extension.swift in Sources */,
 				2E10387B27F49F4A00E8E67B /* PhotoPicker.swift in Sources */,
+				2EEE9E002816E8F000721ADD /* UserCellView.swift in Sources */,
 				2EA6539027E9A188003E99AE /* Calendar+Extension.swift in Sources */,
 				2E5324F328046AD0008D5EFB /* ReplySetting+Extension.swift in Sources */,
 				2E63899427EAC39D00964EC8 /* TwitterOauth2+Extension.swift in Sources */,
@@ -579,9 +597,11 @@
 				2E13ED47280D0A1300BF79CD /* Array+Extension.swift in Sources */,
 				2E4E983927E9963C00D9A15F /* Persistence.swift in Sources */,
 				2E044A9627EAE7D000736B9F /* KeychainAccess+Extension.swift in Sources */,
+				2EEE9E032816E93E00721ADD /* UsersViewModel.swift in Sources */,
 				2E10383F27ED7E1F00E8E67B /* Place+Extension.swift in Sources */,
 				2E0A3AED28105BA7002D5F39 /* TweetsViewModel.swift in Sources */,
 				2E10382D27EC31E400E8E67B /* UserModel+Extension.swift in Sources */,
+				2EEE9DFD2816DB0300721ADD /* UsersView.swift in Sources */,
 				2E10384227ED80A500E8E67B /* PlaceModel+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -594,9 +614,11 @@
 				2E10387327F2AF3700E8E67B /* ListCellView.swift in Sources */,
 				2E10383427EC98AF00E8E67B /* Media+Extension.swift in Sources */,
 				2E0A3AF128105CC1002D5F39 /* ListDetailViewModel.swift in Sources */,
+				2EEE9E072816E96600721ADD /* ListMembersViewModel.swift in Sources */,
 				2E027FBA27E8269A00521378 /* Tuna.xcdatamodeld in Sources */,
 				2EF3987327EB4B3800EEFA51 /* Tweet+Extension.swift in Sources */,
 				2E10387C27F49F4A00E8E67B /* PhotoPicker.swift in Sources */,
+				2EEE9E012816E8F000721ADD /* UserCellView.swift in Sources */,
 				2E63898327EAB88300964EC8 /* Calendar+Extension.swift in Sources */,
 				2E5324F428046AD0008D5EFB /* ReplySetting+Extension.swift in Sources */,
 				2E63899527EAC39D00964EC8 /* TwitterOauth2+Extension.swift in Sources */,
@@ -632,9 +654,11 @@
 				2E13ED48280D0A1300BF79CD /* Array+Extension.swift in Sources */,
 				2E4E983A27E9963C00D9A15F /* Persistence.swift in Sources */,
 				2E044A9727EAE7D000736B9F /* KeychainAccess+Extension.swift in Sources */,
+				2EEE9E042816E93E00721ADD /* UsersViewModel.swift in Sources */,
 				2E10384027ED7E1F00E8E67B /* Place+Extension.swift in Sources */,
 				2E0A3AEE28105BA7002D5F39 /* TweetsViewModel.swift in Sources */,
 				2E10382E27EC31E400E8E67B /* UserModel+Extension.swift in Sources */,
+				2EEE9DFE2816DB0300721ADD /* UsersView.swift in Sources */,
 				2E10384327ED80A600E8E67B /* PlaceModel+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
