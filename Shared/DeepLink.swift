@@ -19,8 +19,7 @@ struct DeepLink {
 
     if let state = queryItems.first(where: { $0.name == "state" })?.value,
       let code = queryItems.first(where: { $0.name == "code" })?.value,
-      state == savedState
-    {
+      state == savedState {
       try await saveOAuthData(code: code)
     }
   }
@@ -41,9 +40,8 @@ struct DeepLink {
 
     let userID = try await getMyUserID(userBearerToken: response.bearerToken)
 
-    Secret.currentUserID = userID
     Secret.addLoginUser(userID)
-
+    Secret.currentUserID = userID
     Secret.userBearerToken = response.bearerToken
     Secret.refreshToken = response.refreshToken
 
