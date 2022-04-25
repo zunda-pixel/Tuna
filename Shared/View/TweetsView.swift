@@ -288,9 +288,8 @@ struct TweetsView: View {
     .onAppear {
       Task {
         await getTimeline()
+        updateTimeLine()
       }
-
-      updateTimeLine()
     }
   }
 }
