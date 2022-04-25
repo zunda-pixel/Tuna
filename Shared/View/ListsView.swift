@@ -22,8 +22,7 @@ struct ListsView: View {
   }
 
   func fetchFollowingLists() async throws {
-    let response = try await Sweet().fetchFollowingLists(
-      userID: userID, maxResults: 100)
+    let response = try await Sweet().fetchFollowingLists(userID: userID)
     self.followingLists = response.lists
   }
 
