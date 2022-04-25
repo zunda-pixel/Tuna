@@ -9,6 +9,8 @@ import KeychainAccess
 import SwiftUI
 
 struct LoginView: View {
+  @State var loading = false
+
   func getRandomString() -> String {
     let challenge = SecurityRandom.secureRandomBytes(count: 10)
     return challenge.reduce(into: "") { $0 = $0 + "\($1)" }
@@ -32,8 +34,31 @@ struct LoginView: View {
   }
 
   var body: some View {
-    let url = getAuthorizeURL()
-    Link("LOGIN", destination: url)
+    VStack {
+      let url = getAuthorizeURL()
+      Link("LOGIN", destination: url)
+      if loading {
+        Text("Loading...")
+      }
+    }
+
+
+      .onOpenURL { url in
+        Task {
+          do {
+            loading = true
+            
+            defer {
+              loading = false
+            }
+
+            try await DeepLink.doSomething(url)
+          } catch {
+            print(error)
+            fatalError()
+          }
+        }
+      }
   }
 }
 

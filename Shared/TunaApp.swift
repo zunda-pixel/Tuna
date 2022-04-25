@@ -74,16 +74,6 @@ struct TunaApp: App {
             .tabItem {
               Image(systemName: "person")
             }
-            .onOpenURL { url in
-              Task {
-                do {
-                  try await DeepLink.doSomething(url)
-                } catch {
-                  print(error)
-                  fatalError()
-                }
-              }
-            }
         }
       }
       .onAppear {
