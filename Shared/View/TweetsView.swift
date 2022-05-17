@@ -186,11 +186,13 @@ struct TweetsView: View {
     try viewContext.save()
   }
 
-  func getTimeline(lastTweetID: String? = nil) async {
+  func getTimeline(first firstTweetID: String? = nil, last lastTweetID: String? = nil) async {
     do {
       let sweet = try await Sweet()
 
-      let response = try await sweet.fetchTimeLine(by: userID, maxResults: 100, untilID: lastTweetID)
+      let maxResults = 100
+
+      let response = try await sweet.fetchTimeLine(by: userID, maxResults: maxResults, untilID: lastTweetID, sinceID: firstTweetID)
 
       try response.tweets.forEach { tweet in
         try addTweet(tweet)
@@ -215,6 +217,11 @@ struct TweetsView: View {
 
       try response.places.forEach { place in
         try addPlace(place)
+      }
+
+      if firstTweetID != nil && response.tweets.count == maxResults {
+        let firstTweetID = timelines.first?.tweetID
+        await getTimeline(first: firstTweetID)
       }
 
       updateTimeLine()
@@ -252,7 +259,7 @@ struct TweetsView: View {
 
           if tweet.id == lastTweet.id {
             Task {
-              await getTimeline(lastTweetID: tweet.id)
+              await getTimeline(last: tweet.id)
             }
           }
         }
@@ -293,7 +300,8 @@ struct TweetsView: View {
     }
     .listStyle(.plain)
     .refreshable {
-      await getTimeline()
+      let firstTweetID = timelines.first?.tweetID
+      await getTimeline(first: firstTweetID)
     }
     .onAppear {
       Task {
