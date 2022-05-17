@@ -8,6 +8,7 @@
 import CoreLocation
 import Sweet
 import SwiftUI
+import CoreLocationUI
 
 struct NewTweetView<ViewModel: NewTweetViewModelProtocol>: View {
   @Binding var isPresentedDismiss: Bool
@@ -124,15 +125,13 @@ struct NewTweetView<ViewModel: NewTweetViewModelProtocol>: View {
           PhotoPicker(results: $viewModel.results, didPickPhoto: $viewModel.didPickPhoto)
         }
 
-        Button(
-          action: {
-            Task {
-              await viewModel.setLocation()
-            }
-          },
-          label: {
-            Image(systemName: "location")
-          })
+        LocationButton(.currentLocation) {
+          Task {
+            await viewModel.setLocation()
+          }
+        }
+        .labelStyle(.iconOnly)
+        .disabled(viewModel.loadingLocation)
 
         Button(
           action: {
@@ -148,11 +147,8 @@ struct NewTweetView<ViewModel: NewTweetViewModelProtocol>: View {
         )
         .disabled(viewModel.medias.count != 0)
       }
-      .alert("", isPresented: $viewModel.didFail) {
-        Button("OK") {
-        }
-      } message: {
-        Text(viewModel.error.debugDescription)
+      .alert("Error", isPresented: $viewModel.didFail) {
+        Text("hello")
       }
     }
     .padding()

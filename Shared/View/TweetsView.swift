@@ -10,10 +10,17 @@ import KeychainAccess
 import Sweet
 import SwiftUI
 
+extension Sweet.TwitterError: LocalizedError {
+
+}
+
 struct TweetsView: View {
   let userID: String
 
   @Environment(\.managedObjectContext) private var viewContext
+
+  @State var error: Sweet.TwitterError?
+  @State var didError = false
 
   @FetchRequest private var timelines: FetchedResults<Timeline>
   @FetchRequest private var allTweets: FetchedResults<Tweet>
@@ -212,8 +219,8 @@ struct TweetsView: View {
 
       updateTimeLine()
     } catch {
-      print(error)
-      fatalError()
+      self.error = error as? Sweet.TwitterError
+      self.didError = true
     }
   }
 
@@ -280,6 +287,9 @@ struct TweetsView: View {
           .tint(retweeted ? .red : .green)
         }
       }
+    }
+    .alert(isPresented: $didError, error: error) {
+      Text("Error")
     }
     .listStyle(.plain)
     .refreshable {

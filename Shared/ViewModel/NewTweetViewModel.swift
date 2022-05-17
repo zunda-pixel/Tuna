@@ -19,7 +19,7 @@ enum NewTweetError: Error, LocalizedError {
   }
 }
 
-@MainActor protocol NewTweetViewModelProtocol: ObservableObject {
+@MainActor protocol NewTweetViewModelProtocol: NSObject, ObservableObject, CLLocationManagerDelegate {
   var text: String { get set }
   var selectedReplySetting: Sweet.ReplySetting { get set }
   var didFail: Bool { get set }
@@ -31,12 +31,14 @@ enum NewTweetError: Error, LocalizedError {
   var didPickPhoto: Bool { get set }
   var error: Error? { get set }
   var disableTweetButton: Bool { get }
+  var locationManager: CLLocationManager { get }
   var leftTweetCount: Int { get }
+  var loadingLocation: Bool { get set }
   func tweet() async
   func setLocation() async
 }
 
-@MainActor final class NewTweetViewModel: NewTweetViewModelProtocol {
+final class NewTweetViewModel: NSObject, NewTweetViewModelProtocol {
   @Published var text = ""
   @Published var selectedReplySetting: Sweet.ReplySetting = .everyone
   @Published var didFail = false
@@ -47,6 +49,13 @@ enum NewTweetError: Error, LocalizedError {
   @Published var results: [PhotoResult] = []
   @Published var didPickPhoto = true
   @Published var error: Error?
+  @Published var loadingLocation: Bool = false
+  var locationManager: CLLocationManager = .init()
+
+  override init() {
+    super.init()
+    locationManager.delegate = self
+  }
 
   var disableTweetButton: Bool {
     if let poll = poll {
@@ -91,7 +100,11 @@ enum NewTweetError: Error, LocalizedError {
   }
 
   func setLocation() async {
-    let locationManager = CLLocationManager()
+    loadingLocation = true
+
+    defer {
+      loadingLocation = false
+    }
 
     guard let location = locationManager.location else {
       return
@@ -107,6 +120,12 @@ enum NewTweetError: Error, LocalizedError {
       self.locationString = (place.locality ?? "") + (place.name ?? "")
     } catch {
       self.error = NewTweetError.reverseGeocodeLocation
+    }
+  }
+
+  func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+    Task {
+      await setLocation()
     }
   }
 }
