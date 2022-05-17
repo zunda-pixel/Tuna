@@ -94,7 +94,6 @@ enum NewTweetError: Error, LocalizedError {
     let locationManager = CLLocationManager()
 
     guard let location = locationManager.location else {
-      locationManager.requestWhenInUseAuthorization()
       return
     }
 
