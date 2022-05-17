@@ -38,7 +38,7 @@ struct SelectUserView: View {
         }
       }
 
-      LoginView()
+      LoginView(userID: $selectedUserID)
     }
     .background(.red)
   }

@@ -8,8 +8,15 @@
 import Foundation
 import Sweet
 
+
+protocol DeepLinkDelegate {
+  func setUserID(userID: String)
+}
+
 struct DeepLink {
-  static func doSomething(_ url: URL) async throws {
+  let delegate: DeepLinkDelegate
+
+  func doSomething(_ url: URL) async throws {
     let components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
 
     guard let queryItems = components.queryItems,
@@ -23,13 +30,13 @@ struct DeepLink {
     }
   }
 
-  private static func getMyUserID(userBearerToken: String) async throws -> String {
+  private func getMyUserID(userBearerToken: String) async throws -> String {
     let sweet: Sweet = .init(app: "", user: userBearerToken)
     let response = try await sweet.lookUpMe()
     return response.user.id
   }
 
-  private static func saveOAuthData(code: String) async throws {
+  private func saveOAuthData(code: String) async throws {
     guard let challenge = Secret.challenge else {
       return
     }
@@ -52,5 +59,7 @@ struct DeepLink {
 
     try! Secret.removeState()
     try! Secret.removeChallenge()
+
+    delegate.setUserID(userID: userID)
   }
 }

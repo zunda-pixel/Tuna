@@ -69,7 +69,7 @@ struct TunaApp: App {
               }
           }
         } else {
-          LoginView()
+          LoginView(userID: $userID)
             .tabItem {
               Image(systemName: "person")
             }

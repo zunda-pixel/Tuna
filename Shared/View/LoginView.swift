@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
   @State var loading = false
+  @Binding var userID: String?
 
   func getRandomString() -> String {
     let challenge = SecurityRandom.secureRandomBytes(count: 10)
@@ -40,8 +41,6 @@ struct LoginView: View {
         Text("Loading...")
       }
     }
-
-
       .onOpenURL { url in
         Task {
           do {
@@ -51,7 +50,8 @@ struct LoginView: View {
               loading = false
             }
 
-            try await DeepLink.doSomething(url)
+            let deepLink = DeepLink(delegate: self)
+            try await deepLink.doSomething(url)
           } catch {
             print(error)
             fatalError()
@@ -61,8 +61,8 @@ struct LoginView: View {
   }
 }
 
-struct LoginView_Previews: PreviewProvider {
-  static var previews: some View {
-    LoginView()
+extension LoginView: DeepLinkDelegate {
+  func setUserID(userID: String) {
+    self.userID = userID
   }
 }
