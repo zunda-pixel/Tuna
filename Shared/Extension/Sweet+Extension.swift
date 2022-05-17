@@ -7,7 +7,6 @@
 
 import Foundation
 import Sweet
-import KeychainAccess
 
 extension Sweet {
 	static func updateUserBearerToken() async throws {

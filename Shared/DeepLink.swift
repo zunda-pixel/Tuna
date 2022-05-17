@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import KeychainAccess
 import Sweet
 
 struct DeepLink {
