@@ -8,11 +8,11 @@
 import Foundation
 import Sweet
 
-@MainActor protocol ListDetailViewModelProtocol: TweetsViewModelProtocol {
+@MainActor protocol ListDetailViewProtocol: TweetsViewProtocol {
   var list: Sweet.ListModel { get }
 }
 
-@MainActor final class ListDetailViewModel: ListDetailViewModelProtocol {
+@MainActor final class ListDetailViewModel: ListDetailViewProtocol {
   @Published var timelines: [String] = []
   @Published var allTweets: [Sweet.TweetModel] = []
   @Published var allUsers: [Sweet.UserModel] = []

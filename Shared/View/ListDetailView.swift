@@ -8,7 +8,7 @@
 import Sweet
 import SwiftUI
 
-struct ListDetailView<ViewModel:  ListDetailViewModelProtocol>: View {
+struct ListDetailView<ViewModel:  ListDetailViewProtocol>: View {
   @StateObject var viewModel: ViewModel
 
   var body: some View {

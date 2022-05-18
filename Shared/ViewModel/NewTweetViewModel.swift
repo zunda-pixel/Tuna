@@ -19,7 +19,7 @@ enum NewTweetError: Error, LocalizedError {
   }
 }
 
-@MainActor protocol NewTweetViewModelProtocol: NSObject, ObservableObject, CLLocationManagerDelegate {
+@MainActor protocol NewTweetViewProtocol: NSObject, ObservableObject, CLLocationManagerDelegate {
   var text: String { get set }
   var selectedReplySetting: Sweet.ReplySetting { get set }
   var didFail: Bool { get set }
@@ -38,7 +38,7 @@ enum NewTweetError: Error, LocalizedError {
   func setLocation() async
 }
 
-final class NewTweetViewModel: NSObject, NewTweetViewModelProtocol {
+final class NewTweetViewModel: NSObject, NewTweetViewProtocol {
   @Published var text = ""
   @Published var selectedReplySetting: Sweet.ReplySetting = .everyone
   @Published var didFail = false

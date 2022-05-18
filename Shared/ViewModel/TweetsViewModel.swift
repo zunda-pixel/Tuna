@@ -8,7 +8,7 @@
 import Foundation
 import Sweet
 
-@MainActor protocol TweetsViewModelProtocol: ObservableObject {
+@MainActor protocol TweetsViewProtocol: ObservableObject {
   var timelines: [String] { get set }
 
   var allTweets: [Sweet.TweetModel] { get set }
@@ -26,7 +26,7 @@ import Sweet
   func fetchTweets() async
 }
 
-extension TweetsViewModelProtocol {
+extension TweetsViewProtocol {
   func getTweetCellViewModel(_ tweetID: String) -> TweetCellViewModel {
     let tweetModel = getTweet(tweetID)!
 

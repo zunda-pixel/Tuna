@@ -8,7 +8,7 @@
 import Foundation
 import Sweet
 
-@MainActor protocol UsersViewModelProtocol: ObservableObject {
+@MainActor protocol UsersViewProtocol: ObservableObject {
   var users: [Sweet.UserModel] { get set }
 
   func fetchUsers() async

@@ -8,7 +8,7 @@
 import Foundation
 import Sweet
 
-@MainActor final class ListMembersViewModel: UsersViewModelProtocol {
+@MainActor final class ListMembersViewModel: UsersViewProtocol {
   var users: [Sweet.UserModel]
   let listID: String
 

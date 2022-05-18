@@ -10,7 +10,7 @@ import Sweet
 import SwiftUI
 import CoreLocationUI
 
-struct NewTweetView<ViewModel: NewTweetViewModelProtocol>: View {
+struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
   @Binding var isPresentedDismiss: Bool
   @StateObject var viewModel: ViewModel
   @FocusState private var showKeyboard: Bool

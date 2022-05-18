@@ -8,7 +8,7 @@
 import SwiftUI
 import Sweet
 
-struct UsersView<ViewModel: UsersViewModelProtocol>: View {
+struct UsersView<ViewModel: UsersViewProtocol>: View {
   @StateObject var viewModel: ViewModel
 
   var body: some View {
