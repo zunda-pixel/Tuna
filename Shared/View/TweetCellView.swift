@@ -9,8 +9,8 @@ import Kingfisher
 import Sweet
 import SwiftUI
 
-struct TweetCellView: View {
-  @StateObject var viewModel: TweetCellViewModel
+struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
+  @StateObject var viewModel: ViewModel
 
   var body: some View {
     HStack(alignment: .top) {

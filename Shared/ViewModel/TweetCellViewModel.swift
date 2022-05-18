@@ -7,9 +7,29 @@
 
 import Foundation
 import Sweet
-import SwiftUI
+import Combine
 
-@MainActor class TweetCellViewModel: ObservableObject {
+@MainActor protocol TweetCellViewProtocol: ObservableObject {
+  var error: Error? { get set }
+  var tweet: Sweet.TweetModel  { get }
+  var retweetTweet: Sweet.TweetModel? { get }
+  var authorUser: Sweet.UserModel { get }
+  var retweetUser: Sweet.UserModel? { get }
+  var medias: [Sweet.MediaModel] { get }
+  var poll: Sweet.PollModel? { get }
+  var place: Sweet.PlaceModel? { get }
+  var isPresentedImageView: Bool { get set }
+  var isPresentedErrorAlert: Bool { get set }
+  var timer: Publishers.Autoconnect<Timer.TimerPublisher> { get set }
+  var nowDate: Date { get set }
+  var selectedMediaURL: URL? { get set }
+  var tweetText: String { get }
+  var duration: String { get }
+  var iconUser: Sweet.UserModel { get }
+  func getVotePercent(_ poll: Sweet.PollModel, votes: Int) -> Int
+}
+
+@MainActor class TweetCellViewModel: TweetCellViewProtocol {
   var error: Error?
   let tweet: Sweet.TweetModel
   let retweetTweet: Sweet.TweetModel?

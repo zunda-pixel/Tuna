@@ -167,8 +167,8 @@ struct SearchView: View {
 
             let place = getPlace(placeID: tweetModel.geo?.placeID)
 
-
-            TweetCellView(viewModel: .init(tweet: tweetModel, retweet: retweetTweetModel, author: authorUser, retweetUser: retweetUser, medias: medias, poll: poll, place: place))
+            let viewModel: TweetCellViewModel = .init(tweet: tweetModel, retweet: retweetTweetModel, author: authorUser, retweetUser: retweetUser, medias: medias, poll: poll, place: place)
+            TweetCellView(viewModel: viewModel)
               .onAppear {
                 guard let lastTweetID = timelines.last else {
                   return
