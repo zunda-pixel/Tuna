@@ -226,7 +226,7 @@ struct TweetsView: View {
       updateTimeLine()
     } catch {
       self.error = error as? Sweet.TwitterError
-      self.didError = true
+      self.didError.toggle()
     }
   }
 

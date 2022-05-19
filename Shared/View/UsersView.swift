@@ -15,6 +15,13 @@ struct UsersView<ViewModel: UsersViewProtocol>: View {
     List(viewModel.users) { user in
       UserCellView(user: user)
     }
+    .alert("Error", isPresented: $viewModel.didError) {
+      Button {
+        print(viewModel.error!)
+      } label: {
+        Text("Close")
+      }
+    }
     .onAppear {
       Task {
         await viewModel.fetchUsers()

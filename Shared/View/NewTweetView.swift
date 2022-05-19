@@ -147,8 +147,14 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
         )
         .disabled(viewModel.medias.count != 0)
       }
-      .alert("Error", isPresented: $viewModel.didFail) {
-        Text("hello")
+      .alert("Error", isPresented: $viewModel.didError) {
+        Button(role: .destructive) {
+          print(viewModel.error!)
+        } label: {
+          Text("Close")
+        }
+      } message: {
+        Text("\(viewModel.error?.localizedDescription ?? "Error Detail")")
       }
     }
     .padding()

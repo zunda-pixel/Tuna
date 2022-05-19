@@ -11,6 +11,7 @@ import Combine
 
 @MainActor protocol TweetCellViewProtocol: ObservableObject {
   var error: Error? { get set }
+  var didError: Bool { get set }
   var tweet: Sweet.TweetModel  { get }
   var retweetTweet: Sweet.TweetModel? { get }
   var authorUser: Sweet.UserModel { get }
@@ -19,7 +20,6 @@ import Combine
   var poll: Sweet.PollModel? { get }
   var place: Sweet.PlaceModel? { get }
   var isPresentedImageView: Bool { get set }
-  var isPresentedErrorAlert: Bool { get set }
   var timer: Publishers.Autoconnect<Timer.TimerPublisher> { get set }
   var nowDate: Date { get set }
   var selectedMediaURL: URL? { get set }
@@ -28,7 +28,6 @@ import Combine
   var iconUser: Sweet.UserModel { get }
   func getVotePercent(_ poll: Sweet.PollModel, votes: Int) -> Int
 }
-
 @MainActor class TweetCellViewModel: TweetCellViewProtocol {
   var error: Error?
   let tweet: Sweet.TweetModel
@@ -38,11 +37,10 @@ import Combine
   let medias: [Sweet.MediaModel]
   let poll: Sweet.PollModel?
   let place: Sweet.PlaceModel?
-
   var selectedMediaURL: URL?
 
+  @Published var didError: Bool = false
   @Published var isPresentedImageView = false
-  @Published var isPresentedErrorAlert = false
   @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
   @Published var nowDate: Date = Date()
 

@@ -10,6 +10,7 @@ import Sweet
 
 @MainActor protocol UsersViewProtocol: ObservableObject {
   var users: [Sweet.UserModel] { get set }
-
+  var error: Error? { get set }
+  var didError: Bool { get set }
   func fetchUsers() async
 }

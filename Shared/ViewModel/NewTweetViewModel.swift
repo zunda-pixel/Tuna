@@ -22,7 +22,7 @@ enum NewTweetError: Error, LocalizedError {
 @MainActor protocol NewTweetViewProtocol: NSObject, ObservableObject, CLLocationManagerDelegate {
   var text: String { get set }
   var selectedReplySetting: Sweet.ReplySetting { get set }
-  var didFail: Bool { get set }
+  var didError: Bool { get set }
   var locationString: String? { get set }
   var poll: Sweet.PostPollModel? { get set }
   var medias: [String] { get set }
@@ -41,15 +41,16 @@ enum NewTweetError: Error, LocalizedError {
 final class NewTweetViewModel: NSObject, NewTweetViewProtocol {
   @Published var text = ""
   @Published var selectedReplySetting: Sweet.ReplySetting = .everyone
-  @Published var didFail = false
+  @Published var didError = false
   @Published var locationString: String?
   @Published var poll: Sweet.PostPollModel?
   @Published var medias: [String] = []
   @Published var isPresentedPhotoPicker = false
   @Published var results: [PhotoResult] = []
   @Published var didPickPhoto = true
-  @Published var error: Error?
   @Published var loadingLocation: Bool = false
+
+  var error: Error?
   var locationManager: CLLocationManager = .init()
 
   override init() {

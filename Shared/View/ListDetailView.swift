@@ -47,6 +47,14 @@ struct ListDetailView<ViewModel:  ListDetailViewProtocol>: View {
           }
         }
     }
+    .alert("Error", isPresented: $viewModel.didError) {
+      Button {
+        print(viewModel.error!)
+      } label: {
+        Text("Close")
+      }
+
+    }
     .onAppear {
       Task {
         await viewModel.fetchTweets()

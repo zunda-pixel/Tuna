@@ -130,7 +130,13 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
       viewModel.nowDate = Date()
     }
 
-    .alert("Error", isPresented: $viewModel.isPresentedErrorAlert) {
+    .alert("Error", isPresented: $viewModel.didError) {
+      Button {
+        print(viewModel.error!)
+      } label: {
+        Text("Close")
+      }
+
       Text(viewModel.error.debugDescription)
     } message: {
       Button("Report") {

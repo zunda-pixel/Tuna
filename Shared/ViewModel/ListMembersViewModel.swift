@@ -9,6 +9,9 @@ import Foundation
 import Sweet
 
 @MainActor final class ListMembersViewModel: UsersViewProtocol {
+  @Published var didError: Bool = false
+
+  var error: Error?
   var users: [Sweet.UserModel]
   let listID: String
 
@@ -23,7 +26,8 @@ import Sweet
       let listResponse = try await sweet.fetchAddedUsersToList(listID: listID)
       users = listResponse.users
     } catch {
-      print(error)
+      self.error = error
+      self.didError.toggle()
     }
   }
 }

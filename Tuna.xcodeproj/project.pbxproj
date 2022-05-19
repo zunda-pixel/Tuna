@@ -15,8 +15,6 @@
 		2E027FBA27E8269A00521378 /* Tuna.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2E027F8E27E8269800521378 /* Tuna.xcdatamodeld */; };
 		2E027FBB27E8269A00521378 /* TunaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E027F9027E8269800521378 /* TunaApp.swift */; };
 		2E027FBC27E8269A00521378 /* TunaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E027F9027E8269800521378 /* TunaApp.swift */; };
-		2E027FBD27E8269A00521378 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E027F9127E8269800521378 /* ContentView.swift */; };
-		2E027FBE27E8269A00521378 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E027F9127E8269800521378 /* ContentView.swift */; };
 		2E027FC127E8269A00521378 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E027F9327E8269A00521378 /* Assets.xcassets */; };
 		2E027FC227E8269A00521378 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E027F9327E8269A00521378 /* Assets.xcassets */; };
 		2E044A9627EAE7D000736B9F /* KeychainAccess+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E044A9527EAE7D000736B9F /* KeychainAccess+Extension.swift */; };
@@ -138,7 +136,6 @@
 /* Begin PBXFileReference section */
 		2E027F8F27E8269800521378 /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
 		2E027F9027E8269800521378 /* TunaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunaApp.swift; sourceTree = "<group>"; };
-		2E027F9127E8269800521378 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2E027F9327E8269A00521378 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2E027F9827E8269A00521378 /* Tuna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tuna.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E027F9E27E8269A00521378 /* Tuna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tuna.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -311,7 +308,6 @@
 				2E4E983027E82D8D00D9A15F /* TweetsView.swift */,
 				2E4E983B27E9985E00D9A15F /* TweetCellView.swift */,
 				2E63898427EAB95500964EC8 /* LoginView.swift */,
-				2E027F9127E8269800521378 /* ContentView.swift */,
 				2E10382F27EC909600E8E67B /* ProfileImageView.swift */,
 				2E10384427EDACF400E8E67B /* NewTweetView.swift */,
 				2E10387727F3411900E8E67B /* NewPollView.swift */,
@@ -577,7 +573,6 @@
 				2E63898827EAB9C200964EC8 /* TwitterOauth2.swift in Sources */,
 				2E044A9927EAF3B200736B9F /* DeepLink.swift in Sources */,
 				2E633523280673E500368C51 /* SelectUserView.swift in Sources */,
-				2E027FBD27E8269A00521378 /* ContentView.swift in Sources */,
 				2E4E983127E82D8D00D9A15F /* TweetsView.swift in Sources */,
 				2EA6538E27E9A16A003E99AE /* DateComponents+Extension.swift in Sources */,
 				2E10384827EE1B7800E8E67B /* NewTweetViewModel.swift in Sources */,
@@ -634,7 +629,6 @@
 				2E63898927EAB9C200964EC8 /* TwitterOauth2.swift in Sources */,
 				2E044A9A27EAF3B200736B9F /* DeepLink.swift in Sources */,
 				2E633524280673E500368C51 /* SelectUserView.swift in Sources */,
-				2E027FBE27E8269A00521378 /* ContentView.swift in Sources */,
 				2E4E983227E82D8D00D9A15F /* TweetsView.swift in Sources */,
 				2E63898227EAB88000964EC8 /* DateComponents+Extension.swift in Sources */,
 				2E10384927EE1B7800E8E67B /* NewTweetViewModel.swift in Sources */,

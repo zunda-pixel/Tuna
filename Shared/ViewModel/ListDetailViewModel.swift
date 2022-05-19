@@ -13,6 +13,8 @@ import Sweet
 }
 
 @MainActor final class ListDetailViewModel: ListDetailViewProtocol {
+  var error: Error?
+  @Published var didError: Bool = false
   @Published var timelines: [String] = []
   @Published var allTweets: [Sweet.TweetModel] = []
   @Published var allUsers: [Sweet.UserModel] = []
@@ -68,9 +70,9 @@ import Sweet
       }
 
       timelines.append(contentsOf: tweetIDs)
-    } catch {
-      print(error)
-      fatalError()
+    } catch let newError {
+      error = newError
+      didError.toggle()
     }
   }
 }

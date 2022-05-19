@@ -16,6 +16,9 @@ struct ListsView: View {
   @State var ownedLists: [Sweet.ListModel] = []
   @State var followingLists: [Sweet.ListModel] = []
 
+  @State var error: Error?
+  @State var didError = false
+
   func fetchOwnedLists() async throws {
     let response = try await Sweet().fetchOwnedLists(userID: userID)
     self.ownedLists = response.lists
@@ -53,7 +56,12 @@ struct ListsView: View {
             let list = pinnedLists[offsets.first!]
 
             Task {
-              try? await Sweet().unPinList(userID: userID, listID: list.id)
+              do {
+                try await Sweet().unPinList(userID: userID, listID: list.id)
+              } catch let newError {
+                error = newError
+                didError.toggle()
+              }
             }
 
             pinnedLists.remove(atOffsets: offsets)
@@ -85,6 +93,7 @@ struct ListsView: View {
             ownedLists.remove(atOffsets: offsets)
           }
         }
+
         Section("FOLLOWING LISTS") {
           if followingLists.count == 0 {
             Text("not found list")
@@ -125,16 +134,37 @@ struct ListsView: View {
       }
 
     }
-
+    .alert("Error", isPresented: $didError) {
+      Button {
+        print(error!)
+      } label: {
+        Text("Close")
+      }
+    }
     .onAppear {
       Task {
-        try await fetchPinnedLists()
+        do {
+          try await fetchPinnedLists()
+        } catch let newError {
+          error = newError
+          didError.toggle()
+        }
       }
       Task {
-        try await fetchOwnedLists()
+        do {
+          try await fetchOwnedLists()
+        } catch let newError {
+          error = newError
+          didError.toggle()
+        }
       }
       Task {
-        try await fetchFollowingLists()
+        do {
+          try await fetchFollowingLists()
+        } catch let newError {
+          error = newError
+          didError.toggle()
+        }
       }
     }
   }

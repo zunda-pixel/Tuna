@@ -9,14 +9,16 @@ import SwiftUI
 import Sweet
 
 struct SearchView: View {
-  @State private var timelines: [String] = []
-  @State private var allTweets: [Sweet.TweetModel] = []
-  @State private var allUsers: [Sweet.UserModel] = []
-  @State private var allMedias: [Sweet.MediaModel] = []
-  @State private var allPolls: [Sweet.PollModel] = []
-  @State private var allPlaces: [Sweet.PlaceModel] = []
-  @State private var searchText: String = ""
-  @State private var searchUserIDs: [String] = []
+  @State var didError = false
+  @State var error: Error?
+  @State var timelines: [String] = []
+  @State var allTweets: [Sweet.TweetModel] = []
+  @State var allUsers: [Sweet.UserModel] = []
+  @State var allMedias: [Sweet.MediaModel] = []
+  @State var allPolls: [Sweet.PollModel] = []
+  @State var allPlaces: [Sweet.PlaceModel] = []
+  @State var searchText: String = ""
+  @State var searchUserIDs: [String] = []
 
   func searchUser() async {
     searchUserIDs = []
@@ -79,9 +81,9 @@ struct SearchView: View {
       } else {
         timelines = tweetIDs
       }
-    } catch {
-      print(error)
-      fatalError()
+    } catch let newError {
+      error = newError
+      didError.toggle()
     }
   }
 
@@ -184,6 +186,14 @@ struct SearchView: View {
           .tag(1)
           .tabViewStyle(.page(indexDisplayMode: .never))
         }
+      }
+
+    }
+    .alert("Error", isPresented: $didError) {
+      Button {
+        print(error!)
+      } label: {
+        Text("Close")
       }
 
     }

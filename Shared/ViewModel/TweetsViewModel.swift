@@ -9,6 +9,8 @@ import Foundation
 import Sweet
 
 @MainActor protocol TweetsViewProtocol: ObservableObject {
+  var didError: Bool { get set }
+  var error: Error? { get set }
   var timelines: [String] { get set }
 
   var allTweets: [Sweet.TweetModel] { get set }
