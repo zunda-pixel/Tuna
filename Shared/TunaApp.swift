@@ -27,11 +27,8 @@ struct TunaApp: App {
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                   ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-
-                    }) {
-                      Image(systemName: "person")
-                    }
+                    SelectUserMenu(userID: $userID)
+                      .environment(\.managedObjectContext, persistenceController.container.viewContext)
                   }
                   ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
@@ -61,11 +58,6 @@ struct TunaApp: App {
             SearchView()
               .tabItem {
                 Image(systemName: "magnifyingglass")
-              }
-            SelectUserView(userID: .init(get: { userID }, set: { self.userID = $0 }))
-              .environment(\.managedObjectContext, persistenceController.container.viewContext)
-              .tabItem{
-                Image(systemName: "house")
               }
           }
         } else {
