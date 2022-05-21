@@ -12,7 +12,14 @@ struct ProfileImageView: View {
   let url: URL?
 
   init(_ url: URL?) {
-    self.url = url
+    guard let url = url else {
+      self.url = nil
+      return
+    }
+
+    let urlString = url.absoluteString.replacingOccurrences(of: "_normal", with: "")
+
+    self.url = .init(string: urlString)!
   }
 
   var body: some View {
