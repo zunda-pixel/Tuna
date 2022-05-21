@@ -23,61 +23,52 @@ struct Secret {
 
   private static let dateFormatter = Sweet.TwitterDateFormatter()
   private static let userDefaults = UserDefaults()
+  private static let keychain = Keychain()
 
   static func removeChallenge() throws {
-    let keychain = Keychain()
     try keychain.remove(challengeKey)
   }
 
   static func removeState() throws {
-    let keychain = Keychain()
     try keychain.remove(stateKey)
   }
 
   static var challenge: String? {
     get {
-      let keychain = Keychain()
       let challenge = keychain[challengeKey]
       return challenge
     }
     set {
-      let keychain = Keychain()
       keychain[challengeKey] = newValue
     }
   }
 
   static var state: String? {
     get {
-      let keychain = Keychain()
       let state = keychain[stateKey]
       return state
     }
     set {
-      let keychain = Keychain()
       keychain[stateKey] = newValue
     }
   }
 
   static var userBearerToken: String {
     get {
-      let keychain = Keychain()
       let refreshToken = keychain[userBearerTokenKey]!
       return refreshToken
     }
     set {
-      let keychain = Keychain()
       keychain[userBearerTokenKey] = newValue
     }
   }
 
   static var refreshToken: String {
     get {
-      let keychain = Keychain()
       let refreshToken = keychain[refreshTokenKey]!
       return refreshToken
     }
     set {
-      let keychain = Keychain()
       keychain[refreshTokenKey] = newValue
     }
   }
