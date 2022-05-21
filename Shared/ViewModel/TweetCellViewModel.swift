@@ -26,8 +26,10 @@ import Combine
   var tweetText: String { get }
   var duration: String { get }
   var iconUser: Sweet.UserModel { get }
+  var isPresentedUserView: Bool { get set }
   func getVotePercent(_ poll: Sweet.PollModel, votes: Int) -> Int
 }
+
 @MainActor class TweetCellViewModel: TweetCellViewProtocol {
   var error: Error?
   let tweet: Sweet.TweetModel
@@ -41,13 +43,13 @@ import Combine
 
   @Published var didError: Bool = false
   @Published var isPresentedImageView = false
+  @Published var isPresentedUserView = false
   @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
   @Published var nowDate: Date = Date()
 
   init(tweet: Sweet.TweetModel, retweet retweetTweet: Sweet.TweetModel? = nil,
        author authorUser: Sweet.UserModel, retweetUser: Sweet.UserModel? = nil,
-       medias: [Sweet.MediaModel] = [],poll: Sweet.PollModel? = nil, place: Sweet.PlaceModel? = nil
-  ) {
+       medias: [Sweet.MediaModel] = [],poll: Sweet.PollModel? = nil, place: Sweet.PlaceModel? = nil) {
     self.tweet = tweet
     self.retweetTweet = retweetTweet
     self.authorUser = authorUser

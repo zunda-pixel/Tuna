@@ -16,6 +16,18 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
     HStack(alignment: .top) {
       ProfileImageView(viewModel.iconUser.profileImageURL)
         .frame(width: 50, height: 50)
+        .onTapGesture {
+          viewModel.isPresentedUserView.toggle()
+        }
+
+      NavigationLink(isActive: $viewModel.isPresentedUserView) {
+        UserView(user: viewModel.iconUser)
+          .navigationBarTitle("@\(viewModel.iconUser.userName)")
+      } label: {
+        EmptyView()
+      }
+      .frame(width: 0, height: 0)
+      .hidden()
 
       VStack(alignment: .leading) {
         HStack {
