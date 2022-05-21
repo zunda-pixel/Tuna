@@ -154,4 +154,7 @@ enum TwitterScope: String, CaseIterable {
 
   case blockRead = "block.read"
   case blockWrite = "block.write"
+
+  case bookmarkRead = "bookmark.read"
+  case bookmarkWrite = "bookmark.write"
 }
