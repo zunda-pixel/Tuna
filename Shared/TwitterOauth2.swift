@@ -18,9 +18,7 @@ struct TwitterOAuth2 {
     self.clientSecretKey = clientSecretKey
   }
 
-  func getAuthorizeURL(scopes: [TwitterScope], callBackURL: URL, challenge: String, state: String)
-    -> URL
-  {
+  func getAuthorizeURL(scopes: [TwitterScope], callBackURL: URL, challenge: String, state: String) -> URL {
     // https://developer.twitter.com/en/docs/authentication/oauth-2-0/user-access-token
 
     let joinedScope = scopes.map(\.rawValue).joined(separator: " ")
@@ -42,9 +40,7 @@ struct TwitterOAuth2 {
     return urlComponents.url!
   }
 
-  func getUserBearerToken(code: String, callBackURL: URL, challenge: String) async throws
-    -> OAuth2ModelResponse
-  {
+  func getUserBearerToken(code: String, callBackURL: URL, challenge: String) async throws -> OAuth2ModelResponse {
     // https://developer.twitter.com/en/docs/authentication/oauth-2-0/user-access-token
 
     let basicAuthorization = getBasicAuthorization(user: clientID, password: clientSecretKey)
