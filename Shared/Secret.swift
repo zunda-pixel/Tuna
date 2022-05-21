@@ -21,6 +21,9 @@ struct Secret {
   private static let stateKey = "state"
   private static let loginUserIDsKey = "loginUserID"
 
+  private static let dateFormatter = Sweet.TwitterDateFormatter()
+  private static let userDefaults = UserDefaults()
+
   static func removeChallenge() throws {
     let keychain = Keychain()
     try keychain.remove(challengeKey)
@@ -81,7 +84,7 @@ struct Secret {
 
   static var loginUserIDs: [String] {
     get {
-      let loginUserIDs = UserDefaults().stringArray(forKey: loginUserIDsKey)
+      let loginUserIDs = userDefaults.stringArray(forKey: loginUserIDsKey)
 
       return loginUserIDs ?? []
     }
@@ -90,32 +93,32 @@ struct Secret {
   static func addLoginUser(_ userID: String) {
     var loginUserIDs = loginUserIDs
     loginUserIDs.append(userID)
-    UserDefaults().set(loginUserIDs, forKey: loginUserIDsKey)
+    userDefaults.set(loginUserIDs, forKey: loginUserIDsKey)
   }
 
   static func removeLoginUser(_ userID: String) {
     let loginUserIDs = loginUserIDs.filter { $0 != userID }
-    UserDefaults().set(loginUserIDs, forKey: loginUserIDsKey)
+    userDefaults.set(loginUserIDs, forKey: loginUserIDsKey)
   }
 
   static var expireDate: Date {
     get {
-      let expireDateString = UserDefaults().string(forKey: expireDateKey)!
-      let expireDate = Sweet.TwitterDateFormatter().date(from: expireDateString)!
+      let expireDateString = userDefaults.string(forKey: expireDateKey)!
+      let expireDate = dateFormatter.date(from: expireDateString)!
       return expireDate
     }
     set {
-      let expireDateString = Sweet.TwitterDateFormatter().string(from: newValue)
-      UserDefaults().set(expireDateString, forKey: expireDateKey)
+      let expireDateString = dateFormatter.string(from: newValue)
+      userDefaults.set(expireDateString, forKey: expireDateKey)
     }
   }
 
   static var currentUserID: String? {
     get {
-      return UserDefaults().string(forKey: currentUserIDKey)
+      return userDefaults.string(forKey: currentUserIDKey)
     }
     set {
-      UserDefaults().set(newValue, forKey: currentUserIDKey)
+      userDefaults.set(newValue, forKey: currentUserIDKey)
     }
   }
 }
