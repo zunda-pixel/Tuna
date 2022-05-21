@@ -8,7 +8,6 @@
 import Foundation
 import Sweet
 
-
 protocol DeepLinkDelegate {
   func setUserID(userID: String)
 }
