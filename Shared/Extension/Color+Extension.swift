@@ -1,5 +1,5 @@
 //
-//  ColorExtension.swift
+//  Color+Extension.swift
 //  Tuna
 //
 //  Created by zunda on 2022/05/21.
