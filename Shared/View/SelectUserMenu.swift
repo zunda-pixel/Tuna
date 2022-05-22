@@ -10,6 +10,7 @@ import SwiftUI
 struct SelectUserMenu: View {
   @Binding var selectedUserID: String?
   @FetchRequest private var users: FetchedResults<User>
+  @State var isPresentedSettingView = false
 
   init(userID: Binding<String?>) {
     self._selectedUserID = userID
@@ -38,9 +39,20 @@ struct SelectUserMenu: View {
           }
         }
       }
-      LoginView(userID: $selectedUserID)
+
+      Button {
+        print("Button clicked")
+        isPresentedSettingView.toggle()
+      } label: {
+        Label("Setting", systemImage: "gear")
+      }
+
     } label: {
       Image(systemName: "person")
+    }
+    
+    .sheet(isPresented: $isPresentedSettingView) {
+      SettingsView(userID: $selectedUserID)
     }
   }
 }
