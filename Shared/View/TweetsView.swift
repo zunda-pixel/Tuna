@@ -20,6 +20,8 @@ struct TweetsView: View {
 
   @State var error: Sweet.TwitterError?
   @State var didError = false
+  @State var isPresentedTweetToolbar = false
+  @State var latestTapTweetID: String?
 
   @FetchRequest private var timelines: FetchedResults<Timeline>
   @FetchRequest private var allTweets: FetchedResults<Tweet>
@@ -249,7 +251,16 @@ struct TweetsView: View {
         let viewModel: TweetCellViewModel = .init(
           tweet: tweetModel, retweet: retweetTweetModel, author: authorUser,
           retweetUser: retweetUser, medias: medias, poll: poll, place: place)
-        TweetCellView(viewModel: viewModel)
+        VStack {
+          TweetCellView(viewModel: viewModel)
+            .onTapGesture {
+              latestTapTweetID = tweetModel.id
+              isPresentedTweetToolbar.toggle()
+            }
+          if let latestTapTweetID = latestTapTweetID, latestTapTweetID == tweetModel.id, isPresentedTweetToolbar{
+            TweetToolBar(userID: authorUser.id, tweetID: tweetModel.id)
+          }
+        }
         .onAppear {
           guard let lastTweet = showTweets.last else{
             return
