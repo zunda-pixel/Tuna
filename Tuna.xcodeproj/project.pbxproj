@@ -353,6 +353,10 @@
 		2E4E983327E9959D00D9A15F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2E854FFA283BB99100676D99 /* BaseView */,
+				2E854FF9283BB96F00676D99 /* Menu */,
+				2E854FF8283BB96400676D99 /* ToolBar */,
+				2E854FF7283BB94C00676D99 /* Button */,
 				2E4E983027E82D8D00D9A15F /* TweetsView.swift */,
 				2E4E983B27E9985E00D9A15F /* TweetCellView.swift */,
 				2E63898427EAB95500964EC8 /* LoginView.swift */,
@@ -362,10 +366,6 @@
 				2E10386E27F2AD9B00E8E67B /* ListsView.swift */,
 				2E10387127F2AF3700E8E67B /* ListCellView.swift */,
 				2E10387427F2D33400E8E67B /* ListDetailView.swift */,
-				2E10387A27F49F4A00E8E67B /* PhotoPicker.swift */,
-				2E5324E927FF1D07008D5EFB /* LivePhoto.swift */,
-				2E5324EC27FF1D41008D5EFB /* PhotoView.swift */,
-				2E633522280673E500368C51 /* SelectUserMenu.swift */,
 				2E0981442809482A00431C50 /* QuotedTweetCellView.swift */,
 				2E13ED49280D175C00BF79CD /* SearchView.swift */,
 				2EEE9DFC2816DB0300721ADD /* UsersView.swift */,
@@ -375,15 +375,6 @@
 				2E3468E0283A770A00AA2E33 /* SettingsView.swift */,
 				2E3468E3283A784300AA2E33 /* AccountSettingView.swift */,
 				2E7DD5E9283B569E00F16C53 /* UserProfileView.swift */,
-				2EF5B319283B8B9E00DD8352 /* WebView.swift */,
-				2EF5B31C283B953C00DD8352 /* UserToolMenu.swift */,
-				2EF5B31F283B9FB200DD8352 /* BlockButton.swift */,
-				2EF5B325283BA7FB00DD8352 /* FollowButton.swift */,
-				2EF5B322283BA18B00DD8352 /* MuteButton.swift */,
-				2EF5B328283BAD2600DD8352 /* LikeButton.swift */,
-				2EF5B32B283BAEFE00DD8352 /* TweetToolBar.swift */,
-				2EF5B32E283BAF6000DD8352 /* RetweetButton.swift */,
-				2EF5B331283BB11900DD8352 /* BookmarkButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -428,6 +419,47 @@
 			children = (
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		2E854FF7283BB94C00676D99 /* Button */ = {
+			isa = PBXGroup;
+			children = (
+				2EF5B31F283B9FB200DD8352 /* BlockButton.swift */,
+				2EF5B32E283BAF6000DD8352 /* RetweetButton.swift */,
+				2EF5B331283BB11900DD8352 /* BookmarkButton.swift */,
+				2EF5B325283BA7FB00DD8352 /* FollowButton.swift */,
+				2EF5B322283BA18B00DD8352 /* MuteButton.swift */,
+				2EF5B328283BAD2600DD8352 /* LikeButton.swift */,
+			);
+			path = Button;
+			sourceTree = "<group>";
+		};
+		2E854FF8283BB96400676D99 /* ToolBar */ = {
+			isa = PBXGroup;
+			children = (
+				2EF5B32B283BAEFE00DD8352 /* TweetToolBar.swift */,
+			);
+			path = ToolBar;
+			sourceTree = "<group>";
+		};
+		2E854FF9283BB96F00676D99 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				2E633522280673E500368C51 /* SelectUserMenu.swift */,
+				2EF5B31C283B953C00DD8352 /* UserToolMenu.swift */,
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
+		2E854FFA283BB99100676D99 /* BaseView */ = {
+			isa = PBXGroup;
+			children = (
+				2E5324E927FF1D07008D5EFB /* LivePhoto.swift */,
+				2E5324EC27FF1D41008D5EFB /* PhotoView.swift */,
+				2E10387A27F49F4A00E8E67B /* PhotoPicker.swift */,
+				2EF5B319283B8B9E00DD8352 /* WebView.swift */,
+			);
+			path = BaseView;
 			sourceTree = "<group>";
 		};
 		2EA6538A27E9A137003E99AE /* ViewModel */ = {
