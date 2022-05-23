@@ -293,8 +293,12 @@ struct TweetsView: View {
         }
       }
     }
-    .alert(isPresented: $didError, error: error) {
-      Text("Error")
+    .alert("Error", isPresented: $didError) {
+      Button {
+        print(error!)
+      } label: {
+        Text("Close")
+      }
     }
     .listStyle(.plain)
     .refreshable {
