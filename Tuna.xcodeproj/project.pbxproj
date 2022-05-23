@@ -107,6 +107,8 @@
 		2E63899527EAC39D00964EC8 /* TwitterOauth2+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E63899327EAC39D00964EC8 /* TwitterOauth2+Extension.swift */; };
 		2E63899727EAC56000964EC8 /* Sweet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E63899627EAC56000964EC8 /* Sweet+Extension.swift */; };
 		2E63899827EAC56000964EC8 /* Sweet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E63899627EAC56000964EC8 /* Sweet+Extension.swift */; };
+		2E7DD5EA283B569E00F16C53 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7DD5E9283B569E00F16C53 /* UserProfileView.swift */; };
+		2E7DD5EB283B569E00F16C53 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7DD5E9283B569E00F16C53 /* UserProfileView.swift */; };
 		2E915C5B2838FA8400DAD4AE /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E915C5A2838FA8400DAD4AE /* UserView.swift */; };
 		2E915C5C2838FA8400DAD4AE /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E915C5A2838FA8400DAD4AE /* UserView.swift */; };
 		2E915C5E28390C6300DAD4AE /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E915C5D28390C6300DAD4AE /* Color+Extension.swift */; };
@@ -202,6 +204,7 @@
 		2E63899327EAC39D00964EC8 /* TwitterOauth2+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TwitterOauth2+Extension.swift"; sourceTree = "<group>"; };
 		2E63899627EAC56000964EC8 /* Sweet+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sweet+Extension.swift"; sourceTree = "<group>"; };
 		2E63899927EADA5F00964EC8 /* Tuna--macOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Tuna--macOS--Info.plist"; sourceTree = "<group>"; };
+		2E7DD5E9283B569E00F16C53 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		2E915C5A2838FA8400DAD4AE /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		2E915C5D28390C6300DAD4AE /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		2EA6538B27E9A148003E99AE /* TweetCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetCellViewModel.swift; sourceTree = "<group>"; };
@@ -344,6 +347,7 @@
 				2E915C5A2838FA8400DAD4AE /* UserView.swift */,
 				2E3468E0283A770A00AA2E33 /* SettingsView.swift */,
 				2E3468E3283A784300AA2E33 /* AccountSettingView.swift */,
+				2E7DD5E9283B569E00F16C53 /* UserProfileView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -608,6 +612,7 @@
 				2E10387827F3411900E8E67B /* NewPollView.swift in Sources */,
 				2E63898E27EABFCC00964EC8 /* Secret.swift in Sources */,
 				2E10382A27EC05FE00E8E67B /* User+Extension.swift in Sources */,
+				2E7DD5EA283B569E00F16C53 /* UserProfileView.swift in Sources */,
 				2E5324E727FF1CEA008D5EFB /* NSItemProvider+Extension.swift in Sources */,
 				2E3468E4283A784300AA2E33 /* AccountSettingView.swift in Sources */,
 				2E10383C27ECC53100E8E67B /* PollModel+Extension.swift in Sources */,
@@ -670,6 +675,7 @@
 				2E10387927F3411900E8E67B /* NewPollView.swift in Sources */,
 				2E63898F27EABFCC00964EC8 /* Secret.swift in Sources */,
 				2E10382B27EC05FE00E8E67B /* User+Extension.swift in Sources */,
+				2E7DD5EB283B569E00F16C53 /* UserProfileView.swift in Sources */,
 				2E5324E827FF1CEA008D5EFB /* NSItemProvider+Extension.swift in Sources */,
 				2E3468E5283A784300AA2E33 /* AccountSettingView.swift in Sources */,
 				2E10383D27ECC53100E8E67B /* PollModel+Extension.swift in Sources */,
