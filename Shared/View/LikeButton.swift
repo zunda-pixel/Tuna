@@ -72,7 +72,7 @@ struct LikeButton: View {
       }
     } label: {
       Image(systemName: "heart")
-        .accentColor(viewModel.isLiked ? .pink : .blue)
+        .tint(viewModel.isLiked ? .pink : .blue)
     }
     .disabled(viewModel.loading)
     .alert("Error", isPresented: $viewModel.didError) {

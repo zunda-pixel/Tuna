@@ -72,7 +72,7 @@ struct BookmarkButton: View {
       }
     } label: {
       Image(systemName: "arrow.rectanglepath")
-        .accentColor(viewModel.isBookmarked ? .green : .clear)
+        .tint(viewModel.isBookmarked ? .green : .clear)
     }
     .disabled(viewModel.loading)
     .alert("Error", isPresented: $viewModel.didError) {

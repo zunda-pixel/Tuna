@@ -49,7 +49,7 @@ struct RetweetButton: View {
       }
     } label: {
       Image(systemName: "arrow.rectanglepath")
-        .accentColor(viewModel.isRetweeted ? .green : .clear)
+        .tint(viewModel.isRetweeted ? .green : .clear)
     }
     .disabled(viewModel.loading)
     .alert("Error", isPresented: $viewModel.didError) {
