@@ -126,6 +126,8 @@
 		2EEE9E072816E96600721ADD /* ListMembersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9E052816E96600721ADD /* ListMembersViewModel.swift */; };
 		2EF3987227EB4B3800EEFA51 /* Tweet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF3987127EB4B3800EEFA51 /* Tweet+Extension.swift */; };
 		2EF3987327EB4B3800EEFA51 /* Tweet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF3987127EB4B3800EEFA51 /* Tweet+Extension.swift */; };
+		2EF5B31A283B8B9E00DD8352 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B319283B8B9E00DD8352 /* WebView.swift */; };
+		2EF5B31B283B8B9E00DD8352 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B319283B8B9E00DD8352 /* WebView.swift */; };
 		2EF9E3BA2836727300571A40 /* CustomContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9E3B92836727300571A40 /* CustomContextMenu.swift */; };
 		2EF9E3BB2836727300571A40 /* CustomContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9E3B92836727300571A40 /* CustomContextMenu.swift */; };
 /* End PBXBuildFile section */
@@ -215,6 +217,7 @@
 		2EEE9E022816E93E00721ADD /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
 		2EEE9E052816E96600721ADD /* ListMembersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMembersViewModel.swift; sourceTree = "<group>"; };
 		2EF3987127EB4B3800EEFA51 /* Tweet+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tweet+Extension.swift"; sourceTree = "<group>"; };
+		2EF5B319283B8B9E00DD8352 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		2EF9E3B92836727300571A40 /* CustomContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomContextMenu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -348,6 +351,7 @@
 				2E3468E0283A770A00AA2E33 /* SettingsView.swift */,
 				2E3468E3283A784300AA2E33 /* AccountSettingView.swift */,
 				2E7DD5E9283B569E00F16C53 /* UserProfileView.swift */,
+				2EF5B319283B8B9E00DD8352 /* WebView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -628,6 +632,7 @@
 				2E044A9627EAE7D000736B9F /* KeychainAccess+Extension.swift in Sources */,
 				2EEE9E032816E93E00721ADD /* UsersViewModel.swift in Sources */,
 				2E10383F27ED7E1F00E8E67B /* Place+Extension.swift in Sources */,
+				2EF5B31A283B8B9E00DD8352 /* WebView.swift in Sources */,
 				2E0A3AED28105BA7002D5F39 /* TweetsViewModel.swift in Sources */,
 				2E10382D27EC31E400E8E67B /* UserModel+Extension.swift in Sources */,
 				2EEE9DFD2816DB0300721ADD /* UsersView.swift in Sources */,
@@ -691,6 +696,7 @@
 				2E044A9727EAE7D000736B9F /* KeychainAccess+Extension.swift in Sources */,
 				2EEE9E042816E93E00721ADD /* UsersViewModel.swift in Sources */,
 				2E10384027ED7E1F00E8E67B /* Place+Extension.swift in Sources */,
+				2EF5B31B283B8B9E00DD8352 /* WebView.swift in Sources */,
 				2E0A3AEE28105BA7002D5F39 /* TweetsViewModel.swift in Sources */,
 				2E10382E27EC31E400E8E67B /* UserModel+Extension.swift in Sources */,
 				2EEE9DFE2816DB0300721ADD /* UsersView.swift in Sources */,
