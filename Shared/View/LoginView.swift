@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct LoginView: View {
-  @State var loading = false
   @Binding var userID: String?
+  @State var error: Error?
+  @State var didError = false
 
   func getRandomString() -> String {
     let challenge = SecurityRandom.secureRandomBytes(count: 10)
@@ -33,31 +34,35 @@ struct LoginView: View {
     return url
   }
 
+  func doSomething(url: URL) async {
+    let deepLink = DeepLink(delegate: self)
+
+    do {
+      try await deepLink.doSomething(url)
+    } catch let newError {
+      error = newError
+      didError.toggle()
+    }
+  }
+
   var body: some View {
-    VStack {
-      let url = getAuthorizeURL()
-      Link("LOGIN", destination: url)
-      if loading {
-        Text("Loading...")
+    let url = getAuthorizeURL()
+
+    Link(destination: url) {
+      Text("Login")
+    }
+    .alert("Error", isPresented: $didError) {
+      Button {
+        print(error!)
+      } label: {
+        Text("Close")
       }
     }
-      .onOpenURL { url in
-        Task {
-          do {
-            loading = true
-            
-            defer {
-              loading = false
-            }
-
-            let deepLink = DeepLink(delegate: self)
-            try await deepLink.doSomething(url)
-          } catch {
-            print(error)
-            fatalError()
-          }
-        }
+    .onOpenURL { url in
+      Task {
+        await doSomething(url: url)
       }
+    }
   }
 }
 
