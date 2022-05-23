@@ -128,6 +128,14 @@
 		2EF3987327EB4B3800EEFA51 /* Tweet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF3987127EB4B3800EEFA51 /* Tweet+Extension.swift */; };
 		2EF5B31A283B8B9E00DD8352 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B319283B8B9E00DD8352 /* WebView.swift */; };
 		2EF5B31B283B8B9E00DD8352 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B319283B8B9E00DD8352 /* WebView.swift */; };
+		2EF5B31D283B953C00DD8352 /* UserToolMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B31C283B953C00DD8352 /* UserToolMenu.swift */; };
+		2EF5B31E283B953C00DD8352 /* UserToolMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B31C283B953C00DD8352 /* UserToolMenu.swift */; };
+		2EF5B320283B9FB200DD8352 /* BlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B31F283B9FB200DD8352 /* BlockButton.swift */; };
+		2EF5B321283B9FB200DD8352 /* BlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B31F283B9FB200DD8352 /* BlockButton.swift */; };
+		2EF5B323283BA18B00DD8352 /* MuteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B322283BA18B00DD8352 /* MuteButton.swift */; };
+		2EF5B324283BA18B00DD8352 /* MuteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B322283BA18B00DD8352 /* MuteButton.swift */; };
+		2EF5B326283BA7FB00DD8352 /* FollowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B325283BA7FB00DD8352 /* FollowButton.swift */; };
+		2EF5B327283BA7FB00DD8352 /* FollowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B325283BA7FB00DD8352 /* FollowButton.swift */; };
 		2EF9E3BA2836727300571A40 /* CustomContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9E3B92836727300571A40 /* CustomContextMenu.swift */; };
 		2EF9E3BB2836727300571A40 /* CustomContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9E3B92836727300571A40 /* CustomContextMenu.swift */; };
 /* End PBXBuildFile section */
@@ -218,6 +226,10 @@
 		2EEE9E052816E96600721ADD /* ListMembersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMembersViewModel.swift; sourceTree = "<group>"; };
 		2EF3987127EB4B3800EEFA51 /* Tweet+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tweet+Extension.swift"; sourceTree = "<group>"; };
 		2EF5B319283B8B9E00DD8352 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		2EF5B31C283B953C00DD8352 /* UserToolMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserToolMenu.swift; sourceTree = "<group>"; };
+		2EF5B31F283B9FB200DD8352 /* BlockButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockButton.swift; sourceTree = "<group>"; };
+		2EF5B322283BA18B00DD8352 /* MuteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuteButton.swift; sourceTree = "<group>"; };
+		2EF5B325283BA7FB00DD8352 /* FollowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowButton.swift; sourceTree = "<group>"; };
 		2EF9E3B92836727300571A40 /* CustomContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomContextMenu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -352,6 +364,10 @@
 				2E3468E3283A784300AA2E33 /* AccountSettingView.swift */,
 				2E7DD5E9283B569E00F16C53 /* UserProfileView.swift */,
 				2EF5B319283B8B9E00DD8352 /* WebView.swift */,
+				2EF5B31C283B953C00DD8352 /* UserToolMenu.swift */,
+				2EF5B31F283B9FB200DD8352 /* BlockButton.swift */,
+				2EF5B325283BA7FB00DD8352 /* FollowButton.swift */,
+				2EF5B322283BA18B00DD8352 /* MuteButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -616,6 +632,7 @@
 				2E10387827F3411900E8E67B /* NewPollView.swift in Sources */,
 				2E63898E27EABFCC00964EC8 /* Secret.swift in Sources */,
 				2E10382A27EC05FE00E8E67B /* User+Extension.swift in Sources */,
+				2EF5B326283BA7FB00DD8352 /* FollowButton.swift in Sources */,
 				2E7DD5EA283B569E00F16C53 /* UserProfileView.swift in Sources */,
 				2E5324E727FF1CEA008D5EFB /* NSItemProvider+Extension.swift in Sources */,
 				2E3468E4283A784300AA2E33 /* AccountSettingView.swift in Sources */,
@@ -623,6 +640,7 @@
 				2E13ED4A280D175C00BF79CD /* SearchView.swift in Sources */,
 				2E4E983C27E9985E00D9A15F /* TweetCellView.swift in Sources */,
 				2E10383027EC909600E8E67B /* ProfileImageView.swift in Sources */,
+				2EF5B320283B9FB200DD8352 /* BlockButton.swift in Sources */,
 				2E63898527EAB95500964EC8 /* LoginView.swift in Sources */,
 				2E5E4F6F27EB88B0009D6D53 /* TweetModel+Extension.swift in Sources */,
 				2E10387527F2D33400E8E67B /* ListDetailView.swift in Sources */,
@@ -634,6 +652,8 @@
 				2E10383F27ED7E1F00E8E67B /* Place+Extension.swift in Sources */,
 				2EF5B31A283B8B9E00DD8352 /* WebView.swift in Sources */,
 				2E0A3AED28105BA7002D5F39 /* TweetsViewModel.swift in Sources */,
+				2EF5B323283BA18B00DD8352 /* MuteButton.swift in Sources */,
+				2EF5B31D283B953C00DD8352 /* UserToolMenu.swift in Sources */,
 				2E10382D27EC31E400E8E67B /* UserModel+Extension.swift in Sources */,
 				2EEE9DFD2816DB0300721ADD /* UsersView.swift in Sources */,
 				2E10384227ED80A500E8E67B /* PlaceModel+Extension.swift in Sources */,
@@ -680,6 +700,7 @@
 				2E10387927F3411900E8E67B /* NewPollView.swift in Sources */,
 				2E63898F27EABFCC00964EC8 /* Secret.swift in Sources */,
 				2E10382B27EC05FE00E8E67B /* User+Extension.swift in Sources */,
+				2EF5B327283BA7FB00DD8352 /* FollowButton.swift in Sources */,
 				2E7DD5EB283B569E00F16C53 /* UserProfileView.swift in Sources */,
 				2E5324E827FF1CEA008D5EFB /* NSItemProvider+Extension.swift in Sources */,
 				2E3468E5283A784300AA2E33 /* AccountSettingView.swift in Sources */,
@@ -687,6 +708,7 @@
 				2E13ED4B280D175C00BF79CD /* SearchView.swift in Sources */,
 				2E4E983D27E9985E00D9A15F /* TweetCellView.swift in Sources */,
 				2E10383127EC909600E8E67B /* ProfileImageView.swift in Sources */,
+				2EF5B321283B9FB200DD8352 /* BlockButton.swift in Sources */,
 				2E63898627EAB95500964EC8 /* LoginView.swift in Sources */,
 				2E5E4F7027EB88B0009D6D53 /* TweetModel+Extension.swift in Sources */,
 				2E10387627F2D33400E8E67B /* ListDetailView.swift in Sources */,
@@ -698,6 +720,8 @@
 				2E10384027ED7E1F00E8E67B /* Place+Extension.swift in Sources */,
 				2EF5B31B283B8B9E00DD8352 /* WebView.swift in Sources */,
 				2E0A3AEE28105BA7002D5F39 /* TweetsViewModel.swift in Sources */,
+				2EF5B324283BA18B00DD8352 /* MuteButton.swift in Sources */,
+				2EF5B31E283B953C00DD8352 /* UserToolMenu.swift in Sources */,
 				2E10382E27EC31E400E8E67B /* UserModel+Extension.swift in Sources */,
 				2EEE9DFE2816DB0300721ADD /* UsersView.swift in Sources */,
 				2E10384327ED80A600E8E67B /* PlaceModel+Extension.swift in Sources */,

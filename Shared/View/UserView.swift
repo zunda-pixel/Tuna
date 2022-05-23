@@ -26,29 +26,11 @@ struct UserView: View {
   var body: some View {
     GeometryReader { geometry in
       VStack {
-        Rectangle()
-          .foregroundColor(.random.opacity(0.5))
-          .frame(width: geometry.size.width, height: 150)
-          .ignoresSafeArea(edges: .top)
+        ProfileImageView(user.profileImageURL)
+          .frame(width: geometry.size.width / 2, height: geometry.size.width / 2)
 
-        HStack(alignment: .bottom) {
-          ProfileImageView(user.profileImageURL)
-            .frame(width: 80, height: 80)
-
-          Spacer()
-
-          Image(systemName: "tray")
-            .font(.title)
-
-          Button {
-            
-          } label: {
-            Text("Follow")
-              .font(.title)
-          }
-        }
-        .offset(y: -140)
-        .padding(.bottom, -80)
+        // TODO UserToolMenuを表示するとエラーになってしまう
+        // UserToolMenu(fromUserID: Secret.currentUserID!, toUserID: user.id)
 
         UserProfileView(user: user)
 
