@@ -25,7 +25,7 @@ struct UserView: View {
 
   var body: some View {
     GeometryReader { geometry in
-      VStack(alignment: .leading) {
+      VStack {
         Rectangle()
           .foregroundColor(.random.opacity(0.5))
           .frame(width: geometry.size.width, height: 150)
@@ -50,46 +50,27 @@ struct UserView: View {
         .offset(y: -140)
         .padding(.bottom, -80)
 
-        Text(user.name)
-          .font(.title)
+        UserProfileView(user: user)
 
-        Text("@\(user.userName)")
-          .foregroundColor(.gray)
-
-        if let description = user.description {
-          Text(description)
-        }
-
-        if let url = user.url {
-          HStack {
-            Image(systemName: "link")
-            Link(url.description, destination: url)
+        if let metrics = user.metrics {
+          HStack(alignment: .center) {
+            NavigationLink {
+              Text("Hello")
+            } label: {
+              VStack {
+                Text("FOLLOWERS")
+                Text("\(metrics.followersCount)")
+              }
+            }
+            NavigationLink {
+              Text("Hello")
+            } label: {
+              VStack {
+                Text("FOLLOWING")
+                Text("\(metrics.followingCount)")
+              }
+            }
           }
-          .padding(.vertical, 3)
-        }
-
-        if let createAt = user.createdAt {
-          HStack {
-            Image(systemName: "calendar")
-
-            let formatter: DateFormatter = {
-              let formatter: DateFormatter = .init()
-              formatter.dateFormat = "yyyy年M月"
-              return formatter
-            }()
-
-            Text(formatter.string(from: createAt) + "からTwitterを利用しています")
-          }
-          .padding(.vertical, 3)
-
-        }
-
-        if let location = user.location {
-          HStack {
-            Image(systemName: "location")
-            Text(location)
-          }
-          .padding(.vertical, 3)
         }
 
         Picker("User Tab", selection: $selection) {
@@ -125,6 +106,6 @@ struct UserView: View {
 
 struct UserView_Previews: PreviewProvider {
   static var previews: some View {
-    UserView(user: .init(id: "", name: "zunda" ,userName: "zunda_pixel", profileImageURL:  .init(string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg"),  description: "hello from america", url: .init(string: "https://twitter.com"),createdAt: Date(), location: "ここはどこ"))
+    UserView(user: .init(id: "", name: "zunda" ,userName: "zunda_pixel", profileImageURL:  .init(string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg"),  description: "hello from america", url: .init(string: "https://twitter.com"),createdAt: Date(), location: "ここはどこ", metrics: .init(followersCount: 111, followingCount: 222, tweetCount: 222, listedCount: 33)))
   }
 }
