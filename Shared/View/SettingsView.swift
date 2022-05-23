@@ -58,12 +58,7 @@ struct SettingsView: View {
             }
           }
 
-          Button {
-            print("add account")
-          } label: {
-            Label("Add Account", systemImage: "person")
-          }
-
+          LoginView(userID: $selectedUserID)
         }
 
         Section("General") {
