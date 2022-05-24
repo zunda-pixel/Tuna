@@ -58,8 +58,19 @@ struct TunaApp: App {
             SearchView()
               .environment(\.managedObjectContext, persistenceController.container.viewContext)
               .tabItem {
-                Image(systemName: "magnifyingglass")
+                Image(systemName: "doc.text.magnifyingglass")
               }
+            BookmarksView(userID: userID)
+              .environment(\.managedObjectContext, persistenceController.container.viewContext)
+              .tabItem {
+                Image(systemName: "book.closed")
+              }
+            LikeTweetsView(userID: userID)
+              .environment(\.managedObjectContext, persistenceController.container.viewContext)
+              .tabItem {
+                Image(systemName: "heart")
+              }
+
           }
         } else {
           LoginView(userID: $userID)

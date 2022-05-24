@@ -120,6 +120,8 @@
 		2EA6538C27E9A148003E99AE /* TweetCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA6538B27E9A148003E99AE /* TweetCellViewModel.swift */; };
 		2EA6538E27E9A16A003E99AE /* DateComponents+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA6538D27E9A16A003E99AE /* DateComponents+Extension.swift */; };
 		2EA6539027E9A188003E99AE /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA6538F27E9A188003E99AE /* Calendar+Extension.swift */; };
+		2EB3B37E283D236700891A5E /* BookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB3B37D283D236700891A5E /* BookmarksView.swift */; };
+		2EB3B37F283D236700891A5E /* BookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB3B37D283D236700891A5E /* BookmarksView.swift */; };
 		2EEE9DFD2816DB0300721ADD /* UsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9DFC2816DB0300721ADD /* UsersView.swift */; };
 		2EEE9DFE2816DB0300721ADD /* UsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9DFC2816DB0300721ADD /* UsersView.swift */; };
 		2EEE9E002816E8F000721ADD /* UserCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9DFF2816E8F000721ADD /* UserCellView.swift */; };
@@ -234,6 +236,7 @@
 		2EA6538B27E9A148003E99AE /* TweetCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetCellViewModel.swift; sourceTree = "<group>"; };
 		2EA6538D27E9A16A003E99AE /* DateComponents+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateComponents+Extension.swift"; sourceTree = "<group>"; };
 		2EA6538F27E9A188003E99AE /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
+		2EB3B37D283D236700891A5E /* BookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksView.swift; sourceTree = "<group>"; };
 		2EEE9DFC2816DB0300721ADD /* UsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersView.swift; sourceTree = "<group>"; };
 		2EEE9DFF2816E8F000721ADD /* UserCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCellView.swift; sourceTree = "<group>"; };
 		2EEE9E022816E93E00721ADD /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
@@ -383,6 +386,7 @@
 				2E3468E0283A770A00AA2E33 /* SettingsView.swift */,
 				2E3468E3283A784300AA2E33 /* AccountSettingView.swift */,
 				2E7DD5E9283B569E00F16C53 /* UserProfileView.swift */,
+				2EB3B37D283D236700891A5E /* BookmarksView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -719,6 +723,7 @@
 				2E10382D27EC31E400E8E67B /* UserModel+Extension.swift in Sources */,
 				2EEE9DFD2816DB0300721ADD /* UsersView.swift in Sources */,
 				2E10384227ED80A500E8E67B /* PlaceModel+Extension.swift in Sources */,
+				2EB3B37E283D236700891A5E /* BookmarksView.swift in Sources */,
 				2E915C5E28390C6300DAD4AE /* Color+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -793,6 +798,7 @@
 				2E10382E27EC31E400E8E67B /* UserModel+Extension.swift in Sources */,
 				2EEE9DFE2816DB0300721ADD /* UsersView.swift in Sources */,
 				2E10384327ED80A600E8E67B /* PlaceModel+Extension.swift in Sources */,
+				2EB3B37F283D236700891A5E /* BookmarksView.swift in Sources */,
 				2E915C5F28390C6300DAD4AE /* Color+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1204,7 +1210,7 @@
 			repositoryURL = "https://github.com/zunda-pixel/Sweet";
 			requirement = {
 				kind = exactVersion;
-				version = 1.9.1;
+				version = 1.9.2;
 			};
 		};
 		2E5E4F6727EB59A9009D6D53 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
