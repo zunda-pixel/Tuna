@@ -33,7 +33,8 @@ struct UserTweetsView: View {
 
     self._showTweets = FetchRequest(
       entity: Tweet.entity(),
-      sortDescriptors: [NSSortDescriptor(keyPath: \Tweet.createdAt, ascending: false)]
+      sortDescriptors: [NSSortDescriptor(keyPath: \Tweet.createdAt, ascending: false)],
+      predicate: .init(format: "id IN %@", [])
     )
 
     self._allTweets = FetchRequest(
@@ -281,7 +282,6 @@ struct UserTweetsView: View {
     .onAppear {
       Task {
         await getTimeline()
-        updateTimeLine()
       }
     }
   }

@@ -33,7 +33,8 @@ struct LikeTweetsView: View {
 
     self._showTweets = FetchRequest(
       entity: Tweet.entity(),
-      sortDescriptors: [NSSortDescriptor(keyPath: \Tweet.createdAt, ascending: false)]
+      sortDescriptors: [NSSortDescriptor(keyPath: \Tweet.createdAt, ascending: false)],
+      predicate: .init(format: "id IN %@", [])
     )
 
     self._allTweets = FetchRequest(
@@ -167,7 +168,7 @@ struct LikeTweetsView: View {
   }
 
   func addTimeline(tweetID: String) {
-    if timelines.contains(where: { $0 == tweetID}) {
+    if timelines.contains(where: { $0 == tweetID} ) {
       return
     }
 
@@ -274,7 +275,6 @@ struct LikeTweetsView: View {
     .onAppear {
       Task {
         await getTimeline()
-        updateTimeLine()
       }
     }
   }
