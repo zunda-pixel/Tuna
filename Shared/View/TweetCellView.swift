@@ -10,6 +10,7 @@ import Sweet
 import SwiftUI
 
 struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
+  @Environment(\.openURL) private var openURL
   @Environment(\.managedObjectContext) private var viewContext
   @StateObject var viewModel: ViewModel
 
@@ -119,6 +120,11 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
 
         if let placeName = viewModel.place?.name {
           Text(placeName)
+            .onTapGesture {
+              var components: URLComponents = .init(string: "http://maps.apple.com/")!
+              components.queryItems = [.init(name: "q", value: placeName)]
+              openURL(components.url!)
+            }
             .foregroundColor(.gray)
         }
 

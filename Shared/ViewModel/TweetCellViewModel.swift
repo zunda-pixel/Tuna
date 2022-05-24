@@ -8,6 +8,7 @@
 import Foundation
 import Sweet
 import Combine
+import MapKit
 
 @MainActor protocol TweetCellViewProtocol: ObservableObject {
   var error: Error? { get set }
@@ -41,7 +42,7 @@ import Combine
   let place: Sweet.PlaceModel?
   var selectedMediaURL: URL?
 
-  @Published var didError: Bool = false
+  @Published var didError = false
   @Published var isPresentedImageView = false
   @Published var isPresentedUserView = false
   @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
