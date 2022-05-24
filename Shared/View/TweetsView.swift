@@ -193,7 +193,7 @@ struct TweetsView: View {
 
       let maxResults = 100
 
-      let response = try await sweet.fetchTimeLine(by: userID, maxResults: maxResults, untilID: lastTweetID, sinceID: firstTweetID)
+      let response = try await sweet.fetchReverseChronological(by: userID, maxResults: maxResults, untilID: lastTweetID, sinceID: firstTweetID)
 
       try response.tweets.forEach { tweet in
         try addTweet(tweet)
@@ -232,33 +232,40 @@ struct TweetsView: View {
     }
   }
 
+  func getTweetCellViewModel(tweet: Tweet) ->TweetCellViewModel {
+    let tweetModel: Sweet.TweetModel = .init(tweet: tweet)
+
+    let retweetTweetModel = getRetweetTweet(retweetID: tweetModel.referencedTweet?.id)
+
+    let authorUser = getAuthorUser(authorID: tweet.authorID!)!
+    let retweetUser = getAuthorUser(authorID: retweetTweetModel?.authorID)
+
+    let medias = getMedias(mediaKeys: tweetModel.attachments?.mediaKeys)
+
+    let poll = getPoll(pollKey: tweetModel.attachments?.pollID)
+
+    let place = getPlace(placeID: tweetModel.geo?.placeID)
+
+    let viewModel: TweetCellViewModel = .init(
+      tweet: tweetModel, retweet: retweetTweetModel, author: authorUser,
+      retweetUser: retweetUser, medias: medias, poll: poll, place: place)
+
+    return viewModel
+  }
+
   var body: some View {
     List {
       ForEach(showTweets) { tweet in
-        let tweetModel: Sweet.TweetModel = .init(tweet: tweet)
+        let viewModel = getTweetCellViewModel(tweet: tweet)
 
-        let retweetTweetModel = getRetweetTweet(retweetID: tweetModel.referencedTweet?.id)
-
-        let authorUser = getAuthorUser(authorID: tweet.authorID!)!
-        let retweetUser = getAuthorUser(authorID: retweetTweetModel?.authorID)
-
-        let medias = getMedias(mediaKeys: tweetModel.attachments?.mediaKeys)
-
-        let poll = getPoll(pollKey: tweetModel.attachments?.pollID)
-
-        let place = getPlace(placeID: tweetModel.geo?.placeID)
-
-        let viewModel: TweetCellViewModel = .init(
-          tweet: tweetModel, retweet: retweetTweetModel, author: authorUser,
-          retweetUser: retweetUser, medias: medias, poll: poll, place: place)
         VStack {
           TweetCellView(viewModel: viewModel)
             .onTapGesture {
-              latestTapTweetID = tweetModel.id
+              latestTapTweetID = viewModel.tweet.id
               isPresentedTweetToolbar.toggle()
             }
-          if let latestTapTweetID = latestTapTweetID, latestTapTweetID == tweetModel.id, isPresentedTweetToolbar{
-            TweetToolBar(userID: authorUser.id, tweetID: tweetModel.id)
+          if let latestTapTweetID = latestTapTweetID, latestTapTweetID == viewModel.tweet.id, isPresentedTweetToolbar{
+            TweetToolBar(userID: viewModel.authorUser.id, tweetID: viewModel.tweet.id)
           }
         }
         .onAppear {
@@ -276,7 +283,7 @@ struct TweetsView: View {
           Button(
             action: {
               Task {
-                try! await Sweet().retweet(userID: userID, tweetID: tweetModel.id)
+                try! await Sweet().retweet(userID: userID, tweetID: viewModel.tweet.id)
               }
             },
             label: {
@@ -284,15 +291,15 @@ struct TweetsView: View {
             })
         }
         .swipeActions(edge: .trailing) {
-          let retweeted = tweetModel.referencedTweet?.type == .retweeted
+          let retweeted = viewModel.tweet.referencedTweet?.type == .retweeted
           Button(
             action: {
               Task {
                 if retweeted {
                   try! await Sweet().deleteRetweet(
-                    userID: userID, tweetID: tweetModel.id)
+                    userID: userID, tweetID: viewModel.tweet.id)
                 } else {
-                  try! await Sweet().retweet(userID: userID, tweetID: tweetModel.id)
+                  try! await Sweet().retweet(userID: userID, tweetID: viewModel.tweet.id)
                 }
               }
             },
