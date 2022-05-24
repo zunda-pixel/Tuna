@@ -25,56 +25,55 @@ struct UserView: View {
 
   var body: some View {
     GeometryReader { geometry in
-      //ScrollView {
-        VStack {
-          let size = geometry.size.width / 3
-          ProfileImageView(user.profileImageURL)
-            .frame(width: size, height: size)
+      VStack {
+        let size = geometry.size.width / 3
+        ProfileImageView(user.profileImageURL)
+          .frame(width: size, height: size)
 
-          // TODO UserToolMenuを表示するとエラーになってしまう
-          // UserToolMenu(fromUserID: Secret.currentUserID!, toUserID: user.id)
+        // TODO UserToolMenuを表示するとエラーになってしまう
+        // UserToolMenu(fromUserID: Secret.currentUserID!, toUserID: user.id)
 
-          UserProfileView(user: user)
+        UserProfileView(user: user)
 
-          if let metrics = user.metrics {
-            HStack(alignment: .center) {
-              NavigationLink {
-                Text("Hello")
-              } label: {
-                VStack {
-                  Text("FOLLOWERS")
-                  Text("\(metrics.followersCount)")
-                }
+        if let metrics = user.metrics {
+          HStack(alignment: .center) {
+            NavigationLink {
+              Text("Hello")
+            } label: {
+              VStack {
+                Text("FOLLOWERS")
+                Text("\(metrics.followersCount)")
               }
-              NavigationLink {
-                Text("Hello")
-              } label: {
-                VStack {
-                  Text("FOLLOWING")
-                  Text("\(metrics.followingCount)")
-                }
+            }
+            NavigationLink {
+              Text("Hello")
+            } label: {
+              VStack {
+                Text("FOLLOWING")
+                Text("\(metrics.followingCount)")
               }
             }
           }
-
-          Picker("User Tab", selection: $selection) {
-            ForEach(TweetTab.allCases) { tab in
-              Text(tab.rawValue)
-                .tag(tab)
-            }
-          }
-          .pickerStyle(.segmented)
-
-          TabView(selection: $selection) {
-            UserTweetsView(userID: user.id)
-              .environment(\.managedObjectContext, viewContext)
-              .tag(TweetTab.tweet)
-            Text("Like")
-              .tag(TweetTab.like)
-          }
-          .tabViewStyle(.page(indexDisplayMode: .never))
         }
-     // }
+
+        Picker("User Tab", selection: $selection) {
+          ForEach(TweetTab.allCases) { tab in
+            Text(tab.rawValue)
+              .tag(tab)
+          }
+        }
+        .pickerStyle(.segmented)
+
+        TabView(selection: $selection) {
+          UserTweetsView(userID: user.id)
+            .environment(\.managedObjectContext, viewContext)
+            .tag(TweetTab.tweet)
+          LikeTweetsView(userID: user.id)
+            .environment(\.managedObjectContext, viewContext)
+            .tag(TweetTab.like)
+        }
+        .tabViewStyle(.page(indexDisplayMode: .never))
+      }
     }
   }
 }
