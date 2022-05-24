@@ -27,7 +27,12 @@ struct ProfileImageView: View {
       KFImage(url)
         .resizable()
         .frame(width: geometry.size.width, height: geometry.size.height)
+        .background(.gray.opacity(0.1))
         .clipShape(Circle())
+        .overlay {
+            Circle().stroke(.gray, lineWidth: 2)
+              .shadow(radius: 7)
+        }
     }
   }
 }
@@ -35,7 +40,7 @@ struct ProfileImageView: View {
 struct ProfileImageView_Previews: PreviewProvider {
   static var previews: some View {
     let url: URL = .init(
-      string: "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png")!
+      string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk.jpg")!
     ProfileImageView(url)
       .frame(width: 100, height: 100)
   }
