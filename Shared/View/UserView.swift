@@ -80,6 +80,12 @@ struct UserView: View {
 
 struct UserView_Previews: PreviewProvider {
   static var previews: some View {
-    UserView(user: .init(id: "", name: "zunda" ,userName: "zunda_pixel", profileImageURL:  .init(string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg"),  description: "hello from america", url: .init(string: "https://twitter.com"),createdAt: Date(), location: "ここはどこ", metrics: .init(followersCount: 111, followingCount: 222, tweetCount: 222, listedCount: 33)))
+    let user: Sweet.UserModel = .init(id: "", name: "zunda", userName: "zunda_pixel",
+                                      profileImageURL:  .init(string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk.jpg"),
+                                      description: "hello from america",
+                                      url: .init(string: "https://twitter.com"),
+                                      createdAt: Date(), location: "ここはどこ",
+                                      metrics: .init(followersCount: 111, followingCount: 222, tweetCount: 222, listedCount: 33))
+    UserView(user: user)
   }
 }
