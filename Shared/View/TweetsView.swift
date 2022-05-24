@@ -177,7 +177,7 @@ struct TweetsView: View {
   }
 
   func addTimeline(tweet: Sweet.TweetModel, userID: String) throws {
-    if let _ = timelines.first(where: { $0.tweetID == tweet.id }) {
+    if timelines.contains(where: { $0.tweetID == tweet.id }) {
       return
     }
 
@@ -260,6 +260,7 @@ struct TweetsView: View {
 
         VStack {
           TweetCellView(viewModel: viewModel)
+            .environment(\.managedObjectContext, viewContext)
             .onTapGesture {
               latestTapTweetID = viewModel.tweet.id
               isPresentedTweetToolbar.toggle()
@@ -278,36 +279,6 @@ struct TweetsView: View {
               await getTimeline(last: tweet.id)
             }
           }
-        }
-        .swipeActions(edge: .leading) {
-          Button(
-            action: {
-              Task {
-                try! await Sweet().retweet(userID: userID, tweetID: viewModel.tweet.id)
-              }
-            },
-            label: {
-              Label("like", systemImage: "heart")
-            })
-        }
-        .swipeActions(edge: .trailing) {
-          let retweeted = viewModel.tweet.referencedTweet?.type == .retweeted
-          Button(
-            action: {
-              Task {
-                if retweeted {
-                  try! await Sweet().deleteRetweet(
-                    userID: userID, tweetID: viewModel.tweet.id)
-                } else {
-                  try! await Sweet().retweet(userID: userID, tweetID: viewModel.tweet.id)
-                }
-              }
-            },
-            label: {
-              Label(retweeted ? "remove" : "retweet", systemImage: "repeat")
-            }
-          )
-          .tint(retweeted ? .red : .green)
         }
       }
     }

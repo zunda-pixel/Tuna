@@ -19,7 +19,7 @@ struct UserTweetsView: View {
   @State var isPresentedTweetToolbar = false
   @State var latestTapTweetID: String?
 
-  var timelines: [String] = []
+  @State var timelines: [String] = []
 
   @FetchRequest var allTweets: FetchedResults<Tweet>
   @FetchRequest var allUsers: FetchedResults<User>
@@ -64,7 +64,7 @@ struct UserTweetsView: View {
 
   private func getPoll(pollKey: String?) -> Sweet.PollModel? {
     guard let pollKey = pollKey,
-      let firstPoll = allPolls.first(where: { $0.id == pollKey })
+          let firstPoll = allPolls.first(where: { $0.id == pollKey })
     else {
       return nil
     }
@@ -88,7 +88,7 @@ struct UserTweetsView: View {
 
   private func getAuthorUser(authorID: String?) -> Sweet.UserModel? {
     guard let authorID = authorID,
-      let user = allUsers.first(where: { $0.id == authorID })
+          let user = allUsers.first(where: { $0.id == authorID })
     else {
       return nil
     }
@@ -166,16 +166,25 @@ struct UserTweetsView: View {
     try viewContext.save()
   }
 
+  func addTimeline(tweetID: String) {
+    if timelines.contains(where: { $0 == tweetID}) {
+      return
+    }
+
+    timelines.append(tweetID)
+  }
+
   func getTimeline(first firstTweetID: String? = nil, last lastTweetID: String? = nil) async {
     do {
       let sweet = try await Sweet()
 
       let maxResults = 100
 
-      let response = try await sweet.fetchReverseChronological(by: userID, maxResults: maxResults, untilID: lastTweetID, sinceID: firstTweetID)
+      let response = try await sweet.fetchTimeLine(by: userID, maxResults: maxResults, untilID: lastTweetID, sinceID: firstTweetID)
 
       try response.tweets.forEach { tweet in
         try addTweet(tweet)
+        addTimeline(tweetID: tweet.id)
       }
 
       try response.relatedTweets.forEach { tweet in
@@ -236,6 +245,7 @@ struct UserTweetsView: View {
         let viewModel = getTweetCellViewModel(tweet: tweet)
         VStack {
           TweetCellView(viewModel: viewModel)
+            .environment(\.managedObjectContext, viewContext)
             .onTapGesture {
               latestTapTweetID = viewModel.tweet.id
               isPresentedTweetToolbar.toggle()
@@ -254,36 +264,6 @@ struct UserTweetsView: View {
               await getTimeline(last: tweet.id)
             }
           }
-        }
-        .swipeActions(edge: .leading) {
-          Button(
-            action: {
-              Task {
-                try! await Sweet().retweet(userID: userID, tweetID: viewModel.tweet.id)
-              }
-            },
-            label: {
-              Label("like", systemImage: "heart")
-            })
-        }
-        .swipeActions(edge: .trailing) {
-          let retweeted = viewModel.tweet.referencedTweet?.type == .retweeted
-          Button(
-            action: {
-              Task {
-                if retweeted {
-                  try! await Sweet().deleteRetweet(
-                    userID: userID, tweetID: viewModel.tweet.id)
-                } else {
-                  try! await Sweet().retweet(userID: userID, tweetID: viewModel.tweet.id)
-                }
-              }
-            },
-            label: {
-              Label(retweeted ? "remove" : "retweet", systemImage: "repeat")
-            }
-          )
-          .tint(retweeted ? .red : .green)
         }
       }
     }
