@@ -22,6 +22,7 @@ enum TweetTab: String, CaseIterable, Identifiable {
 struct UserView: View {
   let user: Sweet.UserModel
   @State var selection: TweetTab = .tweet
+  @Environment(\.managedObjectContext) private var viewContext
 
   var body: some View {
     GeometryReader { geometry in

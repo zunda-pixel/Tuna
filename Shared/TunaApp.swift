@@ -56,6 +56,7 @@ struct TunaApp: App {
                 Image(systemName: "list.dash.header.rectangle")
               }
             SearchView()
+              .environment(\.managedObjectContext, persistenceController.container.viewContext)
               .tabItem {
                 Image(systemName: "magnifyingglass")
               }

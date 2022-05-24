@@ -9,6 +9,8 @@ import SwiftUI
 import Sweet
 
 struct SearchView: View {
+  @Environment(\.managedObjectContext) private var viewContext
+
   @State var didError = false
   @State var error: Error?
   @State var timelines: [String] = []
@@ -171,6 +173,7 @@ struct SearchView: View {
 
             let viewModel: TweetCellViewModel = .init(tweet: tweetModel, retweet: retweetTweetModel, author: authorUser, retweetUser: retweetUser, medias: medias, poll: poll, place: place)
             TweetCellView(viewModel: viewModel)
+              .environment(\.managedObjectContext, viewContext)
               .onAppear {
                 guard let lastTweetID = timelines.last else {
                   return

@@ -10,6 +10,7 @@ import Sweet
 import SwiftUI
 
 struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
+  @Environment(\.managedObjectContext) private var viewContext
   @StateObject var viewModel: ViewModel
 
   var body: some View {
@@ -23,6 +24,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
       NavigationLink(isActive: $viewModel.isPresentedUserView) {
         UserView(user: viewModel.iconUser)
           .navigationBarTitle("@\(viewModel.iconUser.userName)")
+          .environment(\.managedObjectContext, viewContext)
       } label: {
         EmptyView()
       }

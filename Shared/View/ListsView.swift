@@ -47,6 +47,7 @@ struct ListsView: View {
               destination: {
                 let listDetailViewModel: ListDetailViewModel = .init(list: list)
                 ListDetailView(viewModel: listDetailViewModel)
+                  .environment(\.managedObjectContext, viewContext)
               },
               label: {
                 ListCellView(list: list)
@@ -78,6 +79,7 @@ struct ListsView: View {
               destination: {
                 let listDetailViewModel: ListDetailViewModel = .init(list: list)
                 ListDetailView(viewModel: listDetailViewModel)
+                  .environment(\.managedObjectContext, viewContext)
               },
               label: {
                 ListCellView(list: list)
@@ -104,6 +106,7 @@ struct ListsView: View {
               destination: {
                 let listDetailViewModel: ListDetailViewModel = .init(list: list)
                 ListDetailView(viewModel: listDetailViewModel)
+                  .environment(\.managedObjectContext, viewContext)
               },
               label: {
                 ListCellView(list: list)

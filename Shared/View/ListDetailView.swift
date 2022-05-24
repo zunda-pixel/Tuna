@@ -9,6 +9,7 @@ import Sweet
 import SwiftUI
 
 struct ListDetailView<ViewModel:  ListDetailViewProtocol>: View {
+  @Environment(\.managedObjectContext) private var viewContext
   @StateObject var viewModel: ViewModel
 
   var body: some View {
@@ -35,6 +36,7 @@ struct ListDetailView<ViewModel:  ListDetailViewProtocol>: View {
 
       let cellViewModel = viewModel.getTweetCellViewModel(tweetID)
       TweetCellView(viewModel: cellViewModel)
+        .environment(\.managedObjectContext, viewContext)
         .onAppear {
           guard let lastTweetID = viewModel.timelines.last else{
             return
