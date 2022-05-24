@@ -12,9 +12,11 @@ struct UsersView<ViewModel: UsersViewProtocol>: View {
   @StateObject var viewModel: ViewModel
 
   var body: some View {
+    let ownerID = Secret.currentUserID!
     List(viewModel.users) { user in
-      UserCellView(user: user)
+      UserCellView(ownerID: ownerID, user: user)
     }
+    .listStyle(.plain)
     .alert("Error", isPresented: $viewModel.didError) {
       Button {
         print(viewModel.error!)

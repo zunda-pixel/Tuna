@@ -49,6 +49,7 @@ struct ListDetailView<ViewModel:  ListDetailViewProtocol>: View {
           }
         }
     }
+    .listStyle(.plain)
     .alert("Error", isPresented: $viewModel.didError) {
       Button {
         print(viewModel.error!)

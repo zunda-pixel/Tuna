@@ -123,19 +123,8 @@ struct ListsView: View {
           }
         }
       }
+      .navigationBarTitle("List")
       .listStyle(.insetGrouped)
-      .toolbar {
-        ToolbarItem(
-          placement: .navigationBarLeading
-        ) {
-          Button(
-            action: {},
-            label: {
-              Text("hello")
-            })
-        }
-      }
-
     }
     .alert("Error", isPresented: $didError) {
       Button {
