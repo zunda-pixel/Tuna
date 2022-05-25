@@ -68,8 +68,8 @@ struct UserView: View {
           UserTweetsView(userID: user.id)
             .environment(\.managedObjectContext, viewContext)
             .tag(TweetTab.tweet)
-          LikeTweetsView(userID: user.id)
-            .environment(\.managedObjectContext, viewContext)
+          let likeViewModel: LikesViewModel = .init(userID: user.id, viewContext: viewContext)
+          TweetsView(viewModel: likeViewModel)
             .tag(TweetTab.like)
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
