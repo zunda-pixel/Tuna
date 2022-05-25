@@ -21,7 +21,7 @@ struct TunaApp: App {
         if let userID = userID {
           TabView {
             NavigationView {
-              let tweetViewModel: TimelineViewModel = .init(userID: userID, viewContext: persistenceController.container.viewContext)
+              let tweetViewModel: ReverseChronologicalViewModel = .init(userID: userID, viewContext: persistenceController.container.viewContext)
               TweetsView(viewModel: tweetViewModel)
                 .navigationTitle("Timeline")
                 .navigationBarTitleDisplayMode(.inline)
