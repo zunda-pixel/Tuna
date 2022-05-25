@@ -10,6 +10,8 @@ import CoreData
 import Sweet
 
 final class ReverseChronologicalViewModel: NSObject, TweetsViewProtocol {
+  var loadingTweets = false
+  var paginationToken: String?
   let userID: String
 
   var timelines: [String] { fetchTimelineController.fetchedObjects?.map(\.tweetID!) ?? [] }
@@ -143,13 +145,13 @@ final class ReverseChronologicalViewModel: NSObject, TweetsViewProtocol {
     try! fetchMediaController.performFetch()
   }
 
-  func addTimeline(tweet: Sweet.TweetModel, userID: String) throws {
-    if timelines.contains(where: { $0 == tweet.id }) {
+  func addTimeline(_ tweetID: String) throws {
+    if timelines.contains(where: { $0 == tweetID }) {
       return
     }
 
     let newTimeline = Timeline(context: viewContext)
-    newTimeline.tweetID = tweet.id
+    newTimeline.tweetID = tweetID
     newTimeline.ownerID = userID
     try viewContext.save()
   }
@@ -158,7 +160,7 @@ final class ReverseChronologicalViewModel: NSObject, TweetsViewProtocol {
     objectWillChange.send()
   }
 
-  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?, paginationToken: String?) async {
+  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
     do {
       let sweet = try await Sweet()
 
@@ -168,7 +170,7 @@ final class ReverseChronologicalViewModel: NSObject, TweetsViewProtocol {
 
       try response.tweets.forEach { tweet in
         try addTweet(tweet)
-        try addTimeline(tweet: tweet, userID: userID)
+        try addTimeline(tweet.id)
       }
 
       try response.relatedTweets.forEach { tweet in
@@ -192,7 +194,7 @@ final class ReverseChronologicalViewModel: NSObject, TweetsViewProtocol {
 
       if firstTweetID != nil && response.tweets.count == maxResults {
         let firstTweetID = timelines.first
-        await fetchTweets(first: firstTweetID, last: nil, paginationToken: nil)
+        await fetchTweets(first: firstTweetID, last: nil)
       }
 
       updateTimeLine()

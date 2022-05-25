@@ -10,6 +10,8 @@ import Sweet
 import CoreData
 
 @MainActor protocol TweetsViewProtocol: NSFetchedResultsControllerDelegate, ObservableObject {
+  var loadingTweets: Bool { get set }
+
   var userID: String { get }
   var isPresentedTweetToolbar: Bool { get set }
   var latestTapTweetID: String? { get set }
@@ -19,6 +21,7 @@ import CoreData
 
   var viewContext: NSManagedObjectContext { get }
 
+  var paginationToken: String? { get set }
   var timelines: [String] { get }
 
   var showTweets: [Tweet] { get }
@@ -39,7 +42,7 @@ import CoreData
   var allPlaces: [Place] { get }
   var fetchPlaceController: NSFetchedResultsController<Place> { get }
 
-  func addTimeline(tweet: Sweet.TweetModel, userID: String) throws
+  func addTimeline(_ tweetID: String) throws
   func addTweet(_ tweet: Sweet.TweetModel) throws
   func addUser(_ user: Sweet.UserModel) throws
   func addPlace(_ place: Sweet.PlaceModel) throws
@@ -54,7 +57,7 @@ import CoreData
 
   func getTweetCellViewModel(_ tweetID: String) -> TweetCellViewModel
 
-  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?, paginationToken: String?) async
+  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async
   func updateTimeLine()
 }
 
