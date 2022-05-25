@@ -21,8 +21,8 @@ struct TunaApp: App {
         if let userID = userID {
           TabView {
             NavigationView {
-              TweetsView(userID: userID)
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+              let tweetViewModel: TimelineViewModel = .init(userID: userID, viewContext: persistenceController.container.viewContext)
+              TweetsView(viewModel: tweetViewModel)
                 .navigationTitle("Timeline")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
@@ -70,7 +70,6 @@ struct TunaApp: App {
               .tabItem {
                 Image(systemName: "heart")
               }
-
           }
         } else {
           LoginView(userID: $userID)
