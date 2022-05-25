@@ -69,14 +69,23 @@ import MapKit
   }
 
   var duration: String {
-    guard let createdAt = (retweetTweet ?? tweet).createdAt else {
-      return ""
-    }
+    let createdAt: Date? = {
+      switch tweet.referencedTweet?.type {
+        case .none:
+          return tweet.createdAt
+        case .quoted:
+          return tweet.createdAt
+        case .repliedTo:
+          return tweet.createdAt
+        case .retweeted:
+          return retweetTweet?.createdAt
+      }
+    }()
 
     let components: [Calendar.Component] = [.day, .hour, .minute, .second]
 
     let durationString = Calendar.current.durationString(
-      candidate: components, from: createdAt, to: nowDate)
+      candidate: components, from: createdAt!, to: nowDate)
 
     return durationString!
   }
