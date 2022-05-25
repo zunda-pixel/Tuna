@@ -30,7 +30,9 @@ struct ListCellView: View {
 
         Text(list.ownerID ?? "nothing")
       }
+
       Spacer()
+      
       if list.isPrivate ?? false {
         Image(systemName: "key")
       }
