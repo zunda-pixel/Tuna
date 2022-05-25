@@ -54,11 +54,11 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
     }
     .listStyle(.plain)
     .refreshable {
-      let firstTweetID = viewModel.timelines.first?.tweetID
+      let firstTweetID = viewModel.timelines.first
       await viewModel.fetchTweets(first: firstTweetID, last: nil, paginationToken: nil)
     }
     .onAppear {
-      let firstTweetID = viewModel.timelines.first?.tweetID
+      let firstTweetID = viewModel.timelines.first
       Task {
         await viewModel.fetchTweets(first: firstTweetID, last: nil, paginationToken: nil)
       }
