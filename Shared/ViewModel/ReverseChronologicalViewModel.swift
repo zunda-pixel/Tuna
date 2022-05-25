@@ -9,8 +9,10 @@ import Foundation
 import CoreData
 import Sweet
 
-final class TimelineViewModel: NSObject, TweetsViewProtocol {
+final class ReverseChronologicalViewModel: NSObject, TweetsViewProtocol {
   let userID: String
+
+  var timelines: [String] { fetchTimelineController.fetchedObjects?.map(\.tweetID!) ?? [] }
 
   var error: Error?
   @Published var didError = false
@@ -141,6 +143,17 @@ final class TimelineViewModel: NSObject, TweetsViewProtocol {
     try! fetchMediaController.performFetch()
   }
 
+  func addTimeline(tweet: Sweet.TweetModel, userID: String) throws {
+    if timelines.contains(where: { $0 == tweet.id }) {
+      return
+    }
+
+    let newTimeline = Timeline(context: viewContext)
+    newTimeline.tweetID = tweet.id
+    newTimeline.ownerID = userID
+    try viewContext.save()
+  }
+  
   func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
     objectWillChange.send()
   }
@@ -178,7 +191,7 @@ final class TimelineViewModel: NSObject, TweetsViewProtocol {
       }
 
       if firstTweetID != nil && response.tweets.count == maxResults {
-        let firstTweetID = timelines.first?.tweetID
+        let firstTweetID = timelines.first
         await fetchTweets(first: firstTweetID, last: nil, paginationToken: nil)
       }
 
