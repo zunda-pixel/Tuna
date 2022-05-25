@@ -60,8 +60,8 @@ struct TunaApp: App {
               .tabItem {
                 Image(systemName: "doc.text.magnifyingglass")
               }
-            BookmarksView(userID: userID)
-              .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            let bookmarksViewModel: BookmarksViewModel = .init(userID: userID, viewContext: persistenceController.container.viewContext)
+            TweetsView(viewModel: bookmarksViewModel)
               .tabItem {
                 Image(systemName: "book.closed")
               }

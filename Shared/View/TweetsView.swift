@@ -9,18 +9,27 @@ import CoreData
 import Sweet
 import SwiftUI
 
-extension Sweet.TwitterError: LocalizedError {
-
-}
-
 struct TweetsView<ViewModel: TweetsViewProtocol>: View {
   @StateObject var viewModel: ViewModel
+
+  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
+    if viewModel.loadingTweets {
+      return
+    }
+
+    viewModel.loadingTweets = true
+
+    defer {
+      viewModel.loadingTweets = false
+    }
+
+    await viewModel.fetchTweets(first: firstTweetID, last: lastTweetID)
+  }
 
   var body: some View {
     List {
       ForEach(viewModel.showTweets) { tweet in
         let cellViewModel = viewModel.getTweetCellViewModel(tweet.id!)
-
         VStack {
           TweetCellView(viewModel: cellViewModel)
             .environment(\.managedObjectContext, viewModel.viewContext)
@@ -39,10 +48,18 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
 
           if tweet.id == lastTweet.id {
             Task {
-              await viewModel.fetchTweets(first: nil, last: tweet.id, paginationToken: nil)
+              await fetchTweets(first: nil, last: tweet.id)
             }
           }
         }
+      }
+
+      Button {
+        Task {
+          await fetchTweets(first: nil, last: viewModel.showTweets.last?.id)
+        }
+      } label: {
+        Text("more Loading")
       }
     }
     .alert("Error", isPresented: $viewModel.didError) {
@@ -55,12 +72,12 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
     .listStyle(.plain)
     .refreshable {
       let firstTweetID = viewModel.timelines.first
-      await viewModel.fetchTweets(first: firstTweetID, last: nil, paginationToken: nil)
+      await fetchTweets(first: firstTweetID, last: nil)
     }
     .onAppear {
       let firstTweetID = viewModel.timelines.first
       Task {
-        await viewModel.fetchTweets(first: firstTweetID, last: nil, paginationToken: nil)
+        await fetchTweets(first: firstTweetID, last: nil)
       }
     }
   }
