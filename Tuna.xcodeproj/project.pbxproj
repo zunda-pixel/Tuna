@@ -122,6 +122,8 @@
 		2EA6539027E9A188003E99AE /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA6538F27E9A188003E99AE /* Calendar+Extension.swift */; };
 		2EB3B37E283D236700891A5E /* BookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB3B37D283D236700891A5E /* BookmarksView.swift */; };
 		2EB3B37F283D236700891A5E /* BookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB3B37D283D236700891A5E /* BookmarksView.swift */; };
+		2EB3B384283E738000891A5E /* TimelineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB3B383283E738000891A5E /* TimelineViewModel.swift */; };
+		2EB3B385283E738000891A5E /* TimelineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB3B383283E738000891A5E /* TimelineViewModel.swift */; };
 		2EEE9DFD2816DB0300721ADD /* UsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9DFC2816DB0300721ADD /* UsersView.swift */; };
 		2EEE9DFE2816DB0300721ADD /* UsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9DFC2816DB0300721ADD /* UsersView.swift */; };
 		2EEE9E002816E8F000721ADD /* UserCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9DFF2816E8F000721ADD /* UserCellView.swift */; };
@@ -237,6 +239,7 @@
 		2EA6538D27E9A16A003E99AE /* DateComponents+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateComponents+Extension.swift"; sourceTree = "<group>"; };
 		2EA6538F27E9A188003E99AE /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
 		2EB3B37D283D236700891A5E /* BookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksView.swift; sourceTree = "<group>"; };
+		2EB3B383283E738000891A5E /* TimelineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewModel.swift; sourceTree = "<group>"; };
 		2EEE9DFC2816DB0300721ADD /* UsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersView.swift; sourceTree = "<group>"; };
 		2EEE9DFF2816E8F000721ADD /* UserCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCellView.swift; sourceTree = "<group>"; };
 		2EEE9E022816E93E00721ADD /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
@@ -483,6 +486,7 @@
 				2E0A3AEF28105CC1002D5F39 /* ListDetailViewModel.swift */,
 				2EEE9E022816E93E00721ADD /* UsersViewModel.swift */,
 				2EEE9E052816E96600721ADD /* ListMembersViewModel.swift */,
+				2EB3B383283E738000891A5E /* TimelineViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -686,6 +690,7 @@
 				2E027FBB27E8269A00521378 /* TunaApp.swift in Sources */,
 				2E63898827EAB9C200964EC8 /* TwitterOauth2.swift in Sources */,
 				2E044A9927EAF3B200736B9F /* DeepLink.swift in Sources */,
+				2EB3B384283E738000891A5E /* TimelineViewModel.swift in Sources */,
 				2E633523280673E500368C51 /* SelectUserMenu.swift in Sources */,
 				2E4E983127E82D8D00D9A15F /* TweetsView.swift in Sources */,
 				2EA6538E27E9A16A003E99AE /* DateComponents+Extension.swift in Sources */,
@@ -761,6 +766,7 @@
 				2E027FBC27E8269A00521378 /* TunaApp.swift in Sources */,
 				2E63898927EAB9C200964EC8 /* TwitterOauth2.swift in Sources */,
 				2E044A9A27EAF3B200736B9F /* DeepLink.swift in Sources */,
+				2EB3B385283E738000891A5E /* TimelineViewModel.swift in Sources */,
 				2E633524280673E500368C51 /* SelectUserMenu.swift in Sources */,
 				2E4E983227E82D8D00D9A15F /* TweetsView.swift in Sources */,
 				2E63898227EAB88000964EC8 /* DateComponents+Extension.swift in Sources */,
