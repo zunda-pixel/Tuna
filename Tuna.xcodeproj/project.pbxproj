@@ -23,8 +23,8 @@
 		2E044A9A27EAF3B200736B9F /* DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E044A9827EAF3B200736B9F /* DeepLink.swift */; };
 		2E0981452809482A00431C50 /* QuotedTweetCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0981442809482A00431C50 /* QuotedTweetCellView.swift */; };
 		2E0981462809482A00431C50 /* QuotedTweetCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0981442809482A00431C50 /* QuotedTweetCellView.swift */; };
-		2E0A3AED28105BA7002D5F39 /* TweetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0A3AEC28105BA7002D5F39 /* TweetsViewModel.swift */; };
-		2E0A3AEE28105BA7002D5F39 /* TweetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0A3AEC28105BA7002D5F39 /* TweetsViewModel.swift */; };
+		2E0A3AED28105BA7002D5F39 /* TweetsViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0A3AEC28105BA7002D5F39 /* TweetsViewProtocol.swift */; };
+		2E0A3AEE28105BA7002D5F39 /* TweetsViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0A3AEC28105BA7002D5F39 /* TweetsViewProtocol.swift */; };
 		2E0A3AF028105CC1002D5F39 /* ListDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0A3AEF28105CC1002D5F39 /* ListDetailViewModel.swift */; };
 		2E0A3AF128105CC1002D5F39 /* ListDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0A3AEF28105CC1002D5F39 /* ListDetailViewModel.swift */; };
 		2E10382A27EC05FE00E8E67B /* User+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E10382927EC05FD00E8E67B /* User+Extension.swift */; };
@@ -122,8 +122,10 @@
 		2EA6539027E9A188003E99AE /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA6538F27E9A188003E99AE /* Calendar+Extension.swift */; };
 		2EB3B37E283D236700891A5E /* BookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB3B37D283D236700891A5E /* BookmarksView.swift */; };
 		2EB3B37F283D236700891A5E /* BookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB3B37D283D236700891A5E /* BookmarksView.swift */; };
-		2EB3B384283E738000891A5E /* TimelineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB3B383283E738000891A5E /* TimelineViewModel.swift */; };
-		2EB3B385283E738000891A5E /* TimelineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB3B383283E738000891A5E /* TimelineViewModel.swift */; };
+		2EB3B384283E738000891A5E /* ReverseChronologicalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB3B383283E738000891A5E /* ReverseChronologicalViewModel.swift */; };
+		2EB3B385283E738000891A5E /* ReverseChronologicalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB3B383283E738000891A5E /* ReverseChronologicalViewModel.swift */; };
+		2EB3B387283E765900891A5E /* BookmarksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB3B386283E765900891A5E /* BookmarksViewModel.swift */; };
+		2EB3B388283E765900891A5E /* BookmarksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB3B386283E765900891A5E /* BookmarksViewModel.swift */; };
 		2EEE9DFD2816DB0300721ADD /* UsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9DFC2816DB0300721ADD /* UsersView.swift */; };
 		2EEE9DFE2816DB0300721ADD /* UsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9DFC2816DB0300721ADD /* UsersView.swift */; };
 		2EEE9E002816E8F000721ADD /* UserCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9DFF2816E8F000721ADD /* UserCellView.swift */; };
@@ -190,7 +192,7 @@
 		2E044A9527EAE7D000736B9F /* KeychainAccess+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeychainAccess+Extension.swift"; sourceTree = "<group>"; };
 		2E044A9827EAF3B200736B9F /* DeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLink.swift; sourceTree = "<group>"; };
 		2E0981442809482A00431C50 /* QuotedTweetCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotedTweetCellView.swift; sourceTree = "<group>"; };
-		2E0A3AEC28105BA7002D5F39 /* TweetsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetsViewModel.swift; sourceTree = "<group>"; };
+		2E0A3AEC28105BA7002D5F39 /* TweetsViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetsViewProtocol.swift; sourceTree = "<group>"; };
 		2E0A3AEF28105CC1002D5F39 /* ListDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDetailViewModel.swift; sourceTree = "<group>"; };
 		2E10382927EC05FD00E8E67B /* User+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+Extension.swift"; sourceTree = "<group>"; };
 		2E10382C27EC31E400E8E67B /* UserModel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserModel+Extension.swift"; sourceTree = "<group>"; };
@@ -239,7 +241,8 @@
 		2EA6538D27E9A16A003E99AE /* DateComponents+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateComponents+Extension.swift"; sourceTree = "<group>"; };
 		2EA6538F27E9A188003E99AE /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
 		2EB3B37D283D236700891A5E /* BookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksView.swift; sourceTree = "<group>"; };
-		2EB3B383283E738000891A5E /* TimelineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewModel.swift; sourceTree = "<group>"; };
+		2EB3B383283E738000891A5E /* ReverseChronologicalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseChronologicalViewModel.swift; sourceTree = "<group>"; };
+		2EB3B386283E765900891A5E /* BookmarksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksViewModel.swift; sourceTree = "<group>"; };
 		2EEE9DFC2816DB0300721ADD /* UsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersView.swift; sourceTree = "<group>"; };
 		2EEE9DFF2816E8F000721ADD /* UserCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCellView.swift; sourceTree = "<group>"; };
 		2EEE9E022816E93E00721ADD /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
@@ -482,11 +485,12 @@
 			children = (
 				2EA6538B27E9A148003E99AE /* TweetCellViewModel.swift */,
 				2E10384727EE1B7800E8E67B /* NewTweetViewModel.swift */,
-				2E0A3AEC28105BA7002D5F39 /* TweetsViewModel.swift */,
+				2E0A3AEC28105BA7002D5F39 /* TweetsViewProtocol.swift */,
 				2E0A3AEF28105CC1002D5F39 /* ListDetailViewModel.swift */,
 				2EEE9E022816E93E00721ADD /* UsersViewModel.swift */,
 				2EEE9E052816E96600721ADD /* ListMembersViewModel.swift */,
-				2EB3B383283E738000891A5E /* TimelineViewModel.swift */,
+				2EB3B383283E738000891A5E /* ReverseChronologicalViewModel.swift */,
+				2EB3B386283E765900891A5E /* BookmarksViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -690,7 +694,7 @@
 				2E027FBB27E8269A00521378 /* TunaApp.swift in Sources */,
 				2E63898827EAB9C200964EC8 /* TwitterOauth2.swift in Sources */,
 				2E044A9927EAF3B200736B9F /* DeepLink.swift in Sources */,
-				2EB3B384283E738000891A5E /* TimelineViewModel.swift in Sources */,
+				2EB3B384283E738000891A5E /* ReverseChronologicalViewModel.swift in Sources */,
 				2E633523280673E500368C51 /* SelectUserMenu.swift in Sources */,
 				2E4E983127E82D8D00D9A15F /* TweetsView.swift in Sources */,
 				2EA6538E27E9A16A003E99AE /* DateComponents+Extension.swift in Sources */,
@@ -717,11 +721,12 @@
 				2E3468DE283A757B00AA2E33 /* View+Extension.swift in Sources */,
 				2E13ED47280D0A1300BF79CD /* Array+Extension.swift in Sources */,
 				2E4E983927E9963C00D9A15F /* Persistence.swift in Sources */,
+				2EB3B387283E765900891A5E /* BookmarksViewModel.swift in Sources */,
 				2E044A9627EAE7D000736B9F /* KeychainAccess+Extension.swift in Sources */,
 				2EEE9E032816E93E00721ADD /* UsersViewModel.swift in Sources */,
 				2E10383F27ED7E1F00E8E67B /* Place+Extension.swift in Sources */,
 				2EF5B31A283B8B9E00DD8352 /* WebView.swift in Sources */,
-				2E0A3AED28105BA7002D5F39 /* TweetsViewModel.swift in Sources */,
+				2E0A3AED28105BA7002D5F39 /* TweetsViewProtocol.swift in Sources */,
 				2EF5B323283BA18B00DD8352 /* MuteButton.swift in Sources */,
 				2E8BB698283CA2A800DC9480 /* LikeTweetsView.swift in Sources */,
 				2EF5B31D283B953C00DD8352 /* UserToolMenu.swift in Sources */,
@@ -766,7 +771,7 @@
 				2E027FBC27E8269A00521378 /* TunaApp.swift in Sources */,
 				2E63898927EAB9C200964EC8 /* TwitterOauth2.swift in Sources */,
 				2E044A9A27EAF3B200736B9F /* DeepLink.swift in Sources */,
-				2EB3B385283E738000891A5E /* TimelineViewModel.swift in Sources */,
+				2EB3B385283E738000891A5E /* ReverseChronologicalViewModel.swift in Sources */,
 				2E633524280673E500368C51 /* SelectUserMenu.swift in Sources */,
 				2E4E983227E82D8D00D9A15F /* TweetsView.swift in Sources */,
 				2E63898227EAB88000964EC8 /* DateComponents+Extension.swift in Sources */,
@@ -793,11 +798,12 @@
 				2E3468DF283A757B00AA2E33 /* View+Extension.swift in Sources */,
 				2E13ED48280D0A1300BF79CD /* Array+Extension.swift in Sources */,
 				2E4E983A27E9963C00D9A15F /* Persistence.swift in Sources */,
+				2EB3B388283E765900891A5E /* BookmarksViewModel.swift in Sources */,
 				2E044A9727EAE7D000736B9F /* KeychainAccess+Extension.swift in Sources */,
 				2EEE9E042816E93E00721ADD /* UsersViewModel.swift in Sources */,
 				2E10384027ED7E1F00E8E67B /* Place+Extension.swift in Sources */,
 				2EF5B31B283B8B9E00DD8352 /* WebView.swift in Sources */,
-				2E0A3AEE28105BA7002D5F39 /* TweetsViewModel.swift in Sources */,
+				2E0A3AEE28105BA7002D5F39 /* TweetsViewProtocol.swift in Sources */,
 				2EF5B324283BA18B00DD8352 /* MuteButton.swift in Sources */,
 				2E8BB699283CA2A800DC9480 /* LikeTweetsView.swift in Sources */,
 				2EF5B31E283B953C00DD8352 /* UserToolMenu.swift in Sources */,

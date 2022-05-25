@@ -10,6 +10,7 @@ import Sweet
 import CoreData
 
 @MainActor protocol TweetsViewProtocol: NSFetchedResultsControllerDelegate, ObservableObject {
+  var userID: String { get }
   var isPresentedTweetToolbar: Bool { get set }
   var latestTapTweetID: String? { get set }
 
@@ -18,8 +19,7 @@ import CoreData
 
   var viewContext: NSManagedObjectContext { get }
 
-  var timelines: [Timeline] { get }
-  var fetchTimelineController: NSFetchedResultsController<Timeline> { get }
+  var timelines: [String] { get }
 
   var showTweets: [Tweet] { get }
   var fetchShowTweetController: NSFetchedResultsController<Tweet> { get }
@@ -59,7 +59,6 @@ import CoreData
 }
 
 extension TweetsViewProtocol {
-  var timelines: [Timeline] { fetchTimelineController.fetchedObjects ?? [] }
   var showTweets: [Tweet] { fetchShowTweetController.fetchedObjects ?? [] }
   var allTweets: [Tweet] { fetchTweetController.fetchedObjects ?? [] }
   var allUsers: [User] { fetchUserController.fetchedObjects ?? [] }
@@ -116,17 +115,6 @@ extension TweetsViewProtocol {
       let newMedia = Media(context: viewContext)
       newMedia.setMediaModel(media)
     }
-    try viewContext.save()
-  }
-
-  func addTimeline(tweet: Sweet.TweetModel, userID: String) throws {
-    if timelines.contains(where: { $0.tweetID == tweet.id }) {
-      return
-    }
-
-    let newTimeline = Timeline(context: viewContext)
-    newTimeline.tweetID = tweet.id
-    newTimeline.ownerID = userID
     try viewContext.save()
   }
 
@@ -197,8 +185,7 @@ extension TweetsViewProtocol {
   }
 
   func updateTimeLine() {
-    let tweetIDs = timelines.compactMap(\.tweetID)
-    fetchShowTweetController.fetchRequest.predicate = NSPredicate(format: "id IN %@", tweetIDs)
+    fetchShowTweetController.fetchRequest.predicate = .init(format: "id IN %@", timelines)
   }
 }
 
