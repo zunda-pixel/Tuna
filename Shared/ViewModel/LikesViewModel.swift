@@ -1,15 +1,15 @@
 //
-//  BookmarksViewModel.swift
+//  LikesViewModel.swift
 //  Tuna
 //
-//  Created by zunda on 2022/05/25.
+//  Created by zunda on 2022/05/26.
 //
 
 import Foundation
 import CoreData
 import Sweet
 
-final class BookmarksViewModel: NSObject, TweetsViewProtocol {
+final class LikesViewModel: NSObject, TweetsViewProtocol {
   var loadingTweets = false
   var paginationToken: String?
   var latestTapTweetID: String?
@@ -32,7 +32,7 @@ final class BookmarksViewModel: NSObject, TweetsViewProtocol {
 
   func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
     do {
-      let response = try await Sweet().fetchBookmarks(userID: userID, paginationToken: paginationToken)
+      let response = try await Sweet().fetchLikedTweet(by: userID, paginationToken: paginationToken)
 
       paginationToken = response.meta?.nextToken
 

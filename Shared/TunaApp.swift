@@ -65,8 +65,8 @@ struct TunaApp: App {
               .tabItem {
                 Image(systemName: "book.closed")
               }
-            LikeTweetsView(userID: userID)
-              .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            let likesViewModel:LikesViewModel = .init(userID: userID, viewContext: persistenceController.container.viewContext)
+            TweetsView(viewModel: likesViewModel)
               .tabItem {
                 Image(systemName: "heart")
               }
