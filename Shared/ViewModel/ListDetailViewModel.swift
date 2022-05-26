@@ -7,117 +7,54 @@
 
 import Foundation
 import Sweet
+import CoreData
 
 @MainActor protocol ListDetailViewProtocol: ObservableObject {
+  associatedtype TweetsViewModel: TweetsViewProtocol
   var list: Sweet.ListModel { get }
-
-  var didError: Bool { get set }
-  var error: Error? { get set }
-  var timelines: [String] { get set }
-
-  var allTweets: [Sweet.TweetModel] { get set }
-  var allUsers: [Sweet.UserModel] { get set }
-  var allMedias: [Sweet.MediaModel] { get set }
-  var allPolls: [Sweet.PollModel] { get set }
-  var allPlaces: [Sweet.PlaceModel] { get }
-
-  func getTweet(_ tweetID: String?) -> Sweet.TweetModel?
-  func getPoll(_ pollID: String?) -> Sweet.PollModel?
-  func getUser(_ userID: String?) -> Sweet.UserModel?
-  func getMedias(_ mediaIDs: [String]?) -> [Sweet.MediaModel]
-  func getPlace(_ placeID: String?) -> Sweet.PlaceModel?
-  func getTweetCellViewModel(_ tweetID: String) -> TweetCellViewModel
-  func fetchTweets() async
+  var tweetsViewModel: TweetsViewModel { get }
+  var userID: String { get }
 }
 
-extension ListDetailViewProtocol {
-  func getTweetCellViewModel(_ tweetID: String) -> TweetCellViewModel {
-    let tweetModel = getTweet(tweetID)!
-
-    let retweetTweetModel = getTweet(tweetModel.referencedTweet?.id)
-
-    let authorUser = getUser(tweetModel.authorID!)!
-
-    let retweetUser = getUser(retweetTweetModel?.authorID)
-
-    let medias = getMedias(tweetModel.attachments?.mediaKeys)
-
-    let poll = getPoll(tweetModel.attachments?.pollID)
-
-    let place = getPlace(tweetModel.geo?.placeID)
-
-    let viewModel: TweetCellViewModel = .init(tweet: tweetModel, retweet: retweetTweetModel, author: authorUser, retweetUser: retweetUser, medias: medias, poll: poll, place: place)
-
-    return viewModel
-  }
-
-  func getPlace(_ placeID: String?) -> Sweet.PlaceModel? {
-    guard let placeID = placeID else { return nil }
-
-    let firstPlace = allPlaces.first(where: { $0.id == placeID })
-
-    return firstPlace
-  }
-
-  func getPoll(_ pollID: String?) -> Sweet.PollModel? {
-    guard let pollID = pollID else { return nil }
-
-    let firstPoll = allPolls.first(where: { $0.id == pollID })
-
-    return firstPoll
-  }
-
-  func getMedias(_ mediaIDs: [String]?) -> [Sweet.MediaModel] {
-    guard let mediaIDs = mediaIDs else {
-      return []
-    }
-
-    let medias = allMedias.filter { mediaIDs.contains($0.key) }
-
-    return medias
-  }
-
-  func getUser(_ userID: String?) -> Sweet.UserModel? {
-    guard let userID = userID else { return nil }
-
-    let user = allUsers.first(where: { $0.id == userID })
-
-    return user
-  }
-
-  func getTweet(_ tweetID: String?) -> Sweet.TweetModel? {
-    guard let tweetID = tweetID else {
-      return nil
-    }
-
-    let retweetTweet = allTweets.first { $0.id == tweetID }
-
-    return retweetTweet
-  }
-}
-
-@MainActor final class ListDetailViewModel: ListDetailViewProtocol {
-  var error: Error?
-  @Published var didError: Bool = false
-  @Published var timelines: [String] = []
-  @Published var allTweets: [Sweet.TweetModel] = []
-  @Published var allUsers: [Sweet.UserModel] = []
-  @Published var allMedias: [Sweet.MediaModel] = []
-  @Published var allPolls: [Sweet.PollModel] = []
-  @Published var allPlaces: [Sweet.PlaceModel] = []
-
-  var paginationToken: String? = nil
-
+@MainActor final class ListDetailViewModel<T: TweetsViewProtocol>: ListDetailViewProtocol {
+  let userID: String
   let list: Sweet.ListModel
+  let tweetsViewModel: T
 
-  init(list: Sweet.ListModel) {
+  init(userID: String, list: Sweet.ListModel, tweetsViewModel: T) {
+    self.userID = userID
     self.list = list
+    self.tweetsViewModel = tweetsViewModel
   }
+}
 
-  func fetchTweets() async {
+final class ListTweetsViewModel: NSObject, TweetsViewProtocol {
+  var loadingTweets = false
+  var paginationToken: String?
+  var latestTapTweetID: String?
+  var error: Error?
+  var timelines: [String] = []
+
+  let listID: String
+  let userID: String
+
+  @Published var isPresentedTweetToolbar: Bool = false
+  @Published var didError: Bool = false
+
+  let viewContext: NSManagedObjectContext
+
+  let fetchShowTweetController: NSFetchedResultsController<Tweet>
+  let fetchTweetController: NSFetchedResultsController<Tweet>
+  let fetchUserController: NSFetchedResultsController<User>
+  let fetchMediaController: NSFetchedResultsController<Media>
+  let fetchPollController: NSFetchedResultsController<Poll>
+  let fetchPlaceController: NSFetchedResultsController<Place>
+
+  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
     do {
-      let sweet = try await Sweet()
-      let listResponse = try await sweet.fetchListTweets(listID: list.id, paginationToken: paginationToken)
+      let maxResults = 100
+
+      let listResponse = try await Sweet().fetchListTweets(listID: listID, maxResults: maxResults, paginationToken: paginationToken)
 
       paginationToken = listResponse.meta?.nextToken
 
@@ -127,36 +64,163 @@ extension ListDetailViewProtocol {
         return
       }
 
-      let tweetResponse = try await sweet.lookUpTweets(by: tweetIDs)
+      let tweetResponse = try await  Sweet().lookUpTweets(by: tweetIDs)
 
-      tweetResponse.tweets.forEach {
-        allTweets.appendIfNotContains($0)
+      try tweetResponse.tweets.forEach { tweet in
+        try addTweet(tweet)
+        try addTimeline(tweet.id)
       }
 
-      tweetResponse.relatedTweets.forEach {
-        allTweets.appendIfNotContains($0)
+      try tweetResponse.relatedTweets.forEach { tweet in
+        try addTweet(tweet)
       }
 
-      tweetResponse.users.forEach {
-        allUsers.appendIfNotContains($0)
+      try tweetResponse.users.forEach { user in
+        try addUser(user)
       }
 
-      tweetResponse.polls.forEach {
-        allPolls.appendIfNotContains($0)
+      try tweetResponse.medias.forEach { media in
+        try addMedia(media)
       }
 
-      tweetResponse.medias.forEach {
-        allMedias.appendIfNotContains($0)
+      try tweetResponse.polls.forEach { poll in
+        try addPoll(poll)
       }
 
-      tweetResponse.places.forEach {
-        allPlaces.appendIfNotContains($0)
+      try tweetResponse.places.forEach { place in
+        try addPlace(place)
       }
 
-      timelines.append(contentsOf: tweetIDs)
+      updateTimeLine()
+
+      if let firstTweetID = firstTweetID, tweetResponse.tweets.count == maxResults {
+        await fetchTweets(first: firstTweetID, last: nil)
+      }
     } catch let newError {
-      error = newError
-      didError.toggle()
+      self.error = newError
+      self.didError.toggle()
     }
   }
+
+  init(userID: String, listID: String, viewContext: NSManagedObjectContext) {
+    self.userID = userID
+    self.listID = listID
+    self.viewContext = viewContext
+
+    self.fetchShowTweetController = {
+      let fetchRequest = NSFetchRequest<Tweet>()
+      fetchRequest.entity = Tweet.entity()
+      fetchRequest.sortDescriptors = [.init(keyPath: \Tweet.createdAt, ascending: false)]
+      fetchRequest.predicate = .init(format: "id IN %@", [])
+
+      return NSFetchedResultsController<Tweet>(
+        fetchRequest: fetchRequest,
+        managedObjectContext: viewContext,
+        sectionNameKeyPath: nil,
+        cacheName: nil
+      )
+    }()
+
+    self.fetchTweetController = {
+      let fetchRequest = NSFetchRequest<Tweet>()
+      fetchRequest.entity = Tweet.entity()
+      fetchRequest.sortDescriptors = []
+
+      return NSFetchedResultsController<Tweet>(
+        fetchRequest: fetchRequest,
+        managedObjectContext: viewContext,
+        sectionNameKeyPath: nil,
+        cacheName: nil
+      )
+    }()
+
+    self.fetchUserController = {
+      let fetchRequest = NSFetchRequest<User>()
+      fetchRequest.entity = User.entity()
+      fetchRequest.sortDescriptors = []
+
+      return NSFetchedResultsController<User>(
+        fetchRequest: fetchRequest,
+        managedObjectContext: viewContext,
+        sectionNameKeyPath: nil,
+        cacheName: nil
+      )
+    }()
+
+    self.fetchPollController = {
+      let fetchRequest = NSFetchRequest<Poll>()
+      fetchRequest.entity = Poll.entity()
+      fetchRequest.sortDescriptors = []
+
+      return NSFetchedResultsController<Poll>(
+        fetchRequest: fetchRequest,
+        managedObjectContext: viewContext,
+        sectionNameKeyPath: nil,
+        cacheName: nil
+      )
+    }()
+
+    self.fetchMediaController = {
+      let fetchRequest = NSFetchRequest<Media>()
+      fetchRequest.entity = Media.entity()
+      fetchRequest.sortDescriptors = []
+
+      return NSFetchedResultsController<Media>(
+        fetchRequest: fetchRequest,
+        managedObjectContext: viewContext,
+        sectionNameKeyPath: nil,
+        cacheName: nil
+      )
+    }()
+
+    self.fetchPlaceController = {
+      let fetchRequest = NSFetchRequest<Place>()
+      fetchRequest.entity = Place.entity()
+      fetchRequest.sortDescriptors = []
+
+      return NSFetchedResultsController<Place>(
+        fetchRequest: fetchRequest,
+        managedObjectContext: viewContext,
+        sectionNameKeyPath: nil,
+        cacheName: nil
+      )
+    }()
+
+    super.init()
+
+    fetchShowTweetController.delegate = self
+    fetchTweetController.delegate = self
+    fetchUserController.delegate = self
+    fetchPlaceController.delegate = self
+    fetchPollController.delegate = self
+    fetchMediaController.delegate = self
+
+    try! fetchShowTweetController.performFetch()
+    try! fetchTweetController.performFetch()
+    try! fetchUserController.performFetch()
+    try! fetchPlaceController.performFetch()
+    try! fetchPollController.performFetch()
+    try! fetchMediaController.performFetch()
+  }
+
+  func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    objectWillChange.send()
+  }
+
+  func addTimeline(_ tweetID: String) throws {
+    if timelines.contains(where: { $0 == tweetID }) {
+      return
+    }
+
+    timelines.append(tweetID)
+  }
+
+  func updateTimeLine() {
+    fetchShowTweetController.fetchRequest.predicate = .init(format: "id IN %@", timelines)
+
+    // TODOなぜかこれをしないとうまく動作しない
+    try! fetchShowTweetController.performFetch()
+  }
 }
+
+
