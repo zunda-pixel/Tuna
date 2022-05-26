@@ -193,7 +193,7 @@ final class ReverseChronologicalViewModel: NSObject, TweetsViewProtocol {
       }
 
       if firstTweetID != nil && response.tweets.count == maxResults {
-        let firstTweetID = timelines.first
+        let firstTweetID = showTweets.first?.id
         await fetchTweets(first: firstTweetID, last: nil)
       }
 
