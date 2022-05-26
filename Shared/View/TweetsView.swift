@@ -37,7 +37,9 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
               viewModel.latestTapTweetID = cellViewModel.tweet.id
               viewModel.isPresentedTweetToolbar.toggle()
             }
-          if let latestTapTweetID = viewModel.latestTapTweetID, latestTapTweetID == cellViewModel.tweet.id, viewModel.isPresentedTweetToolbar {
+          if let latestTapTweetID = viewModel.latestTapTweetID,
+             latestTapTweetID == cellViewModel.tweet.id,
+             viewModel.isPresentedTweetToolbar {
             TweetToolBar(userID: cellViewModel.authorUser.id, tweetID: cellViewModel.tweet.id)
           }
         }
@@ -48,7 +50,7 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
 
           if tweet.id == lastTweet.id {
             Task {
-              await fetchTweets(first: nil, last: tweet.id)
+              await fetchTweets(first: nil, last: lastTweet.id)
             }
           }
         }
@@ -71,11 +73,11 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
     }
     .listStyle(.plain)
     .refreshable {
-      let firstTweetID = viewModel.timelines.first
+      let firstTweetID = viewModel.showTweets.first?.id
       await fetchTweets(first: firstTweetID, last: nil)
     }
     .onAppear {
-      let firstTweetID = viewModel.timelines.first
+      let firstTweetID = viewModel.showTweets.first?.id
       Task {
         await fetchTweets(first: firstTweetID, last: nil)
       }
