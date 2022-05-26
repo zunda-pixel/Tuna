@@ -32,46 +32,7 @@ struct ListDetailView<ViewModel:  ListDetailViewProtocol>: View {
       }
     }
 
-    List(viewModel.timelines, id: \.self) { tweetID in
-
-      let cellViewModel = viewModel.getTweetCellViewModel(tweetID)
-      TweetCellView(viewModel: cellViewModel)
-        .environment(\.managedObjectContext, viewContext)
-        .onAppear {
-          guard let lastTweetID = viewModel.timelines.last else{
-            return
-          }
-
-          if tweetID == lastTweetID {
-            Task {
-              await viewModel.fetchTweets()
-            }
-          }
-        }
-    }
-    .listStyle(.plain)
-    .alert("Error", isPresented: $viewModel.didError) {
-      Button {
-        print(viewModel.error!)
-      } label: {
-        Text("Close")
-      }
-
-    }
-    .onAppear {
-      Task {
-        await viewModel.fetchTweets()
-      }
-    }
-    .refreshable {
-      await viewModel.fetchTweets()
-    }
-  }
-}
-
-struct ListDetailView_Previews: PreviewProvider {
-  static var previews: some View {
-    let viewModel: ListDetailViewModel = .init(list: .init(id: "", name: ""))
-    ListDetailView(viewModel: viewModel)
+    let listTweetsViewModel: ListTweetsViewModel =  .init(userID: viewModel.userID, listID: viewModel.list.id, viewContext: viewContext)
+    TweetsView(viewModel: listTweetsViewModel)
   }
 }
