@@ -45,7 +45,8 @@ struct ListsView: View {
           ForEach(pinnedLists) { list in
             NavigationLink(
               destination: {
-                let listDetailViewModel: ListDetailViewModel = .init(list: list)
+                let tweetsViewModel: ListTweetsViewModel = .init(userID: userID, listID: list.id, viewContext: viewContext)
+                let listDetailViewModel: ListDetailViewModel = .init(userID: userID, list: list, tweetsViewModel: tweetsViewModel)
                 ListDetailView(viewModel: listDetailViewModel)
                   .environment(\.managedObjectContext, viewContext)
               },
@@ -77,7 +78,8 @@ struct ListsView: View {
           ForEach(ownedLists) { list in
             NavigationLink(
               destination: {
-                let listDetailViewModel: ListDetailViewModel = .init(list: list)
+                let listTweetsViewModel: ListTweetsViewModel = .init(userID: userID, listID: list.id, viewContext: viewContext)
+                let listDetailViewModel: ListDetailViewModel = .init(userID: userID, list: list, tweetsViewModel: listTweetsViewModel)
                 ListDetailView(viewModel: listDetailViewModel)
                   .environment(\.managedObjectContext, viewContext)
               },
@@ -104,7 +106,8 @@ struct ListsView: View {
           ForEach(followingLists) { list in
             NavigationLink(
               destination: {
-                let listDetailViewModel: ListDetailViewModel = .init(list: list)
+                let listTweetsViewModel: ListTweetsViewModel = .init(userID: userID, listID: list.id, viewContext: viewContext)
+                let listDetailViewModel: ListDetailViewModel = .init(userID: userID, list: list, tweetsViewModel: listTweetsViewModel)
                 ListDetailView(viewModel: listDetailViewModel)
                   .environment(\.managedObjectContext, viewContext)
               },
