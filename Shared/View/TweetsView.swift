@@ -30,21 +30,34 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
     List {
       ForEach(viewModel.showTweets) { tweet in
         let cellViewModel = viewModel.getTweetCellViewModel(tweet.id!)
+
+        let isTappedTweet: Bool = {
+          if let latestTapTweetID = viewModel.latestTapTweetID,
+             latestTapTweetID == cellViewModel.tweet.id,
+             viewModel.isPresentedTweetToolbar {
+            return true
+          } else {
+            return false
+          }
+        }()
+
         VStack {
           TweetCellView(viewModel: cellViewModel)
             .environment(\.managedObjectContext, viewModel.viewContext)
             .onTapGesture {
+              viewModel.isPresentedTweetToolbar = viewModel.latestTapTweetID != cellViewModel.tweet.id
               viewModel.latestTapTweetID = cellViewModel.tweet.id
-              viewModel.isPresentedTweetToolbar.toggle()
             }
-          if let latestTapTweetID = viewModel.latestTapTweetID,
-             latestTapTweetID == cellViewModel.tweet.id,
-             viewModel.isPresentedTweetToolbar {
+            .if(isTappedTweet) {
+              $0.background(.mint.opacity(0.2))
+            }
+          if isTappedTweet {
             TweetToolBar(userID: cellViewModel.authorUser.id, tweetID: cellViewModel.tweet.id)
           }
         }
+
         .onAppear {
-          guard let lastTweet = viewModel.showTweets.last else{
+          guard let lastTweet = viewModel.showTweets.last else {
             return
           }
 
