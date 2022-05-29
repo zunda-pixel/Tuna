@@ -15,6 +15,13 @@ struct UsersView<ViewModel: UsersViewProtocol>: View {
     let ownerID = Secret.currentUserID!
     List(viewModel.users) { user in
       UserCellView(ownerID: ownerID, user: user)
+        .onAppear {
+          if viewModel.users.last?.id == user.id {
+            Task {
+              await viewModel.fetchUsers()
+            }
+          }
+        }
     }
     .listStyle(.plain)
     .alert("Error", isPresented: $viewModel.didError) {
@@ -23,6 +30,9 @@ struct UsersView<ViewModel: UsersViewProtocol>: View {
       } label: {
         Text("Close")
       }
+    }
+    .refreshable {
+      await viewModel.fetchUsers()
     }
     .onAppear {
       Task {
