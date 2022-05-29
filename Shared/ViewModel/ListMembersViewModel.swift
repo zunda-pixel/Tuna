@@ -9,24 +9,31 @@ import Foundation
 import Sweet
 
 @MainActor final class ListMembersViewModel: UsersViewProtocol {
-  @Published var didError: Bool = false
+  var paginationToken: String?
+
+  @Published var didError = false
 
   var error: Error?
-  var users: [Sweet.UserModel]
+  var users: [Sweet.UserModel] = []
   let listID: String
 
-  init(listID: String, users: [Sweet.UserModel] = []) {
+  init(listID: String) {
     self.listID = listID
-    self.users = users
   }
 
   func fetchUsers() async {
     do {
-      let sweet = try await Sweet()
-      let listResponse = try await sweet.fetchAddedUsersToList(listID: listID)
-      users = listResponse.users
-    } catch {
-      self.error = error
+      let response = try await Sweet().fetchAddedUsersToList(listID: listID, paginationToken: paginationToken)
+
+      if response.meta?.nextToken != nil {
+        users = response.users
+      } else {
+        users.append(contentsOf: response.users)
+      }
+
+      paginationToken = response.meta?.nextToken
+    } catch let newError {
+      self.error = newError
       self.didError.toggle()
     }
   }
