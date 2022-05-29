@@ -18,7 +18,7 @@ struct UsersView<ViewModel: UsersViewProtocol>: View {
         .onAppear {
           if viewModel.users.last?.id == user.id {
             Task {
-              await viewModel.fetchUsers()
+              await viewModel.fetchUsers(reset: false)
             }
           }
         }
@@ -32,11 +32,11 @@ struct UsersView<ViewModel: UsersViewProtocol>: View {
       }
     }
     .refreshable {
-      await viewModel.fetchUsers()
+      await viewModel.fetchUsers(reset: true)
     }
     .onAppear {
       Task {
-        await viewModel.fetchUsers()
+        await viewModel.fetchUsers(reset: false)
       }
     }
   }

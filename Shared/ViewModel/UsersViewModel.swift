@@ -13,5 +13,5 @@ import Sweet
   var error: Error? { get set }
   var didError: Bool { get set }
   var paginationToken: String? { get set }
-  func fetchUsers() async
+  func fetchUsers(reset resetData : Bool) async
 }

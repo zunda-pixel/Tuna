@@ -21,15 +21,15 @@ import Sweet
     self.listID = listID
   }
 
-  func fetchUsers() async {
+  func fetchUsers(reset resetData: Bool) async {
     do {
       let response = try await Sweet().fetchAddedUsersToList(listID: listID, paginationToken: paginationToken)
 
-      if response.meta?.nextToken != nil {
-        users = response.users
-      } else {
-        users.append(contentsOf: response.users)
+      if resetData {
+        users = []
       }
+
+      users.append(contentsOf: response.users)
 
       paginationToken = response.meta?.nextToken
     } catch let newError {
