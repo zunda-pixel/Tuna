@@ -89,8 +89,7 @@ final class NewTweetViewModel: NSObject, NewTweetViewProtocol {
       media: nil, poll: poll, quoteTweetID: nil,
       reply: nil, replySettings: selectedReplySetting)
     do {
-      let sweet = try await Sweet()
-      let _ = try await sweet.createTweet(tweet)
+      let _ = try await Sweet().createTweet(tweet)
     } catch {
       self.error = error
     }

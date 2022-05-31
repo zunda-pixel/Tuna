@@ -177,11 +177,9 @@ struct UserTweetsView: View {
 
   func getTimeline(first firstTweetID: String? = nil, last lastTweetID: String? = nil) async {
     do {
-      let sweet = try await Sweet()
-
       let maxResults = 100
 
-      let response = try await sweet.fetchTimeLine(by: userID, maxResults: maxResults, untilID: lastTweetID, sinceID: firstTweetID)
+      let response = try await Sweet().fetchTimeLine(by: userID, maxResults: maxResults, untilID: lastTweetID, sinceID: firstTweetID)
 
       try response.tweets.forEach { tweet in
         try addTweet(tweet)
