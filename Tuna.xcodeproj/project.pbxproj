@@ -130,6 +130,10 @@
 		2EB3B38E283E9DDC00891A5E /* DurationPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB3B38C283E9DDC00891A5E /* DurationPicker.swift */; };
 		2EB935D22845FD4900833663 /* ListFollowersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB935D12845FD4900833663 /* ListFollowersViewModel.swift */; };
 		2EB935D32845FD4900833663 /* ListFollowersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB935D12845FD4900833663 /* ListFollowersViewModel.swift */; };
+		2EB935D528461B8C00833663 /* SearchUsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB935D428461B8C00833663 /* SearchUsersViewModel.swift */; };
+		2EB935D628461B8C00833663 /* SearchUsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB935D428461B8C00833663 /* SearchUsersViewModel.swift */; };
+		2EB935D828461BA700833663 /* SearchTweetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB935D728461BA700833663 /* SearchTweetsViewModel.swift */; };
+		2EB935D928461BA700833663 /* SearchTweetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB935D728461BA700833663 /* SearchTweetsViewModel.swift */; };
 		2EEE9DFD2816DB0300721ADD /* UsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9DFC2816DB0300721ADD /* UsersView.swift */; };
 		2EEE9DFE2816DB0300721ADD /* UsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9DFC2816DB0300721ADD /* UsersView.swift */; };
 		2EEE9E002816E8F000721ADD /* UserCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9DFF2816E8F000721ADD /* UserCellView.swift */; };
@@ -249,6 +253,8 @@
 		2EB3B389283E9AB300891A5E /* LikesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesViewModel.swift; sourceTree = "<group>"; };
 		2EB3B38C283E9DDC00891A5E /* DurationPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationPicker.swift; sourceTree = "<group>"; };
 		2EB935D12845FD4900833663 /* ListFollowersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFollowersViewModel.swift; sourceTree = "<group>"; };
+		2EB935D428461B8C00833663 /* SearchUsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUsersViewModel.swift; sourceTree = "<group>"; };
+		2EB935D728461BA700833663 /* SearchTweetsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTweetsViewModel.swift; sourceTree = "<group>"; };
 		2EEE9DFC2816DB0300721ADD /* UsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersView.swift; sourceTree = "<group>"; };
 		2EEE9DFF2816E8F000721ADD /* UserCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCellView.swift; sourceTree = "<group>"; };
 		2EEE9E022816E93E00721ADD /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
@@ -499,6 +505,8 @@
 				2EB3B386283E765900891A5E /* BookmarksViewModel.swift */,
 				2EB3B389283E9AB300891A5E /* LikesViewModel.swift */,
 				2E1914F4283F1EBC00F03C7C /* SearchViewModel.swift */,
+				2EB935D428461B8C00833663 /* SearchUsersViewModel.swift */,
+				2EB935D728461BA700833663 /* SearchTweetsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -673,6 +681,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EB935D828461BA700833663 /* SearchTweetsViewModel.swift in Sources */,
 				2E1914F5283F1EBC00F03C7C /* SearchViewModel.swift in Sources */,
 				2E5324F027FF1D8E008D5EFB /* UIImage+Extension.swift in Sources */,
 				2E10387227F2AF3700E8E67B /* ListCellView.swift in Sources */,
@@ -716,6 +725,7 @@
 				2E10382A27EC05FE00E8E67B /* User+Extension.swift in Sources */,
 				2EF5B326283BA7FB00DD8352 /* FollowButton.swift in Sources */,
 				2E7DD5EA283B569E00F16C53 /* UserProfileView.swift in Sources */,
+				2EB935D528461B8C00833663 /* SearchUsersViewModel.swift in Sources */,
 				2E5324E727FF1CEA008D5EFB /* NSItemProvider+Extension.swift in Sources */,
 				2E3468E4283A784300AA2E33 /* AccountSettingView.swift in Sources */,
 				2E10383C27ECC53100E8E67B /* PollModel+Extension.swift in Sources */,
@@ -752,6 +762,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EB935D928461BA700833663 /* SearchTweetsViewModel.swift in Sources */,
 				2E1914F6283F1EBC00F03C7C /* SearchViewModel.swift in Sources */,
 				2E5324F127FF1D8E008D5EFB /* UIImage+Extension.swift in Sources */,
 				2E10387327F2AF3700E8E67B /* ListCellView.swift in Sources */,
@@ -795,6 +806,7 @@
 				2E10382B27EC05FE00E8E67B /* User+Extension.swift in Sources */,
 				2EF5B327283BA7FB00DD8352 /* FollowButton.swift in Sources */,
 				2E7DD5EB283B569E00F16C53 /* UserProfileView.swift in Sources */,
+				2EB935D628461B8C00833663 /* SearchUsersViewModel.swift in Sources */,
 				2E5324E827FF1CEA008D5EFB /* NSItemProvider+Extension.swift in Sources */,
 				2E3468E5283A784300AA2E33 /* AccountSettingView.swift in Sources */,
 				2E10383D27ECC53100E8E67B /* PollModel+Extension.swift in Sources */,

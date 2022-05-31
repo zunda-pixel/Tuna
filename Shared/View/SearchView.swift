@@ -34,8 +34,8 @@ struct SearchView<ViewModel: SearchViewProtocol>: View {
         TabView(selection: $selection) {
           TweetsView(viewModel: viewModel.tweetsViewModel)
             .tag(Pages.tweet)
-          Text("User")
-          //UsersView(viewModel: .)
+
+          UsersView(viewModel: viewModel.usersViewModel)
             .tag(Pages.user)
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
@@ -44,9 +44,6 @@ struct SearchView<ViewModel: SearchViewProtocol>: View {
     }
     .navigationViewStyle(.stack)
     .searchable(text: $viewModel.tweetsViewModel.searchText, prompt: Text("Search Keyword"))
-    .refreshable {
-      await viewModel.tweetsViewModel.fetchTweets(first: nil, last: nil)
-    }
     .onSubmit(of: .search) {
       Task {
         let firstTweetID = viewModel.tweetsViewModel.showTweets.first?.id
@@ -54,7 +51,8 @@ struct SearchView<ViewModel: SearchViewProtocol>: View {
       }
 
       Task {
-        //await searchUser()
+        viewModel.usersViewModel.searchText = viewModel.tweetsViewModel.searchText
+        await viewModel.usersViewModel.fetchUsers(reset: true)
       }
     }
   }

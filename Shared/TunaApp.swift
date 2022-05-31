@@ -56,7 +56,8 @@ struct TunaApp: App {
                 Image(systemName: "list.dash.header.rectangle")
               }
             let tweetsViewModel: SearchTweetsViewModel = .init(userID: userID, viewContext: persistenceController.container.viewContext)
-            let searchViewModel: SearchViewModel = .init(tweetsViewModel: tweetsViewModel)
+            let usersViewModel: SearchUsersViewModel = .init()
+            let searchViewModel: SearchViewModel = .init(tweetsViewModel: tweetsViewModel, usersViewModel: usersViewModel)
             SearchView(viewModel: searchViewModel)
               .environment(\.managedObjectContext, persistenceController.container.viewContext)
               .tabItem {
