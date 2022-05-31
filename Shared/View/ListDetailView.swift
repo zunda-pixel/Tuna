@@ -19,13 +19,14 @@ struct ListDetailView<ViewModel:  ListDetailViewProtocol>: View {
 
       HStack {
         NavigationLink(destination: {
-          let viewModel = ListMembersViewModel(listID: viewModel.list.id)
-          UsersView(viewModel: viewModel)
+          let listMembersViewModel = ListMembersViewModel(listID: viewModel.list.id)
+          UsersView(viewModel: listMembersViewModel)
         }) {
           Text("\(viewModel.list.memberCount!) members")
         }
         NavigationLink(destination: {
-          Text("未実施")
+          let listFollowersViewModel = ListFollowersViewModel(listID: viewModel.list.id)
+          UsersView(viewModel: listFollowersViewModel)
         }) {
           Text("\(viewModel.list.followerCount!) followers")
         }
