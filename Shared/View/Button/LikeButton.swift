@@ -37,29 +37,6 @@ import Sweet
       didError.toggle()
     }
   }
-
-  func fetchLikingUser(paginationToken: String? = nil) async {
-    loading = true
-
-    defer {
-      loading = false
-    }
-
-    do {
-      let response = try await Sweet().fetchLikedTweet(by: userID, paginationToken: paginationToken)
-
-      let isContain = response.tweets.contains { $0.id == tweetID }
-
-      isLiked = isContain
-
-      if let nextToken = response.meta?.nextToken, !isContain {
-        await fetchLikingUser(paginationToken: nextToken)
-      }
-    } catch let newError {
-      error = newError
-      didError.toggle()
-    }
-  }
 }
 
 struct LikeButton: View {
@@ -82,12 +59,6 @@ struct LikeButton: View {
         Text("Close")
       }
     }
-    .onAppear {
-      Task {
-        await viewModel.fetchLikingUser()
-      }
-    }
-
   }
 }
 

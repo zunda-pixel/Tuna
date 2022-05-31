@@ -37,29 +37,6 @@ import Sweet
       didError.toggle()
     }
   }
-
-  func fetchFollowingUsers(paginationToken: String? = nil) async {
-    loading = true
-
-    defer {
-      loading = false
-    }
-
-    do {
-      let response = try await Sweet().fetchFollowing(by: fromUserID, paginationToken: paginationToken)
-
-      let isContain = response.users.contains { $0.id == fromUserID }
-
-      isFollowed = isContain
-
-      if let nextToken = response.meta?.nextToken, !isContain {
-        await fetchFollowingUsers(paginationToken: nextToken)
-      }
-    } catch let newError {
-      error = newError
-      didError.toggle()
-    }
-  }
 }
 
 
@@ -82,12 +59,6 @@ struct FollowButton: View {
         Text("Close")
       }
     }
-    .onAppear {
-      Task {
-        await viewModel.fetchFollowingUsers()
-      }
-    }
-
   }
 }
 

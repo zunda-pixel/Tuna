@@ -37,29 +37,6 @@ import Sweet
       didError.toggle()
     }
   }
-
-  func fetchBlockingUsers(paginationToken: String? = nil) async {
-    loading = true
-
-    defer {
-      loading = false
-    }
-
-    do {
-      let response = try await Sweet().fetchBlocking(by: fromUserID, paginationToken: paginationToken)
-
-      let isContain = response.users.contains { $0.id == fromUserID }
-
-      isBlocked = isContain
-
-      if let nextToken = response.meta?.nextToken, !isContain {
-        await fetchBlockingUsers(paginationToken: nextToken)
-      }
-    } catch let newError {
-      error = newError
-      didError.toggle()
-    }
-  }
 }
 
 
@@ -72,7 +49,7 @@ struct BlockButton: View {
         await viewModel.blockOrUnBlockUser()
       }
     } label: {
-      Text(viewModel.isBlocked ? "UnBlock" : "Block")
+      Label(viewModel.isBlocked ? "UnBlock" : "Block", systemImage: viewModel.isBlocked ? "person.fill" : "person.fill.xmark")
     }
     .disabled(viewModel.loading)
     .alert("Error", isPresented: $viewModel.didError) {
@@ -82,12 +59,6 @@ struct BlockButton: View {
         Text("Close")
       }
     }
-    .onAppear {
-      Task {
-        await viewModel.fetchBlockingUsers()
-      }
-    }
-
   }
 }
 

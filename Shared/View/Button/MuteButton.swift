@@ -37,30 +37,6 @@ import Sweet
       didError.toggle()
     }
   }
-
-  func fetchMutingUser(paginationToken: String? = nil) async {
-    loading = true
-
-    defer {
-      loading = false
-    }
-
-    do {
-      let response = try await Sweet().fetchMuting(by: fromUserID, paginationToken: paginationToken)
-
-      let isContain = response.users.contains { $0.id == fromUserID }
-
-      isMuted = isContain
-
-      if let nextToken = response.meta?.nextToken, !isContain {
-        await fetchMutingUser(paginationToken: nextToken)
-      }
-    } catch let newError {
-      error = newError
-      didError.toggle()
-    }
-  }
-
 }
 
 struct MuteButton: View {
@@ -72,7 +48,7 @@ struct MuteButton: View {
         await viewModel.muteOrUnMuteUser()
       }
     } label: {
-      Text(viewModel.isMuted ? "UnMute" : "Mute")
+      Label(viewModel.isMuted ? "UnMute" : "Mute", systemImage: viewModel.isMuted ? "speaker" : "speaker.slash")
     }
     .disabled(viewModel.loading)
     .alert("Error", isPresented: $viewModel.didError) {
@@ -82,12 +58,6 @@ struct MuteButton: View {
         Text("Close")
       }
     }
-    .onAppear {
-      Task {
-        await viewModel.fetchMutingUser()
-      }
-    }
-
   }
 }
 
