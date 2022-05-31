@@ -8,211 +8,53 @@
 import SwiftUI
 import Sweet
 
-struct SearchView: View {
-  @Environment(\.managedObjectContext) private var viewContext
+struct SearchView<ViewModel: SearchViewProtocol>: View {
+  @StateObject var viewModel: ViewModel
 
-  @State var didError = false
-  @State var error: Error?
-  @State var timelines: [String] = []
-  @State var allTweets: [Sweet.TweetModel] = []
-  @State var allUsers: [Sweet.UserModel] = []
-  @State var allMedias: [Sweet.MediaModel] = []
-  @State var allPolls: [Sweet.PollModel] = []
-  @State var allPlaces: [Sweet.PlaceModel] = []
-  @State var searchText: String = ""
-  @State var searchUserIDs: [String] = []
+  enum Pages: String, CaseIterable, Identifiable {
+    case user = "User"
+    case tweet = "Tweet"
 
-  func searchUser() async {
-    searchUserIDs = []
-
-    if let userResponse = try? await Sweet().lookUpUser(userID: searchText) {
-      allUsers.appendIfNotContains(userResponse.user)
-      searchUserIDs.appendIfNotContains(userResponse.user.id)
-    }
-
-    if let screenResponse = try? await Sweet().lookUpUser(screenID: searchText) {
-      allUsers.appendIfNotContains(screenResponse.user)
-      searchUserIDs.appendIfNotContains(screenResponse.user.id)
-    }
+    var id: String { self.rawValue }
   }
 
-  func searchTweet(old oldTweetID: String? = nil, latest latestTweetID: String? = nil) async {
-    do {
-      let searchResponse = try await Sweet().searchRecentTweet(by: searchText, untilID: oldTweetID, sinceID: latestTweetID)
-      let tweetIDs = searchResponse.tweets.map(\.id)
-
-      if tweetIDs.isEmpty {
-        if oldTweetID == nil && latestTweetID == nil {
-          timelines = []
-        }
-
-        return
-      }
-
-      let tweetResponse = try await Sweet().lookUpTweets(by: tweetIDs)
-
-      tweetResponse.tweets.forEach {
-        allTweets.appendIfNotContains($0)
-      }
-
-      tweetResponse.relatedTweets.forEach {
-        allTweets.appendIfNotContains($0)
-      }
-
-      tweetResponse.users.forEach {
-        allUsers.appendIfNotContains($0)
-      }
-
-      tweetResponse.medias.forEach {
-        allMedias.appendIfNotContains($0)
-      }
-
-      tweetResponse.polls.forEach {
-        allPolls.appendIfNotContains($0)
-      }
-
-      tweetResponse.places.forEach {
-        allPlaces.appendIfNotContains($0)
-      }
-
-
-      if oldTweetID != nil {
-        timelines.append(contentsOf: tweetIDs)
-      } else if latestTweetID != nil {
-        timelines = tweetIDs + timelines
-      } else {
-        timelines = tweetIDs
-      }
-    } catch let newError {
-      error = newError
-      didError.toggle()
-    }
-  }
-
-  private func getPlace(placeID: String?) -> Sweet.PlaceModel? {
-    guard let placeID = placeID else { return nil }
-
-    let firstPlace = allPlaces.first(where: { $0.id == placeID })
-
-    return firstPlace
-  }
-
-  private func getPoll(key pollKey: String?) -> Sweet.PollModel? {
-    guard let pollKey = pollKey else { return nil}
-
-    let firstPoll = allPolls.first(where: { $0.id == pollKey })
-
-    return firstPoll
-  }
-
-  private func getMedias(keys mediaKeys: [String]?) -> [Sweet.MediaModel] {
-    guard let mediaKeys = mediaKeys else {
-      return []
-    }
-
-    let medias = allMedias.filter { mediaKeys.contains($0.key) }
-
-    return medias
-  }
-
-  private func getUser(_ userID: String?) -> Sweet.UserModel? {
-    guard let userID = userID else { return nil }
-
-    let firstUser = allUsers.first(where: { $0.id == userID })
-
-    return firstUser
-  }
-
-  func getTweet(_ tweetID: String?) -> Sweet.TweetModel? {
-    guard let tweetID = tweetID else {
-      return nil
-    }
-
-    let firstTweet = allTweets.first { $0.id == tweetID }
-    return firstTweet
-  }
-
-  let pages = ["User", "Tweet"]
-
-  @State var selection: Int = 0
+  @State var selection: Pages = .tweet
 
   var body: some View {
     NavigationView {
       VStack {
         Picker("Menu", selection: $selection) {
-          ForEach(0..<pages.count, id: \.self) { index in
-            Text(pages[index])
-              .tag(index)
+          ForEach(Pages.allCases) { page in
+            Text(page.rawValue)
+              .tag(page)
           }
         }
         .pickerStyle(.segmented)
 
         TabView(selection: $selection) {
-          List(searchUserIDs, id: \.self) { userID in
-            HStack {
-              let user = getUser(userID)!
-              ProfileImageView(user.profileImageURL)
-                .frame(width: 30, height: 30)
-              Text(user.userName)
-            }
-          }
-          .tag(0)
-          List(timelines, id: \.self) { tweetID in
-            let tweetModel = getTweet(tweetID)!
-
-            let retweetTweetModel = getTweet(tweetModel.referencedTweet?.id)
-
-            let authorUser = getUser(tweetModel.authorID!)!
-            let retweetUser = getUser(retweetTweetModel?.authorID)
-
-            let medias = getMedias(keys: tweetModel.attachments?.mediaKeys)
-
-            let poll = getPoll(key: tweetModel.attachments?.pollID)
-
-            let place = getPlace(placeID: tweetModel.geo?.placeID)
-
-            let viewModel: TweetCellViewModel = .init(tweet: tweetModel, retweet: retweetTweetModel, author: authorUser, retweetUser: retweetUser, medias: medias, poll: poll, place: place)
-            TweetCellView(viewModel: viewModel)
-              .environment(\.managedObjectContext, viewContext)
-              .onAppear {
-                guard let lastTweetID = timelines.last else {
-                  return
-                }
-
-                if tweetModel.id == lastTweetID {
-                  Task {
-                    await searchTweet(old: lastTweetID)
-                  }
-                }
-              }
-          }
-          .tag(1)
-          .tabViewStyle(.page(indexDisplayMode: .never))
+          TweetsView(viewModel: viewModel.tweetsViewModel)
+            .tag(Pages.tweet)
+          Text("User")
+          //UsersView(viewModel: .)
+            .tag(Pages.user)
         }
-      }
-
-    }
-    .alert("Error", isPresented: $didError) {
-      Button {
-        print(error!)
-      } label: {
-        Text("Close")
+        .tabViewStyle(.page(indexDisplayMode: .never))
       }
 
     }
     .navigationViewStyle(.stack)
-    .searchable(text: $searchText, prompt: Text("Search Keyword"))
+    .searchable(text: $viewModel.tweetsViewModel.searchText, prompt: Text("Search Keyword"))
     .refreshable {
-      guard let firstTweetID = timelines.first else { return }
-      await searchTweet(latest: firstTweetID)
+      await viewModel.tweetsViewModel.fetchTweets(first: nil, last: nil)
     }
     .onSubmit(of: .search) {
       Task {
-        await searchTweet()
+        let firstTweetID = viewModel.tweetsViewModel.showTweets.first?.id
+        await viewModel.tweetsViewModel.fetchTweets(first: firstTweetID, last: nil)
       }
 
       Task {
-        await searchUser()
+        //await searchUser()
       }
     }
   }
