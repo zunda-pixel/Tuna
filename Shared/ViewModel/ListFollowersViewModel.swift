@@ -1,14 +1,14 @@
 //
-//  ListMembersViewModel.swift
+//  ListFollowersViewModel.swift
 //  Tuna
 //
-//  Created by zunda on 2022/04/25.
+//  Created by zunda on 2022/05/31.
 //
 
 import Foundation
 import Sweet
 
-@MainActor final class ListMembersViewModel: UsersViewProtocol {
+@MainActor final class ListFollowersViewModel: UsersViewProtocol {
   let listID: String
 
   var paginationToken: String?
@@ -23,7 +23,7 @@ import Sweet
 
   func fetchUsers(reset resetData: Bool) async {
     do {
-      let response = try await Sweet().fetchAddedUsersToList(listID: listID, paginationToken: paginationToken)
+      let response = try await Sweet().fetchFollowedUsers(listID: listID, paginationToken: paginationToken)
 
       if resetData {
         users = []
