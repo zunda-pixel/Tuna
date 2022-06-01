@@ -42,8 +42,10 @@ struct ShareButton: View {
     } label: {
       Image(systemName: "square.and.arrow.up")
     }
-    .sheet(isPresented: $isPresentedShareSheet) {
+    .halfSheet(isPresented: $isPresentedShareSheet) {
       ShareSheet(items: items, activities: activities)
+    } onEnd: {
+      
     }
   }
 }
