@@ -52,7 +52,8 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
               $0.background(.mint.opacity(0.2))
             }
           if isTappedTweet {
-            TweetToolBar(userID: cellViewModel.authorUser.id, tweetID: cellViewModel.tweet.id)
+            TweetToolBar(userID: cellViewModel.authorUser.id, tweetID: cellViewModel.tweet.id, tweet: cellViewModel.tweetText)
+              .padding(.horizontal, 50)
           }
         }
 

@@ -250,7 +250,7 @@ struct UserTweetsView: View {
               isPresentedTweetToolbar.toggle()
             }
           if let latestTapTweetID = latestTapTweetID, latestTapTweetID == viewModel.tweet.id, isPresentedTweetToolbar{
-            TweetToolBar(userID: viewModel.authorUser.id, tweetID: viewModel.tweet.id)
+            TweetToolBar(userID: viewModel.authorUser.id, tweetID: viewModel.tweet.id, tweet: viewModel.tweetText)
           }
         }
         .onAppear {

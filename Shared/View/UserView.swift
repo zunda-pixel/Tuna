@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Sweet
-import UniformTypeIdentifiers
 
 enum TweetTab: String, CaseIterable, Identifiable {
   var id: String {

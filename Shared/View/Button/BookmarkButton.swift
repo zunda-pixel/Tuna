@@ -71,8 +71,7 @@ struct BookmarkButton: View {
         await viewModel.addOrDeleteBookmark()
       }
     } label: {
-      Image(systemName: "arrow.rectanglepath")
-        .tint(viewModel.isBookmarked ? .green : .clear)
+      Image(systemName: viewModel.isBookmarked ? "bookmark.slash" : "bookmark")
     }
     .disabled(viewModel.loading)
     .alert("Error", isPresented: $viewModel.didError) {
