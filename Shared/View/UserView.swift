@@ -64,8 +64,8 @@ struct UserView: View {
         .pickerStyle(.segmented)
 
         TabView(selection: $selection) {
-          UserTweetsView(userID: user.id)
-            .environment(\.managedObjectContext, viewContext)
+          let userTimelineViewModel: UserTimelineViewModel = .init(userID: user.id, viewContext: viewContext)
+          TweetsView(viewModel: userTimelineViewModel)
             .tag(TweetTab.tweet)
           let likeViewModel: LikesViewModel = .init(userID: user.id, viewContext: viewContext)
           TweetsView(viewModel: likeViewModel)
