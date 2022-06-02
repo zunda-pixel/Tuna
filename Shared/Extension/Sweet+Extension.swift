@@ -35,7 +35,7 @@ extension Sweet {
     let appBearerToken = ""
 
     self.init(app: appBearerToken, user: userBearerToken)
-    self.tweetFields = [.id, .text, .attachments, .authorID, .contextAnnotations, .createdAt, .entities, .geo, .replyToUserID, .lang, .possiblySensitive, .referencedTweets, .replySettings, .source, .withheld]
+    self.tweetFields = [.id, .text, .attachments, .authorID, .contextAnnotations, .createdAt, .entities, .geo, .replyToUserID, .lang, .possiblySensitive, .referencedTweets, .replySettings, .source, .withheld, .publicMetrics]
 
     self.mediaFields = [.mediaKey, .type, .height, .publicMetrics, .duration_ms, .previewImageURL, .url, .width, .altText]
   }
