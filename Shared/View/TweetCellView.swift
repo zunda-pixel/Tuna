@@ -16,15 +16,16 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
 
   var body: some View {
     HStack(alignment: .top) {
-      ProfileImageView(viewModel.iconUser.profileImageURL)
+      let user = viewModel.tweet.referencedTweet?.type == .retweeted ? viewModel.retweet!.user : viewModel.author
+      ProfileImageView(user.profileImageURL)
         .frame(width: 50, height: 50)
         .onTapGesture {
           viewModel.isPresentedUserView.toggle()
         }
 
       NavigationLink(isActive: $viewModel.isPresentedUserView) {
-        UserView(user: viewModel.iconUser)
-          .navigationBarTitle("@\(viewModel.iconUser.userName)")
+        UserView(user: user)
+          .navigationBarTitle("@\(user.userName)")
           .environment(\.managedObjectContext, viewContext)
       } label: {
         EmptyView()
@@ -34,8 +35,8 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
 
       VStack(alignment: .leading) {
         HStack {
-          if let userName = viewModel.iconUser.userName {
-            (Text(viewModel.iconUser.name) + Text(" @\(userName)").foregroundColor(.gray))
+          if let userName = user.userName {
+            (Text(user.name) + Text(" @\(userName)").foregroundColor(.gray))
               .lineLimit(1)
           }
 
@@ -128,8 +129,8 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
             .foregroundColor(.gray)
         }
 
-        if viewModel.tweet.referencedTweet?.type == .quoted {
-          QuotedTweetCellView(tweet: viewModel.retweetTweet!, user: viewModel.retweetUser!)
+        if let quoted = viewModel.quoted {
+          QuotedTweetCellView(tweet: quoted.tweet, user: quoted.user)
             .padding(.horizontal, 10)
             .padding(.vertical, 5)
             .overlay(RoundedRectangle(cornerRadius: 20).stroke(.gray, lineWidth: 2))
@@ -139,9 +140,9 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           HStack {
             Image(systemName: "repeat")
               .font(.system(size: 15, weight: .medium, design: .default))
-            ProfileImageView(viewModel.authorUser.profileImageURL)
+            ProfileImageView(viewModel.author.profileImageURL)
               .frame(width: 20, height: 20)
-            Text(viewModel.authorUser.name)
+            Text(viewModel.author.name)
           }
         }
       }

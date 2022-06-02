@@ -168,11 +168,36 @@ extension TweetsViewProtocol {
   func getTweetCellViewModel(_ tweetID: String) -> TweetCellViewModel {
     let tweet = getTweet(tweetID)!
 
-    let retweet = getTweet(tweet.referencedTweet?.id)
-
     let author = getUser(tweet.authorID!)!
 
-    let retweetUser = getUser(retweet?.authorID)
+    let retweet: (user: Sweet.UserModel, tweet: Sweet.TweetModel)? = {
+      if tweet.referencedTweet?.type != .retweeted { return nil }
+
+      let tweet = getTweet(tweet.referencedTweet?.id)!
+      let user = getUser(tweet.authorID)!
+
+      return (user, tweet)
+    }()
+
+    let quoted: (user: Sweet.UserModel, tweet: Sweet.TweetModel)? = {
+      guard let quotedTweetID: String? = {
+        if tweet.referencedTweet?.type == .quoted {
+          return tweet.referencedTweet?.id
+        }
+
+        if retweet?.tweet.referencedTweet?.type == .quoted {
+          return retweet?.tweet.referencedTweet?.id
+        }
+
+        return nil
+      }() else { return nil }
+
+      let tweet = getTweet(quotedTweetID) ?? .init(id: UUID().uuidString, text: "Nothing Tweet")
+
+      let user = getUser(tweet.authorID) ?? .init(id: UUID().uuidString, name: "Nothing Name", userName: "Nothing Name")
+
+      return (user, tweet)
+    }()
 
     let medias = getMedias(tweet.attachments?.mediaKeys)
 
@@ -181,8 +206,10 @@ extension TweetsViewProtocol {
     let place = getPlace(tweet.geo?.placeID)
 
     let viewModel: TweetCellViewModel = .init(
-      tweet: tweet, retweet: retweet, author: author,
-      retweetUser: retweetUser, medias: medias, poll: poll, place: place)
+      tweet: tweet, author: author,
+      retweet: retweet,
+      quoted: quoted,
+      medias: medias, poll: poll, place: place)
 
     return viewModel
   }

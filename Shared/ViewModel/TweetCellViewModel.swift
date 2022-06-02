@@ -13,10 +13,13 @@ import MapKit
 @MainActor protocol TweetCellViewProtocol: ObservableObject {
   var error: Error? { get set }
   var didError: Bool { get set }
+
+  var author: Sweet.UserModel { get }
   var tweet: Sweet.TweetModel  { get }
-  var retweetTweet: Sweet.TweetModel? { get }
-  var authorUser: Sweet.UserModel { get }
-  var retweetUser: Sweet.UserModel? { get }
+
+  var retweet: (user: Sweet.UserModel, tweet: Sweet.TweetModel)? { get }
+  var quoted: (user: Sweet.UserModel, tweet: Sweet.TweetModel)? { get }
+
   var medias: [Sweet.MediaModel] { get }
   var poll: Sweet.PollModel? { get }
   var place: Sweet.PlaceModel? { get }
@@ -26,17 +29,20 @@ import MapKit
   var selectedMediaURL: URL? { get set }
   var tweetText: String { get }
   var duration: String { get }
-  var iconUser: Sweet.UserModel { get }
+  //var iconUser: Sweet.UserModel { get }
   var isPresentedUserView: Bool { get set }
   func getVotePercent(_ poll: Sweet.PollModel, votes: Int) -> Int
 }
 
 @MainActor class TweetCellViewModel: TweetCellViewProtocol {
   var error: Error?
+  let author: Sweet.UserModel
   let tweet: Sweet.TweetModel
-  let retweetTweet: Sweet.TweetModel?
-  let authorUser: Sweet.UserModel
-  let retweetUser: Sweet.UserModel?
+
+  let retweet: (user: Sweet.UserModel, tweet: Sweet.TweetModel)?
+
+  let quoted: (user: Sweet.UserModel, tweet: Sweet.TweetModel)?
+
   let medias: [Sweet.MediaModel]
   let poll: Sweet.PollModel?
   let place: Sweet.PlaceModel?
@@ -48,13 +54,17 @@ import MapKit
   @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
   @Published var nowDate: Date = Date()
 
-  init(tweet: Sweet.TweetModel, retweet retweetTweet: Sweet.TweetModel? = nil,
-       author authorUser: Sweet.UserModel, retweetUser: Sweet.UserModel? = nil,
+  init(tweet: Sweet.TweetModel, author : Sweet.UserModel,
+       retweet: (Sweet.UserModel, Sweet.TweetModel)? = nil,
+       quoted: (Sweet.UserModel, Sweet.TweetModel)? = nil,
        medias: [Sweet.MediaModel] = [],poll: Sweet.PollModel? = nil, place: Sweet.PlaceModel? = nil) {
     self.tweet = tweet
-    self.retweetTweet = retweetTweet
-    self.authorUser = authorUser
-    self.retweetUser = retweetUser
+    self.author = author
+
+    self.retweet = retweet
+
+    self.quoted = quoted
+
     self.medias = medias
     self.poll = poll
     self.place = place
@@ -62,12 +72,12 @@ import MapKit
 
   var tweetText: String {
     if tweet.referencedTweet?.type == .retweeted {
-      return retweetTweet!.text
+      return retweet!.tweet.text
     } else {
       return tweet.text
     }
   }
-
+  
   var duration: String {
     let createdAt: Date? = {
       switch tweet.referencedTweet?.type {
@@ -78,7 +88,7 @@ import MapKit
         case .repliedTo:
           return tweet.createdAt
         case .retweeted:
-          return retweetTweet?.createdAt
+          return retweet?.tweet.createdAt
       }
     }()
 
@@ -88,19 +98,6 @@ import MapKit
       candidate: components, from: createdAt!, to: nowDate)
 
     return durationString!
-  }
-
-  var iconUser: Sweet.UserModel {
-    switch tweet.referencedTweet?.type {
-      case .repliedTo:
-        return authorUser
-      case .retweeted:
-        return retweetUser!
-      case .quoted:
-        return authorUser
-      case .none:
-        return authorUser
-    }
   }
 
   func getVotePercent(_ poll: Sweet.PollModel, votes: Int) -> Int {
