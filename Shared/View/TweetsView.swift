@@ -49,7 +49,7 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
               viewModel.latestTapTweetID = cellViewModel.tweet.id
             }
           if isTappedTweet {
-            TweetToolBar(userID: cellViewModel.author.id, tweetID: cellViewModel.tweet.id, tweet: cellViewModel.tweetText, metrics: cellViewModel.tweet.publicMetrics!)
+            TweetToolBar(userID: viewModel.userID, tweetID: cellViewModel.tweet.id, tweet: cellViewModel.tweetText, metrics: cellViewModel.tweet.publicMetrics!)
               .padding(.horizontal, 50)
           }
         }
