@@ -29,8 +29,7 @@ struct UserView: View {
         ProfileImageView(user.profileImageURL)
           .frame(width: size, height: size)
 
-        // TODO UserToolMenuを表示するとエラーになってしまう
-        // UserToolMenu(fromUserID: Secret.currentUserID!, toUserID: user.id)
+        UserToolMenu(fromUserID: Secret.currentUserID!, toUserID: user.id)
 
         UserProfileView(user: user)
 
