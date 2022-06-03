@@ -32,10 +32,9 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
         let cellViewModel = viewModel.getTweetCellViewModel(tweet.id!)
 
         let isTappedTweet: Bool = {
-          if let latestTapTweetID = viewModel.latestTapTweetID,
-             latestTapTweetID == cellViewModel.tweet.id,
-             viewModel.isPresentedTweetToolbar {
-            return true
+          if let latestTapTweetID = viewModel.latestTapTweetID {
+            let sameTweetID = latestTapTweetID == cellViewModel.tweet.id
+            return viewModel.isPresentedTweetToolbar && sameTweetID
           } else {
             return false
           }
@@ -45,7 +44,7 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
           TweetCellView(viewModel: cellViewModel)
             .environment(\.managedObjectContext, viewModel.viewContext)
             .onTapGesture {
-              viewModel.isPresentedTweetToolbar = viewModel.latestTapTweetID != cellViewModel.tweet.id
+              viewModel.isPresentedTweetToolbar = viewModel.latestTapTweetID != cellViewModel.tweet.id || !viewModel.isPresentedTweetToolbar
               viewModel.latestTapTweetID = cellViewModel.tweet.id
             }
           if isTappedTweet {

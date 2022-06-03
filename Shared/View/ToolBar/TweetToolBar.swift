@@ -18,11 +18,15 @@ struct TweetToolBar: View {
   var body: some View {
     HStack {
       RetweetButton(viewModel: .init(user: userID, tweet: tweetID))
+        .border(.red)
       Text("\(metrics.retweetCount)")
       LikeButton(viewModel: .init(user: userID, tweet: tweetID))
+        .border(.red)
       Text("\(metrics.likeCount)")
       BookmarkButton(viewModel: .init(user: userID, tweet: tweetID))
+        .border(.red)
       ShareButton(userID: userID, tweetID: tweetID, tweet: tweet)
+        .border(.red)
     }
   }
 }
