@@ -9,16 +9,6 @@ import CoreLocation
 import Foundation
 import Sweet
 
-enum NewTweetError: Error, LocalizedError {
-  case reverseGeocodeLocation
-
-  var localizedDescription: String {
-    switch self {
-    case .reverseGeocodeLocation: return "can not get geocode"
-    }
-  }
-}
-
 @MainActor protocol NewTweetViewProtocol: NSObject, ObservableObject, CLLocationManagerDelegate {
   var text: String { get set }
   var selectedReplySetting: Sweet.ReplySetting { get set }
@@ -118,8 +108,8 @@ final class NewTweetViewModel: NSObject, NewTweetViewProtocol {
       }
 
       self.locationString = (place.locality ?? "") + (place.name ?? "")
-    } catch {
-      self.error = NewTweetError.reverseGeocodeLocation
+    } catch let newError {
+      self.error = newError
     }
   }
 

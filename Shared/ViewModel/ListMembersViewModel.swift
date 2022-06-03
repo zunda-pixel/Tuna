@@ -10,7 +10,6 @@ import Sweet
 
 @MainActor final class ListMembersViewModel: UsersViewProtocol {
   let listID: String
-
   var paginationToken: String?
   var error: Error?
 

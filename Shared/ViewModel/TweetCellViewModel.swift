@@ -29,7 +29,6 @@ import MapKit
   var selectedMediaURL: URL? { get set }
   var tweetText: String { get }
   var duration: String { get }
-  //var iconUser: Sweet.UserModel { get }
   var isPresentedUserView: Bool { get set }
   func getVotePercent(_ poll: Sweet.PollModel, votes: Int) -> Int
 }

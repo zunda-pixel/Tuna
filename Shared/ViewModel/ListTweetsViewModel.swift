@@ -1,29 +1,28 @@
 //
-//  UserTimelineViewModel.swift
+//  ListTweetsViewModel.swift
 //  Tuna
 //
-//  Created by zunda on 2022/06/02.
+//  Created by zunda on 2022/06/03.
 //
 
 import Foundation
 import CoreData
 import Sweet
 
-final class UserTimelineViewModel: NSObject, TweetsViewProtocol {
-  var userID: String
+final class ListTweetsViewModel: NSObject, TweetsViewProtocol {
+  var loadingTweets = false
+  var paginationToken: String?
   var latestTapTweetID: String?
   var error: Error?
+  var timelines: [String] = []
 
-  @Published var didError: Bool = false
-  @Published var loadingTweets: Bool = false
+  let listID: String
+  let userID: String
+
   @Published var isPresentedTweetToolbar: Bool = false
-
+  @Published var didError: Bool = false
 
   let viewContext: NSManagedObjectContext
-
-  var paginationToken: String?
-
-  var timelines: [String] = []
 
   let fetchShowTweetController: NSFetchedResultsController<Tweet>
   let fetchTweetController: NSFetchedResultsController<Tweet>
@@ -34,44 +33,59 @@ final class UserTimelineViewModel: NSObject, TweetsViewProtocol {
 
   func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
     do {
-      let response = try await Sweet().fetchTimeLine(by: userID, untilID: lastTweetID, sinceID: firstTweetID, paginationToken: paginationToken)
+      let maxResults = 100
 
-      paginationToken = response.meta?.nextToken
+      let listResponse = try await Sweet().fetchListTweets(listID: listID, maxResults: maxResults, paginationToken: paginationToken)
 
-      try response.tweets.forEach { tweet in
+      paginationToken = listResponse.meta?.nextToken
+
+      let tweetIDs = listResponse.tweets.map(\.id)
+
+      if tweetIDs.isEmpty {
+        return
+      }
+
+      let tweetResponse = try await  Sweet().lookUpTweets(by: tweetIDs)
+
+      try tweetResponse.tweets.forEach { tweet in
         try addTweet(tweet)
         try addTimeline(tweet.id)
       }
 
-      try response.relatedTweets.forEach { tweet in
+      try tweetResponse.relatedTweets.forEach { tweet in
         try addTweet(tweet)
       }
 
-      try response.users.forEach { user in
+      try tweetResponse.users.forEach { user in
         try addUser(user)
       }
 
-      try response.medias.forEach { media in
+      try tweetResponse.medias.forEach { media in
         try addMedia(media)
       }
 
-      try response.polls.forEach { poll in
+      try tweetResponse.polls.forEach { poll in
         try addPoll(poll)
       }
 
-      try response.places.forEach { place in
+      try tweetResponse.places.forEach { place in
         try addPlace(place)
       }
 
       updateTimeLine()
+
+      if let firstTweetID = firstTweetID, tweetResponse.tweets.count == maxResults {
+        await fetchTweets(first: firstTweetID, last: nil)
+      }
     } catch let newError {
       self.error = newError
       self.didError.toggle()
     }
   }
 
-  init(userID: String, viewContext: NSManagedObjectContext) {
+  init(userID: String, listID: String, viewContext: NSManagedObjectContext) {
     self.userID = userID
+    self.listID = listID
     self.viewContext = viewContext
 
     self.fetchShowTweetController = {
@@ -189,3 +203,5 @@ final class UserTimelineViewModel: NSObject, TweetsViewProtocol {
     try! fetchShowTweetController.performFetch()
   }
 }
+
+

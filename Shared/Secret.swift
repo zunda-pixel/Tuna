@@ -10,6 +10,8 @@ import KeychainAccess
 import Sweet
 
 struct Secret {
+  static let clientID = "ak1laUJKdGNIa21pTGFZX3A2SjQ6MTpjaQ"
+  static let clientSecretKey = "MaNP3s7J6kK0bAfyOp9WrQtj7XmaReLyiBuH1mE7aDPdJNjv4g"
   static let callBackURL: URL = .init(string: "tuna://")!
   static let bundleIdentifier = "com.zunda.tuna"
 
@@ -94,8 +96,14 @@ struct Secret {
 
   static var expireDate: Date {
     get {
-      let expireDateString = userDefaults.string(forKey: expireDateKey)!
+      guard let expireDateString = userDefaults.string(forKey: expireDateKey) else {
+        let today = Date()
+        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today)!
+        return yesterday
+      }
+
       let expireDate = dateFormatter.date(from: expireDateString)!
+
       return expireDate
     }
     set {

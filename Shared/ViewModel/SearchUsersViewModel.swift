@@ -10,11 +10,10 @@ import Sweet
 
 @MainActor final class SearchUsersViewModel: UsersViewProtocol {
   var paginationToken: String?
+  var searchText: String = ""
+  var error: Error?
 
   @Published var didError: Bool = false
-  var searchText: String = ""
-
-  var error: Error?
   @Published var users: [Sweet.UserModel] = []
 
   func fetchUsers(reset resetData : Bool) async {
