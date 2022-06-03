@@ -37,29 +37,6 @@ import Sweet
       didError.toggle()
     }
   }
-
-  func fetchBookmarks(paginationToken: String? = nil) async {
-    loading = true
-
-    defer {
-      loading = false
-    }
-
-    do {
-      let response = try await Sweet().fetchBookmarks(userID: userID, paginationToken: paginationToken)
-
-      let isContain = response.tweets.contains { $0.id == tweetID }
-
-      isBookmarked = isContain
-
-      if let nextToken = response.meta?.nextToken, !isContain {
-        await fetchBookmarks(paginationToken: nextToken)
-      }
-    } catch let newError {
-      error = newError
-      didError.toggle()
-    }
-  }
 }
 
 struct BookmarkButton: View {
