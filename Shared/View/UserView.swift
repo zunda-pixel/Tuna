@@ -14,6 +14,7 @@ enum TweetTab: String, CaseIterable, Identifiable {
   }
 
   case tweet = "Tweet"
+  case mention = "Mention"
   case like = "Like"
 }
 
@@ -66,6 +67,11 @@ struct UserView: View {
           let userTimelineViewModel: UserTimelineViewModel = .init(userID: user.id, viewContext: viewContext)
           TweetsView(viewModel: userTimelineViewModel)
             .tag(TweetTab.tweet)
+
+          let userMentionsViewModel: UserMentionsViewModel = .init(userID: user.id, viewContext: viewContext)
+          TweetsView(viewModel: userMentionsViewModel)
+            .tag(TweetTab.mention)
+
           let likeViewModel: LikesViewModel = .init(userID: user.id, viewContext: viewContext)
           TweetsView(viewModel: likeViewModel)
             .tag(TweetTab.like)
