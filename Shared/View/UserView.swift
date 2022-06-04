@@ -19,6 +19,7 @@ enum TweetTab: String, CaseIterable, Identifiable {
 }
 
 struct UserView: View {
+  let userID: String
   let user: Sweet.UserModel
   @State var selection: TweetTab = .tweet
   @Environment(\.managedObjectContext) private var viewContext
@@ -30,7 +31,7 @@ struct UserView: View {
         ProfileImageView(user.profileImageURL)
           .frame(width: size, height: size)
 
-        UserToolMenu(fromUserID: Secret.currentUserID!, toUserID: user.id)
+        UserToolMenu(fromUserID: userID, toUserID: user.id)
 
         UserProfileView(user: user)
 
@@ -90,6 +91,6 @@ struct UserView_Previews: PreviewProvider {
                                       url: .init(string: "https://twitter.com"),
                                       createdAt: Date(), location: "ここはどこ",
                                       metrics: .init(followersCount: 111, followingCount: 222, tweetCount: 222, listedCount: 33))
-    UserView(user: user)
+    UserView(userID: "", user: user)
   }
 }

@@ -206,6 +206,7 @@ extension TweetsViewProtocol {
     let place = getPlace(tweet.geo?.placeID)
 
     let viewModel: TweetCellViewModel = .init(
+      userID: userID,
       tweet: tweet, author: author,
       retweet: retweet,
       quoted: quoted,

@@ -11,6 +11,7 @@ import Combine
 import MapKit
 
 @MainActor protocol TweetCellViewProtocol: ObservableObject {
+  var userID: String { get }
   var error: Error? { get set }
   var didError: Bool { get set }
 
@@ -34,6 +35,8 @@ import MapKit
 }
 
 @MainActor class TweetCellViewModel: TweetCellViewProtocol {
+  let userID: String
+
   var error: Error?
   let author: Sweet.UserModel
   let tweet: Sweet.TweetModel
@@ -53,11 +56,15 @@ import MapKit
   @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
   @Published var nowDate: Date = Date()
 
-  init(tweet: Sweet.TweetModel, author : Sweet.UserModel,
+  init(userID: String,
+       tweet: Sweet.TweetModel, author : Sweet.UserModel,
        retweet: (Sweet.UserModel, Sweet.TweetModel)? = nil,
        quoted: (Sweet.UserModel, Sweet.TweetModel)? = nil,
        medias: [Sweet.MediaModel] = [],poll: Sweet.PollModel? = nil, place: Sweet.PlaceModel? = nil) {
+    self.userID = userID
+
     self.tweet = tweet
+
     self.author = author
 
     self.retweet = retweet

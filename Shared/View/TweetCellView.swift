@@ -24,7 +24,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
         }
 
       NavigationLink(isActive: $viewModel.isPresentedUserView) {
-        UserView(user: user)
+        UserView(userID: viewModel.userID, user: user)
           .navigationBarTitle("@\(user.userName)")
           .environment(\.managedObjectContext, viewContext)
       } label: {
