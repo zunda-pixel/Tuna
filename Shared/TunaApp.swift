@@ -12,7 +12,7 @@ import SwiftUI
 struct TunaApp: App {
   let persistenceController = PersistenceController.shared
 
-  @State var userID: String?
+  @State var userID: String? = Secret.currentUserID
   @State var isPresentedCreateTweetView = false
 
   var body: some Scene {
@@ -80,9 +80,6 @@ struct TunaApp: App {
               Image(systemName: "person")
             }
         }
-      }
-      .onAppear {
-        self.userID = Secret.currentUserID
       }
     }
   }
