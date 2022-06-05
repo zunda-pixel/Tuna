@@ -121,6 +121,10 @@
 		2E915C5C2838FA8400DAD4AE /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E915C5A2838FA8400DAD4AE /* UserView.swift */; };
 		2E915C5E28390C6300DAD4AE /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E915C5D28390C6300DAD4AE /* Color+Extension.swift */; };
 		2E915C5F28390C6300DAD4AE /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E915C5D28390C6300DAD4AE /* Color+Extension.swift */; };
+		2E9EE8E3284C87B400759937 /* FollowingUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EE8E2284C87B400759937 /* FollowingUserViewModel.swift */; };
+		2E9EE8E4284C87B400759937 /* FollowingUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EE8E2284C87B400759937 /* FollowingUserViewModel.swift */; };
+		2E9EE8E6284C882D00759937 /* FollowerUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EE8E5284C882D00759937 /* FollowerUserViewModel.swift */; };
+		2E9EE8E7284C882D00759937 /* FollowerUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EE8E5284C882D00759937 /* FollowerUserViewModel.swift */; };
 		2EA6538C27E9A148003E99AE /* TweetCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA6538B27E9A148003E99AE /* TweetCellViewModel.swift */; };
 		2EA6538E27E9A16A003E99AE /* DateComponents+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA6538D27E9A16A003E99AE /* DateComponents+Extension.swift */; };
 		2EA6539027E9A188003E99AE /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA6538F27E9A188003E99AE /* Calendar+Extension.swift */; };
@@ -263,6 +267,8 @@
 		2E8E5E3F2849CD800031D29F /* ListTweetsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTweetsViewModel.swift; sourceTree = "<group>"; };
 		2E915C5A2838FA8400DAD4AE /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		2E915C5D28390C6300DAD4AE /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
+		2E9EE8E2284C87B400759937 /* FollowingUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingUserViewModel.swift; sourceTree = "<group>"; };
+		2E9EE8E5284C882D00759937 /* FollowerUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerUserViewModel.swift; sourceTree = "<group>"; };
 		2EA6538B27E9A148003E99AE /* TweetCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetCellViewModel.swift; sourceTree = "<group>"; };
 		2EA6538D27E9A16A003E99AE /* DateComponents+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateComponents+Extension.swift"; sourceTree = "<group>"; };
 		2EA6538F27E9A188003E99AE /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
@@ -537,6 +543,8 @@
 				2EEE9E022816E93E00721ADD /* UsersViewModel.swift */,
 				2E71094228485FC0000A4603 /* UserTimelineViewModel.swift */,
 				2E3A2A2B284B2BA200B50808 /* UserMentionsViewModel.swift */,
+				2E9EE8E5284C882D00759937 /* FollowerUserViewModel.swift */,
+				2E9EE8E2284C87B400759937 /* FollowingUserViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -724,6 +732,7 @@
 				2EB935D828461BA700833663 /* SearchTweetsViewModel.swift in Sources */,
 				2E1914F5283F1EBC00F03C7C /* SearchViewModel.swift in Sources */,
 				2E5324F027FF1D8E008D5EFB /* UIImage+Extension.swift in Sources */,
+				2E9EE8E6284C882D00759937 /* FollowerUserViewModel.swift in Sources */,
 				2E10387227F2AF3700E8E67B /* ListCellView.swift in Sources */,
 				2E10383327EC98AF00E8E67B /* Media+Extension.swift in Sources */,
 				2E0A3AF028105CC1002D5F39 /* ListDetailViewModel.swift in Sources */,
@@ -746,6 +755,7 @@
 				2E10383927ECC48D00E8E67B /* Poll+Extension.swift in Sources */,
 				2EF5B32C283BAEFE00DD8352 /* TweetToolBar.swift in Sources */,
 				2E3A2A2C284B2BA200B50808 /* UserMentionsViewModel.swift in Sources */,
+				2E9EE8E3284C87B400759937 /* FollowingUserViewModel.swift in Sources */,
 				2E10383627EC997C00E8E67B /* MediaModel+Extension.swift in Sources */,
 				2E10384527EDACF400E8E67B /* NewTweetView.swift in Sources */,
 				2E63899727EAC56000964EC8 /* Sweet+Extension.swift in Sources */,
@@ -813,6 +823,7 @@
 				2EB935D928461BA700833663 /* SearchTweetsViewModel.swift in Sources */,
 				2E1914F6283F1EBC00F03C7C /* SearchViewModel.swift in Sources */,
 				2E5324F127FF1D8E008D5EFB /* UIImage+Extension.swift in Sources */,
+				2E9EE8E7284C882D00759937 /* FollowerUserViewModel.swift in Sources */,
 				2E10387327F2AF3700E8E67B /* ListCellView.swift in Sources */,
 				2E10383427EC98AF00E8E67B /* Media+Extension.swift in Sources */,
 				2E0A3AF128105CC1002D5F39 /* ListDetailViewModel.swift in Sources */,
@@ -835,6 +846,7 @@
 				2E10383A27ECC48D00E8E67B /* Poll+Extension.swift in Sources */,
 				2EF5B32D283BAEFE00DD8352 /* TweetToolBar.swift in Sources */,
 				2E3A2A2D284B2BA200B50808 /* UserMentionsViewModel.swift in Sources */,
+				2E9EE8E4284C87B400759937 /* FollowingUserViewModel.swift in Sources */,
 				2E10383727EC997C00E8E67B /* MediaModel+Extension.swift in Sources */,
 				2E10384627EDACF400E8E67B /* NewTweetView.swift in Sources */,
 				2E63899827EAC56000964EC8 /* Sweet+Extension.swift in Sources */,

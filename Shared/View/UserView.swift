@@ -38,7 +38,8 @@ struct UserView: View {
         if let metrics = user.metrics {
           HStack(alignment: .center) {
             NavigationLink {
-              Text("Hello")
+              let followerUserViewModel: FollowerUserViewModel = .init(userID: user.id)
+              UsersView(viewModel: followerUserViewModel)
             } label: {
               VStack {
                 Text("FOLLOWERS")
@@ -46,7 +47,8 @@ struct UserView: View {
               }
             }
             NavigationLink {
-              Text("Hello")
+              let followingUserViewModel: FollowingUserViewModel = .init(userID: user.id)
+              UsersView(viewModel: followingUserViewModel)
             } label: {
               VStack {
                 Text("FOLLOWING")
