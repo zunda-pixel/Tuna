@@ -17,9 +17,11 @@ final class ReverseChronologicalViewModel: NSObject, TweetsViewProtocol {
   var timelines: [String] { fetchTimelineController.fetchedObjects?.map(\.tweetID!) ?? [] }
 
   var error: Error?
+  var latestTapTweetID: String?
+
   @Published var didError = false
-  @Published var latestTapTweetID: String?
   @Published var isPresentedTweetToolbar: Bool = false
+  @Published var isPresentedTweetDetail: Bool = false
 
   let viewContext: NSManagedObjectContext
   let fetchTimelineController: NSFetchedResultsController<Timeline>

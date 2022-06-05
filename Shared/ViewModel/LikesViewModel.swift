@@ -20,6 +20,7 @@ final class LikesViewModel: NSObject, TweetsViewProtocol {
 
   @Published var isPresentedTweetToolbar: Bool = false
   @Published var didError: Bool = false
+  @Published var isPresentedTweetDetail: Bool = false
 
   let viewContext: NSManagedObjectContext
 

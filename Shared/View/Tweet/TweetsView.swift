@@ -42,7 +42,6 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
 
         VStack {
           TweetCellView(viewModel: cellViewModel)
-            .environment(\.managedObjectContext, viewModel.viewContext)
             .onTapGesture {
               viewModel.isPresentedTweetToolbar = viewModel.latestTapTweetID != cellViewModel.tweet.id || !viewModel.isPresentedTweetToolbar
               viewModel.latestTapTweetID = cellViewModel.tweet.id
@@ -51,8 +50,22 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
             TweetToolBar(userID: viewModel.userID, tweetID: cellViewModel.tweet.id, tweet: cellViewModel.tweetText, metrics: cellViewModel.tweet.publicMetrics!)
               .padding(.horizontal, 50)
           }
-        }
 
+          NavigationLink(isActive: $viewModel.isPresentedTweetDetail) {
+            TweetDetailView()
+          } label: {
+            EmptyView()
+          }
+          .frame(width: 0, height: 0)
+          .hidden()
+        }
+        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+          Button {
+            viewModel.isPresentedTweetDetail.toggle()
+          } label: {
+            Image(systemName: "ellipsis")
+          }
+        }
         .onAppear {
           guard let lastTweet = viewModel.showTweets.last else {
             return
@@ -74,6 +87,7 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
         Text("more Loading")
       }
     }
+
     .alert("Error", isPresented: $viewModel.didError) {
       Button {
         print(viewModel.error!)
