@@ -23,8 +23,6 @@ struct TunaApp: App {
             NavigationView {
               let tweetViewModel: ReverseChronologicalViewModel = .init(userID: userID, viewContext: persistenceController.container.viewContext)
               TweetsView(viewModel: tweetViewModel)
-                .navigationTitle("Timeline")
-                .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                   ToolbarItem(placement: .navigationBarLeading) {
                     SelectUserMenu(userID: $userID)
@@ -49,9 +47,7 @@ struct TunaApp: App {
             }
             ListsView(userID: userID)
               .environment(\.managedObjectContext, persistenceController.container.viewContext)
-              .navigationBarTitleDisplayMode(.inline)
               .navigationViewStyle(.stack)
-              .navigationTitle("List")
               .tabItem {
                 Image(systemName: "list.dash.header.rectangle")
               }

@@ -40,10 +40,9 @@ struct SearchView<ViewModel: SearchViewProtocol>: View {
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
       }
-
     }
-    .navigationViewStyle(.stack)
     .searchable(text: $viewModel.tweetsViewModel.searchText, prompt: Text("Search Keyword"))
+    .navigationViewStyle(.stack)
     .onSubmit(of: .search) {
       Task {
         let firstTweetID = viewModel.tweetsViewModel.showTweets.first?.id

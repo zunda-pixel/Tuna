@@ -26,22 +26,19 @@ struct SelectUserMenu: View {
     Menu {
       ForEach(users) { user in
         Button {
+          Secret.currentUserID = user.id
           selectedUserID = user.id
         } label: {
-          Label {
-            VStack(alignment: .leading) {
-              Text(user.name ?? "")
-              Text(user.userName ?? "")
-            }
-          } icon: {
-            ProfileImageView(user.profileImageURL)
-              .frame(width: 30, height: 30)
+          ProfileImageView(user.profileImageURL)
+            .frame(width: 30, height: 30)
+          VStack(alignment: .leading) {
+            Text(user.name ?? "")
+            Text(user.userName ?? "")
           }
         }
       }
 
       Button {
-        print("Button clicked")
         isPresentedSettingView.toggle()
       } label: {
         Label("Setting", systemImage: "gear")

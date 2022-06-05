@@ -126,7 +126,6 @@ struct ListsView: View {
           }
         }
       }
-      .navigationBarTitle("List")
       .listStyle(.insetGrouped)
     }
     .alert("Error", isPresented: $didError) {
