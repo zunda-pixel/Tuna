@@ -410,29 +410,19 @@
 		2E4E983327E9959D00D9A15F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2E9EE8EA284C8B4C00759937 /* List */,
+				2E9EE8E9284C8B2600759937 /* User */,
+				2E9EE8E8284C8AFC00759937 /* Tweet */,
 				2EB935E02847356000833663 /* Activity */,
 				2E854FFA283BB99100676D99 /* BaseView */,
 				2E854FF7283BB94C00676D99 /* Button */,
 				2E854FF9283BB96F00676D99 /* Menu */,
 				2E854FF8283BB96400676D99 /* ToolBar */,
-				2E3468E3283A784300AA2E33 /* AccountSettingView.swift */,
 				2EF9E3B92836727300571A40 /* CustomContextMenu.swift */,
-				2E10387127F2AF3700E8E67B /* ListCellView.swift */,
-				2E10387427F2D33400E8E67B /* ListDetailView.swift */,
-				2E10386E27F2AD9B00E8E67B /* ListsView.swift */,
 				2E63898427EAB95500964EC8 /* LoginView.swift */,
-				2E10387727F3411900E8E67B /* NewPollView.swift */,
-				2E10384427EDACF400E8E67B /* NewTweetView.swift */,
 				2E10382F27EC909600E8E67B /* ProfileImageView.swift */,
-				2E0981442809482A00431C50 /* QuotedTweetCellView.swift */,
 				2E13ED49280D175C00BF79CD /* SearchView.swift */,
 				2E3468E0283A770A00AA2E33 /* SettingsView.swift */,
-				2E4E983B27E9985E00D9A15F /* TweetCellView.swift */,
-				2E4E983027E82D8D00D9A15F /* TweetsView.swift */,
-				2EEE9DFF2816E8F000721ADD /* UserCellView.swift */,
-				2E7DD5E9283B569E00F16C53 /* UserProfileView.swift */,
-				2EEE9DFC2816DB0300721ADD /* UsersView.swift */,
-				2E915C5A2838FA8400DAD4AE /* UserView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -522,6 +512,40 @@
 				2EB935EA2847AAA000833663 /* HalfSheet.swift */,
 			);
 			path = BaseView;
+			sourceTree = "<group>";
+		};
+		2E9EE8E8284C8AFC00759937 /* Tweet */ = {
+			isa = PBXGroup;
+			children = (
+				2E10387727F3411900E8E67B /* NewPollView.swift */,
+				2E10384427EDACF400E8E67B /* NewTweetView.swift */,
+				2E0981442809482A00431C50 /* QuotedTweetCellView.swift */,
+				2E4E983B27E9985E00D9A15F /* TweetCellView.swift */,
+				2E4E983027E82D8D00D9A15F /* TweetsView.swift */,
+			);
+			path = Tweet;
+			sourceTree = "<group>";
+		};
+		2E9EE8E9284C8B2600759937 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				2E3468E3283A784300AA2E33 /* AccountSettingView.swift */,
+				2EEE9DFF2816E8F000721ADD /* UserCellView.swift */,
+				2E7DD5E9283B569E00F16C53 /* UserProfileView.swift */,
+				2EEE9DFC2816DB0300721ADD /* UsersView.swift */,
+				2E915C5A2838FA8400DAD4AE /* UserView.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		2E9EE8EA284C8B4C00759937 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				2E10387127F2AF3700E8E67B /* ListCellView.swift */,
+				2E10387427F2D33400E8E67B /* ListDetailView.swift */,
+				2E10386E27F2AD9B00E8E67B /* ListsView.swift */,
+			);
+			path = List;
 			sourceTree = "<group>";
 		};
 		2EA6538A27E9A137003E99AE /* ViewModel */ = {
