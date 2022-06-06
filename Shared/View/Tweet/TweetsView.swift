@@ -52,7 +52,7 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
           }
 
           NavigationLink(isActive: $viewModel.isPresentedTweetDetail) {
-            TweetDetailView()
+            TweetDetailView(tweetCellViewModel: cellViewModel)
           } label: {
             EmptyView()
           }

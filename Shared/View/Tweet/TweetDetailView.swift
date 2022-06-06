@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct TweetDetailView: View {
+struct TweetDetailView<Tweet: TweetCellViewProtocol>: View {
+  @StateObject var tweetCellViewModel: Tweet
   var body: some View {
-    Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-  }
-}
-
-struct TweetDetailView_Previews: PreviewProvider {
-  static var previews: some View {
-    TweetDetailView()
+    VStack {
+      TweetCellView(viewModel: tweetCellViewModel)
+      TweetToolBar(userID: tweetCellViewModel.userID, tweetID: tweetCellViewModel.tweet.id,
+                   tweet: tweetCellViewModel.tweet.text, metrics: tweetCellViewModel.tweet.publicMetrics!)
+      Spacer()
+    }
   }
 }

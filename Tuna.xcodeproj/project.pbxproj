@@ -166,8 +166,6 @@
 		2EEE9E072816E96600721ADD /* ListMembersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9E052816E96600721ADD /* ListMembersViewModel.swift */; };
 		2EF3987227EB4B3800EEFA51 /* Tweet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF3987127EB4B3800EEFA51 /* Tweet+Extension.swift */; };
 		2EF3987327EB4B3800EEFA51 /* Tweet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF3987127EB4B3800EEFA51 /* Tweet+Extension.swift */; };
-		2EF5B31A283B8B9E00DD8352 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B319283B8B9E00DD8352 /* WebView.swift */; };
-		2EF5B31B283B8B9E00DD8352 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B319283B8B9E00DD8352 /* WebView.swift */; };
 		2EF5B31D283B953C00DD8352 /* UserToolMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B31C283B953C00DD8352 /* UserToolMenu.swift */; };
 		2EF5B31E283B953C00DD8352 /* UserToolMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B31C283B953C00DD8352 /* UserToolMenu.swift */; };
 		2EF5B320283B9FB200DD8352 /* BlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B31F283B9FB200DD8352 /* BlockButton.swift */; };
@@ -293,7 +291,6 @@
 		2EEE9E022816E93E00721ADD /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
 		2EEE9E052816E96600721ADD /* ListMembersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMembersViewModel.swift; sourceTree = "<group>"; };
 		2EF3987127EB4B3800EEFA51 /* Tweet+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tweet+Extension.swift"; sourceTree = "<group>"; };
-		2EF5B319283B8B9E00DD8352 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		2EF5B31C283B953C00DD8352 /* UserToolMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserToolMenu.swift; sourceTree = "<group>"; };
 		2EF5B31F283B9FB200DD8352 /* BlockButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockButton.swift; sourceTree = "<group>"; };
 		2EF5B322283BA18B00DD8352 /* MuteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuteButton.swift; sourceTree = "<group>"; };
@@ -509,7 +506,6 @@
 				2E5324E927FF1D07008D5EFB /* LivePhoto.swift */,
 				2E5324EC27FF1D41008D5EFB /* PhotoView.swift */,
 				2E10387A27F49F4A00E8E67B /* PhotoPicker.swift */,
-				2EF5B319283B8B9E00DD8352 /* WebView.swift */,
 				2EB3B38C283E9DDC00891A5E /* DurationPicker.swift */,
 				2EB935DD284626C500833663 /* ShareSheet.swift */,
 				2EB935EA2847AAA000833663 /* HalfSheet.swift */,
@@ -833,7 +829,6 @@
 				2E044A9627EAE7D000736B9F /* KeychainAccess+Extension.swift in Sources */,
 				2EEE9E032816E93E00721ADD /* UsersViewModel.swift in Sources */,
 				2E10383F27ED7E1F00E8E67B /* Place+Extension.swift in Sources */,
-				2EF5B31A283B8B9E00DD8352 /* WebView.swift in Sources */,
 				2E0A3AED28105BA7002D5F39 /* TweetsViewProtocol.swift in Sources */,
 				2EF5B323283BA18B00DD8352 /* MuteButton.swift in Sources */,
 				2EF5B31D283B953C00DD8352 /* UserToolMenu.swift in Sources */,
@@ -925,7 +920,6 @@
 				2E044A9727EAE7D000736B9F /* KeychainAccess+Extension.swift in Sources */,
 				2EEE9E042816E93E00721ADD /* UsersViewModel.swift in Sources */,
 				2E10384027ED7E1F00E8E67B /* Place+Extension.swift in Sources */,
-				2EF5B31B283B8B9E00DD8352 /* WebView.swift in Sources */,
 				2E0A3AEE28105BA7002D5F39 /* TweetsViewProtocol.swift in Sources */,
 				2EF5B324283BA18B00DD8352 /* MuteButton.swift in Sources */,
 				2EF5B31E283B953C00DD8352 /* UserToolMenu.swift in Sources */,
