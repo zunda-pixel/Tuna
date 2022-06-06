@@ -44,8 +44,6 @@ struct ShareButton: View {
     }
     .halfSheet(isPresented: $isPresentedShareSheet) {
       ShareSheet(items: items, activities: activities)
-    } onEnd: {
-      
     }
   }
 }

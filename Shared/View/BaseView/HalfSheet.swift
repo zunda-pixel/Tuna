@@ -9,10 +9,10 @@ import Foundation
 import SwiftUI
 
 extension View {
-  func halfSheet<Sheet: View>(isPresented: Binding<Bool>, @ViewBuilder sheet: @escaping () -> Sheet, onEnd: @escaping () -> ()) -> some View {
+  func halfSheet<Sheet: View>(isPresented: Binding<Bool>, @ViewBuilder content: @escaping () -> Sheet, onEnd: (() -> ())? = nil) -> some View {
     return self
       .background(
-        HalfSheetViewController(isPresented: isPresented, content: sheet(), onEnd: onEnd)
+        HalfSheetViewController(isPresented: isPresented, content: content(), onEnd: onEnd)
       )
   }
 }
@@ -35,8 +35,11 @@ struct HalfSheetViewController<Sheet: View>: UIViewControllerRepresentable {
 
   func updateUIViewController(_ viewController: UIViewController, context: Context) {
     if isPresented {
-      let sheetController = CustomHostingController(rootView: content)
+      let sheetController = UIHostingController(rootView: content)
       sheetController.presentationController?.delegate = context.coordinator
+      sheetController.modalPresentationStyle = .pageSheet
+      sheetController.sheetPresentationController?.prefersGrabberVisible = true
+      sheetController.sheetPresentationController?.detents = [.medium(), .large()]
       viewController.present(sheetController, animated: true)
     } else {
       viewController.dismiss(animated: true) { onEnd?() }
@@ -58,13 +61,18 @@ struct HalfSheetViewController<Sheet: View>: UIViewControllerRepresentable {
       parent.isPresented = false
     }
   }
+}
 
-  class CustomHostingController<Content: View>: UIHostingController<Content> {
-    override func viewDidLoad() {
-      super.viewDidLoad()
-      if let sheet = self.sheetPresentationController {
-        sheet.detents = [.medium()]
-        sheet.prefersGrabberVisible = true
+struct HalfSheet_Preview: PreviewProvider {
+  @State static var isPresentedHalfSheet = false
+
+  static var previews: some View {
+    VStack {
+      Button("Button") {
+        isPresentedHalfSheet.toggle()
+      }
+      .halfSheet(isPresented: $isPresentedHalfSheet) {
+        Text("hello")
       }
     }
   }
