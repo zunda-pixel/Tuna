@@ -9,6 +9,7 @@ import CoreLocation
 import Sweet
 import SwiftUI
 import CoreLocationUI
+import PhotoPicker
 
 struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
   @Binding var isPresentedDismiss: Bool
@@ -79,14 +80,10 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
       }
 
       LazyVGrid(columns: [.init(), .init()]) {
-        ForEach(0..<viewModel.results.count, id: \.self) { i in
-          PhotoView(
-            provider: viewModel.results[i].provider,
-            item: .init(get: { viewModel.results[i].item }, set: { viewModel.results[i].item = $0 })
-          )
+        ForEach(viewModel.results) { result in
+          PhotoView(item: result.item)
           .frame(width: 100, height: 100, alignment: .center)
           .scaledToFit()
-
         }
       }
 

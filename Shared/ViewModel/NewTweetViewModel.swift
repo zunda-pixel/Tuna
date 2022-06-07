@@ -8,6 +8,7 @@
 import CoreLocation
 import Foundation
 import Sweet
+import PhotoPicker
 
 @MainActor protocol NewTweetViewProtocol: NSObject, ObservableObject, CLLocationManagerDelegate {
   var text: String { get set }
