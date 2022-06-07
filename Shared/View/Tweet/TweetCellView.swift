@@ -95,8 +95,8 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
                   ProgressView(p)
                 }
                 .resizable()
+                .scaledToFill()
                 .frame(height: 100)
-                .aspectRatio(contentMode: .fill)
                 .clipped()
                 .onTapGesture {
                   viewModel.selectedMediaURL = mediaURL
