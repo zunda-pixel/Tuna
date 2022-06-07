@@ -35,7 +35,7 @@ struct ListsView: View {
   }
 
   var body: some View {
-    NavigationView {
+    NavigationStack {
       List {
         Section("PINNED LISTS") {
           if pinnedLists.count == 0 {

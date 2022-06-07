@@ -21,7 +21,7 @@ struct SearchView<ViewModel: SearchViewProtocol>: View {
   @State var selection: Pages = .tweet
 
   var body: some View {
-    NavigationView {
+    NavigationStack {
       VStack {
         Picker("Menu", selection: $selection) {
           ForEach(Pages.allCases) { page in
@@ -42,7 +42,6 @@ struct SearchView<ViewModel: SearchViewProtocol>: View {
       }
     }
     .searchable(text: $viewModel.tweetsViewModel.searchText, prompt: Text("Search Keyword"))
-    .navigationViewStyle(.stack)
     .onSubmit(of: .search) {
       Task {
         let firstTweetID = viewModel.tweetsViewModel.showTweets.first?.id

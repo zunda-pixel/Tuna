@@ -33,7 +33,7 @@ struct SettingsView: View {
   }
 
   var body: some View {
-    NavigationView {
+    NavigationStack {
       List {
         Section("ACCOUNT") {
           ForEach(users) { user in
@@ -141,7 +141,6 @@ struct SettingsView: View {
         }
       }
     }
-    .navigationViewStyle(.stack)
   }
 }
 

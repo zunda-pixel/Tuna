@@ -20,7 +20,7 @@ struct TunaApp: App {
       Group {
         if let userID = userID {
           TabView {
-            NavigationView {
+            NavigationStack {
               let tweetViewModel: ReverseChronologicalViewModel = .init(userID: userID, viewContext: persistenceController.container.viewContext)
               TweetsView(viewModel: tweetViewModel)
                 .toolbar {
@@ -37,7 +37,6 @@ struct TunaApp: App {
                   }
                 }
             }
-            .navigationViewStyle(.stack)
             .sheet(isPresented: $isPresentedCreateTweetView) {
               let viewModel = NewTweetViewModel()
               NewTweetView(isPresentedDismiss: $isPresentedCreateTweetView, viewModel: viewModel)
@@ -47,7 +46,6 @@ struct TunaApp: App {
             }
             ListsView(userID: userID)
               .environment(\.managedObjectContext, persistenceController.container.viewContext)
-              .navigationViewStyle(.stack)
               .tabItem {
                 Image(systemName: "list.dash.header.rectangle")
               }
