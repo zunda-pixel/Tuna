@@ -25,8 +25,10 @@ struct TweetToolBar: View {
       Text("\(metrics.likeCount)")
       BookmarkButton(viewModel: .init(user: userID, tweet: tweetID))
         .border(.red)
-      ShareButton(userID: userID, tweetID: tweetID, tweet: tweet)
-        .border(.red)
+
+      let url: URL = .init(string: "https://twitter.com/\(userID)/status/\(tweetID)")!
+      ShareLink(item: url)
+        .presentationDetents([.medium, .large])
     }
   }
 }
