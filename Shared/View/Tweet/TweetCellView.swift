@@ -50,6 +50,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
         }
 
         Text(viewModel.tweetText)
+          .textSelection(.enabled)
           .lineLimit(nil)
           .fixedSize(horizontal: false, vertical: true)
 
