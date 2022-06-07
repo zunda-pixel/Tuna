@@ -66,20 +66,21 @@ struct UserView: View {
         }
         .pickerStyle(.segmented)
 
-        TabView(selection: $selection) {
-          let userTimelineViewModel: UserTimelineViewModel = .init(userID: user.id, viewContext: viewContext)
-          TweetsView(viewModel: userTimelineViewModel)
-            .tag(TweetTab.tweet)
-
-          let userMentionsViewModel: UserMentionsViewModel = .init(userID: user.id, viewContext: viewContext)
-          TweetsView(viewModel: userMentionsViewModel)
-            .tag(TweetTab.mention)
-
-          let likeViewModel: LikesViewModel = .init(userID: user.id, viewContext: viewContext)
-          TweetsView(viewModel: likeViewModel)
-            .tag(TweetTab.like)
-        }
-        .tabViewStyle(.page(indexDisplayMode: .never))
+        // TODO なぜかエラーになる
+//        TabView(selection: $selection) {
+//          let userTimelineViewModel: UserTimelineViewModel = .init(userID: user.id, viewContext: viewContext)
+//          TweetsView(viewModel: userTimelineViewModel)
+//            .tag(TweetTab.tweet)
+//
+//          let userMentionsViewModel: UserMentionsViewModel = .init(userID: user.id, viewContext: viewContext)
+//          TweetsView(viewModel: userMentionsViewModel)
+//            .tag(TweetTab.mention)
+//
+//          let likeViewModel: LikesViewModel = .init(userID: user.id, viewContext: viewContext)
+//          TweetsView(viewModel: likeViewModel)
+//            .tag(TweetTab.like)
+//        }
+//        .tabViewStyle(.page(indexDisplayMode: .never))
       }
     }
   }
