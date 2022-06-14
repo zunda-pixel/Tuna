@@ -22,16 +22,10 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
         .onTapGesture {
           viewModel.isPresentedUserView.toggle()
         }
-
-      NavigationLink(isActive: $viewModel.isPresentedUserView) {
-        UserView(userID: viewModel.userID, user: user)
-          .navigationBarTitle("@\(user.userName)")
-          .environment(\.managedObjectContext, viewContext)
-      } label: {
-        EmptyView()
-      }
-      .frame(width: 0, height: 0)
-      .hidden()
+        .sheet(isPresented: $viewModel.isPresentedUserView) {
+          UserView(userID: viewModel.userID, user: user)
+            .environment(\.managedObjectContext, viewContext)
+        }
 
       VStack(alignment: .leading) {
         HStack {
