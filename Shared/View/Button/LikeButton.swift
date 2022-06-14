@@ -11,6 +11,7 @@ import Sweet
 @MainActor final class LikeButtonViewModel: ObservableObject {
   let userID: String
   let tweetID: String
+  let likeCount: Int
 
   var error: Error?
 
@@ -18,9 +19,10 @@ import Sweet
   @Published var didError = false
   @Published var isLiked = false
 
-  init(user userID: String, tweet tweetID: String) {
+  init(user userID: String, tweet tweetID: String, likeCount: Int) {
     self.userID = userID
     self.tweetID = tweetID
+    self.likeCount = likeCount
   }
 
   func likeOrLikeUser() async {
@@ -48,9 +50,9 @@ struct LikeButton: View {
         await viewModel.likeOrLikeUser()
       }
     } label: {
-      Image(systemName: "heart")
-        .tint(viewModel.isLiked ? .pink : .blue)
+      Text("\(Image(systemName: "heart")) \(viewModel.likeCount)")
     }
+    .tint(viewModel.isLiked ? .pink : .gray)
     .disabled(viewModel.loading)
     .alert("Error", isPresented: $viewModel.didError) {
       Button {
@@ -64,6 +66,6 @@ struct LikeButton: View {
 
 struct LikeButton_Previews: PreviewProvider {
     static var previews: some View {
-      LikeButton(viewModel: .init(user: "", tweet: ""))
+      LikeButton(viewModel: .init(user: "", tweet: "", likeCount: 12))
     }
 }

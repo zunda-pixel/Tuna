@@ -48,7 +48,6 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
             }
           if isTappedTweet {
             TweetToolBar(userID: viewModel.userID, tweetID: cellViewModel.tweet.id, tweet: cellViewModel.tweetText, metrics: cellViewModel.tweet.publicMetrics!)
-              .padding(.horizontal, 50)
           }
 
           NavigationLink(isActive: $viewModel.isPresentedTweetDetail) {

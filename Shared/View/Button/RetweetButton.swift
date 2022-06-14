@@ -11,16 +11,18 @@ import Sweet
 @MainActor final class RetweetButtonViewModel: ObservableObject {
   let userID: String
   let tweetID: String
-
+  let retweetCount: Int
   var error: Error?
+
 
   @Published var loading = false
   @Published var didError = false
   @Published var isRetweeted = false
 
-  init(user userID: String, tweet tweetID: String) {
+  init(user userID: String, tweet tweetID: String, retweetCount: Int) {
     self.userID = userID
     self.tweetID = tweetID
+    self.retweetCount = retweetCount
   }
 
   func retweetOrRetweetUser() async {
@@ -48,9 +50,9 @@ struct RetweetButton: View {
         await viewModel.retweetOrRetweetUser()
       }
     } label: {
-      Image(systemName: "arrow.rectanglepath")
-        .tint(viewModel.isRetweeted ? .green : .clear)
+      Text("\(Image(systemName: "arrow.rectanglepath")) \(viewModel.retweetCount)")
     }
+    .tint(viewModel.isRetweeted ? .green : .gray)
     .disabled(viewModel.loading)
     .alert("Error", isPresented: $viewModel.didError) {
       Button {
@@ -63,8 +65,8 @@ struct RetweetButton: View {
 }
 
 struct RetweetButton_Previews: PreviewProvider {
-    static var previews: some View {
-      RetweetButton(viewModel: .init(user: "", tweet: ""))
-    }
+  static var previews: some View {
+    RetweetButton(viewModel: .init(user: "", tweet: "", retweetCount: 12))
+  }
 }
 

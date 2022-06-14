@@ -16,20 +16,26 @@ struct TweetToolBar: View {
   let metrics: Sweet.TweetPublicMetrics
 
   var body: some View {
-    HStack {
-      RetweetButton(viewModel: .init(user: userID, tweet: tweetID))
-        .border(.red)
-      Text("\(metrics.retweetCount)")
-      LikeButton(viewModel: .init(user: userID, tweet: tweetID))
-        .border(.red)
-      Text("\(metrics.likeCount)")
+    HStack(alignment: .lastTextBaseline) {
+      RetweetButton(viewModel: .init(user: userID, tweet: tweetID, retweetCount: metrics.retweetCount))
+        .buttonStyle(.borderless)
+        .padding(.horizontal)
+      LikeButton(viewModel: .init(user: userID, tweet: tweetID, likeCount: metrics.likeCount))
+        .buttonStyle(.borderless)
+        .padding(.horizontal)
       BookmarkButton(viewModel: .init(user: userID, tweet: tweetID))
-        .border(.red)
+        .buttonStyle(.borderless)
+        .padding(.horizontal)
 
       let url: URL = .init(string: "https://twitter.com/\(userID)/status/\(tweetID)")!
-      ShareLink(item: url)
-        .presentationDetents([.medium, .large])
+      ShareLink(item: url) {
+        Image(systemName: "square.and.arrow.up")
+          .foregroundColor(.gray)
+      }
+      .presentationDetents([.medium, .large])
+      .padding(.horizontal)
     }
+    .font(.system(size: 17))
   }
 }
 
