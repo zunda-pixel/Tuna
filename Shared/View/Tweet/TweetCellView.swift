@@ -40,7 +40,10 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
             Image(systemName: "bubble.left.and.bubble.right")
           }
 
-          Text(viewModel.duration)
+          TimelineView(.periodic(from: .now, by: 1)) { context in
+            let duration = viewModel.duration(nowDate: context.date)
+            Text(duration)
+          }
         }
 
         Text(viewModel.tweetText)
@@ -140,9 +143,6 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           }
         }
       }
-    }
-    .onReceive(viewModel.timer) { _ in
-      viewModel.nowDate = Date()
     }
 
     .alert("Error", isPresented: $viewModel.didError) {

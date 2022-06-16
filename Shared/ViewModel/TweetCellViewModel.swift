@@ -25,13 +25,11 @@ import MapKit
   var poll: Sweet.PollModel? { get }
   var place: Sweet.PlaceModel? { get }
   var isPresentedImageView: Bool { get set }
-  var timer: Publishers.Autoconnect<Timer.TimerPublisher> { get set }
-  var nowDate: Date { get set }
   var selectedMediaURL: URL? { get set }
   var tweetText: String { get }
-  var duration: String { get }
   var isPresentedUserView: Bool { get set }
   func getVotePercent(_ poll: Sweet.PollModel, votes: Int) -> Int
+  func duration(nowDate: Date) -> String
 }
 
 @MainActor class TweetCellViewModel: TweetCellViewProtocol {
@@ -53,8 +51,6 @@ import MapKit
   @Published var didError = false
   @Published var isPresentedImageView = false
   @Published var isPresentedUserView = false
-  @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-  @Published var nowDate: Date = Date()
 
   init(userID: String,
        tweet: Sweet.TweetModel, author : Sweet.UserModel,
@@ -83,8 +79,8 @@ import MapKit
       return tweet.text
     }
   }
-  
-  var duration: String {
+
+  func duration(nowDate: Date) -> String {
     let createdAt: Date? = {
       switch tweet.referencedTweet?.type {
         case .none:
