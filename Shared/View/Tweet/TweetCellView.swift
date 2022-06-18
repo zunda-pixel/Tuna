@@ -51,35 +51,8 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           .fixedSize(horizontal: false, vertical: true)
 
         if let poll = viewModel.poll {
-          VStack {
-            ForEach(poll.options) { option in
-              GeometryReader { geometry in
-                HStack {
-                  ZStack {
-                    Text(option.label)
-                      .frame(width: geometry.size.width * 0.7, alignment: .leading)
-                      .padding(.leading)
-                      .overlay(RoundedRectangle(cornerRadius: 20).stroke(.gray, lineWidth: 1))
-                    Rectangle()
-                      .foregroundColor(.black.opacity(0))
-                      .frame(width: geometry.size.width * 0.5, alignment: .leading)
-                      .padding(.leading)
-                      .overlay(RoundedRectangle(cornerRadius: 20).stroke(.orange, lineWidth: 1))
-                  }
-                  Spacer()
-                  Text("\(viewModel.getVotePercent(poll, votes: option.votes))%")
-                }
-              }
-              .padding(.vertical)
-            }
-            HStack {
-              Text("\(poll.totalVote) Votes")
-              Text("Poll \(poll.votingStatus.rawValue)")
-            }
-          }
-          .padding(.horizontal, 10)
-          .padding(.vertical, 5)
-          .overlay(RoundedRectangle(cornerRadius: 20).stroke(.gray, lineWidth: 2))
+          PollView(poll: poll)
+            .padding(.trailing, 30)
         }
 
         let gridItem: GridItem = .init(.flexible())

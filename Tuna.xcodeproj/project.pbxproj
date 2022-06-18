@@ -56,6 +56,7 @@
 		2E63898E27EABFCC00964EC8 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E63898D27EABFCC00964EC8 /* Secret.swift */; };
 		2E63899427EAC39D00964EC8 /* TwitterOauth2+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E63899327EAC39D00964EC8 /* TwitterOauth2+Extension.swift */; };
 		2E63899727EAC56000964EC8 /* Sweet+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E63899627EAC56000964EC8 /* Sweet+Extension.swift */; };
+		2E6A8C5A285DD01D003BFD7C /* PollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A8C59285DD01D003BFD7C /* PollView.swift */; };
 		2E71094328485FC0000A4603 /* UserTimelineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E71094228485FC0000A4603 /* UserTimelineViewModel.swift */; };
 		2E7DD5EA283B569E00F16C53 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7DD5E9283B569E00F16C53 /* UserProfileView.swift */; };
 		2E8E5E402849CD800031D29F /* ListTweetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8E5E3F2849CD800031D29F /* ListTweetsViewModel.swift */; };
@@ -155,6 +156,7 @@
 		2E63899327EAC39D00964EC8 /* TwitterOauth2+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TwitterOauth2+Extension.swift"; sourceTree = "<group>"; };
 		2E63899627EAC56000964EC8 /* Sweet+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sweet+Extension.swift"; sourceTree = "<group>"; };
 		2E63899927EADA5F00964EC8 /* Tuna--macOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Tuna--macOS--Info.plist"; sourceTree = "<group>"; };
+		2E6A8C59285DD01D003BFD7C /* PollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollView.swift; sourceTree = "<group>"; };
 		2E71094228485FC0000A4603 /* UserTimelineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTimelineViewModel.swift; sourceTree = "<group>"; };
 		2E7DD5E9283B569E00F16C53 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		2E8E5E3F2849CD800031D29F /* ListTweetsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTweetsViewModel.swift; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 				2E10382F27EC909600E8E67B /* ProfileImageView.swift */,
 				2E13ED49280D175C00BF79CD /* SearchView.swift */,
 				2E3468E0283A770A00AA2E33 /* SettingsView.swift */,
+				2E6A8C59285DD01D003BFD7C /* PollView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -594,6 +597,7 @@
 				2E63898E27EABFCC00964EC8 /* Secret.swift in Sources */,
 				2E10382A27EC05FE00E8E67B /* User+Extension.swift in Sources */,
 				2EF5B326283BA7FB00DD8352 /* FollowButton.swift in Sources */,
+				2E6A8C5A285DD01D003BFD7C /* PollView.swift in Sources */,
 				2E7DD5EA283B569E00F16C53 /* UserProfileView.swift in Sources */,
 				2EB935D528461B8C00833663 /* SearchUsersViewModel.swift in Sources */,
 				2E5324E727FF1CEA008D5EFB /* NSItemProvider+Extension.swift in Sources */,

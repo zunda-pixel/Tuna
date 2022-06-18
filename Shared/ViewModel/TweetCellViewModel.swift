@@ -28,7 +28,6 @@ import MapKit
   var selectedMediaURL: URL? { get set }
   var tweetText: String { get }
   var isPresentedUserView: Bool { get set }
-  func getVotePercent(_ poll: Sweet.PollModel, votes: Int) -> Int
   func duration(nowDate: Date) -> String
 }
 
@@ -100,18 +99,6 @@ import MapKit
       candidate: components, from: createdAt!, to: nowDate)
 
     return durationString!
-  }
-
-  func getVotePercent(_ poll: Sweet.PollModel, votes: Int) -> Int {
-    let sumVotes = poll.totalVote
-
-    if sumVotes == 0 {
-      return 0
-    }
-
-    let percent: Double = Double(votes) / Double(sumVotes) * 100
-
-    return Int(percent)
   }
 }
 
