@@ -12,7 +12,7 @@ import CoreLocationUI
 import PhotoPicker
 
 struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
-  @Binding var isPresentedDismiss: Bool
+  @Environment(\.dismiss) var dismiss
   @StateObject var viewModel: ViewModel
   @FocusState private var showKeyboard: Bool
 
@@ -21,7 +21,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
       HStack {
         Button(
           action: {
-            isPresentedDismiss = false
+            dismiss()
           },
           label: {
             Text("Close")
@@ -33,7 +33,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
           action: {
             Task {
               await viewModel.tweet()
-              isPresentedDismiss = false
+              dismiss()
             }
           },
           label: {
@@ -169,6 +169,6 @@ struct NewTweetView_Previews: PreviewProvider {
       return viewModel
     }()
 
-    NewTweetView(isPresentedDismiss: $isPresentedDismiss, viewModel: viewModel)
+    NewTweetView(viewModel: viewModel)
   }
 }

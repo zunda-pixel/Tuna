@@ -39,7 +39,7 @@ struct TunaApp: App {
             }
             .sheet(isPresented: $isPresentedCreateTweetView) {
               let viewModel = NewTweetViewModel()
-              NewTweetView(isPresentedDismiss: $isPresentedCreateTweetView, viewModel: viewModel)
+              NewTweetView(viewModel: viewModel)
             }
             .tabItem {
               Image(systemName: "house")
