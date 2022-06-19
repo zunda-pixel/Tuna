@@ -11,61 +11,53 @@ import Sweet
 
 struct PollView: View {
   let poll: Sweet.PollModel
-  
+
+  func getPercent(value: Double, total: Double) -> Int {
+    if value == 0 {
+      return 0
+    }
+
+    let percent = value / total * 100.0
+
+    return Int(percent)
+  }
+
+  var totalVote: Int {
+    let totalVote = poll.totalVote
+
+    if totalVote == 0 {
+      return 1
+    }
+
+    return totalVote
+  }
   var body: some View {
     VStack {
-      ZStack {
-        Chart {
-          ForEach(poll.options, id: \.id) { option in
-            BarMark(x: .value("X", 1), y: .value("Y", option.label))
-              .foregroundStyle(.gray.opacity(0.1))
-              .annotation(position: .overlay) {
-                HStack {
-                  Text(option.label)
-                  Spacer()
-                }
+      Grid {
+        ForEach(poll.options) { option in
+          GridRow {
+            ProgressView(value: Double(option.votes), total: Double(totalVote))
+              .scaleEffect(x: 1, y: 6, anchor: .center)
+              .overlay(alignment: .leading) {
+                Text(option.label)
               }
-              .annotation(position: .trailing) {
-                if poll.totalVote == 0 {
-                  Text("0%")
-                } else {
-                  let percent = Double(option.votes) / Double(poll.totalVote) * 100.0
-                  let showPercent = Int(round(percent))
-                  Text("\(showPercent)%")
-                }
-              }
-              .cornerRadius(10)
+            let percent = getPercent(value: Double(option.votes), total: Double(poll.totalVote))
+            Text("\(percent)%")
           }
         }
-        .chartXAxis(.hidden)
-        .chartYAxis(.hidden)
-        Chart {
-          ForEach(poll.options, id: \.id) { option in
-            BarMark(x: .value("X", option.votes), y: .value("Y", option.label))
-              .foregroundStyle(.gray.opacity(0.5))
-              .annotation(position: .overlay) {
-                HStack {
-                  Text(option.label)
-                  Spacer()
-                }
-              }
-              .cornerRadius(10)
-          }
-        }
-        .chartXAxis(.hidden)
-        .chartYAxis(.hidden)
       }
-      .frame(height: 35 * CGFloat(poll.options.count))
 
-      Text("\(poll.totalVote) Votes")
-      Text("Poll \(poll.votingStatus.rawValue)")
+      HStack {
+        Text("\(poll.totalVote) Votes")
+        Text("Poll \(poll.votingStatus.rawValue)")
+      }
     }
   }
 }
 
 struct PollView_Previews: PreviewProvider {
   static var previews: some View {
-    let poll: Sweet.PollModel = .init(id: "Hello", votingStatus: .isClosed, endDateTime: Date(), durationMinutes: 12 ,options: [.init(position: 1, label: "mikan", votes: 0), .init(position: 2, label: "apple", votes: 34)])
+    let poll: Sweet.PollModel = .init(id: "Hello", votingStatus: .isClosed, endDateTime: Date(), durationMinutes: 12 ,options: [.init(position: 1, label: "mikan", votes: 0), .init(position: 2, label: "apple", votes: 34), .init(position: 3, label: "orange", votes: 21)])
     PollView(poll: poll)
       .frame(width: 300, height: 300)
   }

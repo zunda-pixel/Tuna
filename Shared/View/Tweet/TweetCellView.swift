@@ -17,7 +17,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
   @State var dragSpeed: CGFloat?
   @State var imagePosition: CGPoint = .init(x: 0, y: 0)
   @GestureState var magnifyBy = CGFloat(1.0)
-  
+
   var body: some View {
     HStack(alignment: .top) {
       let user = viewModel.tweet.referencedTweet?.type == .retweeted ? viewModel.retweet!.user : viewModel.author
@@ -56,7 +56,6 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
 
         if let poll = viewModel.poll {
           PollView(poll: poll)
-            .padding(.trailing, 30)
         }
 
         let gridItem: GridItem = .init(.flexible())
