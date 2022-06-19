@@ -25,7 +25,7 @@ import MapKit
   var poll: Sweet.PollModel? { get }
   var place: Sweet.PlaceModel? { get }
   var isPresentedImageView: Bool { get set }
-  var selectedMediaURL: URL? { get set }
+  var selectedMedia: Sweet.MediaModel? { get set }
   var tweetText: String { get }
   var isPresentedUserView: Bool { get set }
   func duration(nowDate: Date) -> String
@@ -45,7 +45,7 @@ import MapKit
   let medias: [Sweet.MediaModel]
   let poll: Sweet.PollModel?
   let place: Sweet.PlaceModel?
-  var selectedMediaURL: URL?
+  var selectedMedia: Sweet.MediaModel?
 
   @Published var didError = false
   @Published var isPresentedImageView = false

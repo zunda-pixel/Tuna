@@ -25,6 +25,7 @@ import PhotoPicker
   var locationManager: CLLocationManager { get }
   var leftTweetCount: Int { get }
   var loadingLocation: Bool { get set }
+  var quotedTweet: Sweet.TweetModel? { get }
   func tweet() async
   func setLocation() async
 }
@@ -41,12 +42,17 @@ final class NewTweetViewModel: NSObject, NewTweetViewProtocol {
   @Published var didPickPhoto = true
   @Published var loadingLocation: Bool = false
 
+  let quotedTweet: Sweet.TweetModel?
+
   var error: Error?
   var locationManager: CLLocationManager = .init()
 
-  override init() {
+  init(quoted quotedTweet: Sweet.TweetModel? = nil) {
+    self.quotedTweet = quotedTweet
+
     super.init()
     locationManager.delegate = self
+
   }
 
   var disableTweetButton: Bool {
@@ -77,7 +83,7 @@ final class NewTweetViewModel: NSObject, NewTweetViewProtocol {
     let tweet = Sweet.PostTweetModel(
       text: text, directMessageDeepLink: nil,
       forSuperFollowersOnly: false, geo: nil,
-      media: nil, poll: poll, quoteTweetID: nil,
+      media: nil, poll: poll, quoteTweetID: quotedTweet?.id,
       reply: nil, replySettings: selectedReplySetting)
     do {
       let _ = try await Sweet().createTweet(tweet)

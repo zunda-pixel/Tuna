@@ -45,12 +45,10 @@ struct RetweetButton: View {
   @StateObject var viewModel: RetweetButtonViewModel
 
   var body: some View {
-    Button {
+    Button("Retweet to Followers") {
       Task {
         await viewModel.retweetOrRetweetUser()
       }
-    } label: {
-      Text("\(Image(systemName: "arrow.2.squarepath")) \(viewModel.retweetCount)")
     }
     .tint(viewModel.isRetweeted ? .green : .gray)
     .disabled(viewModel.loading)

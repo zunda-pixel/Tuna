@@ -15,11 +15,18 @@ struct TweetToolBar: View {
 
   let metrics: Sweet.TweetPublicMetrics
 
+  @State var isPresentedRetweetQuotedAlert = false
   var body: some View {
     HStack(alignment: .lastTextBaseline) {
-      RetweetButton(viewModel: .init(user: userID, tweet: tweetID, retweetCount: metrics.retweetCount))
-        .buttonStyle(.borderless)
-        .padding(.horizontal)
+      Button {
+        isPresentedRetweetQuotedAlert.toggle()
+      } label: {
+        Text("\(Image(systemName: "arrow.2.squarepath")) \(metrics.retweetCount + metrics.quoteCount)")
+      }
+      .tint(.gray)
+      .buttonStyle(.borderless)
+      .padding(.horizontal)
+
       LikeButton(viewModel: .init(user: userID, tweet: tweetID, likeCount: metrics.likeCount))
         .buttonStyle(.borderless)
         .padding(.horizontal)
@@ -30,10 +37,18 @@ struct TweetToolBar: View {
       let url: URL = .init(string: "https://twitter.com/\(userID)/status/\(tweetID)")!
       ShareLink(item: url) {
         Image(systemName: "square.and.arrow.up")
-          .foregroundColor(.gray)
       }
       .presentationDetents([.medium, .large])
       .padding(.horizontal)
+
+
+      TweetMenu()
+        .menuStyle(.borderlessButton)
+        .padding(.horizontal)
+    }
+    .confirmationDialog("Retweet Tweet Or Quoted Tweet", isPresented: $isPresentedRetweetQuotedAlert) {
+      RetweetButton(viewModel: .init(user: userID, tweet: tweetID, retweetCount: metrics.retweetCount))
+      QuotedButton()
     }
     .font(.system(size: 17))
   }
