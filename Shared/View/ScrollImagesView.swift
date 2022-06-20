@@ -14,7 +14,7 @@ struct ScrollImagesView: View {
 
   let medias: [Sweet.MediaModel]
 
-  @Binding var selectedMedia: Sweet.MediaModel?
+  @Binding var selectedMedia: Sweet.MediaModel
 
   var body: some View {
     TabView(selection: $selectedMedia) {
@@ -34,6 +34,6 @@ struct ScrollImagesView: View {
       }
     }
     .ignoresSafeArea()
-    .tabViewStyle(.page(indexDisplayMode: .never))
+    .tabViewStyle(.page)
   }
 }

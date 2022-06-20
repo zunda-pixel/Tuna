@@ -12,8 +12,14 @@ import Kingfisher
 struct MediasView: View {
   let medias: [Sweet.MediaModel]
 
-  @State var selectedMedia: Sweet.MediaModel?
+  @State var selectedMedia: Sweet.MediaModel
   @State var isPresentedImageView = false
+
+  init(medias: [Sweet.MediaModel]) {
+    self.medias = medias
+    let media = medias.first ?? .init(key: "", type: .animatedGig, size: .init(width: 0, height: 0))
+    self._selectedMedia = .init(wrappedValue:  media)
+  }
 
   var body: some View {
     let gridItem: GridItem = .init(.flexible())
