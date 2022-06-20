@@ -13,10 +13,6 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
   @Environment(\.openURL) private var openURL
   @Environment(\.managedObjectContext) private var viewContext
   @StateObject var viewModel: ViewModel
-  @State var lastDragPosition: DragGesture.Value?
-  @State var dragSpeed: CGFloat?
-  @State var imagePosition: CGPoint = .init(x: 0, y: 0)
-  @GestureState var magnifyBy = CGFloat(1.0)
 
   var body: some View {
     HStack(alignment: .top) {
@@ -58,73 +54,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           PollView(poll: poll)
         }
 
-        let gridItem: GridItem = .init(.flexible())
-
-        LazyVGrid(columns: [gridItem, gridItem]) {
-          ForEach(viewModel.medias) { media in
-            if let mediaURL = media.url ?? media.previewImageURL {
-              KFImage(mediaURL)
-                .placeholder { p in
-                  ProgressView(p)
-                }
-                .resizable()
-                .scaledToFill()
-                .frame(height: 100)
-                .clipped()
-                .onTapGesture {
-                  viewModel.selectedMedia = media
-                  viewModel.isPresentedImageView.toggle()
-                }
-            }
-          }
-          .fullScreenCover(isPresented: $viewModel.isPresentedImageView) {
-            TabView(selection: $viewModel.selectedMedia) {
-              ForEach(viewModel.medias) { media in
-                let mediaURL = media.url ?? media.previewImageURL!
-                ZStack {
-                  Color.black
-                    .ignoresSafeArea()
-                  KFImage(mediaURL)
-                    .resizable()
-                    .scaledToFit()
-                    //.position(imagePosition)
-                    .gesture(MagnificationGesture()
-                      .updating($magnifyBy) { currentState, gestureState, transaction in
-                          gestureState = currentState
-                      }
-                    )
-                    .gesture(DragGesture()
-                      .onChanged { value in
-                        imagePosition = .init(x: value.startLocation.x + value.translation.width,
-                                              y: value.startLocation.y + value.translation.height)
-
-                        if lastDragPosition == nil {
-                          lastDragPosition = value
-                        }
-
-                        let timeDiff = value.time.timeIntervalSince(lastDragPosition!.time)
-                        let speed: CGFloat = (value.translation.height - lastDragPosition!.translation.height) / timeDiff
-
-                        self.dragSpeed = speed
-                        self.lastDragPosition = value
-                      }
-                      .onEnded { value in
-                        guard let dragSpeed else { return }
-
-                        if abs(dragSpeed) > 100 {
-                          viewModel.isPresentedImageView.toggle()
-                        }
-                      }
-                    )
-                }
-                .tag(media)
-              }
-            }
-            .ignoresSafeArea()
-            .tabViewStyle(.page(indexDisplayMode: .never))
-
-          }
-        }
+        MediasView(medias: viewModel.medias)
 
         if let placeName = viewModel.place?.name {
           Text(placeName)
