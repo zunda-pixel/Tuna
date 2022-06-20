@@ -37,24 +37,7 @@ struct MediasView: View {
       }
     }
     .fullScreenCover(isPresented: $isPresentedImageView) {
-      TabView(selection: $selectedMedia) {
-        ForEach(medias) { media in
-          let mediaURL = media.url ?? media.previewImageURL!
-          ZStack {
-            Color.black
-              .ignoresSafeArea()
-            KFImage(mediaURL)
-              .resizable()
-              .scaledToFit()
-              .onTapGesture {
-                isPresentedImageView.toggle()
-              }
-          }
-          .tag(media)
-        }
-      }
-      .ignoresSafeArea()
-      .tabViewStyle(.page(indexDisplayMode: .never))
+      ScrollImagesView(medias: medias, selectedMedia: $selectedMedia)
     }
   }
 }

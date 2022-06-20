@@ -79,6 +79,7 @@
 		2EDF7629284FBDFD001BF80C /* PhotoPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 2EDF7628284FBDFD001BF80C /* PhotoPicker */; };
 		2EE07A58285E382500C3D6AE /* QuotedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE07A57285E382500C3D6AE /* QuotedButton.swift */; };
 		2EE07A5A285F303400C3D6AE /* MediasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE07A59285F303400C3D6AE /* MediasView.swift */; };
+		2EE07A5C286029A200C3D6AE /* ScrollImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE07A5B286029A200C3D6AE /* ScrollImagesView.swift */; };
 		2EEE9DFD2816DB0300721ADD /* UsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9DFC2816DB0300721ADD /* UsersView.swift */; };
 		2EEE9E002816E8F000721ADD /* UserCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9DFF2816E8F000721ADD /* UserCellView.swift */; };
 		2EEE9E032816E93E00721ADD /* UsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9E022816E93E00721ADD /* UsersViewModel.swift */; };
@@ -181,6 +182,7 @@
 		2EB935D728461BA700833663 /* SearchTweetsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTweetsViewModel.swift; sourceTree = "<group>"; };
 		2EE07A57285E382500C3D6AE /* QuotedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotedButton.swift; sourceTree = "<group>"; };
 		2EE07A59285F303400C3D6AE /* MediasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediasView.swift; sourceTree = "<group>"; };
+		2EE07A5B286029A200C3D6AE /* ScrollImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollImagesView.swift; sourceTree = "<group>"; };
 		2EEE9DFC2816DB0300721ADD /* UsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersView.swift; sourceTree = "<group>"; };
 		2EEE9DFF2816E8F000721ADD /* UserCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCellView.swift; sourceTree = "<group>"; };
 		2EEE9E022816E93E00721ADD /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 				2E3468E0283A770A00AA2E33 /* SettingsView.swift */,
 				2E6A8C59285DD01D003BFD7C /* PollView.swift */,
 				2EE07A59285F303400C3D6AE /* MediasView.swift */,
+				2EE07A5B286029A200C3D6AE /* ScrollImagesView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -562,6 +565,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2EB935D828461BA700833663 /* SearchTweetsViewModel.swift in Sources */,
+				2EE07A5C286029A200C3D6AE /* ScrollImagesView.swift in Sources */,
 				2E1914F5283F1EBC00F03C7C /* SearchViewModel.swift in Sources */,
 				2E5324F027FF1D8E008D5EFB /* UIImage+Extension.swift in Sources */,
 				2E9EE8E6284C882D00759937 /* FollowerUserViewModel.swift in Sources */,
