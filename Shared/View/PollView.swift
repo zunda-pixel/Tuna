@@ -12,43 +12,45 @@ import Sweet
 struct PollView: View {
   let poll: Sweet.PollModel
 
-  func getPercent(value: Double, total: Double) -> Int {
+  let totalVote: Int
+  let progressTotalVote: Int
+
+  init(poll: Sweet.PollModel) {
+    self.poll = poll
+
+    self.totalVote = poll.options.reduce(0) { $0 + $1.votes }
+
+    self.progressTotalVote = totalVote == 0 ? 1 : totalVote
+  }
+
+  func getPercent(value: Double) -> Int {
     if value == 0 {
       return 0
     }
 
-    let percent = value / total * 100.0
+    let percent = value / Double(totalVote) * 100.0
 
     return Int(percent)
   }
 
-  var totalVote: Int {
-    let totalVote = poll.totalVote
-
-    if totalVote == 0 {
-      return 1
-    }
-
-    return totalVote
-  }
   var body: some View {
     VStack {
       Grid {
         ForEach(poll.options) { option in
           GridRow {
-            ProgressView(value: Double(option.votes), total: Double(totalVote))
+            ProgressView(value: Double(option.votes), total: Double(progressTotalVote))
               .scaleEffect(x: 1, y: 6, anchor: .center)
               .overlay(alignment: .leading) {
                 Text(option.label)
               }
-            let percent = getPercent(value: Double(option.votes), total: Double(poll.totalVote))
+            let percent = getPercent(value: Double(option.votes))
             Text("\(percent)%")
           }
         }
       }
 
       HStack {
-        Text("\(poll.totalVote) Votes")
+        Text("\(totalVote) Votes")
         Text("Poll \(poll.votingStatus.rawValue)")
       }
     }

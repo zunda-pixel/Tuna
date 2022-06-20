@@ -102,8 +102,4 @@ import MapKit
   }
 }
 
-extension Sweet.PollModel {
-  var totalVote: Int {
-    return self.options.reduce(into: 0) { $0 = $0 + $1.votes }
-  }
-}
+
