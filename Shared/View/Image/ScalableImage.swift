@@ -8,13 +8,6 @@
 import SwiftUI
 import Kingfisher
 
-extension CGSize {
-  var center: CGPoint {
-    return .init(x: self.width / 2, y: self.height / 2)
-  }
-}
-
-
 struct ScalableImage: View {
   let mediaURL: URL
   @Environment(\.dismiss) var dismiss
@@ -103,12 +96,12 @@ struct ScalableImage: View {
           dismiss()
         }
     }
-      .gesture(magnification)
+    .gesture(magnification)
   }
 }
 
 struct ScalableImage_Previews: PreviewProvider {
-    static var previews: some View {
-      ScalableImage(mediaURL: .init(string: "")!)
-    }
+  static var previews: some View {
+    ScalableImage(mediaURL: .init(string: "")!)
+  }
 }
