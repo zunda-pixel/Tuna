@@ -90,11 +90,11 @@ struct ScalableImage: View {
         .onTapGesture(count: 2) {
           resetScale()
         }
-        .onTapGesture(count: 1) {
-          dismiss()
-        }
     }
     .gesture(magnification)
+    .onTapGesture(count: 1) {
+      dismiss()
+    }
   }
 }
 
