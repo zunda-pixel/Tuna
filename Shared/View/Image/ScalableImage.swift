@@ -70,10 +70,8 @@ struct ScalableImage: View {
         let timeDiff = value.time.timeIntervalSince(lastDragPosition!.time)
         let speed: CGFloat = CGFloat(value.translation.height - lastDragPosition!.translation.height) / CGFloat(timeDiff)
 
-        if abs(speed) > 200 {
-          withAnimation {
-            dismiss()
-          }
+        if abs(speed) > 400 {
+          dismiss()
         } else {
           resetLocation()
         }
