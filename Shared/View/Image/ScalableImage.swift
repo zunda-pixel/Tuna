@@ -8,38 +8,100 @@
 import SwiftUI
 import Kingfisher
 
-struct ScalableImage: View {
-  @State var scale: Double = 1
-  let mediaURL: URL
+extension CGSize {
+  var center: CGPoint {
+    return .init(x: self.width / 2, y: self.height / 2)
+  }
+}
 
-  func restScale() {
+
+struct ScalableImage: View {
+  let mediaURL: URL
+  @Environment(\.dismiss) var dismiss
+
+  @State var lastDragPosition: DragGesture.Value?
+  @State var scale: Double = 1
+  @State var location: CGPoint
+
+  init(mediaURL: URL) {
+    self.mediaURL = mediaURL
+    self._location = .init(wrappedValue: UIScreen.main.bounds.size.center)
+  }
+
+  func resetScale() {
     withAnimation(.easeInOut) {
       scale = 1
+    }
+  }
+
+  func maxScale() {
+    withAnimation(.easeInOut) {
+      scale = 2
+    }
+  }
+
+  func resetLocation() {
+    withAnimation(.easeInOut) {
+      location = UIScreen.main.bounds.size.center
     }
   }
 
   var body: some View {
     let magnification = MagnificationGesture()
       .onChanged { value in
-       scale = value
+        let diff = abs(scale - value)
+
+        let direction = scale > value
+
+        let adjustedDiff = (direction ? -diff : diff) / 2
+
+        let scale = scale + adjustedDiff
+
+        if 0 < scale && scale < 3 {
+          self.scale = scale
+        }
       }
       .onEnded { value in
         if value < 1 {
-          restScale()
+          resetScale()
+        } else if value > 2 {
+          maxScale()
+        }
+      }
+    let drag = DragGesture()
+      .onChanged { value in
+        lastDragPosition = value
+        location = value.location
+      }
+      .onEnded { value in
+        let timeDiff = value.time.timeIntervalSince(lastDragPosition!.time)
+        let speed: CGFloat = CGFloat(value.translation.height - lastDragPosition!.translation.height) / CGFloat(timeDiff)
+
+        if abs(speed) > 200 {
+          withAnimation {
+            dismiss()
+          }
+        } else {
+          resetLocation()
         }
       }
 
     ZStack {
-      Color.black
+      Color.black.ignoresSafeArea()
       KFImage(mediaURL)
         .resizable()
-        .scaleEffect(scale)
+        .padding()
         .scaledToFit()
-        .onTapGesture(count: 2) {
-          restScale()
-        }
-        .gesture(magnification)
+        .scaleEffect(scale)
         .padding(.horizontal)
+        .position(location)
+        .gesture(drag)
+        .onTapGesture(count: 2) {
+          resetScale()
+        }
+        .onTapGesture(count: 1) {
+          dismiss()
+        }
     }
       .gesture(magnification)
   }

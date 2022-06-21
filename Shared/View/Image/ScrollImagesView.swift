@@ -28,9 +28,6 @@ struct ScrollImagesView: View {
           let mediaURL = media.url ?? media.previewImageURL!
 
           ScalableImage(mediaURL: mediaURL)
-            .onTapGesture(count: 1) {
-              dismiss()
-            }
             .tag(media)
         }
       }
