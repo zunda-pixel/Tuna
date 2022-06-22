@@ -40,6 +40,7 @@ final class ReverseChronologicalViewModel: NSObject, TweetsViewProtocol {
       let fetchRequest = NSFetchRequest<Timeline>()
       fetchRequest.entity = Timeline.entity()
       fetchRequest.sortDescriptors = []
+      fetchRequest.predicate = .init(format: "ownerID = %@", userID)
 
       return NSFetchedResultsController<Timeline>(
         fetchRequest: fetchRequest,
