@@ -10,6 +10,7 @@ import Sweet
 import CoreData
 
 struct LoginView<Label: View>: View {
+  @Environment(\.openURL) var openURL
   @Environment(\.managedObjectContext) var context
   @Binding var userID: String?
   @State var error: Error?
@@ -56,9 +57,10 @@ struct LoginView<Label: View>: View {
   }
 
   var body: some View {
-    let url = getAuthorizeURL()
-
-    Link(destination: url) {
+    Button {
+      let url = getAuthorizeURL()
+      openURL(url)
+    } label: {
       label
     }
     .alert("Error", isPresented: $didError) {
