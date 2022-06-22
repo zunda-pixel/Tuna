@@ -7,13 +7,16 @@
 
 import Foundation
 import Sweet
+import CoreData
 
 protocol DeepLinkDelegate {
   func setUserID(userID: String)
+  func addUser(user: Sweet.UserModel) throws
 }
 
 struct DeepLink {
   let delegate: DeepLinkDelegate
+  let context: NSManagedObjectContext
 
   func doSomething(_ url: URL) async throws {
     let components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
@@ -29,10 +32,10 @@ struct DeepLink {
     }
   }
 
-  private func getMyUserID(userBearerToken: String) async throws -> String {
+  private func getMyUser(userBearerToken: String) async throws -> Sweet.UserModel {
     let sweet: Sweet = .init(app: "", user: userBearerToken)
     let response = try await sweet.lookUpMe()
-    return response.user.id
+    return response.user
   }
 
   private func saveOAuthData(code: String) async throws {
@@ -43,10 +46,13 @@ struct DeepLink {
     let response = try await TwitterOAuth2().getUserBearerToken(
       code: code, callBackURL: Secret.callBackURL, challenge: challenge)
 
-    let userID = try await getMyUserID(userBearerToken: response.bearerToken)
+    let user = try await getMyUser(userBearerToken: response.bearerToken)
 
-    Secret.addLoginUser(userID)
-    Secret.currentUserID = userID
+    if !Secret.loginUserIDs.contains(user.id) {
+      Secret.addLoginUser(user.id)
+    }
+
+    Secret.currentUserID = user.id
     Secret.userBearerToken = response.bearerToken
     Secret.refreshToken = response.refreshToken
 
@@ -56,9 +62,10 @@ struct DeepLink {
     let expireDate = Calendar.current.date(byAdding: dateComponent, to: Date())!
     Secret.expireDate = expireDate
 
-    try! Secret.removeState()
-    try! Secret.removeChallenge()
+    try Secret.removeState()
+    try Secret.removeChallenge()
 
-    delegate.setUserID(userID: userID)
+    try delegate.addUser(user: user)
+    delegate.setUserID(userID: user.id)
   }
 }

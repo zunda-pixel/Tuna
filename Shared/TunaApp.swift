@@ -69,7 +69,10 @@ struct TunaApp: App {
               }
           }
         } else {
-          LoginView(userID: $userID)
+          LoginView(userID: $userID) {
+            Text("Login")
+          }
+            .environment(\.managedObjectContext, persistenceController.container.viewContext)
             .tabItem {
               Image(systemName: "person")
             }
