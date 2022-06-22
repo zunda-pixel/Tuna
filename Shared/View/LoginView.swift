@@ -6,11 +6,21 @@
 //
 
 import SwiftUI
+import Sweet
+import CoreData
 
-struct LoginView: View {
+struct LoginView<Label: View>: View {
+  @Environment(\.managedObjectContext) var context
   @Binding var userID: String?
   @State var error: Error?
   @State var didError = false
+
+  let label: Label
+
+  init(userID: Binding<String?>,  @ViewBuilder label: () -> Label) {
+    self._userID = userID
+    self.label = label()
+  }
 
   func getRandomString() -> String {
     let challenge = SecurityRandom.secureRandomBytes(count: 10)
@@ -35,7 +45,7 @@ struct LoginView: View {
   }
 
   func doSomething(url: URL) async {
-    let deepLink = DeepLink(delegate: self)
+    let deepLink = DeepLink(delegate: self, context: context)
 
     do {
       try await deepLink.doSomething(url)
@@ -49,7 +59,7 @@ struct LoginView: View {
     let url = getAuthorizeURL()
 
     Link(destination: url) {
-      Text("Login")
+      label
     }
     .alert("Error", isPresented: $didError) {
       Button {
@@ -69,5 +79,22 @@ struct LoginView: View {
 extension LoginView: DeepLinkDelegate {
   func setUserID(userID: String) {
     self.userID = userID
+  }
+
+  func addUser(user: Sweet.UserModel) throws {
+    let fetchRequest = NSFetchRequest<User>()
+    fetchRequest.entity = User.entity()
+    fetchRequest.sortDescriptors = []
+
+    let users = try context.fetch(fetchRequest)
+
+    if let foundUser = users.first(where: { $0.id == user.id }) {
+      try foundUser.setUserModel(user)
+    } else {
+      let newUser = User(context: context)
+      try newUser.setUserModel(user)
+    }
+
+    try context.save()
   }
 }
