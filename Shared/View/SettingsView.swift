@@ -35,7 +35,7 @@ struct SettingsView: View {
   var body: some View {
     NavigationStack {
       List {
-        Section("ACCOUNT") {
+        Section("Accounts") {
           ForEach(users) { user in
             let userModel: Sweet.UserModel = .init(user: user)
 
@@ -58,7 +58,9 @@ struct SettingsView: View {
             }
           }
 
-          LoginView(userID: $selectedUserID)
+          LoginView(userID: $selectedUserID) {
+            Text("Add User")
+          }
         }
 
         Section("General") {
@@ -140,6 +142,9 @@ struct SettingsView: View {
           }
         }
       }
+    }
+    .onAppear {
+      users.nsPredicate = .init(format: "id IN %@", Secret.loginUserIDs)
     }
   }
 }
