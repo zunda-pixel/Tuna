@@ -72,26 +72,7 @@ struct Secret {
   static func setRefreshToken(userID: String, refreshToken: String) {
     keychain[userID + refreshTokenKey] = refreshToken
   }
-
-  static var loginUserIDs: [String] {
-    get {
-      let loginUserIDs = userDefaults.stringArray(forKey: loginUserIDsKey)
-
-      return loginUserIDs ?? []
-    }
-  }
-
-  static func addLoginUser(_ userID: String) {
-    var loginUserIDs = loginUserIDs
-    loginUserIDs.append(userID)
-    userDefaults.set(loginUserIDs, forKey: loginUserIDsKey)
-  }
-
-  static func removeLoginUser(_ userID: String) {
-    let loginUserIDs = loginUserIDs.filter { $0 != userID }
-    userDefaults.set(loginUserIDs, forKey: loginUserIDsKey)
-  }
-
+  
   static func getExpireDate(userID: String) -> Date {
     guard let expireDateString = userDefaults.string(forKey: userID + expireDateKey) else {
       let today = Date()

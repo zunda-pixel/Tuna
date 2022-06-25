@@ -48,10 +48,6 @@ struct DeepLink {
 
     let user = try await getMyUser(userBearerToken: response.bearerToken)
 
-    if !Secret.loginUserIDs.contains(user.id) {
-      Secret.addLoginUser(user.id)
-    }
-
     Secret.currentUserID = user.id
     Secret.setUserBearerToken(userID: user.id, newUserBearerToken: response.bearerToken)
     Secret.setRefreshToken(userID: user.id, refreshToken: response.refreshToken)

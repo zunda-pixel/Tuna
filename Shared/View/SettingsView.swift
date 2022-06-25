@@ -9,60 +9,9 @@ import SwiftUI
 import Sweet
 
 struct SettingsView: View {
-  @Binding var selectedUserID: String?
-  @FetchRequest private var users: FetchedResults<User>
-
-  init(userID: Binding<String?>) {
-    self._selectedUserID = userID
-
-    self._users = FetchRequest(
-      entity: User.entity(),
-      sortDescriptors: [],
-      predicate: .init(format: "id IN %@", Secret.loginUserIDs)
-    )
-  }
-
-  func removeUserID(_ userID: String) {
-    if userID == Secret.currentUserID {
-      let userID = Secret.loginUserIDs.first { userID != $0 }
-      Secret.currentUserID = userID
-      selectedUserID = userID
-    }
-
-    Secret.removeLoginUser(userID)
-  }
-
   var body: some View {
     NavigationStack {
       List {
-        Section("Accounts") {
-          ForEach(users) { user in
-            let userModel: Sweet.UserModel = .init(user: user)
-
-            NavigationLink {
-              AccountSettingView(user: userModel)
-            } label: {
-              HStack {
-                ProfileImageView(userModel.profileImageURL)
-                  .frame(width: 30, height: 30)
-                Text(userModel.userName)
-                Spacer()
-              }
-            }
-            .swipeActions(edge: .trailing) {
-              Button(role: .destructive) {
-                removeUserID(userModel.id)
-              } label: {
-                Text("Delete")
-              }
-            }
-          }
-
-          LoginView(userID: $selectedUserID) {
-            Text("Add User")
-          }
-        }
-
         Section("General") {
           NavigationLink {
             Text("Hello")
@@ -143,15 +92,11 @@ struct SettingsView: View {
         }
       }
     }
-    .onAppear {
-      users.nsPredicate = .init(format: "id IN %@", Secret.loginUserIDs)
-    }
   }
 }
 
 struct SettingView_Previews: PreviewProvider {
-  @State static var userID: String? = ""
   static var previews: some View {
-    SettingsView(userID: $userID)
+    SettingsView()
   }
 }

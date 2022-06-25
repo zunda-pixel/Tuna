@@ -14,6 +14,7 @@ struct TunaApp: App {
 
   @State var userID: String? = Secret.currentUserID
   @State var isPresentedCreateTweetView = false
+  @State var isPresentedSettingsView = false
 
   var body: some Scene {
     WindowGroup {
@@ -23,10 +24,18 @@ struct TunaApp: App {
             NavigationStack {
               let tweetViewModel: ReverseChronologicalViewModel = .init(userID: userID, viewContext: persistenceController.container.viewContext)
               TweetsView(viewModel: tweetViewModel)
+                .navigationTitle("Timeline")
+                .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                   ToolbarItem(placement: .navigationBarLeading) {
-                    SelectUserMenu(userID: $userID)
-                      .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                    Button {
+                      isPresentedSettingsView.toggle()
+                    } label: {
+                      Image(systemName: "gear")
+                    }
+                    .sheet(isPresented: $isPresentedSettingsView) {
+                      SettingsView()
+                    }
                   }
                   ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
