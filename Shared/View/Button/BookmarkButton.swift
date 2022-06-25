@@ -26,9 +26,9 @@ import Sweet
   func addOrDeleteBookmark() async {
     do {
       if isBookmarked {
-        try await Sweet().addBookmark(userID: userID, tweetID: tweetID)
+        try await Sweet(userID: userID).addBookmark(userID: userID, tweetID: tweetID)
       } else {
-        try await Sweet().deleteBookmark(userID: userID, tweetID: tweetID)
+        try await Sweet(userID: userID).deleteBookmark(userID: userID, tweetID: tweetID)
       }
 
       isBookmarked.toggle()

@@ -53,7 +53,7 @@ struct DeepLink {
     }
 
     Secret.currentUserID = user.id
-    Secret.userBearerToken = response.bearerToken
+    Secret.setUserBearerToken(userID: user.id, newUserBearerToken: response.bearerToken)
     Secret.refreshToken = response.refreshToken
 
     var dateComponent = DateComponents()

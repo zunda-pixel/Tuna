@@ -34,7 +34,7 @@ final class UserMentionsViewModel: NSObject, TweetsViewProtocol {
 
   func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
     do {
-      let response = try await Sweet().fetchMentions(by: userID, untilID: lastTweetID, sinceID: firstTweetID, paginationToken: paginationToken)
+      let response = try await Sweet(userID: userID).fetchMentions(by: userID, untilID: lastTweetID, sinceID: firstTweetID, paginationToken: paginationToken)
 
       paginationToken = response.meta?.nextToken
 

@@ -9,7 +9,7 @@ import Foundation
 import Sweet
 
 extension Sweet {
-	static func updateUserBearerToken() async throws {
+  static func updateUserBearerToken(userID: String) async throws {
     let refreshToken = Secret.refreshToken
 		let response = try await TwitterOAuth2().getRefreshUserBearerToken(refreshToken: refreshToken)
     
@@ -19,18 +19,18 @@ extension Sweet {
     let expireDate = Calendar.current.date(byAdding: dateComponent, to: Date())!
     
     Secret.refreshToken = response.refreshToken
-    Secret.userBearerToken = response.bearerToken
+    Secret.setUserBearerToken(userID: userID, newUserBearerToken: response.bearerToken)
     Secret.expireDate = expireDate
   }
   
-	init() async throws {
+  init(userID: String) async throws {
     let expireDate = Secret.expireDate
     
     if expireDate < Date() {
-      try await Sweet.updateUserBearerToken()
+      try await Sweet.updateUserBearerToken(userID: userID)
     }
     
-    let userBearerToken = Secret.userBearerToken
+    let userBearerToken = Secret.getUserBearerToken(userID: userID)
         
     let appBearerToken = ""
 

@@ -26,9 +26,9 @@ import Sweet
   func muteOrUnMuteUser() async {
     do {
       if isMuted {
-        try await Sweet().unMuteUser(from: fromUserID, to: toUserID)
+        try await Sweet(userID: fromUserID).unMuteUser(from: fromUserID, to: toUserID)
       } else {
-        try await Sweet().muteUser(from: fromUserID, to: toUserID)
+        try await Sweet(userID: fromUserID).muteUser(from: fromUserID, to: toUserID)
       }
 
       isMuted.toggle()

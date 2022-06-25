@@ -26,9 +26,9 @@ import Sweet
   func followOrUnFollowUser() async {
     do {
       if isFollowed {
-        try await Sweet().unFollow(from: fromUserID, to: toUserID)
+        try await Sweet(userID: fromUserID).unFollow(from: fromUserID, to: toUserID)
       } else {
-        _ = try await Sweet().follow(from: fromUserID, to: toUserID)
+        _ = try await Sweet(userID: fromUserID).follow(from: fromUserID, to: toUserID)
       }
 
       isFollowed.toggle()

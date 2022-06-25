@@ -17,13 +17,16 @@ import Sweet
   @Published var didError = false
   @Published var users: [Sweet.UserModel] = []
 
-  init(listID: String) {
+  let userID: String
+
+  init(userID: String, listID: String) {
+    self.userID = userID
     self.listID = listID
   }
 
   func fetchUsers(reset resetData: Bool) async {
     do {
-      let response = try await Sweet().fetchFollowedUsers(listID: listID, paginationToken: paginationToken)
+      let response = try await Sweet(userID: userID).fetchFollowedUsers(listID: listID, paginationToken: paginationToken)
 
       if resetData {
         users = []

@@ -28,9 +28,9 @@ import Sweet
   func retweetOrRetweetUser() async {
     do {
       if isRetweeted {
-        try await Sweet().retweet(userID: userID, tweetID: tweetID)
+        try await Sweet(userID: userID).retweet(userID: userID, tweetID: tweetID)
       } else {
-        try await Sweet().deleteRetweet(userID: userID, tweetID: tweetID)
+        try await Sweet(userID: userID).deleteRetweet(userID: userID, tweetID: tweetID)
       }
 
       isRetweeted.toggle()

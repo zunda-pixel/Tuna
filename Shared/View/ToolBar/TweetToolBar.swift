@@ -48,7 +48,7 @@ struct TweetToolBar: View {
     }
     .confirmationDialog("Retweet Tweet Or Quoted Tweet", isPresented: $isPresentedRetweetQuotedAlert) {
       RetweetButton(viewModel: .init(user: userID, tweet: tweetID, retweetCount: metrics.retweetCount))
-      QuotedButton()
+      QuotedButton(userID: userID)
     }
     .font(.system(size: 17))
   }

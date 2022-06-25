@@ -11,6 +11,7 @@ import Sweet
 import PhotoPicker
 
 @MainActor protocol NewTweetViewProtocol: NSObject, ObservableObject, CLLocationManagerDelegate {
+  var userID: String { get }
   var text: String { get set }
   var selectedReplySetting: Sweet.ReplySetting { get set }
   var didError: Bool { get set }
@@ -42,12 +43,14 @@ final class NewTweetViewModel: NSObject, NewTweetViewProtocol {
   @Published var didPickPhoto = true
   @Published var loadingLocation: Bool = false
 
+  let userID: String
   let quotedTweet: Sweet.TweetModel?
 
   var error: Error?
   var locationManager: CLLocationManager = .init()
 
-  init(quoted quotedTweet: Sweet.TweetModel? = nil) {
+  init(userID: String, quoted quotedTweet: Sweet.TweetModel? = nil) {
+    self.userID = userID
     self.quotedTweet = quotedTweet
 
     super.init()
@@ -86,7 +89,7 @@ final class NewTweetViewModel: NSObject, NewTweetViewProtocol {
       media: nil, poll: poll, quoteTweetID: quotedTweet?.id,
       reply: nil, replySettings: selectedReplySetting)
     do {
-      let _ = try await Sweet().createTweet(tweet)
+      let _ = try await Sweet(userID: userID).createTweet(tweet)
     } catch {
       self.error = error
     }

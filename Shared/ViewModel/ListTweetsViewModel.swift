@@ -36,7 +36,7 @@ final class ListTweetsViewModel: NSObject, TweetsViewProtocol {
     do {
       let maxResults = 100
 
-      let listResponse = try await Sweet().fetchListTweets(listID: listID, maxResults: maxResults, paginationToken: paginationToken)
+      let listResponse = try await Sweet(userID: userID).fetchListTweets(listID: listID, maxResults: maxResults, paginationToken: paginationToken)
 
       paginationToken = listResponse.meta?.nextToken
 
@@ -46,7 +46,7 @@ final class ListTweetsViewModel: NSObject, TweetsViewProtocol {
         return
       }
 
-      let tweetResponse = try await  Sweet().lookUpTweets(by: tweetIDs)
+      let tweetResponse = try await  Sweet(userID: userID).lookUpTweets(by: tweetIDs)
 
       try tweetResponse.tweets.forEach { tweet in
         try addTweet(tweet)

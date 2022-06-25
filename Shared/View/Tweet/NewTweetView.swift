@@ -163,7 +163,7 @@ struct NewTweetView_Previews: PreviewProvider {
   static var previews: some View {
 
     let viewModel: NewTweetViewModel = {
-      let viewModel = NewTweetViewModel()
+      let viewModel = NewTweetViewModel(userID: "")
       viewModel.poll = .init(options: ["", ""], durationMinutes: 10)
       viewModel.locationString = "sample geo"
       return viewModel

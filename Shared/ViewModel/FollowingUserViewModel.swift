@@ -23,7 +23,7 @@ import Sweet
 
   func fetchUsers(reset resetData: Bool) async {
     do {
-      let response = try await Sweet().fetchFollowing(by: userID, paginationToken: paginationToken)
+      let response = try await Sweet(userID: userID).fetchFollowing(by: userID, paginationToken: paginationToken)
 
       if resetData {
         users = []

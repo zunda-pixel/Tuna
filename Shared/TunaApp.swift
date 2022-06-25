@@ -38,7 +38,7 @@ struct TunaApp: App {
                 }
             }
             .sheet(isPresented: $isPresentedCreateTweetView) {
-              let viewModel = NewTweetViewModel()
+              let viewModel = NewTweetViewModel(userID: userID)
               NewTweetView(viewModel: viewModel)
             }
             .tabItem {
@@ -50,7 +50,7 @@ struct TunaApp: App {
                 Image(systemName: "list.dash.header.rectangle")
               }
             let tweetsViewModel: SearchTweetsViewModel = .init(userID: userID, viewContext: persistenceController.container.viewContext)
-            let usersViewModel: SearchUsersViewModel = .init()
+            let usersViewModel: SearchUsersViewModel = .init(userID: userID)
             let searchViewModel: SearchViewModel = .init(tweetsViewModel: tweetsViewModel, usersViewModel: usersViewModel)
             SearchView(viewModel: searchViewModel)
               .environment(\.managedObjectContext, persistenceController.container.viewContext)

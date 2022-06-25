@@ -28,9 +28,9 @@ import Sweet
   func likeOrLikeUser() async {
     do {
       if isLiked {
-        try await Sweet().like(userID: userID, tweetID: tweetID)
+        try await Sweet(userID: userID).like(userID: userID, tweetID: tweetID)
       } else {
-        try await Sweet().unLike(userID: userID, tweetID: tweetID)
+        try await Sweet(userID: userID).unLike(userID: userID, tweetID: tweetID)
       }
 
       isLiked.toggle()

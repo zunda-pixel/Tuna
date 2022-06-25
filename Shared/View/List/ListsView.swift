@@ -20,17 +20,17 @@ struct ListsView: View {
   @State var didError = false
 
   func fetchOwnedLists() async throws {
-    let response = try await Sweet().fetchOwnedLists(userID: userID)
+    let response = try await Sweet(userID: userID).fetchOwnedLists(userID: userID)
     self.ownedLists = response.lists
   }
 
   func fetchFollowingLists() async throws {
-    let response = try await Sweet().fetchFollowingLists(userID: userID)
+    let response = try await Sweet(userID: userID).fetchFollowingLists(userID: userID)
     self.followingLists = response.lists
   }
 
   func fetchPinnedLists() async throws {
-    let response = try await Sweet().fetchPinnedLists(userID: userID)
+    let response = try await Sweet(userID: userID).fetchPinnedLists(userID: userID)
     self.pinnedLists = response.lists
   }
 
@@ -59,7 +59,7 @@ struct ListsView: View {
 
             Task {
               do {
-                try await Sweet().unPinList(userID: userID, listID: list.id)
+                try await Sweet(userID: userID).unPinList(userID: userID, listID: list.id)
               } catch let newError {
                 error = newError
                 didError.toggle()
@@ -91,7 +91,7 @@ struct ListsView: View {
             let list = ownedLists[offsets.first!]
 
             Task {
-              try? await Sweet().deleteList(by: list.id)
+              try? await Sweet(userID: userID).deleteList(by: list.id)
             }
 
             ownedLists.remove(atOffsets: offsets)
@@ -119,7 +119,7 @@ struct ListsView: View {
             let list = followingLists[offsets.first!]
 
             Task {
-              try? await Sweet().unFollowList(userID: userID, listID: list.id)
+              try? await Sweet(userID: userID).unFollowList(userID: userID, listID: list.id)
             }
 
             followingLists.remove(atOffsets: offsets)

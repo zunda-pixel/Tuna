@@ -33,7 +33,7 @@ final class BookmarksViewModel: NSObject, TweetsViewProtocol {
 
   func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
     do {
-      let response = try await Sweet().fetchBookmarks(userID: userID, paginationToken: paginationToken)
+      let response = try await Sweet(userID: userID).fetchBookmarks(userID: userID, paginationToken: paginationToken)
 
       paginationToken = response.meta?.nextToken
 

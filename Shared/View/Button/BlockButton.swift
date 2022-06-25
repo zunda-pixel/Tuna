@@ -26,9 +26,9 @@ import Sweet
   func blockOrUnBlockUser() async {
     do {
       if isBlocked {
-        try await Sweet().unBlockUser(from: fromUserID, to: toUserID)
+        try await Sweet(userID: fromUserID).unBlockUser(from: fromUserID, to: toUserID)
       } else {
-        try await Sweet().blockUser(from: fromUserID, to: toUserID)
+        try await Sweet(userID: fromUserID).blockUser(from: fromUserID, to: toUserID)
       }
 
       isBlocked.toggle()
