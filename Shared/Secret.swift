@@ -64,14 +64,13 @@ struct Secret {
     keychain[userID + userBearerTokenKey] = newUserBearerToken
   }
 
-  static var refreshToken: String {
-    get {
-      let refreshToken = keychain[refreshTokenKey]!
-      return refreshToken
-    }
-    set {
-      keychain[refreshTokenKey] = newValue
-    }
+  static func getRefreshToken(userID: String) -> String {
+    let refreshToken = keychain[userID + refreshTokenKey]!
+    return refreshToken
+  }
+
+  static func setRefreshToken(userID: String, refreshToken: String) {
+    keychain[userID + refreshTokenKey] = refreshToken
   }
 
   static var loginUserIDs: [String] {

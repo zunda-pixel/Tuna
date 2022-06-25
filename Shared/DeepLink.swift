@@ -54,13 +54,13 @@ struct DeepLink {
 
     Secret.currentUserID = user.id
     Secret.setUserBearerToken(userID: user.id, newUserBearerToken: response.bearerToken)
-    Secret.refreshToken = response.refreshToken
+    Secret.setRefreshToken(userID: user.id, refreshToken: response.refreshToken)
 
     var dateComponent = DateComponents()
     dateComponent.second = response.expiredSeconds
 
     let expireDate = Calendar.current.date(byAdding: dateComponent, to: Date())!
-    Secret.expireDate = expireDate
+    Secret.setExpireDate(userID: user.id, expireDate: expireDate)
 
     try Secret.removeState()
     try Secret.removeChallenge()
