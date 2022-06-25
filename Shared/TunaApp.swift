@@ -53,26 +53,46 @@ struct TunaApp: App {
             .tabItem {
               Image(systemName: "house")
             }
-            ListsView(userID: userID)
-              .environment(\.managedObjectContext, persistenceController.container.viewContext)
-              .tabItem {
-                Image(systemName: "list.dash.header.rectangle")
-              }
-            let tweetsViewModel: SearchTweetsViewModel = .init(userID: userID, viewContext: persistenceController.container.viewContext)
-            let usersViewModel: SearchUsersViewModel = .init(userID: userID)
-            let searchViewModel: SearchViewModel = .init(tweetsViewModel: tweetsViewModel, usersViewModel: usersViewModel)
-            SearchView(viewModel: searchViewModel)
-              .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            NavigationStack {
+              ListsView(userID: userID)
+                .navigationTitle("List")
+                .navigationBarTitleDisplayMode(.large)
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            }
+            .tabItem {
+              Image(systemName: "list.dash.header.rectangle")
+            }
+
+            NavigationStack {
+              let tweetsViewModel: SearchTweetsViewModel = .init(userID: userID, viewContext: persistenceController.container.viewContext)
+              let usersViewModel: SearchUsersViewModel = .init(userID: userID)
+              let searchViewModel: SearchViewModel = .init(tweetsViewModel: tweetsViewModel, usersViewModel: usersViewModel)
+
+              SearchView(viewModel: searchViewModel)
+                .navigationTitle("Search")
+                .navigationBarTitleDisplayMode(.large)
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            }
               .tabItem {
                 Image(systemName: "doc.text.magnifyingglass")
               }
-            let bookmarksViewModel: BookmarksViewModel = .init(userID: userID, viewContext: persistenceController.container.viewContext)
-            TweetsView(viewModel: bookmarksViewModel)
+
+            NavigationStack {
+              let bookmarksViewModel: BookmarksViewModel = .init(userID: userID, viewContext: persistenceController.container.viewContext)
+
+              TweetsView(viewModel: bookmarksViewModel)
+                .navigationTitle("Book")
+                .navigationBarTitleDisplayMode(.large)
+            }
               .tabItem {
                 Image(systemName: "book.closed")
               }
-            let likesViewModel:LikesViewModel = .init(userID: userID, viewContext: persistenceController.container.viewContext)
-            TweetsView(viewModel: likesViewModel)
+            NavigationStack {
+              let likesViewModel:LikesViewModel = .init(userID: userID, viewContext: persistenceController.container.viewContext)
+              TweetsView(viewModel: likesViewModel)
+                .navigationTitle("Likes")
+                .navigationBarTitleDisplayMode(.large)
+            }
               .tabItem {
                 Image(systemName: "heart")
               }
