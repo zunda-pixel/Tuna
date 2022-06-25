@@ -20,11 +20,11 @@ extension Sweet {
     
     Secret.refreshToken = response.refreshToken
     Secret.setUserBearerToken(userID: userID, newUserBearerToken: response.bearerToken)
-    Secret.expireDate = expireDate
+    Secret.setExpireDate(userID: userID, expireDate: expireDate)
   }
   
   init(userID: String) async throws {
-    let expireDate = Secret.expireDate
+    let expireDate = Secret.getExpireDate(userID: userID)
     
     if expireDate < Date() {
       try await Sweet.updateUserBearerToken(userID: userID)

@@ -93,22 +93,21 @@ struct Secret {
     userDefaults.set(loginUserIDs, forKey: loginUserIDsKey)
   }
 
-  static var expireDate: Date {
-    get {
-      guard let expireDateString = userDefaults.string(forKey: expireDateKey) else {
-        let today = Date()
-        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today)!
-        return yesterday
-      }
-
-      let expireDate = dateFormatter.date(from: expireDateString)!
-
-      return expireDate
+  static func getExpireDate(userID: String) -> Date {
+    guard let expireDateString = userDefaults.string(forKey: userID + expireDateKey) else {
+      let today = Date()
+      let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today)!
+      return yesterday
     }
-    set {
-      let expireDateString = dateFormatter.string(from: newValue)
-      userDefaults.set(expireDateString, forKey: expireDateKey)
-    }
+
+    let expireDate = dateFormatter.date(from: expireDateString)!
+
+    return expireDate
+  }
+
+  static func setExpireDate(userID: String, expireDate: Date) {
+    let expireDateString = dateFormatter.string(from: expireDate)
+    userDefaults.set(expireDateString, forKey: userID + expireDateKey)
   }
 
   static var currentUserID: String? {
