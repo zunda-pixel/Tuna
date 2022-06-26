@@ -44,6 +44,13 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
                 .onAppear {
                   showKeyboard = true
                 }
+              if viewModel.text.isEmpty {
+                HStack {
+                  Text("Say something...")
+                    .opacity(0.25)
+                  Spacer()
+                }
+              }
               Text(viewModel.text).opacity(0)
             }
 
