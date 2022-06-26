@@ -6,9 +6,10 @@
 //
 
 import CoreLocation
-import Foundation
 import Sweet
-import PhotoPicker
+import PhotosUI
+import Photos
+import SwiftUI
 
 @MainActor protocol NewTweetViewProtocol: NSObject, ObservableObject, CLLocationManagerDelegate {
   var userID: String { get }
@@ -17,10 +18,8 @@ import PhotoPicker
   var didError: Bool { get set }
   var locationString: String? { get set }
   var poll: Sweet.PostPollModel? { get set }
-  var medias: [String] { get set }
-  var isPresentedPhotoPicker: Bool { get set }
-  var results: [PhotoResult] { get set }
-  var didPickPhoto: Bool { get set }
+  var photos: [Photo] { get set }
+  var photosPickerItems: [PhotosPickerItem] { get set }
   var error: Error? { get set }
   var disableTweetButton: Bool { get }
   var locationManager: CLLocationManager { get }
@@ -29,6 +28,8 @@ import PhotoPicker
   var quotedTweet: Sweet.TweetModel? { get }
   func tweet() async
   func setLocation() async
+  func loadPhotos(with pickers: [PhotosPickerItem]) async
+  func pollButtonAction()
 }
 
 final class NewTweetViewModel: NSObject, NewTweetViewProtocol {
@@ -37,10 +38,8 @@ final class NewTweetViewModel: NSObject, NewTweetViewProtocol {
   @Published var didError = false
   @Published var locationString: String?
   @Published var poll: Sweet.PostPollModel?
-  @Published var medias: [String] = []
-  @Published var isPresentedPhotoPicker = false
-  @Published var results: [PhotoResult] = []
-  @Published var didPickPhoto = true
+  @Published var photos: [Photo] = []
+  @Published var photosPickerItems: [PhotosPickerItem] = []
   @Published var loadingLocation: Bool = false
 
   let userID: String
@@ -55,7 +54,6 @@ final class NewTweetViewModel: NSObject, NewTweetViewProtocol {
 
     super.init()
     locationManager.delegate = self
-
   }
 
   var disableTweetButton: Bool {
@@ -71,7 +69,7 @@ final class NewTweetViewModel: NSObject, NewTweetViewProtocol {
       return true
     }
 
-    if medias.count > 1 {
+    if photos.count > 1 {
       return false
     }
 
@@ -126,6 +124,37 @@ final class NewTweetViewModel: NSObject, NewTweetViewProtocol {
   func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
     Task {
       await setLocation()
+    }
+  }
+
+  func loadPhotos(with pickers: [PhotosPickerItem]) async {
+    let oldPhotos = photos
+    var newPhotos: [Photo] = []
+
+    do {
+      for picker in pickers {
+        if let foundPhoto = oldPhotos.first(where: { $0.id == picker.itemIdentifier }) {
+          newPhotos.append(foundPhoto)
+        } else {
+          let item = try await picker.loadPhoto()
+          let newPhoto = Photo(id: picker.itemIdentifier, item: item)
+          newPhotos.append(newPhoto)
+        }
+
+        photos = newPhotos
+      }
+
+      photos = newPhotos
+    } catch let newError {
+      error = newError
+      didError.toggle()
+    }
+  }
+  func pollButtonAction() {
+    if poll?.options == nil || poll!.options.count < 2 {
+      poll = .init(options: ["", ""], durationMinutes: 10)
+    } else {
+      poll = nil
     }
   }
 }

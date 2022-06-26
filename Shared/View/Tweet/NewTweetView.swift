@@ -9,7 +9,7 @@ import CoreLocation
 import Sweet
 import SwiftUI
 import CoreLocationUI
-import PhotoPicker
+import PhotosUI
 
 struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
   @Environment(\.dismiss) var dismiss
@@ -19,27 +19,18 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
   var body: some View {
     ScrollView {
       HStack {
-        Button(
-          action: {
-            dismiss()
-          },
-          label: {
-            Text("Close")
-          })
+        Button("Close") {
+          dismiss()
+        }
         Spacer()
         Text("New Tweet")
         Spacer()
-        Button(
-          action: {
-            Task {
-              await viewModel.tweet()
-              dismiss()
-            }
-          },
-          label: {
-            Text("Tweet")
+        Button("Tweet") {
+          Task {
+            await viewModel.tweet()
+            dismiss()
           }
-        )
+        }
         .disabled(viewModel.disableTweetButton)
         .buttonStyle(.bordered)
       }
@@ -80,10 +71,10 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
       }
 
       LazyVGrid(columns: [.init(), .init()]) {
-        ForEach(viewModel.results) { result in
-          PhotoView(item: result.item)
-          .frame(width: 100, height: 100, alignment: .center)
-          .scaledToFit()
+        ForEach(viewModel.photos) { photo in
+          PhotoView(photo: photo)
+            .frame(width: 100, height: 100, alignment: .center)
+            .scaledToFit()
         }
       }
 
@@ -92,13 +83,11 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
           Text(location)
             .foregroundColor(.gray)
 
-          Button(
-            action: {
-              self.viewModel.locationString = nil
-            },
-            label: {
-              Image(systemName: "multiply.circle")
-            })
+          Button {
+            self.viewModel.locationString = nil
+          } label: {
+            Image(systemName: "multiply.circle")
+          }
         }
       }
 
@@ -109,41 +98,37 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
       }
 
       HStack {
-        Button(
-          action: {
-            viewModel.isPresentedPhotoPicker.toggle()
-          },
-          label: {
-            Image(systemName: "photo")
-          }
-        )
-        .disabled(!viewModel.didPickPhoto)
-        .sheet(isPresented: $viewModel.isPresentedPhotoPicker) {
-          PhotoPicker(results: $viewModel.results, didPickPhoto: $viewModel.didPickPhoto)
+        PhotosPicker(selection: $viewModel.photosPickerItems,
+                     maxSelectionCount: 0,
+                     selectionBehavior: .ordered,
+                     preferredItemEncoding: .current,
+                     photoLibrary: .shared()) {
+          Image(systemName: "photo")
         }
-
+        
         LocationButton(.currentLocation) {
           Task {
             await viewModel.setLocation()
           }
         }
+        .foregroundColor(.blue)
+        .tint(.white)
         .labelStyle(.iconOnly)
         .disabled(viewModel.loadingLocation)
-
-        Button(
-          action: {
-            if viewModel.poll?.options == nil || viewModel.poll!.options.count < 2 {
-              viewModel.poll = .init(options: ["", ""], durationMinutes: 10)
-            } else {
-              viewModel.poll = nil
-            }
-          },
-          label: {
-            Image(systemName: "chart.bar.xaxis")
-          }
-        )
-        .disabled(viewModel.medias.count != 0)
+        
+        Button {
+          viewModel.pollButtonAction()
+        } label: {
+          Image(systemName: "chart.bar.xaxis")
+            .rotationEffect(.degrees(90))
+        }
+        .disabled(viewModel.photos.count != 0)
       }
+      .onChange(of: viewModel.photosPickerItems, perform: { newResults in
+        Task {
+          await viewModel.loadPhotos(with: newResults)
+        }
+      })
       .alert("Error", isPresented: $viewModel.didError) {
         Button(role: .destructive) {
           print(viewModel.error!)
@@ -161,7 +146,6 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
 struct NewTweetView_Previews: PreviewProvider {
   @State static var isPresentedDismiss = false
   static var previews: some View {
-
     let viewModel: NewTweetViewModel = {
       let viewModel = NewTweetViewModel(userID: "")
       viewModel.poll = .init(options: ["", ""], durationMinutes: 10)

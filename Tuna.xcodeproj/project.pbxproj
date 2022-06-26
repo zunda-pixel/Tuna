@@ -77,7 +77,11 @@
 		2EB935D22845FD4900833663 /* ListFollowersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB935D12845FD4900833663 /* ListFollowersViewModel.swift */; };
 		2EB935D528461B8C00833663 /* SearchUsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB935D428461B8C00833663 /* SearchUsersViewModel.swift */; };
 		2EB935D828461BA700833663 /* SearchTweetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB935D728461BA700833663 /* SearchTweetsViewModel.swift */; };
-		2EDF7629284FBDFD001BF80C /* PhotoPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 2EDF7628284FBDFD001BF80C /* PhotoPicker */; };
+		2ED5C4002868316800B71FCD /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED5C3FF2868316800B71FCD /* PhotoView.swift */; };
+		2ED5C4022868319A00B71FCD /* PhotosPickerItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED5C4012868319A00B71FCD /* PhotosPickerItem+Extension.swift */; };
+		2ED5C404286831B500B71FCD /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED5C403286831B500B71FCD /* Photo.swift */; };
+		2ED5C406286831DC00B71FCD /* LivePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED5C405286831DC00B71FCD /* LivePhotoView.swift */; };
+		2ED5C4082868320800B71FCD /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED5C4072868320800B71FCD /* Movie.swift */; };
 		2EE07A58285E382500C3D6AE /* QuotedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE07A57285E382500C3D6AE /* QuotedButton.swift */; };
 		2EE07A5A285F303400C3D6AE /* MediasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE07A59285F303400C3D6AE /* MediasView.swift */; };
 		2EE07A5C286029A200C3D6AE /* ScrollImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE07A5B286029A200C3D6AE /* ScrollImagesView.swift */; };
@@ -182,6 +186,11 @@
 		2EB935D12845FD4900833663 /* ListFollowersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFollowersViewModel.swift; sourceTree = "<group>"; };
 		2EB935D428461B8C00833663 /* SearchUsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUsersViewModel.swift; sourceTree = "<group>"; };
 		2EB935D728461BA700833663 /* SearchTweetsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTweetsViewModel.swift; sourceTree = "<group>"; };
+		2ED5C3FF2868316800B71FCD /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
+		2ED5C4012868319A00B71FCD /* PhotosPickerItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotosPickerItem+Extension.swift"; sourceTree = "<group>"; };
+		2ED5C403286831B500B71FCD /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		2ED5C405286831DC00B71FCD /* LivePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivePhotoView.swift; sourceTree = "<group>"; };
+		2ED5C4072868320800B71FCD /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		2EE07A57285E382500C3D6AE /* QuotedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotedButton.swift; sourceTree = "<group>"; };
 		2EE07A59285F303400C3D6AE /* MediasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediasView.swift; sourceTree = "<group>"; };
 		2EE07A5B286029A200C3D6AE /* ScrollImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollImagesView.swift; sourceTree = "<group>"; };
@@ -209,7 +218,6 @@
 				2E5E4F6C27EB59BB009D6D53 /* Kingfisher in Frameworks */,
 				2E5E4F6927EB59A9009D6D53 /* KeychainAccess in Frameworks */,
 				2E5E4F6627EB593A009D6D53 /* Sweet in Frameworks */,
-				2EDF7629284FBDFD001BF80C /* PhotoPicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,6 +313,7 @@
 		2E4E983327E9959D00D9A15F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2ED5C4092868341100B71FCD /* Photo */,
 				2E0E4ECE28604F5B00D4B64F /* Image */,
 				2E9EE8EA284C8B4C00759937 /* List */,
 				2E9EE8E9284C8B2600759937 /* User */,
@@ -354,6 +363,7 @@
 				2E10382C27EC31E400E8E67B /* UserModel+Extension.swift */,
 				2E3468DD283A757B00AA2E33 /* View+Extension.swift */,
 				2E0E4ED12861A06000D4B64F /* CGSize+Extension.swift */,
+				2ED5C4012868319A00B71FCD /* PhotosPickerItem+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -464,6 +474,17 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		2ED5C4092868341100B71FCD /* Photo */ = {
+			isa = PBXGroup;
+			children = (
+				2ED5C3FF2868316800B71FCD /* PhotoView.swift */,
+				2ED5C405286831DC00B71FCD /* LivePhotoView.swift */,
+				2ED5C403286831B500B71FCD /* Photo.swift */,
+				2ED5C4072868320800B71FCD /* Movie.swift */,
+			);
+			path = Photo;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -484,7 +505,6 @@
 				2E5E4F6527EB593A009D6D53 /* Sweet */,
 				2E5E4F6827EB59A9009D6D53 /* KeychainAccess */,
 				2E5E4F6B27EB59BB009D6D53 /* Kingfisher */,
-				2EDF7628284FBDFD001BF80C /* PhotoPicker */,
 			);
 			productName = "Tuna (iOS)";
 			productReference = 2E027F9827E8269A00521378 /* Tuna.app */;
@@ -540,7 +560,6 @@
 				2E5E4F6427EB593A009D6D53 /* XCRemoteSwiftPackageReference "Sweet" */,
 				2E5E4F6727EB59A9009D6D53 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				2E5E4F6A27EB59BB009D6D53 /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				2EDF7627284FBDFD001BF80C /* XCRemoteSwiftPackageReference "PhotoPicker" */,
 			);
 			productRefGroup = 2E027F9927E8269A00521378 /* Products */;
 			projectDirPath = "";
@@ -575,6 +594,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2ED5C4082868320800B71FCD /* Movie.swift in Sources */,
+				2ED5C404286831B500B71FCD /* Photo.swift in Sources */,
 				2EB935D828461BA700833663 /* SearchTweetsViewModel.swift in Sources */,
 				2EE07A5C286029A200C3D6AE /* ScrollImagesView.swift in Sources */,
 				2E1914F5283F1EBC00F03C7C /* SearchViewModel.swift in Sources */,
@@ -600,6 +621,7 @@
 				2E10383927ECC48D00E8E67B /* Poll+Extension.swift in Sources */,
 				2EF5B32C283BAEFE00DD8352 /* TweetToolBar.swift in Sources */,
 				2E3A2A2C284B2BA200B50808 /* UserMentionsViewModel.swift in Sources */,
+				2ED5C4002868316800B71FCD /* PhotoView.swift in Sources */,
 				2E9EE8E3284C87B400759937 /* FollowingUserViewModel.swift in Sources */,
 				2E10383627EC997C00E8E67B /* MediaModel+Extension.swift in Sources */,
 				2E10384527EDACF400E8E67B /* NewTweetView.swift in Sources */,
@@ -632,6 +654,7 @@
 				2E0E4ED028604F6700D4B64F /* ScalableImage.swift in Sources */,
 				2EB3B38D283E9DDC00891A5E /* DurationPicker.swift in Sources */,
 				2E86883A285AC9AB00997F91 /* TweetMenu.swift in Sources */,
+				2ED5C406286831DC00B71FCD /* LivePhotoView.swift in Sources */,
 				2E4E983C27E9985E00D9A15F /* TweetCellView.swift in Sources */,
 				2E10383027EC909600E8E67B /* ProfileImageView.swift in Sources */,
 				2EF5B320283B9FB200DD8352 /* BlockButton.swift in Sources */,
@@ -653,6 +676,7 @@
 				2EF5B323283BA18B00DD8352 /* MuteButton.swift in Sources */,
 				2EF5B31D283B953C00DD8352 /* UserToolMenu.swift in Sources */,
 				2E10382D27EC31E400E8E67B /* UserModel+Extension.swift in Sources */,
+				2ED5C4022868319A00B71FCD /* PhotosPickerItem+Extension.swift in Sources */,
 				2EEE9DFD2816DB0300721ADD /* UsersView.swift in Sources */,
 				2E10384227ED80A500E8E67B /* PlaceModel+Extension.swift in Sources */,
 				2E915C5E28390C6300DAD4AE /* Color+Extension.swift in Sources */,
@@ -965,14 +989,6 @@
 				version = 7.2.0;
 			};
 		};
-		2EDF7627284FBDFD001BF80C /* XCRemoteSwiftPackageReference "PhotoPicker" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/zunda-pixel/PhotoPicker";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -990,11 +1006,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2E5E4F6A27EB59BB009D6D53 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
-		};
-		2EDF7628284FBDFD001BF80C /* PhotoPicker */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2EDF7627284FBDFD001BF80C /* XCRemoteSwiftPackageReference "PhotoPicker" */;
-			productName = PhotoPicker;
 		};
 /* End XCSwiftPackageProductDependency section */
 
