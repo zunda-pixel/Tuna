@@ -12,9 +12,8 @@ struct UsersView<ViewModel: UsersViewProtocol>: View {
   @StateObject var viewModel: ViewModel
 
   var body: some View {
-    let ownerID = Secret.currentUserID!
     List(viewModel.users) { user in
-      UserCellView(ownerID: ownerID, user: user)
+      UserCellView(ownerID: viewModel.userID, user: user)
         .onAppear {
           if viewModel.users.last?.id == user.id {
             Task {
