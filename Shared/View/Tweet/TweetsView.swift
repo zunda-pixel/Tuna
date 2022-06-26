@@ -100,9 +100,8 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
       await fetchTweets(first: firstTweetID, last: nil)
     }
     .onAppear {
-      viewModel.updateTimeLine()
-      let firstTweetID = viewModel.showTweets.first?.id
       Task {
+        let firstTweetID = viewModel.showTweets.first?.id
         await fetchTweets(first: firstTweetID, last: nil)
       }
     }
