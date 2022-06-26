@@ -40,17 +40,17 @@ struct SearchView<ViewModel: SearchViewProtocol>: View {
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
       }
-    }
-    .searchable(text: $viewModel.tweetsViewModel.searchText, prompt: Text("Search Keyword"))
-    .onSubmit(of: .search) {
-      Task {
-        let firstTweetID = viewModel.tweetsViewModel.showTweets.first?.id
-        await viewModel.tweetsViewModel.fetchTweets(first: firstTweetID, last: nil)
-      }
+      .searchable(text: $viewModel.tweetsViewModel.searchText, prompt: Text("Search Keyword"))
+      .onSubmit(of: .search) {
+        Task {
+          let firstTweetID = viewModel.tweetsViewModel.showTweets.first?.id
+          await viewModel.tweetsViewModel.fetchTweets(first: firstTweetID, last: nil)
+        }
 
-      Task {
-        viewModel.usersViewModel.searchText = viewModel.tweetsViewModel.searchText
-        await viewModel.usersViewModel.fetchUsers(reset: true)
+        Task {
+          viewModel.usersViewModel.searchText = viewModel.tweetsViewModel.searchText
+          await viewModel.usersViewModel.fetchUsers(reset: true)
+        }
       }
     }
   }
