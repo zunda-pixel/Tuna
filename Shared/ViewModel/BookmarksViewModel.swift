@@ -31,6 +31,74 @@ final class BookmarksViewModel: NSObject, TweetsViewProtocol {
   let fetchPollController: NSFetchedResultsController<Poll>
   let fetchPlaceController: NSFetchedResultsController<Place>
 
+  var showTweets: [Tweet] { fetchShowTweetController.fetchedObjects ?? [] }
+  var allTweets: [Tweet] { fetchTweetController.fetchedObjects ?? [] }
+  var allUsers: [User] { fetchUserController.fetchedObjects ?? [] }
+  var allMedias: [Media] { fetchMediaController.fetchedObjects ?? [] }
+  var allPolls: [Poll] { fetchPollController.fetchedObjects ?? [] }
+  var allPlaces: [Place] { fetchPlaceController.fetchedObjects ?? [] }
+
+  func getTweet(_ tweetID: String?) -> Sweet.TweetModel? {
+    guard let tweetID = tweetID else { return nil }
+
+    guard let tweet = allTweets.first(where: { $0.id == tweetID }) else { return nil }
+
+    return .init(tweet: tweet)
+  }
+
+  func addPlace(_ place: Sweet.PlaceModel) throws {
+    if let firstPlace = allPlaces.first(where: { $0.id == place.id }) {
+      firstPlace.setPlaceModel(place)
+    } else {
+      let newPlace = Place(context: viewContext)
+      newPlace.setPlaceModel(place)
+    }
+
+    try viewContext.save()
+  }
+
+  func addTweet(_ tweet: Sweet.TweetModel) throws {
+    if let firstTweet = allTweets.first(where: { $0.id == tweet.id }) {
+      try firstTweet.setTweetModel(tweet)
+    } else {
+      let newTweet = Tweet(context: viewContext)
+      try newTweet.setTweetModel(tweet)
+    }
+
+    try viewContext.save()
+  }
+
+  func addPoll(_ poll: Sweet.PollModel) throws {
+    if let firstPoll = allPolls.first(where: { $0.id == poll.id }) {
+      try firstPoll.setPollModel(poll)
+    } else {
+      let newPoll = Poll(context: viewContext)
+      try newPoll.setPollModel(poll)
+    }
+    try viewContext.save()
+  }
+
+  func addUser(_ user: Sweet.UserModel) throws {
+    if let firstUser = allUsers.first(where: { $0.id == user.id }) {
+      try firstUser.setUserModel(user)
+    } else {
+      let newUser = User(context: viewContext)
+      try newUser.setUserModel(user)
+    }
+    try viewContext.save()
+  }
+
+  func addMedia(_ media: Sweet.MediaModel) throws {
+    if let firstMedia = allMedias.first(where: { $0.key == media.key }) {
+      firstMedia.setMediaModel(media)
+    } else {
+      let newMedia = Media(context: viewContext)
+      newMedia.setMediaModel(media)
+    }
+    try viewContext.save()
+  }
+
+  
   func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
     do {
       let response = try await Sweet(userID: userID).fetchBookmarks(userID: userID, paginationToken: paginationToken)
