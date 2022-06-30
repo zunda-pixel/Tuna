@@ -41,9 +41,6 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
             ZStack {
               TextEditor(text: $viewModel.text)
                 .focused($showKeyboard, equals: true)
-                .onAppear {
-                  showKeyboard = true
-                }
               if viewModel.text.isEmpty {
                 HStack {
                   Text("Say something...")
@@ -146,6 +143,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
         Text("\(viewModel.error?.localizedDescription ?? "Error Detail")")
       }
     }
+    .defaultFocus($showKeyboard, true)
     .padding()
   }
 }
