@@ -10,10 +10,11 @@ import Foundation
 import SwiftUI
 
 extension UIImage {
-  convenience init(videoURL url: URL) throws {
+  static func thumbnail(viewURL url: URL) async throws -> Self {
     let asset: AVAsset = .init(url: url)
     let generator = AVAssetImageGenerator(asset: asset)
-    let cgImage = try generator.copyCGImage(at: asset.duration, actualTime: nil)
-    self.init(cgImage: cgImage)
+    let duration = try await asset.load(.duration)
+    let cgImage = try generator.copyCGImage(at: duration, actualTime: nil)
+    return self.init(cgImage: cgImage)
   }
 }

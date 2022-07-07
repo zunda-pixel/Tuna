@@ -7,11 +7,10 @@
 
 import Foundation
 import Sweet
-import KeychainAccess
 
 extension Sweet {
-	static func updateUserBearerToken() async throws {
-    let refreshToken = Secret.refreshToken
+  static func updateUserBearerToken(userID: String) async throws {
+    let refreshToken = Secret.getRefreshToken(userID: userID)
 		let response = try await TwitterOAuth2().getRefreshUserBearerToken(refreshToken: refreshToken)
     
     var dateComponent = DateComponents()
@@ -19,23 +18,25 @@ extension Sweet {
     
     let expireDate = Calendar.current.date(byAdding: dateComponent, to: Date())!
     
-    Secret.refreshToken = response.refreshToken
-    Secret.userBearerToken = response.bearerToken
-    Secret.expireDate = expireDate
+    Secret.setRefreshToken(userID: userID, refreshToken: response.refreshToken)
+    Secret.setUserBearerToken(userID: userID, newUserBearerToken: response.bearerToken)
+    Secret.setExpireDate(userID: userID, expireDate: expireDate)
   }
   
-	init() async throws {
-    let expireDate = Secret.expireDate
+  init(userID: String) async throws {
+    let expireDate = Secret.getExpireDate(userID: userID)
     
     if expireDate < Date() {
-      try await Sweet.updateUserBearerToken()
+      try await Sweet.updateUserBearerToken(userID: userID)
     }
     
-    let userBearerToken = Secret.userBearerToken
+    let userBearerToken = Secret.getUserBearerToken(userID: userID)
         
     let appBearerToken = ""
 
-    self.init(app: appBearerToken, user: userBearerToken)
-    self.tweetFields = [.id, .text, .attachments, .authorID, .contextAnnotations, .createdAt, .entities, .geo, .replyToUserID, .lang, .possiblySensitive, .referencedTweets, .replySettings, .source, .withheld]
+    self.init(app: appBearerToken, user: userBearerToken, session: .shared)
+    self.tweetFields = [.id, .text, .attachments, .authorID, .contextAnnotations, .createdAt, .entities, .geo, .replyToUserID, .lang, .possiblySensitive, .referencedTweets, .replySettings, .source, .withheld, .publicMetrics]
+
+    self.mediaFields = [.mediaKey, .type, .height, .publicMetrics, .duration_ms, .previewImageURL, .url, .width, .altText]
   }
 }

@@ -18,9 +18,7 @@ struct TwitterOAuth2 {
     self.clientSecretKey = clientSecretKey
   }
 
-  func getAuthorizeURL(scopes: [TwitterScope], callBackURL: URL, challenge: String, state: String)
-    -> URL
-  {
+  func getAuthorizeURL(scopes: [TwitterScope], callBackURL: URL, challenge: String, state: String) -> URL {
     // https://developer.twitter.com/en/docs/authentication/oauth-2-0/user-access-token
 
     let joinedScope = scopes.map(\.rawValue).joined(separator: " ")
@@ -42,9 +40,7 @@ struct TwitterOAuth2 {
     return urlComponents.url!
   }
 
-  func getUserBearerToken(code: String, callBackURL: URL, challenge: String) async throws
-    -> OAuth2ModelResponse
-  {
+  func getUserBearerToken(code: String, callBackURL: URL, challenge: String) async throws -> OAuth2ModelResponse {
     // https://developer.twitter.com/en/docs/authentication/oauth-2-0/user-access-token
 
     let basicAuthorization = getBasicAuthorization(user: clientID, password: clientSecretKey)
@@ -64,7 +60,7 @@ struct TwitterOAuth2 {
 
     let url: URL = .init(string: "https://api.twitter.com/2/oauth2/token")!
 
-    let (data, urlResponse) = try await HTTPClient.post(
+    let (data, urlResponse) = try await URLSession.shared.post(
       url: url, headers: headers, queries: queries)
 
     if let response = try? JSONDecoder().decode(OAuth2ModelResponse.self, from: data) {
@@ -89,7 +85,7 @@ struct TwitterOAuth2 {
       "client_id": clientID,
     ]
 
-    let (data, urlResponse) = try await HTTPClient.post(url: url, queries: queries)
+    let (data, urlResponse) = try await URLSession.shared.post(url: url, queries: queries)
 
     if let response = try? JSONDecoder().decode(OAuth2ModelResponse.self, from: data) {
       return response
@@ -154,4 +150,7 @@ enum TwitterScope: String, CaseIterable {
 
   case blockRead = "block.read"
   case blockWrite = "block.write"
+
+  case bookmarkRead = "bookmark.read"
+  case bookmarkWrite = "bookmark.write"
 }

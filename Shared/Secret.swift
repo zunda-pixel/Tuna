@@ -10,112 +10,92 @@ import KeychainAccess
 import Sweet
 
 struct Secret {
+  static let clientID = "ak1laUJKdGNIa21pTGFZX3A2SjQ6MTpjaQ"
+  static let clientSecretKey = "MaNP3s7J6kK0bAfyOp9WrQtj7XmaReLyiBuH1mE7aDPdJNjv4g"
   static let callBackURL: URL = .init(string: "tuna://")!
   static let bundleIdentifier = "com.zunda.tuna"
 
   private static let currentUserIDKey = "currentUserID"
-  private static let expireDateKey = "\(currentUserID!)-expireDate"
-  private static let refreshTokenKey = "\(currentUserID!)-refreshToken"
-  private static let userBearerTokenKey = "\(currentUserID!)-userBearerToken"
+  private static let expireDateKey = "expireDate"
+  private static let refreshTokenKey = "refreshToken"
+  private static let userBearerTokenKey = "userBearerToken"
   private static let challengeKey = "challenge"
   private static let stateKey = "state"
   private static let loginUserIDsKey = "loginUserID"
 
+  private static let dateFormatter = Sweet.TwitterDateFormatter()
+  private static let userDefaults = UserDefaults()
+  private static let keychain = Keychain()
+
   static func removeChallenge() throws {
-    let keychain = Keychain()
     try keychain.remove(challengeKey)
   }
 
   static func removeState() throws {
-    let keychain = Keychain()
     try keychain.remove(stateKey)
   }
 
   static var challenge: String? {
     get {
-      let keychain = Keychain()
       let challenge = keychain[challengeKey]
       return challenge
     }
     set {
-      let keychain = Keychain()
       keychain[challengeKey] = newValue
     }
   }
 
   static var state: String? {
     get {
-      let keychain = Keychain()
       let state = keychain[stateKey]
       return state
     }
     set {
-      let keychain = Keychain()
       keychain[stateKey] = newValue
     }
   }
 
-  static var userBearerToken: String {
-    get {
-      let keychain = Keychain()
-      let refreshToken = keychain[userBearerTokenKey]!
-      return refreshToken
-    }
-    set {
-      let keychain = Keychain()
-      keychain[userBearerTokenKey] = newValue
-    }
+  static func getUserBearerToken(userID: String) -> String {
+    let refreshToken = keychain[userID + userBearerTokenKey]!
+    return refreshToken
   }
 
-  static var refreshToken: String {
-    get {
-      let keychain = Keychain()
-      let refreshToken = keychain[refreshTokenKey]!
-      return refreshToken
-    }
-    set {
-      let keychain = Keychain()
-      keychain[refreshTokenKey] = newValue
-    }
+  static func setUserBearerToken(userID: String, newUserBearerToken: String) {
+    keychain[userID + userBearerTokenKey] = newUserBearerToken
   }
 
-  static var loginUserIDs: [String] {
-    get {
-      let loginUserIDs = UserDefaults().stringArray(forKey: loginUserIDsKey)
-
-      return loginUserIDs ?? []
-    }
+  static func getRefreshToken(userID: String) -> String {
+    let refreshToken = keychain[userID + refreshTokenKey]!
+    return refreshToken
   }
 
-  static func addLoginUser(_ userID: String) {
-    var loginUserIDs = loginUserIDs
-    loginUserIDs.append(userID)
-    UserDefaults().set(loginUserIDs, forKey: loginUserIDsKey)
+  static func setRefreshToken(userID: String, refreshToken: String) {
+    keychain[userID + refreshTokenKey] = refreshToken
+  }
+  
+  static func getExpireDate(userID: String) -> Date {
+    guard let expireDateString = userDefaults.string(forKey: userID + expireDateKey) else {
+      let today = Date()
+      let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today)!
+      return yesterday
+    }
+
+    let expireDate = dateFormatter.date(from: expireDateString)!
+
+    return expireDate
   }
 
-  static func removeLoginUser(_ userID: String) {
-    let loginUserIDs = loginUserIDs.filter { $0 != userID }
-    UserDefaults().set(loginUserIDs, forKey: loginUserIDsKey)
-  }
-
-  static var expireDate: Date {
-    get {
-      let expireDateString = UserDefaults().string(forKey: expireDateKey)!
-      let expireDate = Sweet.TwitterDateFormatter().date(from: expireDateString)!
-      return expireDate
-    }
-    set {
-      let expireDateString = Sweet.TwitterDateFormatter().string(from: newValue)
-      UserDefaults().set(expireDateString, forKey: expireDateKey)
-    }
+  static func setExpireDate(userID: String, expireDate: Date) {
+    let expireDateString = dateFormatter.string(from: expireDate)
+    userDefaults.set(expireDateString, forKey: userID + expireDateKey)
   }
 
   static var currentUserID: String? {
     get {
-      return UserDefaults().string(forKey: currentUserIDKey)
+      return userDefaults.string(forKey: currentUserIDKey)
     }
     set {
-      UserDefaults().set(newValue, forKey: currentUserIDKey)
+      userDefaults.set(newValue, forKey: currentUserIDKey)
     }
   }
 }

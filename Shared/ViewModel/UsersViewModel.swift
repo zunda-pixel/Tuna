@@ -8,8 +8,11 @@
 import Foundation
 import Sweet
 
-@MainActor protocol UsersViewModelProtocol: ObservableObject {
+@MainActor protocol UsersViewProtocol: ObservableObject {
+  var userID: String { get }
   var users: [Sweet.UserModel] { get set }
-
-  func fetchUsers() async
+  var error: Error? { get set }
+  var didError: Bool { get set }
+  var paginationToken: String? { get set }
+  func fetchUsers(reset resetData : Bool) async
 }

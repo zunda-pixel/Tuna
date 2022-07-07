@@ -1,18 +1,11 @@
-//
-//  LivePhoto.swift
-//  Tuna
-//
-//  Created by zunda on 2022/04/07.
-//
-
-import PhotosUI
 import SwiftUI
+import PhotosUI
 
-struct LivePhoto: UIViewRepresentable {
+struct LivePhotoView: UIViewRepresentable {
   let livePhoto: PHLivePhoto
 
   func makeUIView(context: Context) -> PHLivePhotoView {
-    let livePhotoView = PHLivePhotoView()
+    let livePhotoView = PHLivePhotoView(frame: .zero)
     livePhotoView.livePhoto = livePhoto
     return livePhotoView
   }

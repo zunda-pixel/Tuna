@@ -1,30 +1,29 @@
 //
-//  ListMembersViewModel.swift
+//  FollowingUserViewModel.swift
 //  Tuna
 //
-//  Created by zunda on 2022/04/25.
+//  Created by zunda on 2022/06/05.
 //
 
 import Foundation
 import Sweet
 
-@MainActor final class ListMembersViewModel: UsersViewProtocol {
-  let listID: String
+@MainActor final class FollowingUserViewModel: UsersViewProtocol {
+  let userID: String
+
   var paginationToken: String?
   var error: Error?
 
   @Published var didError = false
   @Published var users: [Sweet.UserModel] = []
 
-  let userID: String
-  init(userID: String, listID: String) {
+  init(userID: String) {
     self.userID = userID
-    self.listID = listID
   }
 
   func fetchUsers(reset resetData: Bool) async {
     do {
-      let response = try await Sweet(userID: userID).fetchListMembers(listID: listID, paginationToken: paginationToken)
+      let response = try await Sweet(userID: userID).fetchFollowing(userID: userID, paginationToken: paginationToken)
 
       if resetData {
         users = []
@@ -45,3 +44,5 @@ import Sweet
     }
   }
 }
+
+

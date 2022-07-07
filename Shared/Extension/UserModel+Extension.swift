@@ -14,7 +14,7 @@ extension Sweet.UserModel {
     let emptyData = Data()
     let metrics = try? decoder.decode(Sweet.UserPublicMetrics.self, from: user.metrics ?? emptyData)
     let withheld = try? decoder.decode(Sweet.WithheldModel.self, from: user.withheld ?? emptyData)
-    let entity = try? decoder.decode(Sweet.EntityModel.self, from: user.entities ?? emptyData)
+    let entity = try? decoder.decode(Sweet.UserEntityModel.self, from: user.entities ?? emptyData)
 
     self.init(
       id: user.id!, name: user.name!, userName: user.userName!, verified: user.verified,

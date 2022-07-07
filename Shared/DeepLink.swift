@@ -6,11 +6,19 @@
 //
 
 import Foundation
-import KeychainAccess
 import Sweet
+import CoreData
+
+protocol DeepLinkDelegate {
+  func setUserID(userID: String)
+  func addUser(user: Sweet.UserModel) throws
+}
 
 struct DeepLink {
-  static func doSomething(_ url: URL) async throws {
+  let delegate: DeepLinkDelegate
+  let context: NSManagedObjectContext
+
+  func doSomething(_ url: URL) async throws {
     let components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
 
     guard let queryItems = components.queryItems,
@@ -24,13 +32,13 @@ struct DeepLink {
     }
   }
 
-  private static func getMyUserID(userBearerToken: String) async throws -> String {
-    let sweet: Sweet = .init(app: "", user: userBearerToken)
+  private func getMyUser(userBearerToken: String) async throws -> Sweet.UserModel {
+    let sweet: Sweet = .init(app: "", user: userBearerToken, session: .shared)
     let response = try await sweet.lookUpMe()
-    return response.user.id
+    return response.user
   }
 
-  private static func saveOAuthData(code: String) async throws {
+  private func saveOAuthData(code: String) async throws {
     guard let challenge = Secret.challenge else {
       return
     }
@@ -38,20 +46,22 @@ struct DeepLink {
     let response = try await TwitterOAuth2().getUserBearerToken(
       code: code, callBackURL: Secret.callBackURL, challenge: challenge)
 
-    let userID = try await getMyUserID(userBearerToken: response.bearerToken)
+    let user = try await getMyUser(userBearerToken: response.bearerToken)
 
-    Secret.addLoginUser(userID)
-    Secret.currentUserID = userID
-    Secret.userBearerToken = response.bearerToken
-    Secret.refreshToken = response.refreshToken
+    Secret.currentUserID = user.id
+    Secret.setUserBearerToken(userID: user.id, newUserBearerToken: response.bearerToken)
+    Secret.setRefreshToken(userID: user.id, refreshToken: response.refreshToken)
 
     var dateComponent = DateComponents()
     dateComponent.second = response.expiredSeconds
 
     let expireDate = Calendar.current.date(byAdding: dateComponent, to: Date())!
-    Secret.expireDate = expireDate
+    Secret.setExpireDate(userID: user.id, expireDate: expireDate)
 
-    try! Secret.removeState()
-    try! Secret.removeChallenge()
+    try Secret.removeState()
+    try Secret.removeChallenge()
+
+    try delegate.addUser(user: user)
+    delegate.setUserID(userID: user.id)
   }
 }
