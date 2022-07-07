@@ -238,7 +238,7 @@ final class ReverseChronologicalViewModel: NSObject, TweetsViewProtocol {
     do {
       let maxResults = 100
 
-      let response = try await Sweet(userID: userID).fetchReverseChronological(by: userID, maxResults: maxResults, untilID: lastTweetID, sinceID: firstTweetID, paginationToken: paginationToken)
+      let response = try await Sweet(userID: userID).fetchReverseChronological(userID: userID, maxResults: maxResults, untilID: lastTweetID, sinceID: firstTweetID, paginationToken: paginationToken)
 
       try response.tweets.forEach { tweet in
         try addTweet(tweet)

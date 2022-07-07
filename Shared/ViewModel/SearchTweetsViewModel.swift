@@ -108,7 +108,7 @@ final class SearchTweetsViewModel: NSObject, TweetsViewProtocol {
     }
 
     do {
-      let response = try await Sweet(userID: userID).searchRecentTweet(by: searchText, nextToken: paginationToken)
+      let response = try await Sweet(userID: userID).searchRecentTweet(query: searchText, nextToken: paginationToken)
 
       paginationToken = response.meta?.nextToken
 

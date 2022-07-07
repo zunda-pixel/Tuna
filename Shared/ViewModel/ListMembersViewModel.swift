@@ -24,7 +24,7 @@ import Sweet
 
   func fetchUsers(reset resetData: Bool) async {
     do {
-      let response = try await Sweet(userID: userID).fetchAddedUsersToList(listID: listID, paginationToken: paginationToken)
+      let response = try await Sweet(userID: userID).fetchListMembers(listID: listID, paginationToken: paginationToken)
 
       if resetData {
         users = []

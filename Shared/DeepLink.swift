@@ -33,7 +33,7 @@ struct DeepLink {
   }
 
   private func getMyUser(userBearerToken: String) async throws -> Sweet.UserModel {
-    let sweet: Sweet = .init(app: "", user: userBearerToken)
+    let sweet: Sweet = .init(app: "", user: userBearerToken, session: .shared)
     let response = try await sweet.lookUpMe()
     return response.user
   }

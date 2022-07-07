@@ -26,7 +26,7 @@ import Sweet
 
   func fetchUsers(reset resetData: Bool) async {
     do {
-      let response = try await Sweet(userID: userID).fetchFollowedUsers(listID: listID, paginationToken: paginationToken)
+      let response = try await Sweet(userID: userID).fetchListFollowers(listID: listID, paginationToken: paginationToken)
 
       if resetData {
         users = []

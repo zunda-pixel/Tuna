@@ -102,7 +102,7 @@ final class LikesViewModel: NSObject, TweetsViewProtocol {
   
   func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
     do {
-      let response = try await Sweet(userID: userID).fetchLikedTweet(by: userID, paginationToken: paginationToken)
+      let response = try await Sweet(userID: userID).fetchLikedTweet(userID: userID, paginationToken: paginationToken)
 
       paginationToken = response.meta?.nextToken
 
