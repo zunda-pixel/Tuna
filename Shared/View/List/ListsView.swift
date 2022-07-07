@@ -32,9 +32,7 @@ struct ListsView: View {
   @State var ownedListIDs: [String] = []
   var ownedLists: [CustomListModel] { allLists.filter { ownedListIDs.contains($0.id) } }
 
-
   @State var followingListIDs: [String] = []
-
   var followingLists: [CustomListModel] { allLists.filter { followingListIDs.contains($0.id) } }
 
   @State var error: Error?

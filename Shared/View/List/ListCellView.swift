@@ -22,9 +22,9 @@ struct ListCellView: View {
 
   var body: some View {
     HStack {
-      Image(systemName: "list.bullet.rectangle.portrait")
+      Image(systemName: "list.clipboard")
         .padding()
-        .background(.red)
+        .background(Color.random)
         .cornerRadius(12)
 
       VStack(alignment: .leading) {
