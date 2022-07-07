@@ -40,6 +40,19 @@ struct ListsView: View {
   @State var error: Error?
   @State var didError = false
 
+  func fetchAllLists() async {
+    guard allLists.isEmpty else { return }
+
+    do {
+      try await fetchOwnedLists()
+      try await fetchFollowingLists()
+      try await fetchPinnedLists()
+    } catch let newError {
+      error = newError
+      didError.toggle()
+    }
+  }
+
   func fetchOwnedLists() async throws {
     let response = try await Sweet(userID: userID).fetchOwnedLists(userID: userID)
     let lists: [CustomListModel] = response.lists.map { .init(list: $0, isPinned: false) }
@@ -54,7 +67,7 @@ struct ListsView: View {
   }
 
   func fetchFollowingLists() async throws {
-    let response = try await Sweet(userID: userID).fetchFollowingLists(userID: userID)
+    let response = try await Sweet(userID: userID).fetchListsFollowed(by: userID)
     let lists: [CustomListModel] = response.lists.map { .init(list: $0, isPinned: false) }
 
     lists.forEach { list in
@@ -67,7 +80,7 @@ struct ListsView: View {
   }
 
   func fetchPinnedLists() async throws {
-    let response = try await Sweet(userID: userID).fetchPinnedLists(userID: userID)
+    let response = try await Sweet(userID: userID).fetchListsPinned(by: userID)
     let lists: [CustomListModel] = response.lists.map { .init(list: $0, isPinned: true) }
 
     lists.forEach { list in
@@ -79,6 +92,47 @@ struct ListsView: View {
     }
 
     pinnedListIDs = response.lists.map(\.id)
+  }
+
+  func deleteOwnedList(offsets: IndexSet) async {
+    let list = pinnedLists[offsets.first!]
+
+    do {
+      try await Sweet(userID: userID).deleteList(listID: list.id)
+
+      ownedListIDs.remove(atOffsets: offsets)
+      pinnedListIDs.removeAll { $0 == list.id }
+    } catch let newError {
+      error = newError
+      didError.toggle()
+    }
+  }
+
+  func unFollowList(offsets: IndexSet) async {
+    let list = followingLists[offsets.first!]
+
+    do {
+      try await Sweet(userID: userID).unFollowList(userID: userID, listID: list.id)
+
+      followingListIDs.remove(atOffsets: offsets)
+      pinnedListIDs.removeAll { $0 == list.id }
+    } catch let newError {
+      error = newError
+      didError.toggle()
+    }
+  }
+
+  func unPinList(offsets: IndexSet) async {
+    let list = followingLists[offsets.first!]
+
+    do {
+      try await Sweet(userID: userID).unPinList(userID: userID, listID: list.id)
+      
+      pinnedListIDs.remove(atOffsets: offsets)
+    } catch let newError {
+      error = newError
+      didError.toggle()
+    }
   }
 
   var body: some View {
@@ -96,10 +150,8 @@ struct ListsView: View {
             }
           }
           .onDelete { offsets in
-            let list = pinnedLists[offsets.first!]
-
             Task {
-              await unPinList(listID: list.id)
+              await unPinList(offsets: offsets)
             }
           }
         }
@@ -116,13 +168,9 @@ struct ListsView: View {
             }
           }
           .onDelete { offsets in
-            let list = ownedLists[offsets.first!]
-
             Task {
-              try? await Sweet(userID: userID).deleteList(by: list.id)
+              await deleteOwnedList(offsets: offsets)
             }
-
-            ownedListIDs.remove(atOffsets: offsets)
           }
         }
 
@@ -138,13 +186,9 @@ struct ListsView: View {
             }
           }
           .onDelete { offsets in
-            let list = followingLists[offsets.first!]
-
             Task {
-              try? await Sweet(userID: userID).unFollowList(userID: userID, listID: list.id)
+              await unFollowList(offsets: offsets)
             }
-
-            followingListIDs.remove(atOffsets: offsets)
           }
         }
       }
@@ -164,19 +208,8 @@ struct ListsView: View {
       }
     }
     .onAppear {
-      if !allLists.isEmpty {
-        return
-      }
-
       Task {
-        do {
-          try await fetchOwnedLists()
-          try await fetchFollowingLists()
-          try await fetchPinnedLists()
-        } catch let newError {
-          error = newError
-          didError.toggle()
-        }
+        await fetchAllLists()
       }
     }
   }
