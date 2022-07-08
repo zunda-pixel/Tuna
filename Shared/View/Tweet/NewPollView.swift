@@ -26,7 +26,7 @@ struct NewPollView: View {
       // TODO indicesではForEachでは保証されていない
       ForEach($options.indices, id: \.self) { index in
         HStack {
-          TextField("Anser \(index + 1) \(index < 2 ? "" : "(Optional)")", text: $options[index])
+          TextField("Answer \(index + 1) \(index < 2 ? "" : "(Optional)")", text: $options[index])
             .textFieldStyle(.roundedBorder)
 
           let isLast = index == options.count - 1
