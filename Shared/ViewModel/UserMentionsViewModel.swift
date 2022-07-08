@@ -10,7 +10,9 @@ import CoreData
 import Sweet
 
 final class UserMentionsViewModel: TweetsViewProtocol {
-  var userID: String
+  let userID: String
+  let ownerID: String
+
   var latestTapTweetID: String?
   var error: Error?
 
@@ -30,7 +32,7 @@ final class UserMentionsViewModel: TweetsViewProtocol {
   
   func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
     do {
-      let response = try await Sweet(userID: userID).fetchMentions(userID: userID, untilID: lastTweetID, sinceID: firstTweetID, paginationToken: paginationToken)
+      let response = try await Sweet(userID: userID).fetchMentions(userID: ownerID, untilID: lastTweetID, sinceID: firstTweetID, paginationToken: paginationToken)
 
       paginationToken = response.meta?.nextToken
 
@@ -69,7 +71,8 @@ final class UserMentionsViewModel: TweetsViewProtocol {
     }
   }
 
-  init(userID: String) {
+  init(userID: String, ownerID: String) {
     self.userID = userID
+    self.ownerID = ownerID
   }
 }

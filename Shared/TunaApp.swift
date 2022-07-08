@@ -88,7 +88,7 @@ struct TunaApp: App {
                 Image(systemName: "book.closed")
               }
             NavigationStack {
-              let likesViewModel:LikesViewModel = .init(userID: userID)
+              let likesViewModel:LikesViewModel = .init(userID: userID, ownerID: userID)
               TweetsView(viewModel: likesViewModel)
                 .navigationTitle("Likes")
                 .navigationBarTitleDisplayMode(.large)

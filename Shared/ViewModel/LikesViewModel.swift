@@ -17,6 +17,7 @@ final class LikesViewModel: NSObject, TweetsViewProtocol {
   var timelines: [String] = []
 
   let userID: String
+  let ownerID: String
 
   @Published var isPresentedTweetToolbar: Bool = false
   @Published var didError: Bool = false
@@ -30,7 +31,7 @@ final class LikesViewModel: NSObject, TweetsViewProtocol {
 
   func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
     do {
-      let response = try await Sweet(userID: userID).fetchLikedTweet(userID: userID, paginationToken: paginationToken)
+      let response = try await Sweet(userID: userID).fetchLikedTweet(userID: ownerID, paginationToken: paginationToken)
 
       paginationToken = response.meta?.nextToken
 
@@ -69,7 +70,8 @@ final class LikesViewModel: NSObject, TweetsViewProtocol {
     }
   }
 
-  init(userID: String) {
+  init(userID: String, ownerID: String) {
     self.userID = userID
+    self.ownerID = ownerID
   }
 }
