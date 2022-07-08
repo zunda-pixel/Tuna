@@ -74,11 +74,7 @@ struct Secret {
   }
   
   static func getExpireDate(userID: String) -> Date {
-    guard let expireDateString = userDefaults.string(forKey: userID + expireDateKey) else {
-      let today = Date()
-      let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today)!
-      return yesterday
-    }
+    let expireDateString = userDefaults.string(forKey: userID + expireDateKey)!
 
     let expireDate = dateFormatter.date(from: expireDateString)!
 
