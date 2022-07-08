@@ -33,7 +33,7 @@ struct ListDetailView<ViewModel:  ListDetailViewProtocol>: View {
       }
     }
 
-    let listTweetsViewModel: ListTweetsViewModel =  .init(userID: viewModel.userID, listID: viewModel.list.id, viewContext: viewContext)
+    let listTweetsViewModel: ListTweetsViewModel =  .init(userID: viewModel.userID, listID: viewModel.list.id)
     TweetsView(viewModel: listTweetsViewModel)
   }
 }

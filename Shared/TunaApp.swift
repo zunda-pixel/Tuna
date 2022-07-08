@@ -23,7 +23,7 @@ struct TunaApp: App {
           TabView {
             NavigationStack {
               let tweetViewModel: ReverseChronologicalViewModel = .init(userID: userID, viewContext: persistenceController.container.viewContext)
-              TweetsView(viewModel: tweetViewModel)
+              ReverseChronologicalTweetsView(viewModel: tweetViewModel)
                 .navigationTitle("Timeline")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
@@ -64,7 +64,7 @@ struct TunaApp: App {
             }
 
             NavigationStack {
-              let tweetsViewModel: SearchTweetsViewModel = .init(userID: userID, viewContext: persistenceController.container.viewContext)
+              let tweetsViewModel: SearchTweetsViewModel = .init(userID: userID)
               let usersViewModel: SearchUsersViewModel = .init(userID: userID)
               let searchViewModel: SearchViewModel = .init(tweetsViewModel: tweetsViewModel, usersViewModel: usersViewModel)
 
@@ -78,7 +78,7 @@ struct TunaApp: App {
               }
 
             NavigationStack {
-              let bookmarksViewModel: BookmarksViewModel = .init(userID: userID, viewContext: persistenceController.container.viewContext)
+              let bookmarksViewModel: BookmarksViewModel = .init(userID: userID)
 
               TweetsView(viewModel: bookmarksViewModel)
                 .navigationTitle("Book")
@@ -88,7 +88,7 @@ struct TunaApp: App {
                 Image(systemName: "book.closed")
               }
             NavigationStack {
-              let likesViewModel:LikesViewModel = .init(userID: userID, viewContext: persistenceController.container.viewContext)
+              let likesViewModel:LikesViewModel = .init(userID: userID)
               TweetsView(viewModel: likesViewModel)
                 .navigationTitle("Likes")
                 .navigationBarTitleDisplayMode(.large)

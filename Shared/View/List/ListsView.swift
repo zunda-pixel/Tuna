@@ -219,7 +219,7 @@ struct ListsView: View {
       }
 
       .navigationDestination(for: Sweet.ListModel.self, destination: { list in
-        let listTweetsViewModel: ListTweetsViewModel = .init(userID: userID, listID: list.id, viewContext: viewContext)
+        let listTweetsViewModel: ListTweetsViewModel = .init(userID: userID, listID: list.id)
         let listDetailViewModel: ListDetailViewModel = .init(userID: userID, list: list, tweetsViewModel: listTweetsViewModel)
         ListDetailView(viewModel: listDetailViewModel)
           .environment(\.managedObjectContext, viewContext)

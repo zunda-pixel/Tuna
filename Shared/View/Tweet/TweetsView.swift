@@ -5,7 +5,6 @@
 //  Created by zunda on 2022/03/21.
 //
 
-import CoreData
 import Sweet
 import SwiftUI
 
@@ -29,7 +28,7 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
   var body: some View {
     List {
       ForEach(viewModel.showTweets) { tweet in
-        let cellViewModel = viewModel.getTweetCellViewModel(tweet.id!)
+        let cellViewModel = viewModel.getTweetCellViewModel(tweet.id)
 
         let isTappedTweet: Bool = {
           if let latestTapTweetID = viewModel.latestTapTweetID {
@@ -101,6 +100,7 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
     }
     .onAppear {
       Task {
+        guard viewModel.showTweets.isEmpty else { return }
         let firstTweetID = viewModel.showTweets.first?.id
         await fetchTweets(first: firstTweetID, last: nil)
       }
