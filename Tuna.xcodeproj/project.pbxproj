@@ -99,6 +99,7 @@
 		2EF5B32F283BAF6000DD8352 /* RetweetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B32E283BAF6000DD8352 /* RetweetButton.swift */; };
 		2EF5B332283BB11900DD8352 /* BookmarkButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B331283BB11900DD8352 /* BookmarkButton.swift */; };
 		2EF9E3BA2836727300571A40 /* CustomContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9E3B92836727300571A40 /* CustomContextMenu.swift */; };
+		2EFDB9CF2877B97400E62368 /* NewListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9CE2877B97400E62368 /* NewListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -208,6 +209,7 @@
 		2EF5B32E283BAF6000DD8352 /* RetweetButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetweetButton.swift; sourceTree = "<group>"; };
 		2EF5B331283BB11900DD8352 /* BookmarkButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkButton.swift; sourceTree = "<group>"; };
 		2EF9E3B92836727300571A40 /* CustomContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomContextMenu.swift; sourceTree = "<group>"; };
+		2EFDB9CE2877B97400E62368 /* NewListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -445,6 +447,7 @@
 				2E10387127F2AF3700E8E67B /* ListCellView.swift */,
 				2E10387427F2D33400E8E67B /* ListDetailView.swift */,
 				2E10386E27F2AD9B00E8E67B /* ListsView.swift */,
+				2EFDB9CE2877B97400E62368 /* NewListView.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -628,6 +631,7 @@
 				2E63899727EAC56000964EC8 /* Sweet+Extension.swift in Sources */,
 				2EF5B332283BB11900DD8352 /* BookmarkButton.swift in Sources */,
 				2E3468E1283A770A00AA2E33 /* SettingsView.swift in Sources */,
+				2EFDB9CF2877B97400E62368 /* NewListView.swift in Sources */,
 				2E0981452809482A00431C50 /* QuotedTweetCellView.swift in Sources */,
 				2E71094328485FC0000A4603 /* UserTimelineViewModel.swift in Sources */,
 				2E027FBB27E8269A00521378 /* TunaApp.swift in Sources */,

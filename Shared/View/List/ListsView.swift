@@ -38,6 +38,8 @@ struct ListsView: View {
   @State var error: Error?
   @State var didError = false
 
+  @State var isPresentedAddList = false
+
   func fetchAllLists() async {
     guard allLists.isEmpty else { return }
 
@@ -93,7 +95,7 @@ struct ListsView: View {
   }
 
   func deleteOwnedList(offsets: IndexSet) async {
-    let list = pinnedLists[offsets.first!]
+    let list = ownedLists[offsets.first!]
 
     do {
       try await Sweet(userID: userID).deleteList(listID: list.id)
@@ -190,6 +192,19 @@ struct ListsView: View {
           }
         }
       }
+      .toolbar {
+        ToolbarItem(placement: .navigationBarTrailing) {
+          Button {
+            isPresentedAddList.toggle()
+          } label: {
+            Image(systemName: "plus.app")
+          }
+        }
+      }
+      .sheet(isPresented: $isPresentedAddList) {
+        NewListView(userID: userID, delegate: self)
+      }
+
       .navigationDestination(for: Sweet.ListModel.self, destination: { list in
         let listTweetsViewModel: ListTweetsViewModel = .init(userID: userID, listID: list.id, viewContext: viewContext)
         let listDetailViewModel: ListDetailViewModel = .init(userID: userID, list: list, tweetsViewModel: listTweetsViewModel)
@@ -210,6 +225,13 @@ struct ListsView: View {
         await fetchAllLists()
       }
     }
+  }
+}
+
+extension ListsView: NewListDelegate {
+  func didCreateList(list: Sweet.ListModel) {
+    allLists.append(.init(list: list, isPinned: false))
+    ownedListIDs.append(list.id)
   }
 }
 
@@ -255,3 +277,4 @@ struct ListsView_Previews: PreviewProvider {
     ListsView(userID: "")
   }
 }
+
