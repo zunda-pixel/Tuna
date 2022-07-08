@@ -16,20 +16,21 @@ protocol ListCellDelegate {
 struct ListCellView: View {
   let delegate: ListCellDelegate
   let list: CustomListModel
+  let owner: Sweet.UserModel
+  
   let userID: String
   @State var didError = false
   @State var error: Error?
 
   var body: some View {
     HStack {
-      Image(systemName: "list.clipboard")
-        .padding()
-        .background(Color.random)
-        .cornerRadius(12)
+      ProfileImageView(owner.profileImageURL)
+        .frame(width: 50, height: 50)
 
       VStack(alignment: .leading) {
         HStack {
           Text(list.list.name)
+            .font(.title2)
           if list.list.isPrivate == true {
             Image(systemName: "key")
           }
@@ -39,6 +40,9 @@ struct ListCellView: View {
           }
         }
         .lineLimit(1)
+
+        Text("\(owner.name) @\(owner.userName)")
+          .lineLimit(1)
       }
 
       Spacer()

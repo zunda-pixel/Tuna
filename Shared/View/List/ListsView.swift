@@ -40,20 +40,30 @@ struct ListsView: View {
 
   @State var isPresentedAddList = false
 
+  @State var owners: [Sweet.UserModel] = []
+
   func fetchAllLists() async {
     guard allLists.isEmpty else { return }
 
     do {
-      try await fetchOwnedLists()
-      try await fetchFollowingLists()
-      try await fetchPinnedLists()
+      let ownedListIDs = try await fetchOwnedLists()
+      let followingListIDs =  try await fetchFollowingLists()
+      let pinnedListIDs = try await fetchPinnedLists()
+
+      let ownerIDs: [String] = Array(Set(allLists.compactMap(\.list.ownerID)))
+      let response = try await Sweet(userID: userID).lookUpUsers(userIDs: ownerIDs)
+      owners = response.users
+
+      self.ownedListIDs = ownedListIDs
+      self.followingListIDs = followingListIDs
+      self.pinnedListIDs = pinnedListIDs
     } catch let newError {
       error = newError
       didError.toggle()
     }
   }
 
-  func fetchOwnedLists() async throws {
+  func fetchOwnedLists() async throws -> [String] {
     let response = try await Sweet(userID: userID).fetchOwnedLists(userID: userID)
     let lists: [CustomListModel] = response.lists.map { .init(list: $0, isPinned: false) }
 
@@ -63,10 +73,10 @@ struct ListsView: View {
       }
     }
 
-    ownedListIDs = response.lists.map(\.id)
+    return response.lists.map(\.id)
   }
 
-  func fetchFollowingLists() async throws {
+  func fetchFollowingLists() async throws -> [String] {
     let response = try await Sweet(userID: userID).fetchListsFollowed(by: userID)
     let lists: [CustomListModel] = response.lists.map { .init(list: $0, isPinned: false) }
 
@@ -76,10 +86,10 @@ struct ListsView: View {
       }
     }
 
-    followingListIDs = response.lists.map(\.id)
+    return response.lists.map(\.id)
   }
 
-  func fetchPinnedLists() async throws {
+  func fetchPinnedLists() async throws -> [String] {
     let response = try await Sweet(userID: userID).fetchListsPinned(by: userID)
     let lists: [CustomListModel] = response.lists.map { .init(list: $0, isPinned: true) }
 
@@ -91,7 +101,7 @@ struct ListsView: View {
       }
     }
 
-    pinnedListIDs = response.lists.map(\.id)
+    return response.lists.map(\.id)
   }
 
   func deleteOwnedList(offsets: IndexSet) async {
@@ -146,7 +156,8 @@ struct ListsView: View {
 
           ForEach(pinnedLists) { list in
             NavigationLink(value: list.list) {
-              ListCellView(delegate: self, list: list, userID: userID)
+              let owner = owners.first { $0.id == list.list.ownerID }
+              ListCellView(delegate: self, list: list, owner: owner!, userID: userID)
             }
           }
           .onDelete { offsets in
@@ -164,7 +175,8 @@ struct ListsView: View {
 
           ForEach(ownedLists) { list in
             NavigationLink(value: list.list) {
-              ListCellView(delegate: self, list: list, userID: userID)
+              let owner = owners.first { $0.id == list.list.ownerID }
+              ListCellView(delegate: self, list: list, owner: owner!, userID: userID)
             }
           }
           .onDelete { offsets in
@@ -182,7 +194,8 @@ struct ListsView: View {
 
           ForEach(followingLists) { list in
             NavigationLink(value: list.list) {
-              ListCellView(delegate: self, list: list, userID: userID)
+              let owner = owners.first { $0.id == list.list.ownerID }
+              ListCellView(delegate: self, list: list, owner: owner!, userID: userID)
             }
           }
           .onDelete { offsets in
