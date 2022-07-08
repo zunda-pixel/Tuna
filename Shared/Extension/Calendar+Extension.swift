@@ -32,6 +32,14 @@ extension Calendar.Component {
 }
 
 extension Calendar {
+  // TODO 必要なければ削除
+
+  var yesterday: Date? {
+    let now = self.startOfDay(for: .now)
+    let yesterday = self.date(byAdding: .day, value: -1, to: now)
+    return yesterday
+  }
+
   func durationString(candidate components: [Calendar.Component], from start: Date, to end: Date) -> String? {
     for component in components {
       let dateComponents = self.dateComponents([component], from: start, to: end)
