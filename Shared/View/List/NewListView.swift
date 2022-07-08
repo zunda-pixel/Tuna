@@ -17,6 +17,8 @@ struct NewListView: View {
   @State var error: Error?
   @State var didError = false
 
+  @FocusState var focus: Bool?
+
   var disableCreateList: Bool {
     name.isEmpty
   }
@@ -38,9 +40,11 @@ struct NewListView: View {
     NavigationStack {
       List {
         TextField("Name", text: $name)
+          .focused($focus, equals: true)
         TextField("Description", text: $description)
         Toggle("Private", isOn: $isPrivate)
       }
+      .defaultFocus($focus, true)
       .alert("Error", isPresented: $didError) {
         Button("Close") {
           print(error!)
@@ -66,6 +70,5 @@ struct NewListView: View {
         }
       }
     }
-
   }
 }
