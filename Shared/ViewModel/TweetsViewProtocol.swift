@@ -52,7 +52,7 @@ extension TweetsViewProtocol {
   var showTweets: [Sweet.TweetModel] {
     timelines.map { timeline in
       allTweets.first(where: { $0.id == timeline })!
-    }
+    }.lazy.sorted(by: { $0.createdAt! > $1.createdAt! })
   }
 
   func addTimeline(_ tweetID: String) {
