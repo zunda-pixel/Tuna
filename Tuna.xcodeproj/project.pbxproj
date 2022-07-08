@@ -100,6 +100,8 @@
 		2EF5B332283BB11900DD8352 /* BookmarkButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B331283BB11900DD8352 /* BookmarkButton.swift */; };
 		2EF9E3BA2836727300571A40 /* CustomContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9E3B92836727300571A40 /* CustomContextMenu.swift */; };
 		2EFDB9CF2877B97400E62368 /* NewListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9CE2877B97400E62368 /* NewListView.swift */; };
+		2EFDB9D128788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9D028788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift */; };
+		2EFDB9D328788AAF00E62368 /* ReverseChronologicalTweetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9D228788AAF00E62368 /* ReverseChronologicalTweetsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -210,6 +212,8 @@
 		2EF5B331283BB11900DD8352 /* BookmarkButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkButton.swift; sourceTree = "<group>"; };
 		2EF9E3B92836727300571A40 /* CustomContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomContextMenu.swift; sourceTree = "<group>"; };
 		2EFDB9CE2877B97400E62368 /* NewListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListView.swift; sourceTree = "<group>"; };
+		2EFDB9D028788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseChronologicalTweetsViewProtocol.swift; sourceTree = "<group>"; };
+		2EFDB9D228788AAF00E62368 /* ReverseChronologicalTweetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseChronologicalTweetsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -425,6 +429,7 @@
 				2E4E983B27E9985E00D9A15F /* TweetCellView.swift */,
 				2E4E983027E82D8D00D9A15F /* TweetsView.swift */,
 				2E9EE8EB284C972E00759937 /* TweetDetailView.swift */,
+				2EFDB9D228788AAF00E62368 /* ReverseChronologicalTweetsView.swift */,
 			);
 			path = Tweet;
 			sourceTree = "<group>";
@@ -473,6 +478,7 @@
 				2E3A2A2B284B2BA200B50808 /* UserMentionsViewModel.swift */,
 				2E9EE8E5284C882D00759937 /* FollowerUserViewModel.swift */,
 				2E9EE8E2284C87B400759937 /* FollowingUserViewModel.swift */,
+				2EFDB9D028788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -613,6 +619,7 @@
 				2EF3987227EB4B3800EEFA51 /* Tweet+Extension.swift in Sources */,
 				2EEE9E002816E8F000721ADD /* UserCellView.swift in Sources */,
 				2EA6539027E9A188003E99AE /* Calendar+Extension.swift in Sources */,
+				2EFDB9D328788AAF00E62368 /* ReverseChronologicalTweetsView.swift in Sources */,
 				2EF5B32F283BAF6000DD8352 /* RetweetButton.swift in Sources */,
 				2EB3B38A283E9AB300891A5E /* LikesViewModel.swift in Sources */,
 				2E5324F328046AD0008D5EFB /* ReplySetting+Extension.swift in Sources */,
@@ -650,6 +657,7 @@
 				2EF5B326283BA7FB00DD8352 /* FollowButton.swift in Sources */,
 				2E6A8C5A285DD01D003BFD7C /* PollView.swift in Sources */,
 				2E7DD5EA283B569E00F16C53 /* UserProfileView.swift in Sources */,
+				2EFDB9D128788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift in Sources */,
 				2EB935D528461B8C00833663 /* SearchUsersViewModel.swift in Sources */,
 				2E5324E727FF1CEA008D5EFB /* NSItemProvider+Extension.swift in Sources */,
 				2E3468E4283A784300AA2E33 /* AccountSettingView.swift in Sources */,
