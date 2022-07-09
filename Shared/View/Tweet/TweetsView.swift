@@ -48,14 +48,6 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
           if isTappedTweet {
             TweetToolBar(userID: viewModel.userID, tweetID: cellViewModel.tweet.id, tweet: cellViewModel.tweetText, metrics: cellViewModel.tweet.publicMetrics!)
           }
-
-          NavigationLink(isActive: $viewModel.isPresentedTweetDetail) {
-            TweetDetailView(tweetCellViewModel: cellViewModel)
-          } label: {
-            EmptyView()
-          }
-          .frame(width: 0, height: 0)
-          .hidden()
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
           Button {
@@ -63,6 +55,9 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
           } label: {
             Image(systemName: "ellipsis")
           }
+        }
+        .navigationDestination(isPresented: $viewModel.isPresentedTweetDetail) {
+          TweetDetailView(tweetCellViewModel: cellViewModel)
         }
         .onAppear {
           guard let lastTweet = viewModel.showTweets.last else {
@@ -76,6 +71,7 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
           }
         }
       }
+
 
       Button {
         Task {

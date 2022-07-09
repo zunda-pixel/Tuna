@@ -15,24 +15,14 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
   @StateObject var viewModel: ViewModel
 
   var body: some View {
+    let user = viewModel.tweet.referencedTweet?.type == .retweeted ? viewModel.retweet!.user : viewModel.author
+
     HStack(alignment: .top) {
-      let user = viewModel.tweet.referencedTweet?.type == .retweeted ? viewModel.retweet!.user : viewModel.author
       ProfileImageView(user.profileImageURL)
         .frame(width: 50, height: 50)
         .onTapGesture {
           viewModel.isPresentedUserView.toggle()
         }
-
-      NavigationLink(isActive: $viewModel.isPresentedUserView) {
-        UserView(userID: viewModel.userID, user: user)
-          .environment(\.managedObjectContext, viewContext)
-          .navigationTitle("@\(user.userName)")
-          .navigationBarTitleDisplayMode(.inline)
-      } label: {
-        EmptyView()
-      }
-      .frame(width: 0, height: 0)
-      .hidden()
 
       VStack(alignment: .leading) {
         HStack {
@@ -103,6 +93,12 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
     } message: {
       Button("Report") {
       }
+    }
+    .navigationDestination(isPresented: $viewModel.isPresentedUserView) {
+      UserView(userID: viewModel.userID, user: user)
+        .environment(\.managedObjectContext, viewContext)
+        .navigationTitle("@\(user.userName)")
+        .navigationBarTitleDisplayMode(.inline)
     }
   }
 }
