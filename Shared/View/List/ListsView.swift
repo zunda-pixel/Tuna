@@ -205,6 +205,8 @@ struct ListsView: View {
           }
         }
       }
+      .navigationTitle("List")
+      .navigationBarTitleDisplayMode(.large)
       .navigationDestination(for: UserViewModel.self) { viewModel in
         UserView(viewModel: viewModel, path: $path)
           .navigationTitle("@\(viewModel.user.userName)")

@@ -54,6 +54,8 @@ struct SearchView<ViewModel: SearchViewProtocol>: View {
           await viewModel.usersViewModel.fetchUsers(reset: true)
         }
       }
+      .navigationTitle("Search")
+      .navigationBarTitleDisplayMode(.large)
       .navigationDestination(for: UserViewModel.self) { viewModel in
         UserView(viewModel: viewModel, path: $path)
           .navigationTitle("@\(viewModel.user.userName)")

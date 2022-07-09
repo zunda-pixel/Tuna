@@ -99,6 +99,7 @@
 		2EF5B332283BB11900DD8352 /* BookmarkButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B331283BB11900DD8352 /* BookmarkButton.swift */; };
 		2EF7DC43287A06D600126C67 /* LikeNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF7DC42287A06D600126C67 /* LikeNavigationView.swift */; };
 		2EF7DC45287A074800126C67 /* BookmarksNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF7DC44287A074800126C67 /* BookmarksNavigationView.swift */; };
+		2EF7DC47287A0B9900126C67 /* ReverseChronologicalNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF7DC46287A0B9900126C67 /* ReverseChronologicalNavigationView.swift */; };
 		2EFDB9CF2877B97400E62368 /* NewListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9CE2877B97400E62368 /* NewListView.swift */; };
 		2EFDB9D128788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9D028788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift */; };
 		2EFDB9D328788AAF00E62368 /* ReverseChronologicalTweetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9D228788AAF00E62368 /* ReverseChronologicalTweetsView.swift */; };
@@ -211,6 +212,7 @@
 		2EF5B331283BB11900DD8352 /* BookmarkButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkButton.swift; sourceTree = "<group>"; };
 		2EF7DC42287A06D600126C67 /* LikeNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeNavigationView.swift; sourceTree = "<group>"; };
 		2EF7DC44287A074800126C67 /* BookmarksNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksNavigationView.swift; sourceTree = "<group>"; };
+		2EF7DC46287A0B9900126C67 /* ReverseChronologicalNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseChronologicalNavigationView.swift; sourceTree = "<group>"; };
 		2EFDB9CE2877B97400E62368 /* NewListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListView.swift; sourceTree = "<group>"; };
 		2EFDB9D028788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseChronologicalTweetsViewProtocol.swift; sourceTree = "<group>"; };
 		2EFDB9D228788AAF00E62368 /* ReverseChronologicalTweetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseChronologicalTweetsView.swift; sourceTree = "<group>"; };
@@ -330,6 +332,7 @@
 				2E854FF8283BB96400676D99 /* ToolBar */,
 				2E63898427EAB95500964EC8 /* LoginView.swift */,
 				2E13ED49280D175C00BF79CD /* SearchView.swift */,
+				2EF7DC46287A0B9900126C67 /* ReverseChronologicalNavigationView.swift */,
 				2EF7DC42287A06D600126C67 /* LikeNavigationView.swift */,
 				2EF7DC44287A074800126C67 /* BookmarksNavigationView.swift */,
 				2E3468E0283A770A00AA2E33 /* SettingsView.swift */,
@@ -613,6 +616,7 @@
 				2E10387227F2AF3700E8E67B /* ListCellView.swift in Sources */,
 				2E10383327EC98AF00E8E67B /* Media+Extension.swift in Sources */,
 				2E0A3AF028105CC1002D5F39 /* ListDetailViewModel.swift in Sources */,
+				2EF7DC47287A0B9900126C67 /* ReverseChronologicalNavigationView.swift in Sources */,
 				2EEE9E062816E96600721ADD /* ListMembersViewModel.swift in Sources */,
 				2E027FB927E8269A00521378 /* Tuna.xcdatamodeld in Sources */,
 				2EE07A5A285F303400C3D6AE /* MediasView.swift in Sources */,
