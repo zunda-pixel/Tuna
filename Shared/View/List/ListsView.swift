@@ -8,7 +8,7 @@
 import Sweet
 import SwiftUI
 
-struct CustomListModel: Identifiable {
+struct CustomListModel: Identifiable, Hashable {
   let id: String
   let list: Sweet.ListModel
   var isPinned: Bool
@@ -21,6 +21,8 @@ struct CustomListModel: Identifiable {
 }
 
 struct ListsView: View {
+  @State var path = NavigationPath()
+
   let userID: String
   @Environment(\.managedObjectContext) private var viewContext
 
@@ -38,20 +40,32 @@ struct ListsView: View {
   @State var error: Error?
   @State var didError = false
 
+  @State var isPresentedAddList = false
+
+  @State var owners: [Sweet.UserModel] = []
+
   func fetchAllLists() async {
     guard allLists.isEmpty else { return }
 
     do {
-      try await fetchOwnedLists()
-      try await fetchFollowingLists()
-      try await fetchPinnedLists()
+      let ownedListIDs = try await fetchOwnedLists()
+      let followingListIDs =  try await fetchFollowingLists()
+      let pinnedListIDs = try await fetchPinnedLists()
+
+      let ownerIDs: [String] = Array(Set(allLists.compactMap(\.list.ownerID)))
+      let response = try await Sweet(userID: userID).lookUpUsers(userIDs: ownerIDs)
+      owners = response.users
+
+      self.ownedListIDs = ownedListIDs
+      self.followingListIDs = followingListIDs
+      self.pinnedListIDs = pinnedListIDs
     } catch let newError {
       error = newError
       didError.toggle()
     }
   }
 
-  func fetchOwnedLists() async throws {
+  func fetchOwnedLists() async throws -> [String] {
     let response = try await Sweet(userID: userID).fetchOwnedLists(userID: userID)
     let lists: [CustomListModel] = response.lists.map { .init(list: $0, isPinned: false) }
 
@@ -61,10 +75,10 @@ struct ListsView: View {
       }
     }
 
-    ownedListIDs = response.lists.map(\.id)
+    return response.lists.map(\.id)
   }
 
-  func fetchFollowingLists() async throws {
+  func fetchFollowingLists() async throws -> [String] {
     let response = try await Sweet(userID: userID).fetchListsFollowed(by: userID)
     let lists: [CustomListModel] = response.lists.map { .init(list: $0, isPinned: false) }
 
@@ -74,10 +88,10 @@ struct ListsView: View {
       }
     }
 
-    followingListIDs = response.lists.map(\.id)
+    return response.lists.map(\.id)
   }
 
-  func fetchPinnedLists() async throws {
+  func fetchPinnedLists() async throws -> [String] {
     let response = try await Sweet(userID: userID).fetchListsPinned(by: userID)
     let lists: [CustomListModel] = response.lists.map { .init(list: $0, isPinned: true) }
 
@@ -89,11 +103,11 @@ struct ListsView: View {
       }
     }
 
-    pinnedListIDs = response.lists.map(\.id)
+    return response.lists.map(\.id)
   }
 
   func deleteOwnedList(offsets: IndexSet) async {
-    let list = pinnedLists[offsets.first!]
+    let list = ownedLists[offsets.first!]
 
     do {
       try await Sweet(userID: userID).deleteList(listID: list.id)
@@ -134,7 +148,7 @@ struct ListsView: View {
   }
 
   var body: some View {
-    NavigationStack {
+    NavigationStack(path: $path) {
       List {
         Section("PINNED LISTS") {
           if pinnedLists.count == 0 {
@@ -143,9 +157,9 @@ struct ListsView: View {
           }
 
           ForEach(pinnedLists) { list in
-            NavigationLink(value: list.list) {
-              ListCellView(delegate: self, list: list, userID: userID)
-            }
+            let owner = owners.first { $0.id == list.list.ownerID }
+            let listCellViewModel: ListCellViewModel = .init(delegate: self, list: list, owner: owner!, userID: userID)
+            ListCellView(viewModel: listCellViewModel, path: $path)
           }
           .onDelete { offsets in
             Task {
@@ -161,9 +175,9 @@ struct ListsView: View {
           }
 
           ForEach(ownedLists) { list in
-            NavigationLink(value: list.list) {
-              ListCellView(delegate: self, list: list, userID: userID)
-            }
+            let owner = owners.first { $0.id == list.list.ownerID }
+            let listCellViewModel: ListCellViewModel = .init(delegate: self, list: list, owner: owner!, userID: userID)
+            ListCellView(viewModel: listCellViewModel, path: $path)
           }
           .onDelete { offsets in
             Task {
@@ -179,9 +193,10 @@ struct ListsView: View {
           }
 
           ForEach(followingLists) { list in
-            NavigationLink(value: list.list) {
-              ListCellView(delegate: self, list: list, userID: userID)
-            }
+            let owner = owners.first { $0.id == list.list.ownerID }
+            let listCellViewModel: ListCellViewModel = .init(delegate: self, list: list, owner: owner!, userID: userID)
+
+            ListCellView(viewModel: listCellViewModel, path: $path)
           }
           .onDelete { offsets in
             Task {
@@ -190,12 +205,41 @@ struct ListsView: View {
           }
         }
       }
-      .navigationDestination(for: Sweet.ListModel.self, destination: { list in
-        let listTweetsViewModel: ListTweetsViewModel = .init(userID: userID, listID: list.id, viewContext: viewContext)
-        let listDetailViewModel: ListDetailViewModel = .init(userID: userID, list: list, tweetsViewModel: listTweetsViewModel)
-        ListDetailView(viewModel: listDetailViewModel)
+      .navigationTitle("List")
+      .navigationBarTitleDisplayMode(.large)
+      .navigationDestination(for: UserViewModel.self) { viewModel in
+        UserView(viewModel: viewModel, path: $path)
+          .navigationTitle("@\(viewModel.user.userName)")
+          .navigationBarTitleDisplayMode(.inline)
           .environment(\.managedObjectContext, viewContext)
-      })
+      }
+      .navigationDestination(for: FollowingUserViewModel.self) { viewModel in
+        UsersView(viewModel: viewModel, path: $path)
+          .navigationTitle("Following")
+          .navigationBarTitleDisplayMode(.inline)
+      }
+      .navigationDestination(for: FollowerUserViewModel.self) { viewModel in
+        UsersView(viewModel: viewModel, path: $path)
+          .navigationTitle("Follower")
+          .navigationBarTitleDisplayMode(.inline)
+      }
+      .navigationDestination(for: ListDetailViewModel.self) { viewModel in
+        ListDetailView(path: $path, viewModel: viewModel)
+          .navigationTitle("List (\(viewModel.list.name))")
+          .navigationBarTitleDisplayMode(.inline)
+      }
+      .toolbar {
+        ToolbarItem(placement: .navigationBarTrailing) {
+          Button {
+            isPresentedAddList.toggle()
+          } label: {
+            Image(systemName: "plus.app")
+          }
+        }
+      }
+      .sheet(isPresented: $isPresentedAddList) {
+        NewListView(userID: userID, delegate: self)
+      }
       .listStyle(.insetGrouped)
     }
     .alert("Error", isPresented: $didError) {
@@ -210,6 +254,13 @@ struct ListsView: View {
         await fetchAllLists()
       }
     }
+  }
+}
+
+extension ListsView: NewListDelegate {
+  func didCreateList(list: Sweet.ListModel) {
+    allLists.append(.init(list: list, isPinned: false))
+    ownedListIDs.append(list.id)
   }
 }
 
@@ -247,11 +298,5 @@ extension ListsView: ListCellDelegate {
       didError.toggle()
       error = newError
     }
-  }
-}
-
-struct ListsView_Previews: PreviewProvider {
-  static var previews: some View {
-    ListsView(userID: "")
   }
 }

@@ -10,10 +10,11 @@ import Sweet
 
 struct UsersView<ViewModel: UsersViewProtocol>: View {
   @StateObject var viewModel: ViewModel
+  @Binding var path: NavigationPath
 
   var body: some View {
     List(viewModel.users) { user in
-      UserCellView(ownerID: viewModel.userID, user: user)
+      UserCellView(ownerID: viewModel.userID, user: user, path: $path)
         .onAppear {
           if viewModel.users.last?.id == user.id {
             Task {

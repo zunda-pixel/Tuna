@@ -1,16 +1,10 @@
-//
-//  TweetsView.swift
-//  Tuna
-//
-//  Created by zunda on 2022/03/21.
-//
-
+import CoreData
 import Sweet
 import SwiftUI
 
-struct TweetsView<ViewModel: TweetsViewProtocol>: View {
-  @StateObject var viewModel: ViewModel
+struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewProtocol>: View {
   @Binding var path: NavigationPath
+  @StateObject var viewModel: ViewModel
 
   func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
     if viewModel.loadingTweets {
@@ -29,7 +23,7 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
   var body: some View {
     List {
       ForEach(viewModel.showTweets) { tweet in
-        let cellViewModel = viewModel.getTweetCellViewModel(tweet.id)
+        let cellViewModel = viewModel.getTweetCellViewModel(tweet.id!)
 
         let isTappedTweet: Bool = {
           if let latestTapTweetID = viewModel.latestTapTweetID {
@@ -94,7 +88,6 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
     }
     .onAppear {
       Task {
-        guard viewModel.showTweets.isEmpty else { return }
         let firstTweetID = viewModel.showTweets.first?.id
         await fetchTweets(first: firstTweetID, last: nil)
       }

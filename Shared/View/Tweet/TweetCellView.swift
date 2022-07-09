@@ -12,19 +12,20 @@ import SwiftUI
 struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
   @Environment(\.openURL) private var openURL
   @Environment(\.managedObjectContext) private var viewContext
+
+  @Binding var path: NavigationPath
+
   @StateObject var viewModel: ViewModel
 
   var body: some View {
+    let user = viewModel.tweet.referencedTweet?.type == .retweeted ? viewModel.retweet!.user : viewModel.author
+
     HStack(alignment: .top) {
-      let user = viewModel.tweet.referencedTweet?.type == .retweeted ? viewModel.retweet!.user : viewModel.author
       ProfileImageView(user.profileImageURL)
         .frame(width: 50, height: 50)
         .onTapGesture {
-          viewModel.isPresentedUserView.toggle()
-        }
-        .sheet(isPresented: $viewModel.isPresentedUserView) {
-          UserView(userID: viewModel.userID, user: user)
-            .environment(\.managedObjectContext, viewContext)
+          let userViewModel: UserViewModel = .init(userID: viewModel.userID, user: user)
+          path.append(userViewModel)
         }
 
       VStack(alignment: .leading) {

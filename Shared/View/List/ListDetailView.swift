@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ListDetailView<ViewModel:  ListDetailViewProtocol>: View {
   @Environment(\.managedObjectContext) private var viewContext
+  @Binding var path: NavigationPath
   @StateObject var viewModel: ViewModel
 
   var body: some View {
@@ -18,22 +19,21 @@ struct ListDetailView<ViewModel:  ListDetailViewProtocol>: View {
       Text(viewModel.list.description!)
 
       HStack {
-        NavigationLink(destination: {
-          let listMembersViewModel = ListMembersViewModel(userID: viewModel.userID, listID: viewModel.list.id)
-          UsersView(viewModel: listMembersViewModel)
-        }) {
+        let listMembersViewModel = ListMembersViewModel(userID: viewModel.userID, listID: viewModel.list.id)
+
+        NavigationLink(value: listMembersViewModel) {
           Text("\(viewModel.list.memberCount!) members")
         }
-        NavigationLink(destination: {
-          let listFollowersViewModel = ListFollowersViewModel(userID: viewModel.userID, listID: viewModel.list.id)
-          UsersView(viewModel: listFollowersViewModel)
-        }) {
+
+        let listFollowersViewModel = ListFollowersViewModel(userID: viewModel.userID, listID: viewModel.list.id)
+
+        NavigationLink(value: listFollowersViewModel) {
           Text("\(viewModel.list.followerCount!) followers")
         }
       }
     }
 
-    let listTweetsViewModel: ListTweetsViewModel =  .init(userID: viewModel.userID, listID: viewModel.list.id, viewContext: viewContext)
-    TweetsView(viewModel: listTweetsViewModel)
+    let listTweetsViewModel: ListTweetsViewModel =  .init(userID: viewModel.userID, listID: viewModel.list.id)
+    TweetsView(viewModel: listTweetsViewModel, path: $path)
   }
 }

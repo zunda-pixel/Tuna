@@ -12,6 +12,8 @@ struct UserCellView: View {
   let ownerID: String
   let user: Sweet.UserModel
 
+  @Binding var path: NavigationPath
+
   var body: some View {
     HStack(alignment: .top) {
       ProfileImageView(user.profileImageURL)
@@ -48,11 +50,10 @@ struct UserCellView: View {
         }
       }
     }
-  }
-}
-
-struct UserCellView_Preview: PreviewProvider {
-  static var previews: some View {
-    UserCellView(ownerID: "", user: .init(id: "133213", name: "zunda", userName: "zunda_dev", verified: true, profileImageURL: .init(string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk.jpg")! ,description: "f;ajsd;lfjkasd;lfkj"))
+    .contentShape(Rectangle())
+    .onTapGesture {
+      let userViewModel: UserViewModel = .init(userID: ownerID, user: user)
+      path.append(userViewModel)
+    }
   }
 }

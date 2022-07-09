@@ -8,8 +8,20 @@
 import Foundation
 import Sweet
 
-@MainActor final class FollowingUserViewModel: UsersViewProtocol {
+final class FollowingUserViewModel: UsersViewProtocol {
+  static func == (lhs: FollowingUserViewModel, rhs: FollowingUserViewModel) -> Bool {
+    lhs.userID == rhs.userID && lhs.ownerID == rhs.ownerID
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(userID)
+    hasher.combine(ownerID)
+    hasher.combine(paginationToken)
+    hasher.combine(users)
+  }
+
   let userID: String
+  let ownerID: String
 
   var paginationToken: String?
   var error: Error?
@@ -17,13 +29,14 @@ import Sweet
   @Published var didError = false
   @Published var users: [Sweet.UserModel] = []
 
-  init(userID: String) {
+  init(userID: String, ownerID: String) {
     self.userID = userID
+    self.ownerID = ownerID
   }
 
   func fetchUsers(reset resetData: Bool) async {
     do {
-      let response = try await Sweet(userID: userID).fetchFollowing(userID: userID, paginationToken: paginationToken)
+      let response = try await Sweet(userID: userID).fetchFollowing(userID: ownerID, paginationToken: paginationToken)
 
       if resetData {
         users = []

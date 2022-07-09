@@ -10,7 +10,7 @@ import Sweet
 import Combine
 import MapKit
 
-@MainActor protocol TweetCellViewProtocol: ObservableObject {
+@MainActor protocol TweetCellViewProtocol: ObservableObject, Hashable {
   var userID: String { get }
   var error: Error? { get set }
   var didError: Bool { get set }
@@ -25,11 +25,27 @@ import MapKit
   var poll: Sweet.PollModel? { get }
   var place: Sweet.PlaceModel? { get }
   var tweetText: String { get }
-  var isPresentedUserView: Bool { get set }
   func duration(nowDate: Date) -> String
 }
 
-@MainActor class TweetCellViewModel: TweetCellViewProtocol {
+class TweetCellViewModel: TweetCellViewProtocol {
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(userID)
+    hasher.combine(author)
+    hasher.combine(tweet)
+    hasher.combine(retweet?.tweet)
+    hasher.combine(retweet?.user)
+    hasher.combine(quoted?.tweet)
+    hasher.combine(quoted?.user)
+    hasher.combine(medias)
+    hasher.combine(poll)
+    hasher.combine(place)
+  }
+
+  static func == (lhs: TweetCellViewModel, rhs: TweetCellViewModel) -> Bool {
+    lhs.tweet.id == rhs.tweet.id
+  }
+
   let userID: String
 
   var error: Error?
@@ -45,7 +61,6 @@ import MapKit
   let place: Sweet.PlaceModel?
 
   @Published var didError = false
-  @Published var isPresentedUserView = false
 
   init(userID: String,
        tweet: Sweet.TweetModel, author : Sweet.UserModel,
