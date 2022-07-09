@@ -50,9 +50,3 @@ struct UserCellView: View {
     }
   }
 }
-
-struct UserCellView_Preview: PreviewProvider {
-  static var previews: some View {
-    UserCellView(ownerID: "", user: .init(id: "133213", name: "zunda", userName: "zunda_dev", verified: true, profileImageURL: .init(string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk.jpg")! ,description: "f;ajsd;lfjkasd;lfkj"))
-  }
-}

@@ -12,7 +12,8 @@ import SwiftUI
 struct TunaApp: App {
   let persistenceController = PersistenceController.shared
 
-  @State var path = NavigationPath()
+  @State var reverseChronologicalPath = NavigationPath()
+
   @State var userID: String? = Secret.currentUserID
   @State var isPresentedCreateTweetView = false
   @State var isPresentedSettingsView = false
@@ -22,15 +23,32 @@ struct TunaApp: App {
       Group {
         if let userID = userID {
           TabView {
-            NavigationStack(path: $path) {
+            NavigationStack(path: $reverseChronologicalPath) {
               let tweetViewModel: ReverseChronologicalViewModel = .init(userID: userID, viewContext: persistenceController.container.viewContext)
-              ReverseChronologicalTweetsView(path: $path, viewModel: tweetViewModel)
+              ReverseChronologicalTweetsView(path: $reverseChronologicalPath, viewModel: tweetViewModel)
                 .navigationTitle("Timeline")
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationDestination(for: TweetCellViewModel.self) { tweetCellViewModel in
-                  TweetDetailView(tweetCellViewModel: tweetCellViewModel, path: $path)
+                  TweetDetailView(tweetCellViewModel: tweetCellViewModel, path: $reverseChronologicalPath)
                     .navigationTitle("Detail")
                 }
+                .navigationDestination(for: UserViewModel.self) { viewModel in
+                  UserView(viewModel: viewModel, path: $reverseChronologicalPath)
+                    .navigationTitle("@\(viewModel.user.userName)")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                }
+                .navigationDestination(for: FollowingUserViewModel.self) { viewModel in
+                  UsersView(viewModel: viewModel, path: $reverseChronologicalPath)
+                    .navigationTitle("Following")
+                    .navigationBarTitleDisplayMode(.inline)
+                }
+                .navigationDestination(for: FollowerUserViewModel.self) { viewModel in
+                  UsersView(viewModel: viewModel, path: $reverseChronologicalPath)
+                    .navigationTitle("Follower")
+                    .navigationBarTitleDisplayMode(.inline)
+                }
+
                 .toolbar {
                   ToolbarItem(placement: .navigationBarLeading) {
                     Button {
@@ -58,46 +76,33 @@ struct TunaApp: App {
             .tabItem {
               Image(systemName: "house")
             }
-            NavigationStack {
-              ListsView(path: $path, userID: userID)
-                .navigationTitle("List")
-                .navigationBarTitleDisplayMode(.large)
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-            }
-            .tabItem {
-              Image(systemName: "list.dash.header.rectangle")
-            }
 
-            NavigationStack {
-              let tweetsViewModel: SearchTweetsViewModel = .init(userID: userID)
-              let usersViewModel: SearchUsersViewModel = .init(userID: userID)
-              let searchViewModel: SearchViewModel = .init(tweetsViewModel: tweetsViewModel, usersViewModel: usersViewModel)
+            ListsView(userID: userID)
+              .navigationTitle("List")
+              .navigationBarTitleDisplayMode(.large)
+              .environment(\.managedObjectContext, persistenceController.container.viewContext)
+              .tabItem {
+                Image(systemName: "list.dash.header.rectangle")
+              }
 
-              SearchView(viewModel: searchViewModel, path: $path)
-                .navigationTitle("Search")
-                .navigationBarTitleDisplayMode(.large)
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-            }
+            let searchViewModel: SearchViewModel = .init(userID: userID)
+
+            SearchView(viewModel: searchViewModel)
+              .navigationTitle("Search")
+              .navigationBarTitleDisplayMode(.large)
+              .environment(\.managedObjectContext, persistenceController.container.viewContext)
               .tabItem {
                 Image(systemName: "doc.text.magnifyingglass")
               }
 
-            NavigationStack {
-              let bookmarksViewModel: BookmarksViewModel = .init(userID: userID)
-
-              TweetsView(viewModel: bookmarksViewModel, path: $path)
-                .navigationTitle("Book")
-                .navigationBarTitleDisplayMode(.large)
-            }
+            BookmarksNavigationView(userID: userID)
+              .environment(\.managedObjectContext, persistenceController.container.viewContext)
               .tabItem {
                 Image(systemName: "book.closed")
               }
-            NavigationStack {
-              let likesViewModel:LikesViewModel = .init(userID: userID, ownerID: userID)
-              TweetsView(viewModel: likesViewModel, path: $path)
-                .navigationTitle("Likes")
-                .navigationBarTitleDisplayMode(.large)
-            }
+
+            LikeNavigationView(userID: userID)
+              .environment(\.managedObjectContext, persistenceController.container.viewContext)
               .tabItem {
                 Image(systemName: "heart")
               }
@@ -106,10 +111,10 @@ struct TunaApp: App {
           LoginView(userID: $userID) {
             Text("Login")
           }
-            .environment(\.managedObjectContext, persistenceController.container.viewContext)
-            .tabItem {
-              Image(systemName: "person")
-            }
+          .environment(\.managedObjectContext, persistenceController.container.viewContext)
+          .tabItem {
+            Image(systemName: "person")
+          }
         }
       }
     }

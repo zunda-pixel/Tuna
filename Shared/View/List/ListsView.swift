@@ -21,7 +21,7 @@ struct CustomListModel: Identifiable, Hashable {
 }
 
 struct ListsView: View {
-  @Binding var path: NavigationPath
+  @State var path = NavigationPath()
 
   let userID: String
   @Environment(\.managedObjectContext) private var viewContext
@@ -148,7 +148,7 @@ struct ListsView: View {
   }
 
   var body: some View {
-    NavigationStack {
+    NavigationStack(path: $path) {
       List {
         Section("PINNED LISTS") {
           if pinnedLists.count == 0 {
@@ -159,9 +159,7 @@ struct ListsView: View {
           ForEach(pinnedLists) { list in
             let owner = owners.first { $0.id == list.list.ownerID }
             let listCellViewModel: ListCellViewModel = .init(delegate: self, list: list, owner: owner!, userID: userID)
-            NavigationLink(value: listCellViewModel) {
-              ListCellView(viewModel: listCellViewModel)
-            }
+            ListCellView(viewModel: listCellViewModel, path: $path)
           }
           .onDelete { offsets in
             Task {
@@ -177,13 +175,9 @@ struct ListsView: View {
           }
 
           ForEach(ownedLists) { list in
-            let listTweetsViewModel: ListTweetsViewModel = .init(userID: userID, listID: list.id)
-            let listDetailViewModel: ListDetailViewModel = .init(userID: userID, list: list.list, tweetsViewModel: listTweetsViewModel)
             let owner = owners.first { $0.id == list.list.ownerID }
             let listCellViewModel: ListCellViewModel = .init(delegate: self, list: list, owner: owner!, userID: userID)
-            NavigationLink(value: listDetailViewModel) {
-              ListCellView(viewModel: listCellViewModel)
-            }
+            ListCellView(viewModel: listCellViewModel, path: $path)
           }
           .onDelete { offsets in
             Task {
@@ -202,9 +196,7 @@ struct ListsView: View {
             let owner = owners.first { $0.id == list.list.ownerID }
             let listCellViewModel: ListCellViewModel = .init(delegate: self, list: list, owner: owner!, userID: userID)
 
-            NavigationLink(value: listCellViewModel) {
-              ListCellView(viewModel: listCellViewModel)
-            }
+            ListCellView(viewModel: listCellViewModel, path: $path)
           }
           .onDelete { offsets in
             Task {
@@ -212,6 +204,27 @@ struct ListsView: View {
             }
           }
         }
+      }
+      .navigationDestination(for: UserViewModel.self) { viewModel in
+        UserView(viewModel: viewModel, path: $path)
+          .navigationTitle("@\(viewModel.user.userName)")
+          .navigationBarTitleDisplayMode(.inline)
+          .environment(\.managedObjectContext, viewContext)
+      }
+      .navigationDestination(for: FollowingUserViewModel.self) { viewModel in
+        UsersView(viewModel: viewModel, path: $path)
+          .navigationTitle("Following")
+          .navigationBarTitleDisplayMode(.inline)
+      }
+      .navigationDestination(for: FollowerUserViewModel.self) { viewModel in
+        UsersView(viewModel: viewModel, path: $path)
+          .navigationTitle("Follower")
+          .navigationBarTitleDisplayMode(.inline)
+      }
+      .navigationDestination(for: ListDetailViewModel.self) { viewModel in
+        ListDetailView(path: $path, viewModel: viewModel)
+          .navigationTitle("List (\(viewModel.list.name))")
+          .navigationBarTitleDisplayMode(.inline)
       }
       .toolbar {
         ToolbarItem(placement: .navigationBarTrailing) {

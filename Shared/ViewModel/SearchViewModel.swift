@@ -16,14 +16,15 @@ import Foundation
   var usersViewModel: UsersViewModel { get set }
 }
 
-@MainActor final class SearchViewModel<T: SearchTweetsViewModel, U: SearchUsersViewModel>: NSObject, SearchViewProtocol {
+@MainActor final class SearchViewModel: NSObject, SearchViewProtocol {
   var searchUserIDs: [String] = []
-  var tweetsViewModel: T
-  var usersViewModel: U
+  var tweetsViewModel: SearchTweetsViewModel
+  var usersViewModel: SearchUsersViewModel
   var searchText: String = ""
 
-  init(tweetsViewModel: T, usersViewModel: U) {
-    self.tweetsViewModel = tweetsViewModel
-    self.usersViewModel = usersViewModel
+  init(userID: String) {
+
+    self.tweetsViewModel = .init(userID: userID)
+    self.usersViewModel = .init(userID: userID)
   }
 }

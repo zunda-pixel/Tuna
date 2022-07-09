@@ -18,26 +18,47 @@ enum TweetTab: String, CaseIterable, Identifiable {
   case like = "Like"
 }
 
-struct UserView: View {
+final class UserViewModel: ObservableObject, Hashable {
+  static func == (lhs: UserViewModel, rhs: UserViewModel) -> Bool {
+    lhs.userID == rhs.userID && lhs.user == rhs.user
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(userID)
+    hasher.combine(user)
+  }
+
   let userID: String
   let user: Sweet.UserModel
-  @State var selection: TweetTab = .tweet
+  @Published var selection: TweetTab = .tweet
+
+  init(userID: String, user: Sweet.UserModel) {
+    self.userID = userID
+    self.user = user
+  }
+
+
+}
+
+struct UserView: View {
+  @StateObject var viewModel: UserViewModel
+
   @Binding var path: NavigationPath
 
   @Environment(\.managedObjectContext) private var viewContext
 
   var body: some View {
     VStack {
-      ProfileImageView(user.profileImageURL)
+      ProfileImageView(viewModel.user.profileImageURL)
         .frame(width: 100, height: 100)
 
-      UserToolMenu(fromUserID: userID, toUserID: user.id)
+      UserToolMenu(fromUserID: viewModel.userID, toUserID: viewModel.user.id)
 
-      UserProfileView(user: user)
+      UserProfileView(user:viewModel.user)
 
-      if let metrics = user.metrics {
+      if let metrics = viewModel.user.metrics {
         HStack(alignment: .center) {
-          let followerUserViewModel: FollowerUserViewModel = .init(userID: userID, ownerID: user.id)
+          let followerUserViewModel: FollowerUserViewModel = .init(userID: viewModel.userID, ownerID: viewModel.user.id)
 
           NavigationLink(value: followerUserViewModel) {
             VStack {
@@ -46,7 +67,7 @@ struct UserView: View {
             }
           }
 
-          let followingUserViewModel: FollowingUserViewModel = .init(userID: userID, ownerID: user.id)
+          let followingUserViewModel: FollowingUserViewModel = .init(userID: viewModel.userID, ownerID: viewModel.user.id)
           NavigationLink(value: followingUserViewModel) {
             VStack {
               Text("FOLLOWING")
@@ -56,7 +77,7 @@ struct UserView: View {
         }
       }
 
-      Picker("User Tab", selection: $selection) {
+      Picker("User Tab", selection: $viewModel.selection) {
         ForEach(TweetTab.allCases) { tab in
           Text(tab.rawValue)
             .tag(tab)
@@ -64,16 +85,16 @@ struct UserView: View {
       }
       .pickerStyle(.segmented)
 
-      TabView(selection: $selection) {
-        let userTimelineViewModel: UserTimelineViewModel = .init(userID: userID, ownerID: user.id)
+      TabView(selection: $viewModel.selection) {
+        let userTimelineViewModel: UserTimelineViewModel = .init(userID: viewModel.userID, ownerID: viewModel.user.id)
         TweetsView(viewModel: userTimelineViewModel, path: $path)
           .tag(TweetTab.tweet)
 
-        let userMentionsViewModel: UserMentionsViewModel = .init(userID: userID, ownerID: user.id)
+        let userMentionsViewModel: UserMentionsViewModel = .init(userID: viewModel.userID, ownerID: viewModel.user.id)
         TweetsView(viewModel: userMentionsViewModel, path: $path)
           .tag(TweetTab.mention)
 
-        let likeViewModel: LikesViewModel = .init(userID: userID, ownerID: user.id)
+        let likeViewModel: LikesViewModel = .init(userID: viewModel.userID, ownerID: viewModel.user.id)
         TweetsView(viewModel: likeViewModel, path: $path)
           .tag(TweetTab.like)
       }

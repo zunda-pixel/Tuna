@@ -42,11 +42,16 @@ final class ListCellViewModel: ObservableObject, Hashable {
 
 struct ListCellView: View {
   @StateObject var viewModel: ListCellViewModel
+  @Binding var path: NavigationPath
 
   var body: some View {
     HStack {
       ProfileImageView(viewModel.owner.profileImageURL)
         .frame(width: 50, height: 50)
+        .onTapGesture {
+          let userViewModel: UserViewModel = .init(userID: viewModel.userID, user: viewModel.owner)
+          path.append(userViewModel)
+        }
 
       VStack(alignment: .leading) {
         HStack {
@@ -81,6 +86,12 @@ struct ListCellView: View {
             }
           }
         }
+    }
+    .contentShape(Rectangle())
+    .onTapGesture {
+      let listTweetsViewModel: ListTweetsViewModel = .init(userID: viewModel.userID, listID: viewModel.list.list.id)
+      let listDetailViewModel: ListDetailViewModel = .init(userID: viewModel.userID, list: viewModel.list.list, tweetsViewModel: listTweetsViewModel)
+      path.append(listDetailViewModel)
     }
   }
 }

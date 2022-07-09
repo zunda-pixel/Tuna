@@ -10,8 +10,9 @@ import Sweet
 
 struct SearchView<ViewModel: SearchViewProtocol>: View {
   @StateObject var viewModel: ViewModel
-  @Binding var path: NavigationPath
-  
+  @State var path = NavigationPath()
+  @Environment(\.managedObjectContext) var viewContext
+
   enum Pages: String, CaseIterable, Identifiable {
     case user = "User"
     case tweet = "Tweet"
@@ -36,7 +37,7 @@ struct SearchView<ViewModel: SearchViewProtocol>: View {
           TweetsView(viewModel: viewModel.tweetsViewModel, path: $path)
             .tag(Pages.tweet)
 
-          UsersView(viewModel: viewModel.usersViewModel)
+          UsersView(viewModel: viewModel.usersViewModel, path: $path)
             .tag(Pages.user)
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
@@ -52,6 +53,26 @@ struct SearchView<ViewModel: SearchViewProtocol>: View {
           viewModel.usersViewModel.searchText = viewModel.tweetsViewModel.searchText
           await viewModel.usersViewModel.fetchUsers(reset: true)
         }
+      }
+      .navigationDestination(for: UserViewModel.self) { viewModel in
+        UserView(viewModel: viewModel, path: $path)
+          .navigationTitle("@\(viewModel.user.userName)")
+          .navigationBarTitleDisplayMode(.inline)
+          .environment(\.managedObjectContext, viewContext)
+      }
+      .navigationDestination(for: FollowingUserViewModel.self) { viewModel in
+        UsersView(viewModel: viewModel, path: $path)
+          .navigationTitle("Following")
+          .navigationBarTitleDisplayMode(.inline)
+      }
+      .navigationDestination(for: FollowerUserViewModel.self) { viewModel in
+        UsersView(viewModel: viewModel, path: $path)
+          .navigationTitle("Follower")
+          .navigationBarTitleDisplayMode(.inline)
+      }
+      .navigationDestination(for: TweetCellViewModel.self) { tweetCellViewModel in
+        TweetDetailView(tweetCellViewModel: tweetCellViewModel, path: $path)
+          .navigationTitle("Detail")
       }
     }
   }

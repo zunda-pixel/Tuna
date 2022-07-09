@@ -16,8 +16,8 @@ import CoreData
   var userID: String { get }
 }
 
-final class ListDetailViewModel<T: TweetsViewProtocol>: ListDetailViewProtocol {
-  static func == (lhs: ListDetailViewModel<T>, rhs: ListDetailViewModel<T>) -> Bool {
+final class ListDetailViewModel: ListDetailViewProtocol {
+  static func == (lhs: ListDetailViewModel, rhs: ListDetailViewModel) -> Bool {
     lhs.list.id == rhs.list.id
   }
 
@@ -29,9 +29,9 @@ final class ListDetailViewModel<T: TweetsViewProtocol>: ListDetailViewProtocol {
 
   let userID: String
   let list: Sweet.ListModel
-  let tweetsViewModel: T
+  let tweetsViewModel: ListTweetsViewModel
 
-  init(userID: String, list: Sweet.ListModel, tweetsViewModel: T) {
+  init(userID: String, list: Sweet.ListModel, tweetsViewModel: ListTweetsViewModel) {
     self.userID = userID
     self.list = list
     self.tweetsViewModel = tweetsViewModel
