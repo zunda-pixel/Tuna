@@ -10,6 +10,7 @@ import Sweet
 
 @MainActor final class FollowerUserViewModel: UsersViewProtocol {
   let userID: String
+  let ownerID: String
 
   var paginationToken: String?
   var error: Error?
@@ -17,13 +18,14 @@ import Sweet
   @Published var didError = false
   @Published var users: [Sweet.UserModel] = []
 
-  init(userID: String) {
+  init(userID: String, ownerID: String) {
     self.userID = userID
+    self.ownerID = ownerID
   }
 
   func fetchUsers(reset resetData: Bool) async {
     do {
-      let response = try await Sweet(userID: userID).fetchFollower(userID: userID, paginationToken: paginationToken)
+      let response = try await Sweet(userID: userID).fetchFollower(userID: ownerID, paginationToken: paginationToken)
 
       if resetData {
         users = []
