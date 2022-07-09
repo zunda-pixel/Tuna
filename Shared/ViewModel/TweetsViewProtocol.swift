@@ -14,7 +14,6 @@ import CoreData
 
   var userID: String { get }
   var isPresentedTweetToolbar: Bool { get set }
-  var isPresentedTweetDetail: Bool { get set }
   var latestTapTweetID: String? { get set }
 
   var error: Error? { get }

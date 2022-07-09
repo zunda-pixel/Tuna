@@ -32,7 +32,6 @@ final class UserTimelineViewModel: TweetsViewProtocol {
   @Published var didError: Bool = false
   @Published var loadingTweets: Bool = false
   @Published var isPresentedTweetToolbar: Bool = false
-  @Published var isPresentedTweetDetail: Bool = false
 
   var paginationToken: String?
 

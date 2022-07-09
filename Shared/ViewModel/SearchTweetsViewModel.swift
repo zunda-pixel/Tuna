@@ -33,7 +33,6 @@ final class SearchTweetsViewModel: TweetsViewProtocol {
 
   @Published var isPresentedTweetToolbar: Bool = false
   @Published var didError: Bool = false
-  @Published var isPresentedTweetDetail: Bool = false
 
   var allTweets: [Sweet.TweetModel] = []
   var allUsers: [Sweet.UserModel] = []

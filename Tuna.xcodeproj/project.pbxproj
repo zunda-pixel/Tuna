@@ -97,6 +97,8 @@
 		2EF5B32C283BAEFE00DD8352 /* TweetToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B32B283BAEFE00DD8352 /* TweetToolBar.swift */; };
 		2EF5B32F283BAF6000DD8352 /* RetweetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B32E283BAF6000DD8352 /* RetweetButton.swift */; };
 		2EF5B332283BB11900DD8352 /* BookmarkButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF5B331283BB11900DD8352 /* BookmarkButton.swift */; };
+		2EF7DC43287A06D600126C67 /* LikeNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF7DC42287A06D600126C67 /* LikeNavigationView.swift */; };
+		2EF7DC45287A074800126C67 /* BookmarksNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF7DC44287A074800126C67 /* BookmarksNavigationView.swift */; };
 		2EF9E3BA2836727300571A40 /* CustomContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF9E3B92836727300571A40 /* CustomContextMenu.swift */; };
 		2EFDB9CF2877B97400E62368 /* NewListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9CE2877B97400E62368 /* NewListView.swift */; };
 		2EFDB9D128788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9D028788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift */; };
@@ -208,6 +210,8 @@
 		2EF5B32B283BAEFE00DD8352 /* TweetToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetToolBar.swift; sourceTree = "<group>"; };
 		2EF5B32E283BAF6000DD8352 /* RetweetButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetweetButton.swift; sourceTree = "<group>"; };
 		2EF5B331283BB11900DD8352 /* BookmarkButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkButton.swift; sourceTree = "<group>"; };
+		2EF7DC42287A06D600126C67 /* LikeNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeNavigationView.swift; sourceTree = "<group>"; };
+		2EF7DC44287A074800126C67 /* BookmarksNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksNavigationView.swift; sourceTree = "<group>"; };
 		2EF9E3B92836727300571A40 /* CustomContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomContextMenu.swift; sourceTree = "<group>"; };
 		2EFDB9CE2877B97400E62368 /* NewListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListView.swift; sourceTree = "<group>"; };
 		2EFDB9D028788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseChronologicalTweetsViewProtocol.swift; sourceTree = "<group>"; };
@@ -329,6 +333,8 @@
 				2EF9E3B92836727300571A40 /* CustomContextMenu.swift */,
 				2E63898427EAB95500964EC8 /* LoginView.swift */,
 				2E13ED49280D175C00BF79CD /* SearchView.swift */,
+				2EF7DC42287A06D600126C67 /* LikeNavigationView.swift */,
+				2EF7DC44287A074800126C67 /* BookmarksNavigationView.swift */,
 				2E3468E0283A770A00AA2E33 /* SettingsView.swift */,
 				2E6A8C59285DD01D003BFD7C /* PollView.swift */,
 			);
@@ -636,6 +642,7 @@
 				2EF5B332283BB11900DD8352 /* BookmarkButton.swift in Sources */,
 				2E3468E1283A770A00AA2E33 /* SettingsView.swift in Sources */,
 				2EFDB9CF2877B97400E62368 /* NewListView.swift in Sources */,
+				2EF7DC45287A074800126C67 /* BookmarksNavigationView.swift in Sources */,
 				2E0981452809482A00431C50 /* QuotedTweetCellView.swift in Sources */,
 				2E71094328485FC0000A4603 /* UserTimelineViewModel.swift in Sources */,
 				2E027FBB27E8269A00521378 /* TunaApp.swift in Sources */,
@@ -659,6 +666,7 @@
 				2E3468E4283A784300AA2E33 /* AccountSettingView.swift in Sources */,
 				2E10383C27ECC53100E8E67B /* PollModel+Extension.swift in Sources */,
 				2E13ED4A280D175C00BF79CD /* SearchView.swift in Sources */,
+				2EF7DC43287A06D600126C67 /* LikeNavigationView.swift in Sources */,
 				2E0E4ED028604F6700D4B64F /* ScalableImage.swift in Sources */,
 				2EB3B38D283E9DDC00891A5E /* DurationPicker.swift in Sources */,
 				2E86883A285AC9AB00997F91 /* TweetMenu.swift in Sources */,

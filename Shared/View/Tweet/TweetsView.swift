@@ -57,9 +57,6 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
             Image(systemName: "ellipsis")
           }
         }
-        .navigationDestination(isPresented: $viewModel.isPresentedTweetDetail) {
-          TweetDetailView(tweetCellViewModel: cellViewModel, path: $path)
-        }
         .onAppear {
           guard let lastTweet = viewModel.showTweets.last else {
             return

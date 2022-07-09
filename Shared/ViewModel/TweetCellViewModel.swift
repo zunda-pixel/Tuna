@@ -25,7 +25,6 @@ import MapKit
   var poll: Sweet.PollModel? { get }
   var place: Sweet.PlaceModel? { get }
   var tweetText: String { get }
-  var isPresentedUserView: Bool { get set }
   func duration(nowDate: Date) -> String
 }
 
@@ -62,7 +61,6 @@ class TweetCellViewModel: TweetCellViewProtocol {
   let place: Sweet.PlaceModel?
 
   @Published var didError = false
-  @Published var isPresentedUserView = false
 
   init(userID: String,
        tweet: Sweet.TweetModel, author : Sweet.UserModel,

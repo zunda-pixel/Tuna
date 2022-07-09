@@ -24,7 +24,8 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
       ProfileImageView(user.profileImageURL)
         .frame(width: 50, height: 50)
         .onTapGesture {
-          viewModel.isPresentedUserView.toggle()
+          let userViewModel: UserViewModel = .init(userID: viewModel.userID, user: user)
+          path.append(userViewModel)
         }
 
       VStack(alignment: .leading) {
@@ -96,12 +97,6 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
     } message: {
       Button("Report") {
       }
-    }
-    .navigationDestination(isPresented: $viewModel.isPresentedUserView) {
-      UserView(userID: viewModel.userID, user: user, path: $path)
-        .environment(\.managedObjectContext, viewContext)
-        .navigationTitle("@\(user.userName)")
-        .navigationBarTitleDisplayMode(.inline)
     }
   }
 }
