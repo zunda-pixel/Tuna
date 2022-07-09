@@ -8,7 +8,18 @@
 import Foundation
 import Sweet
 
-@MainActor final class ListFollowersViewModel: UsersViewProtocol {
+final class ListFollowersViewModel: UsersViewProtocol {
+  static func == (lhs: ListFollowersViewModel, rhs: ListFollowersViewModel) -> Bool {
+    lhs.listID == lhs.listID
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(listID)
+    hasher.combine(paginationToken)
+    hasher.combine(userID)
+    hasher.combine(users)
+  }
+
   let listID: String
 
   var paginationToken: String?

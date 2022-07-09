@@ -10,6 +10,19 @@ import CoreData
 import Sweet
 
 final class UserTimelineViewModel: TweetsViewProtocol {
+  static func == (lhs: UserTimelineViewModel, rhs: UserTimelineViewModel) -> Bool {
+    lhs.userID == rhs.userID && lhs.ownerID == rhs.ownerID
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(loadingTweets)
+    hasher.combine(paginationToken)
+    hasher.combine(latestTapTweetID)
+    hasher.combine(timelines)
+    hasher.combine(userID)
+    hasher.combine(ownerID)
+  }
+  
   let userID: String
   let ownerID: String
 

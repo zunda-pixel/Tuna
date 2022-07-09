@@ -8,7 +8,7 @@
 import Foundation
 import Sweet
 
-@MainActor protocol UsersViewProtocol: ObservableObject {
+@MainActor protocol UsersViewProtocol: ObservableObject, Hashable {
   var userID: String { get }
   var users: [Sweet.UserModel] { get set }
   var error: Error? { get set }

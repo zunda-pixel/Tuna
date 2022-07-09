@@ -10,6 +10,18 @@ import Sweet
 import CoreData
 
 final class SearchTweetsViewModel: TweetsViewProtocol {
+  static func == (lhs: SearchTweetsViewModel, rhs: SearchTweetsViewModel) -> Bool {
+    lhs.userID == rhs.userID
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(loadingTweets)
+    hasher.combine(paginationToken)
+    hasher.combine(latestTapTweetID)
+    hasher.combine(timelines)
+    hasher.combine(userID)
+  }
+
   var searchText: String = ""
   var loadingTweets = false
   var paginationToken: String?

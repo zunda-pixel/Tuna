@@ -10,6 +10,18 @@ import CoreData
 import Sweet
 
 final class BookmarksViewModel: TweetsViewProtocol {
+  static func == (lhs: BookmarksViewModel, rhs: BookmarksViewModel) -> Bool {
+    lhs.userID == rhs.userID
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(loadingTweets)
+    hasher.combine(paginationToken)
+    hasher.combine(latestTapTweetID)
+    hasher.combine(timelines)
+    hasher.combine(userID)
+  }
+
   var loadingTweets = false
   var paginationToken: String?
   var latestTapTweetID: String?

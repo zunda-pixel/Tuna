@@ -8,7 +8,18 @@
 import Foundation
 import Sweet
 
-@MainActor final class FollowerUserViewModel: UsersViewProtocol {
+final class FollowerUserViewModel: UsersViewProtocol {
+  static func == (lhs: FollowerUserViewModel, rhs: FollowerUserViewModel) -> Bool {
+    lhs.userID == rhs.userID && lhs.ownerID == rhs.ownerID
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(userID)
+    hasher.combine(ownerID)
+    hasher.combine(paginationToken)
+    hasher.combine(users)
+  }
+  
   let userID: String
   let ownerID: String
 
