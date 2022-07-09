@@ -48,5 +48,6 @@ struct UserCellView: View {
         }
       }
     }
+    .contentShape(Rectangle())
   }
 }
