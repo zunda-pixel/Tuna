@@ -31,6 +31,7 @@ struct LikeNavigationView: View {
         .navigationDestination(for: TweetCellViewModel.self) { tweetCellViewModel in
           TweetDetailView(tweetCellViewModel: tweetCellViewModel, path: $path)
             .navigationTitle("Detail")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
   }
