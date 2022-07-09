@@ -10,7 +10,8 @@ import Sweet
 
 struct SearchView<ViewModel: SearchViewProtocol>: View {
   @StateObject var viewModel: ViewModel
-
+  @Binding var path: NavigationPath
+  
   enum Pages: String, CaseIterable, Identifiable {
     case user = "User"
     case tweet = "Tweet"
@@ -32,7 +33,7 @@ struct SearchView<ViewModel: SearchViewProtocol>: View {
         .pickerStyle(.segmented)
 
         TabView(selection: $selection) {
-          TweetsView(viewModel: viewModel.tweetsViewModel)
+          TweetsView(viewModel: viewModel.tweetsViewModel, path: $path)
             .tag(Pages.tweet)
 
           UsersView(viewModel: viewModel.usersViewModel)

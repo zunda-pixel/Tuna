@@ -22,6 +22,8 @@ struct UserView: View {
   let userID: String
   let user: Sweet.UserModel
   @State var selection: TweetTab = .tweet
+  @Binding var path: NavigationPath
+
   @Environment(\.managedObjectContext) private var viewContext
 
   var body: some View {
@@ -35,23 +37,17 @@ struct UserView: View {
 
       if let metrics = user.metrics {
         HStack(alignment: .center) {
-          NavigationLink {
-            let followerUserViewModel: FollowerUserViewModel = .init(userID: userID, ownerID: user.id)
-            UsersView(viewModel: followerUserViewModel)
-              .navigationTitle("@\(user.userName)")
-              .navigationBarTitleDisplayMode(.inline)
-          } label: {
+          let followerUserViewModel: FollowerUserViewModel = .init(userID: userID, ownerID: user.id)
+
+          NavigationLink(value: followerUserViewModel) {
             VStack {
               Text("FOLLOWERS")
               Text("\(metrics.followersCount)")
             }
           }
-          NavigationLink {
-            let followingUserViewModel: FollowingUserViewModel = .init(userID: userID, ownerID: user.id)
-            UsersView(viewModel: followingUserViewModel)
-              .navigationTitle("@\(user.userName)")
-              .navigationBarTitleDisplayMode(.inline)
-          } label: {
+
+          let followingUserViewModel: FollowingUserViewModel = .init(userID: userID, ownerID: user.id)
+          NavigationLink(value: followingUserViewModel) {
             VStack {
               Text("FOLLOWING")
               Text("\(metrics.followingCount)")
@@ -70,30 +66,18 @@ struct UserView: View {
 
       TabView(selection: $selection) {
         let userTimelineViewModel: UserTimelineViewModel = .init(userID: userID, ownerID: user.id)
-        TweetsView(viewModel: userTimelineViewModel)
+        TweetsView(viewModel: userTimelineViewModel, path: $path)
           .tag(TweetTab.tweet)
 
         let userMentionsViewModel: UserMentionsViewModel = .init(userID: userID, ownerID: user.id)
-        TweetsView(viewModel: userMentionsViewModel)
+        TweetsView(viewModel: userMentionsViewModel, path: $path)
           .tag(TweetTab.mention)
 
         let likeViewModel: LikesViewModel = .init(userID: userID, ownerID: user.id)
-        TweetsView(viewModel: likeViewModel)
+        TweetsView(viewModel: likeViewModel, path: $path)
           .tag(TweetTab.like)
       }
       .tabViewStyle(.page(indexDisplayMode: .never))
     }
-  }
-}
-
-struct UserView_Previews: PreviewProvider {
-  static var previews: some View {
-    let user: Sweet.UserModel = .init(id: "", name: "zunda", userName: "zunda_pixel",
-                                      profileImageURL:  .init(string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk.jpg"),
-                                      description: "hello from america",
-                                      url: .init(string: "https://twitter.com"),
-                                      createdAt: Date(), location: "ここはどこ",
-                                      metrics: .init(followersCount: 111, followingCount: 222, tweetCount: 222, listedCount: 33))
-    UserView(userID: "", user: user)
   }
 }

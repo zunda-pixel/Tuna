@@ -8,7 +8,7 @@
 import Sweet
 import SwiftUI
 
-struct CustomListModel: Identifiable {
+struct CustomListModel: Identifiable, Hashable {
   let id: String
   let list: Sweet.ListModel
   var isPinned: Bool
@@ -21,6 +21,8 @@ struct CustomListModel: Identifiable {
 }
 
 struct ListsView: View {
+  @Binding var path: NavigationPath
+
   let userID: String
   @Environment(\.managedObjectContext) private var viewContext
 
@@ -155,9 +157,10 @@ struct ListsView: View {
           }
 
           ForEach(pinnedLists) { list in
-            NavigationLink(value: list.list) {
-              let owner = owners.first { $0.id == list.list.ownerID }
-              ListCellView(delegate: self, list: list, owner: owner!, userID: userID)
+            let owner = owners.first { $0.id == list.list.ownerID }
+            let listCellViewModel: ListCellViewModel = .init(delegate: self, list: list, owner: owner!, userID: userID)
+            NavigationLink(value: listCellViewModel) {
+              ListCellView(viewModel: listCellViewModel)
             }
           }
           .onDelete { offsets in
@@ -174,9 +177,12 @@ struct ListsView: View {
           }
 
           ForEach(ownedLists) { list in
-            NavigationLink(value: list.list) {
-              let owner = owners.first { $0.id == list.list.ownerID }
-              ListCellView(delegate: self, list: list, owner: owner!, userID: userID)
+            let listTweetsViewModel: ListTweetsViewModel = .init(userID: userID, listID: list.id)
+            let listDetailViewModel: ListDetailViewModel = .init(userID: userID, list: list.list, tweetsViewModel: listTweetsViewModel)
+            let owner = owners.first { $0.id == list.list.ownerID }
+            let listCellViewModel: ListCellViewModel = .init(delegate: self, list: list, owner: owner!, userID: userID)
+            NavigationLink(value: listDetailViewModel) {
+              ListCellView(viewModel: listCellViewModel)
             }
           }
           .onDelete { offsets in
@@ -193,9 +199,11 @@ struct ListsView: View {
           }
 
           ForEach(followingLists) { list in
-            NavigationLink(value: list.list) {
-              let owner = owners.first { $0.id == list.list.ownerID }
-              ListCellView(delegate: self, list: list, owner: owner!, userID: userID)
+            let owner = owners.first { $0.id == list.list.ownerID }
+            let listCellViewModel: ListCellViewModel = .init(delegate: self, list: list, owner: owner!, userID: userID)
+
+            NavigationLink(value: listCellViewModel) {
+              ListCellView(viewModel: listCellViewModel)
             }
           }
           .onDelete { offsets in
@@ -217,13 +225,6 @@ struct ListsView: View {
       .sheet(isPresented: $isPresentedAddList) {
         NewListView(userID: userID, delegate: self)
       }
-
-      .navigationDestination(for: Sweet.ListModel.self, destination: { list in
-        let listTweetsViewModel: ListTweetsViewModel = .init(userID: userID, listID: list.id)
-        let listDetailViewModel: ListDetailViewModel = .init(userID: userID, list: list, tweetsViewModel: listTweetsViewModel)
-        ListDetailView(viewModel: listDetailViewModel)
-          .environment(\.managedObjectContext, viewContext)
-      })
       .listStyle(.insetGrouped)
     }
     .alert("Error", isPresented: $didError) {
@@ -284,10 +285,3 @@ extension ListsView: ListCellDelegate {
     }
   }
 }
-
-struct ListsView_Previews: PreviewProvider {
-  static var previews: some View {
-    ListsView(userID: "")
-  }
-}
-

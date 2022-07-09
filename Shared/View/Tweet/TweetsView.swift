@@ -10,6 +10,7 @@ import SwiftUI
 
 struct TweetsView<ViewModel: TweetsViewProtocol>: View {
   @StateObject var viewModel: ViewModel
+  @Binding var path: NavigationPath
 
   func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
     if viewModel.loadingTweets {
@@ -40,7 +41,7 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
         }()
 
         VStack {
-          TweetCellView(viewModel: cellViewModel)
+          TweetCellView(path: $path, viewModel: cellViewModel)
             .onTapGesture {
               viewModel.isPresentedTweetToolbar = viewModel.latestTapTweetID != cellViewModel.tweet.id || !viewModel.isPresentedTweetToolbar
               viewModel.latestTapTweetID = cellViewModel.tweet.id
@@ -51,13 +52,13 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
           Button {
-            viewModel.isPresentedTweetDetail.toggle()
+            path.append(cellViewModel)
           } label: {
             Image(systemName: "ellipsis")
           }
         }
         .navigationDestination(isPresented: $viewModel.isPresentedTweetDetail) {
-          TweetDetailView(tweetCellViewModel: cellViewModel)
+          TweetDetailView(tweetCellViewModel: cellViewModel, path: $path)
         }
         .onAppear {
           guard let lastTweet = viewModel.showTweets.last else {

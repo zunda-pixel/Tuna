@@ -12,6 +12,9 @@ import SwiftUI
 struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
   @Environment(\.openURL) private var openURL
   @Environment(\.managedObjectContext) private var viewContext
+
+  @Binding var path: NavigationPath
+
   @StateObject var viewModel: ViewModel
 
   var body: some View {
@@ -95,7 +98,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
       }
     }
     .navigationDestination(isPresented: $viewModel.isPresentedUserView) {
-      UserView(userID: viewModel.userID, user: user)
+      UserView(userID: viewModel.userID, user: user, path: $path)
         .environment(\.managedObjectContext, viewContext)
         .navigationTitle("@\(user.userName)")
         .navigationBarTitleDisplayMode(.inline)

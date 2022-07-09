@@ -3,6 +3,7 @@ import Sweet
 import SwiftUI
 
 struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewProtocol>: View {
+  @Binding var path: NavigationPath
   @StateObject var viewModel: ViewModel
 
   func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
@@ -34,7 +35,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
         }()
 
         VStack {
-          TweetCellView(viewModel: cellViewModel)
+          TweetCellView(path: $path, viewModel: cellViewModel)
             .onTapGesture {
               viewModel.isPresentedTweetToolbar = viewModel.latestTapTweetID != cellViewModel.tweet.id || !viewModel.isPresentedTweetToolbar
               viewModel.latestTapTweetID = cellViewModel.tweet.id
@@ -45,13 +46,10 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
           Button {
-            viewModel.isPresentedTweetDetail.toggle()
+            path.append(cellViewModel)
           } label: {
             Image(systemName: "ellipsis")
           }
-        }
-        .navigationDestination(isPresented: $viewModel.isPresentedTweetDetail) {
-          TweetDetailView(tweetCellViewModel: cellViewModel)
         }
         .onAppear {
           guard let lastTweet = viewModel.showTweets.last else {

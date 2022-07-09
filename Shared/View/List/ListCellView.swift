@@ -13,50 +13,71 @@ protocol ListCellDelegate {
   func unPinList(listID: String) async
 }
 
-struct ListCellView: View {
+final class ListCellViewModel: ObservableObject, Hashable {
+  static func == (lhs: ListCellViewModel, rhs: ListCellViewModel) -> Bool {
+    lhs.list.id == rhs.list.id && lhs.owner == rhs.owner && lhs.userID == rhs.userID
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(list)
+    hasher.combine(owner)
+    hasher.combine(userID)
+  }
+
   let delegate: ListCellDelegate
   let list: CustomListModel
   let owner: Sweet.UserModel
-  
   let userID: String
-  @State var didError = false
-  @State var error: Error?
+
+  @Published var didError = false
+  @Published var error: Error?
+
+  init(delegate: ListCellDelegate, list: CustomListModel, owner: Sweet.UserModel, userID: String) {
+    self.delegate = delegate
+    self.list = list
+    self.owner = owner
+    self.userID = userID
+  }
+}
+
+struct ListCellView: View {
+  @StateObject var viewModel: ListCellViewModel
 
   var body: some View {
     HStack {
-      ProfileImageView(owner.profileImageURL)
+      ProfileImageView(viewModel.owner.profileImageURL)
         .frame(width: 50, height: 50)
 
       VStack(alignment: .leading) {
         HStack {
-          Text(list.list.name)
+          Text(viewModel.list.list.name)
             .font(.title2)
-          if list.list.isPrivate == true {
+          if viewModel.list.list.isPrivate == true {
             Image(systemName: "key")
           }
-          if let description = list.list.description {
+          if let description = viewModel.list.list.description {
             Text(description)
               .foregroundColor(.gray)
           }
         }
         .lineLimit(1)
 
-        Text("\(owner.name) @\(owner.userName)")
+        Text("\(viewModel.owner.name) @\(viewModel.owner.userName)")
           .lineLimit(1)
       }
 
       Spacer()
 
       Image(systemName: "pin")
-        .if(list.isPinned) {
+        .if(viewModel.list.isPinned) {
           $0.symbolVariant(.fill)
         }
         .onTapGesture {
           Task {
-            if list.isPinned {
-              await delegate.unPinList(listID: list.id)
+            if viewModel.list.isPinned {
+              await viewModel.delegate.unPinList(listID: viewModel.list.id)
             } else {
-              await delegate.pinList(listID: list.id)
+              await viewModel.delegate.pinList(listID: viewModel.list.id)
             }
           }
         }

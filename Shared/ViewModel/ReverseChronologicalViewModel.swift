@@ -19,7 +19,6 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
 
   @Published var didError = false
   @Published var isPresentedTweetToolbar: Bool = false
-  @Published var isPresentedTweetDetail: Bool = false
 
   let viewContext: NSManagedObjectContext
   let fetchTimelineController: NSFetchedResultsController<Timeline>
