@@ -14,11 +14,7 @@ struct UsersView<ViewModel: UsersViewProtocol>: View {
 
   var body: some View {
     List(viewModel.users) { user in
-      let userViewModel: UserViewModel = .init(userID: viewModel.userID, user: user)
-      UserCellView(ownerID: viewModel.userID, user: user)
-        .onTapGesture {
-          path.append(userViewModel)
-        }
+      UserCellView(ownerID: viewModel.userID, user: user, path: $path)
         .onAppear {
           if viewModel.users.last?.id == user.id {
             Task {

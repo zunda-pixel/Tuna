@@ -12,6 +12,8 @@ struct UserCellView: View {
   let ownerID: String
   let user: Sweet.UserModel
 
+  @Binding var path: NavigationPath
+
   var body: some View {
     HStack(alignment: .top) {
       ProfileImageView(user.profileImageURL)
@@ -49,5 +51,9 @@ struct UserCellView: View {
       }
     }
     .contentShape(Rectangle())
+    .onTapGesture {
+      let userViewModel: UserViewModel = .init(userID: ownerID, user: user)
+      path.append(userViewModel)
+    }
   }
 }
