@@ -25,62 +25,63 @@ struct UserView: View {
   @Environment(\.managedObjectContext) private var viewContext
 
   var body: some View {
-    GeometryReader { geometry in
-      VStack {
-        let size = geometry.size.width / 3
-        ProfileImageView(user.profileImageURL)
-          .frame(width: size, height: size)
+    VStack {
+      ProfileImageView(user.profileImageURL)
+        .frame(width: 100, height: 100)
 
-        UserToolMenu(fromUserID: userID, toUserID: user.id)
+      UserToolMenu(fromUserID: userID, toUserID: user.id)
 
-        UserProfileView(user: user)
+      UserProfileView(user: user)
 
-        if let metrics = user.metrics {
-          HStack(alignment: .center) {
-            NavigationLink {
-              let followerUserViewModel: FollowerUserViewModel = .init(userID: user.id)
-              UsersView(viewModel: followerUserViewModel)
-            } label: {
-              VStack {
-                Text("FOLLOWERS")
-                Text("\(metrics.followersCount)")
-              }
+      if let metrics = user.metrics {
+        HStack(alignment: .center) {
+          NavigationLink {
+            let followerUserViewModel: FollowerUserViewModel = .init(userID: userID, ownerID: user.id)
+            UsersView(viewModel: followerUserViewModel)
+              .navigationTitle("@\(user.userName)")
+              .navigationBarTitleDisplayMode(.inline)
+          } label: {
+            VStack {
+              Text("FOLLOWERS")
+              Text("\(metrics.followersCount)")
             }
-            NavigationLink {
-              let followingUserViewModel: FollowingUserViewModel = .init(userID: user.id)
-              UsersView(viewModel: followingUserViewModel)
-            } label: {
-              VStack {
-                Text("FOLLOWING")
-                Text("\(metrics.followingCount)")
-              }
+          }
+          NavigationLink {
+            let followingUserViewModel: FollowingUserViewModel = .init(userID: userID, ownerID: user.id)
+            UsersView(viewModel: followingUserViewModel)
+              .navigationTitle("@\(user.userName)")
+              .navigationBarTitleDisplayMode(.inline)
+          } label: {
+            VStack {
+              Text("FOLLOWING")
+              Text("\(metrics.followingCount)")
             }
           }
         }
-
-        Picker("User Tab", selection: $selection) {
-          ForEach(TweetTab.allCases) { tab in
-            Text(tab.rawValue)
-              .tag(tab)
-          }
-        }
-        .pickerStyle(.segmented)
-
-        TabView(selection: $selection) {
-          let userTimelineViewModel: UserTimelineViewModel = .init(userID: userID, ownerID: user.id)
-          TweetsView(viewModel: userTimelineViewModel)
-            .tag(TweetTab.tweet)
-
-          let userMentionsViewModel: UserMentionsViewModel = .init(userID: userID, ownerID: user.id)
-          TweetsView(viewModel: userMentionsViewModel)
-            .tag(TweetTab.mention)
-
-          let likeViewModel: LikesViewModel = .init(userID: userID, ownerID: user.id)
-          TweetsView(viewModel: likeViewModel)
-            .tag(TweetTab.like)
-        }
-        .tabViewStyle(.page(indexDisplayMode: .never))
       }
+
+      Picker("User Tab", selection: $selection) {
+        ForEach(TweetTab.allCases) { tab in
+          Text(tab.rawValue)
+            .tag(tab)
+        }
+      }
+      .pickerStyle(.segmented)
+
+      TabView(selection: $selection) {
+        let userTimelineViewModel: UserTimelineViewModel = .init(userID: userID, ownerID: user.id)
+        TweetsView(viewModel: userTimelineViewModel)
+          .tag(TweetTab.tweet)
+
+        let userMentionsViewModel: UserMentionsViewModel = .init(userID: userID, ownerID: user.id)
+        TweetsView(viewModel: userMentionsViewModel)
+          .tag(TweetTab.mention)
+
+        let likeViewModel: LikesViewModel = .init(userID: userID, ownerID: user.id)
+        TweetsView(viewModel: likeViewModel)
+          .tag(TweetTab.like)
+      }
+      .tabViewStyle(.page(indexDisplayMode: .never))
     }
   }
 }
