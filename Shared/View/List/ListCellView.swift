@@ -24,15 +24,16 @@ struct ListCellView: View {
   @Binding var path: NavigationPath
 
   func togglePin() async {
+    delegate.togglePin(listID: list.id)
+
     do {
       if list.isPinned {
         try await Sweet(userID: userID).unPinList(userID: userID, listID: list.id)
       } else {
         try await Sweet(userID: userID).pinList(userID: userID, listID: list.id)
       }
-
-      delegate.togglePin(listID: list.id)
     } catch let newError {
+      delegate.togglePin(listID: list.id)
       error = newError
       didError.toggle()
     }
