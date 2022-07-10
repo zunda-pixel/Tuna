@@ -22,7 +22,7 @@ final class BookmarksViewModel: TweetsViewProtocol {
     hasher.combine(userID)
   }
 
-  var loadingTweets = false
+  @Published var loadingTweets = false
   var paginationToken: String?
   var latestTapTweetID: String?
   var error: Error?

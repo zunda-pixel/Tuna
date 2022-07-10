@@ -23,7 +23,7 @@ final class SearchTweetsViewModel: TweetsViewProtocol {
   }
 
   var searchText: String = ""
-  var loadingTweets = false
+  @Published var loadingTweets = false
   var paginationToken: String?
   var latestTapTweetID: String?
   var error: Error?

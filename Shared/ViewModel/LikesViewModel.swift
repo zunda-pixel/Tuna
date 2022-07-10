@@ -10,7 +10,7 @@ import CoreData
 import Sweet
 
 final class LikesViewModel: NSObject, TweetsViewProtocol {
-  var loadingTweets = false
+  @Published var loadingTweets = false
   var paginationToken: String?
   var latestTapTweetID: String?
   var error: Error?
