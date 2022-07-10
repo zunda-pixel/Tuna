@@ -31,13 +31,13 @@ final class UserViewModel: ObservableObject, Hashable {
   let userID: String
   let user: Sweet.UserModel
   @Published var selection: TweetTab = .tweet
+  var error: Error?
+  @Published var didError = false
 
   init(userID: String, user: Sweet.UserModel) {
     self.userID = userID
     self.user = user
   }
-
-
 }
 
 struct UserView: View {
@@ -51,8 +51,6 @@ struct UserView: View {
     VStack {
       ProfileImageView(viewModel.user.profileImageURL)
         .frame(width: 100, height: 100)
-
-      UserToolMenu(fromUserID: viewModel.userID, toUserID: viewModel.user.id)
 
       UserProfileView(user:viewModel.user)
 
@@ -99,6 +97,18 @@ struct UserView: View {
           .tag(TweetTab.like)
       }
       .tabViewStyle(.page(indexDisplayMode: .never))
+    }
+    .alert("Error", isPresented: $viewModel.didError) {
+      Button("Close") {
+        print(viewModel.error!)
+      }
+    }
+    .toolbar {
+      if viewModel.userID != viewModel.user.id {
+        ToolbarItem(placement: .navigationBarTrailing) {
+          UserToolMenu(fromUserID: viewModel.userID, toUserID: viewModel.user.id, error: $viewModel.error, didError: $viewModel.didError)
+        }
+      }
     }
   }
 }
