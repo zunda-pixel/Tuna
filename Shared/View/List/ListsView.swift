@@ -157,9 +157,8 @@ struct ListsView: View {
           }
 
           ForEach(pinnedLists) { list in
-            let owner = owners.first { $0.id == list.list.ownerID }
-            let listCellViewModel: ListCellViewModel = .init(delegate: self, list: list, owner: owner!, userID: userID)
-            ListCellView(viewModel: listCellViewModel, path: $path)
+            let owner = owners.first { $0.id == list.list.ownerID }!
+            ListCellView(delegate: self, list: list, owner: owner, userID: userID, path: $path)
           }
           .onDelete { offsets in
             Task {
@@ -175,9 +174,8 @@ struct ListsView: View {
           }
 
           ForEach(ownedLists) { list in
-            let owner = owners.first { $0.id == list.list.ownerID }
-            let listCellViewModel: ListCellViewModel = .init(delegate: self, list: list, owner: owner!, userID: userID)
-            ListCellView(viewModel: listCellViewModel, path: $path)
+            let owner = owners.first { $0.id == list.list.ownerID }!
+            ListCellView(delegate: self, list: list, owner: owner, userID: userID, path: $path)
           }
           .onDelete { offsets in
             Task {
@@ -193,10 +191,8 @@ struct ListsView: View {
           }
 
           ForEach(followingLists) { list in
-            let owner = owners.first { $0.id == list.list.ownerID }
-            let listCellViewModel: ListCellViewModel = .init(delegate: self, list: list, owner: owner!, userID: userID)
-
-            ListCellView(viewModel: listCellViewModel, path: $path)
+            let owner = owners.first { $0.id == list.list.ownerID }!
+            ListCellView(delegate: self, list: list, owner: owner, userID: userID, path: $path)
           }
           .onDelete { offsets in
             Task {
