@@ -31,8 +31,6 @@ final class UserViewModel: ObservableObject, Hashable {
   let userID: String
   let user: Sweet.UserModel
   @Published var selection: TweetTab = .tweet
-  var error: Error?
-  @Published var didError = false
 
   init(userID: String, user: Sweet.UserModel) {
     self.userID = userID
@@ -98,15 +96,10 @@ struct UserView: View {
       }
       .tabViewStyle(.page(indexDisplayMode: .never))
     }
-    .alert("Error", isPresented: $viewModel.didError) {
-      Button("Close") {
-        print(viewModel.error!)
-      }
-    }
     .toolbar {
       if viewModel.userID != viewModel.user.id {
         ToolbarItem(placement: .navigationBarTrailing) {
-          UserToolMenu(fromUserID: viewModel.userID, toUserID: viewModel.user.id, error: $viewModel.error, didError: $viewModel.didError)
+          UserToolMenu(fromUserID: viewModel.userID, toUserID: viewModel.user.id)
         }
       }
     }

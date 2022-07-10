@@ -12,8 +12,8 @@ struct UserToolMenu: View {
   let fromUserID: String
   let toUserID: String
 
-  @Binding var error: Error?
-  @Binding var didError: Bool
+  @State var error: Error?
+  @State var didError: Bool = false
 
   var body: some View {
     Menu {
@@ -27,6 +27,11 @@ struct UserToolMenu: View {
       UnMuteButton(fromUserID: fromUserID, toUserID: toUserID, error: $error, didError: $didError)
     } label: {
       Image(systemName: "ellipsis")
+    }
+    .alert("Error", isPresented: $didError) {
+      Button("Close") {
+        print(error!)
+      }
     }
   }
 }
