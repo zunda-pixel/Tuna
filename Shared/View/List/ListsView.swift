@@ -28,8 +28,7 @@ struct ListsView: View {
 
   @State var allLists: [CustomListModel] = []
 
-  @State var pinnedListIDs: [String] = []
-  var pinnedLists: [CustomListModel] { allLists.filter { pinnedListIDs.contains($0.id) } }
+  var pinnedLists: [CustomListModel] { allLists.filter { $0.isPinned } }
 
   @State var ownedListIDs: [String] = []
   var ownedLists: [CustomListModel] { allLists.filter { ownedListIDs.contains($0.id) } }
@@ -48,62 +47,49 @@ struct ListsView: View {
     guard allLists.isEmpty else { return }
 
     do {
-      let ownedListIDs = try await fetchOwnedLists()
-      let followingListIDs =  try await fetchFollowingLists()
-      let pinnedListIDs = try await fetchPinnedLists()
+      let ownedLists = try await fetchOwnedLists()
+      let followingLists =  try await fetchFollowingLists()
+
+      allLists = ownedLists
+      allLists.append(contentsOf: followingLists)
+
 
       let ownerIDs: [String] = Array(Set(allLists.compactMap(\.list.ownerID)))
       let response = try await Sweet(userID: userID).lookUpUsers(userIDs: ownerIDs)
       owners = response.users
 
-      self.ownedListIDs = ownedListIDs
-      self.followingListIDs = followingListIDs
-      self.pinnedListIDs = pinnedListIDs
+      try await fetchPinnedLists()
+
+      self.ownedListIDs = ownedLists.map(\.id)
+      self.followingListIDs = followingLists.map(\.id)
     } catch let newError {
       error = newError
       didError.toggle()
     }
   }
 
-  func fetchOwnedLists() async throws -> [String] {
+  func fetchOwnedLists() async throws -> [CustomListModel] {
     let response = try await Sweet(userID: userID).fetchOwnedLists(userID: userID)
     let lists: [CustomListModel] = response.lists.map { .init(list: $0, isPinned: false) }
 
-    lists.forEach { list in
-      if !allLists.contains(where: { $0.list.id == list.id}) {
-        allLists.append(list)
-      }
-    }
-
-    return response.lists.map(\.id)
+    return lists
   }
 
-  func fetchFollowingLists() async throws -> [String] {
+  func fetchFollowingLists() async throws -> [CustomListModel] {
     let response = try await Sweet(userID: userID).fetchListsFollowed(by: userID)
     let lists: [CustomListModel] = response.lists.map { .init(list: $0, isPinned: false) }
 
-    lists.forEach { list in
-      if !allLists.contains(where: { $0.id == list.id}) {
-        allLists.append(list)
-      }
-    }
-
-    return response.lists.map(\.id)
+    return lists
   }
 
-  func fetchPinnedLists() async throws -> [String] {
+  func fetchPinnedLists() async throws {
     let response = try await Sweet(userID: userID).fetchListsPinned(by: userID)
-    let lists: [CustomListModel] = response.lists.map { .init(list: $0, isPinned: true) }
 
-    lists.forEach { list in
+    response.lists.forEach { list in
       if let index = allLists.firstIndex(where: { $0.id == list.id}) {
         allLists[index].isPinned = true
-      } else {
-        allLists.append(list)
       }
     }
-
-    return response.lists.map(\.id)
   }
 
   func deleteOwnedList(offsets: IndexSet) async {
@@ -113,7 +99,6 @@ struct ListsView: View {
       try await Sweet(userID: userID).deleteList(listID: list.id)
 
       ownedListIDs.remove(atOffsets: offsets)
-      pinnedListIDs.removeAll { $0 == list.id }
     } catch let newError {
       error = newError
       didError.toggle()
@@ -127,7 +112,6 @@ struct ListsView: View {
       try await Sweet(userID: userID).unFollowList(userID: userID, listID: list.id)
 
       followingListIDs.remove(atOffsets: offsets)
-      pinnedListIDs.removeAll { $0 == list.id }
     } catch let newError {
       error = newError
       didError.toggle()
@@ -139,8 +123,8 @@ struct ListsView: View {
 
     do {
       try await Sweet(userID: userID).unPinList(userID: userID, listID: list.id)
-      
-      pinnedListIDs.remove(atOffsets: offsets)
+
+      togglePin(listID: list.id)
     } catch let newError {
       error = newError
       didError.toggle()
@@ -261,38 +245,9 @@ extension ListsView: NewListDelegate {
 }
 
 extension ListsView: ListCellDelegate {
-  func unPinList(listID: String) async {
-    do {
-      try await Sweet(userID: userID).unPinList(userID: userID, listID: listID)
-      pinnedListIDs.removeAll { $0 == listID }
-
-      if let index = allLists.firstIndex(where: { $0.list.id == listID }) {
-        allLists[index].isPinned = false
-      }
-
-    } catch let newError {
-      didError.toggle()
-      error = newError
-    }
-  }
-
-  func pinList(listID: String) async {
-    do {
-      try await Sweet(userID: userID).pinList(userID: userID, listID: listID)
-      if let foundList = ownedLists.first(where: { $0.id == listID }) {
-        pinnedListIDs.append(foundList.id)
-      }
-
-      if let foundList = followingLists.first(where: { $0.id == listID }) {
-        pinnedListIDs.append(foundList.id)
-      }
-
-      if let index = allLists.firstIndex(where: { $0.list.id == listID }) {
-        allLists[index].isPinned = true
-      }
-    } catch let newError {
-      didError.toggle()
-      error = newError
+  func togglePin(listID: String) {
+    if let index = allLists.firstIndex(where: { $0.list.id == listID }) {
+      allLists[index].isPinned.toggle()
     }
   }
 }

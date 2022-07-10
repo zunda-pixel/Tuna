@@ -9,8 +9,7 @@ import Sweet
 import SwiftUI
 
 protocol ListCellDelegate {
-  func pinList(listID: String) async
-  func unPinList(listID: String) async
+  func togglePin(listID: String)
 }
 
 struct ListCellView: View {
@@ -23,6 +22,21 @@ struct ListCellView: View {
   @State var error: Error?
 
   @Binding var path: NavigationPath
+
+  func togglePin() async {
+    do {
+      if list.isPinned {
+        try await Sweet(userID: userID).unPinList(userID: userID, listID: list.id)
+      } else {
+        try await Sweet(userID: userID).pinList(userID: userID, listID: list.id)
+      }
+
+      delegate.togglePin(listID: list.id)
+    } catch let newError {
+      error = newError
+      didError.toggle()
+    }
+  }
 
   var body: some View {
     HStack {
@@ -59,11 +73,7 @@ struct ListCellView: View {
         }
         .onTapGesture {
           Task {
-            if list.isPinned {
-              await delegate.unPinList(listID: list.id)
-            } else {
-              await delegate.pinList(listID: list.id)
-            }
+            await togglePin()
           }
         }
     }
