@@ -208,6 +208,21 @@ struct ListsView: View {
           .navigationTitle("List (\(viewModel.list.name))")
           .navigationBarTitleDisplayMode(.inline)
       }
+      .navigationDestination(for: ListMembersViewModel.self) {viewModel in
+        UsersView(viewModel: viewModel, path: $path)
+          .navigationTitle("List Member")
+          .navigationBarTitleDisplayMode(.inline)
+      }
+      .navigationDestination(for: ListFollowersViewModel.self) { viewModel in
+        UsersView(viewModel: viewModel, path: $path)
+          .navigationTitle("List Follower")
+          .navigationBarTitleDisplayMode(.inline)
+      }
+      .navigationDestination(for: TweetCellViewModel.self) { viewModel in
+        TweetDetailView(tweetCellViewModel: viewModel, path: $path)
+          .navigationTitle("Detail")
+          .navigationBarTitleDisplayMode(.inline)
+      }
       .toolbar {
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
