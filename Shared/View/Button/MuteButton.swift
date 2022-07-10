@@ -8,62 +8,56 @@
 import SwiftUI
 import Sweet
 
-@MainActor final class MuteButtonViewModel: ObservableObject {
+struct MuteButton: View {
   let fromUserID: String
   let toUserID: String
 
-  var error: Error?
+  @Binding var error: Error?
+  @Binding var didError: Bool
 
-  @Published var loading = false
-  @Published var didError = false
-  @Published var isMuted = false
-
-  init(from fromUserID: String, to toUserID: String) {
-    self.fromUserID = fromUserID
-    self.toUserID = toUserID
-  }
-
-  func muteOrUnMuteUser() async {
+  func mute() async {
     do {
-      if isMuted {
-        try await Sweet(userID: fromUserID).unMuteUser(from: fromUserID, to: toUserID)
-      } else {
-        try await Sweet(userID: fromUserID).muteUser(from: fromUserID, to: toUserID)
-      }
-
-      isMuted.toggle()
+      try await Sweet(userID: fromUserID).muteUser(from: fromUserID, to: toUserID)
     } catch let newError {
       error = newError
       didError.toggle()
     }
   }
-}
-
-struct MuteButton: View {
-  @StateObject var viewModel: MuteButtonViewModel
 
   var body: some View {
     Button {
       Task {
-        await viewModel.muteOrUnMuteUser()
+        await mute()
       }
     } label: {
-      Label(viewModel.isMuted ? "UnMute" : "Mute", systemImage: viewModel.isMuted ? "speaker" : "speaker.slash")
-    }
-    .disabled(viewModel.loading)
-    .alert("Error", isPresented: $viewModel.didError) {
-      Button {
-        print(viewModel.error!)
-      } label: {
-        Text("Close")
-      }
+      Label("Mute", systemImage: "speaker.slash")
     }
   }
 }
 
-struct MuteButton_Previews: PreviewProvider {
-  static var previews: some View {
-    let viewModel: MuteButtonViewModel = .init(from: "", to: "")
-    MuteButton(viewModel: viewModel)
+struct UnMuteButton: View {
+  let fromUserID: String
+  let toUserID: String
+
+  @Binding var error: Error?
+  @Binding var didError: Bool
+
+  func unMute() async {
+    do {
+      try await Sweet(userID: fromUserID).unMuteUser(from: fromUserID, to: toUserID)
+    } catch let newError {
+      error = newError
+      didError.toggle()
+    }
+  }
+
+  var body: some View {
+    Button {
+      Task {
+        await unMute()
+      }
+    } label: {
+      Label("UnMute", systemImage: "speaker")
+    }
   }
 }

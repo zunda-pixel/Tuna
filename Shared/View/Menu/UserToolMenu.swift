@@ -12,15 +12,21 @@ struct UserToolMenu: View {
   let fromUserID: String
   let toUserID: String
 
-  var body: some View {
-    FollowButton(viewModel: .init(from: fromUserID, to: toUserID))
-    BlockButton(viewModel: .init(from: fromUserID, to: toUserID))
-    MuteButton(viewModel: .init(from: fromUserID, to: toUserID))
-  }
-}
+  @Binding var error: Error?
+  @Binding var didError: Bool
 
-struct UserToolMenu_Previews: PreviewProvider {
-  static var previews: some View {
-    UserToolMenu(fromUserID: "", toUserID: "")
+  var body: some View {
+    Menu {
+      FollowButton(fromUserID: fromUserID, toUserID: toUserID, error: $error, didError: $didError)
+      UnFollowButton(fromUserID: fromUserID, toUserID: toUserID, error: $error, didError: $didError)
+
+      BlockButton(fromUserID: fromUserID, toUserID: toUserID, error: $error, didError: $didError)
+      UnBlockButton(fromUserID: fromUserID, toUserID: toUserID, error: $error, didError: $didError)
+      
+      MuteButton(fromUserID: fromUserID, toUserID: toUserID, error: $error, didError: $didError)
+      UnMuteButton(fromUserID: fromUserID, toUserID: toUserID, error: $error, didError: $didError)
+    } label: {
+      Image(systemName: "ellipsis")
+    }
   }
 }

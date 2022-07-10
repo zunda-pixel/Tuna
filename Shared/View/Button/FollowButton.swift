@@ -8,63 +8,57 @@
 import SwiftUI
 import Sweet
 
-@MainActor final class FollowButtonViewModel: ObservableObject {
+struct FollowButton: View {
   let fromUserID: String
   let toUserID: String
 
-  var error: Error?
+  @Binding var error: Error?
+  @Binding var didError: Bool
 
-  @Published var loading = false
-  @Published var didError = false
-  @Published var isFollowed = false
-
-  init(from fromUserID: String, to toUserID: String) {
-    self.fromUserID = fromUserID
-    self.toUserID = toUserID
-  }
-
-  func followOrUnFollowUser() async {
+  func follow() async {
     do {
-      if isFollowed {
-        try await Sweet(userID: fromUserID).unFollow(from: fromUserID, to: toUserID)
-      } else {
-        _ = try await Sweet(userID: fromUserID).follow(from: fromUserID, to: toUserID)
-      }
-
-      isFollowed.toggle()
+      _ = try await Sweet(userID: fromUserID).follow(from: fromUserID, to: toUserID)
     } catch let newError {
       error = newError
       didError.toggle()
     }
   }
-}
-
-
-struct FollowButton: View {
-  @StateObject var viewModel: FollowButtonViewModel
 
   var body: some View {
     Button {
       Task {
-        await viewModel.followOrUnFollowUser()
+        await follow()
       }
     } label: {
-      Text(viewModel.isFollowed ? "UnFollow" : "Follow")
-    }
-    .disabled(viewModel.loading)
-    .alert("Error", isPresented: $viewModel.didError) {
-      Button {
-        print(viewModel.error!)
-      } label: {
-        Text("Close")
-      }
+      Label("Follow", systemImage: "person.fill.checkmark")
     }
   }
 }
 
-struct FollowButton_Previews: PreviewProvider {
-    static var previews: some View {
-      let viewModel: FollowButtonViewModel = .init(from: "", to: "")
-      FollowButton(viewModel: viewModel)
+struct UnFollowButton: View {
+  let fromUserID: String
+  let toUserID: String
+
+  @Binding var error: Error?
+  @Binding var didError: Bool
+
+  func unFollow() async {
+    do {
+      _ = try await Sweet(userID: fromUserID).unFollow(from: fromUserID, to: toUserID)
+    } catch let newError {
+      error = newError
+      didError.toggle()
     }
+  }
+
+
+  var body: some View {
+    Button {
+      Task {
+        await unFollow()
+      }
+    } label: {
+      Label("UnFollow", systemImage: "person.fill.xmark")
+    }
+  }
 }

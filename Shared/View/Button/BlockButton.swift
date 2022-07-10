@@ -8,63 +8,56 @@
 import SwiftUI
 import Sweet
 
-@MainActor final class BlockButtonViewModel: ObservableObject {
+struct BlockButton: View {
   let fromUserID: String
   let toUserID: String
 
-  var error: Error?
+  @Binding var error: Error?
+  @Binding var didError: Bool
 
-  @Published var loading = false
-  @Published var didError = false
-  @Published var isBlocked = false
-
-  init(from fromUserID: String, to toUserID: String) {
-    self.fromUserID = fromUserID
-    self.toUserID = toUserID
-  }
-
-  func blockOrUnBlockUser() async {
+  func block() async {
     do {
-      if isBlocked {
-        try await Sweet(userID: fromUserID).unBlockUser(from: fromUserID, to: toUserID)
-      } else {
-        try await Sweet(userID: fromUserID).blockUser(from: fromUserID, to: toUserID)
-      }
-
-      isBlocked.toggle()
+      try await Sweet(userID: fromUserID).blockUser(from: fromUserID, to: toUserID)
     } catch let newError {
       error = newError
       didError.toggle()
     }
   }
-}
-
-
-struct BlockButton: View {
-  @StateObject var viewModel: BlockButtonViewModel
 
   var body: some View {
     Button {
       Task {
-        await viewModel.blockOrUnBlockUser()
+        await block()
       }
     } label: {
-      Label(viewModel.isBlocked ? "UnBlock" : "Block", systemImage: viewModel.isBlocked ? "person.fill" : "person.fill.xmark")
-    }
-    .disabled(viewModel.loading)
-    .alert("Error", isPresented: $viewModel.didError) {
-      Button {
-        print(viewModel.error!)
-      } label: {
-        Text("Close")
-      }
+      Label("Block", systemImage: "xmark.shield")
     }
   }
 }
 
-struct BlockButton_Previews: PreviewProvider {
-  static var previews: some View {
-    let viewModel: BlockButtonViewModel = .init(from: "", to: "")
-    BlockButton(viewModel: viewModel)
+struct UnBlockButton: View {
+  let fromUserID: String
+  let toUserID: String
+
+  @Binding var error: Error?
+  @Binding var didError: Bool
+
+  func unBlock() async {
+    do {
+      try await Sweet(userID: fromUserID).unBlockUser(from: fromUserID, to: toUserID)
+    } catch let newError {
+      error = newError
+      didError.toggle()
+    }
+  }
+
+  var body: some View {
+    Button {
+      Task {
+        await unBlock()
+      }
+    } label: {
+      Label("UnBlock", systemImage: "checkmark.shield")
+    }
   }
 }
