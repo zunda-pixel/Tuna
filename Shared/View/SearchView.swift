@@ -20,38 +20,29 @@ struct SearchView<ViewModel: SearchViewProtocol>: View {
     var id: String { self.rawValue }
   }
 
-  @State var selection: Pages = .tweet
-
   var body: some View {
     NavigationStack {
-      VStack {
-        Picker("Menu", selection: $selection) {
-          ForEach(Pages.allCases) { page in
-            Text(page.rawValue)
-              .tag(page)
+      List {
+        Section {
+          HStack {
+            Image(systemName: "magnifyingglass")
+            TextField("Search Keyboard", text: $viewModel.tweetsViewModel.searchText)
+              .onChange(of: viewModel.tweetsViewModel.searchText) { newValue in
+                viewModel.usersViewModel.searchText = newValue
+              }
           }
         }
-        .pickerStyle(.segmented)
 
-        TabView(selection: $selection) {
-          TweetsView(viewModel: viewModel.tweetsViewModel, path: $path)
-            .tag(Pages.tweet)
+        if !viewModel.tweetsViewModel.searchText.isEmpty {
+          Section {
+            NavigationLink(value: viewModel.tweetsViewModel) {
+              Label("Tweets with \"\(viewModel.tweetsViewModel.searchText)\"", systemImage: "bubble.left")
+            }
 
-          UsersView(viewModel: viewModel.usersViewModel, path: $path)
-            .tag(Pages.user)
-        }
-        .tabViewStyle(.page(indexDisplayMode: .never))
-      }
-      .searchable(text: $viewModel.tweetsViewModel.searchText, prompt: Text("Search Keyword"))
-      .onSubmit(of: .search) {
-        Task {
-          let firstTweetID = viewModel.tweetsViewModel.showTweets.first?.id
-          await viewModel.tweetsViewModel.fetchTweets(first: firstTweetID, last: nil)
-        }
-
-        Task {
-          viewModel.usersViewModel.searchText = viewModel.tweetsViewModel.searchText
-          await viewModel.usersViewModel.fetchUsers(reset: true)
+            NavigationLink(value: viewModel.usersViewModel) {
+              Label("Users with \"\(viewModel.usersViewModel.searchText)\"", systemImage: "person")
+            }
+          }
         }
       }
       .navigationTitle("Search")
@@ -75,6 +66,16 @@ struct SearchView<ViewModel: SearchViewProtocol>: View {
       .navigationDestination(for: TweetCellViewModel.self) { viewModel in
         TweetDetailView(viewModel: viewModel, path: $path)
           .navigationTitle("Detail")
+          .navigationBarTitleDisplayMode(.inline)
+      }
+      .navigationDestination(for: SearchTweetsViewModel.self) { viewModel in
+        TweetsView(viewModel: viewModel, path: $path)
+          .navigationTitle(viewModel.searchText)
+          .navigationBarTitleDisplayMode(.inline)
+      }
+      .navigationDestination(for: SearchUsersViewModel.self) { viewModel in
+        UsersView(viewModel: viewModel, path: $path)
+          .navigationTitle(viewModel.searchText)
           .navigationBarTitleDisplayMode(.inline)
       }
     }

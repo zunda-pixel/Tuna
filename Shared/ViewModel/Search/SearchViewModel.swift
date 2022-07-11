@@ -18,8 +18,8 @@ import Foundation
 
 @MainActor final class SearchViewModel: NSObject, SearchViewProtocol {
   var searchUserIDs: [String] = []
-  var tweetsViewModel: SearchTweetsViewModel
-  var usersViewModel: SearchUsersViewModel
+  @Published var tweetsViewModel: SearchTweetsViewModel
+  @Published var usersViewModel: SearchUsersViewModel
   var searchText: String = ""
 
   init(userID: String) {

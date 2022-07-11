@@ -8,7 +8,7 @@
 import Foundation
 import Sweet
 
-final class SearchUsersViewModel: UsersViewProtocol {
+final class SearchUsersViewModel: UsersViewProtocol, Hashable {
   static func == (lhs: SearchUsersViewModel, rhs: SearchUsersViewModel) -> Bool {
     lhs.userID == rhs.userID
   }
@@ -20,7 +20,7 @@ final class SearchUsersViewModel: UsersViewProtocol {
   }
 
   var paginationToken: String?
-  var searchText: String = ""
+  @Published var searchText: String = ""
   var error: Error?
 
   let userID: String

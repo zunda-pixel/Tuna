@@ -21,7 +21,7 @@ final class SearchTweetsViewModel: TweetsViewProtocol {
     hasher.combine(userID)
   }
 
-  var searchText: String = ""
+  @Published var searchText: String = ""
   @Published var loadingTweets = false
   var paginationToken: String?
   var latestTapTweetID: String?
