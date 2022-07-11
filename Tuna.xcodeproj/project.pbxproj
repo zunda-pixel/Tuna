@@ -469,30 +469,54 @@
 		2EA6538A27E9A137003E99AE /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				2EB3B386283E765900891A5E /* BookmarksViewModel.swift */,
-				2EB3B389283E9AB300891A5E /* LikesViewModel.swift */,
+				2ECD7AF1287BCDC9003EA7FB /* Search */,
+				2ECD7AF0287BCCCA003EA7FB /* Users */,
+				2ECD7AEF287BCCA5003EA7FB /* Tweets */,
 				2E0A3AEF28105CC1002D5F39 /* ListDetailViewModel.swift */,
-				2EB935D12845FD4900833663 /* ListFollowersViewModel.swift */,
+				2E10384727EE1B7800E8E67B /* NewTweetViewModel.swift */,
+				2EA6538B27E9A148003E99AE /* TweetCellViewModel.swift */,
+				2EFDB9D028788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift */,
+				2EB3B383283E738000891A5E /* ReverseChronologicalViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		2ECD7AEF287BCCA5003EA7FB /* Tweets */ = {
+			isa = PBXGroup;
+			children = (
+				2E0A3AEC28105BA7002D5F39 /* TweetsViewProtocol.swift */,
+				2EB3B386283E765900891A5E /* BookmarksViewModel.swift */,
+				2E71094228485FC0000A4603 /* UserTimelineViewModel.swift */,
+				2E3A2A2B284B2BA200B50808 /* UserMentionsViewModel.swift */,
+				2ECD7AED287BC8FC003EA7FB /* QuoteTweetsViewModel.swift */,
+				2EB3B389283E9AB300891A5E /* LikesViewModel.swift */,
+				2E8E5E3F2849CD800031D29F /* ListTweetsViewModel.swift */,
+			);
+			path = Tweets;
+			sourceTree = "<group>";
+		};
+		2ECD7AF0287BCCCA003EA7FB /* Users */ = {
+			isa = PBXGroup;
+			children = (
+				2EEE9E022816E93E00721ADD /* UsersViewModel.swift */,
 				2ECD7AE9287BA9F3003EA7FB /* MutingUsersViewModel.swift */,
+				2EB935D12845FD4900833663 /* ListFollowersViewModel.swift */,
+				2E9EE8E5284C882D00759937 /* FollowerUserViewModel.swift */,
+				2E9EE8E2284C87B400759937 /* FollowingUserViewModel.swift */,
 				2ECD7AEB287BAD01003EA7FB /* BlockingUsersViewModel.swift */,
 				2EEE9E052816E96600721ADD /* ListMembersViewModel.swift */,
-				2E8E5E3F2849CD800031D29F /* ListTweetsViewModel.swift */,
-				2E10384727EE1B7800E8E67B /* NewTweetViewModel.swift */,
-				2EB3B383283E738000891A5E /* ReverseChronologicalViewModel.swift */,
+			);
+			path = Users;
+			sourceTree = "<group>";
+		};
+		2ECD7AF1287BCDC9003EA7FB /* Search */ = {
+			isa = PBXGroup;
+			children = (
 				2EB935D728461BA700833663 /* SearchTweetsViewModel.swift */,
 				2EB935D428461B8C00833663 /* SearchUsersViewModel.swift */,
 				2E1914F4283F1EBC00F03C7C /* SearchViewModel.swift */,
-				2EA6538B27E9A148003E99AE /* TweetCellViewModel.swift */,
-				2E0A3AEC28105BA7002D5F39 /* TweetsViewProtocol.swift */,
-				2EEE9E022816E93E00721ADD /* UsersViewModel.swift */,
-				2E71094228485FC0000A4603 /* UserTimelineViewModel.swift */,
-				2E3A2A2B284B2BA200B50808 /* UserMentionsViewModel.swift */,
-				2E9EE8E5284C882D00759937 /* FollowerUserViewModel.swift */,
-				2E9EE8E2284C87B400759937 /* FollowingUserViewModel.swift */,
-				2EFDB9D028788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift */,
-				2ECD7AED287BC8FC003EA7FB /* QuoteTweetsViewModel.swift */,
 			);
-			path = ViewModel;
+			path = Search;
 			sourceTree = "<group>";
 		};
 		2ED5C4092868341100B71FCD /* Photo */ = {
