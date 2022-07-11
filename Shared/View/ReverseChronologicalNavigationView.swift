@@ -13,8 +13,8 @@ struct ReverseChronologicalNavigationView: View {
       ReverseChronologicalTweetsView(path: $path, viewModel: tweetViewModel)
         .navigationTitle("Timeline")
         .navigationBarTitleDisplayMode(.inline)
-        .navigationDestination(for: TweetCellViewModel.self) { tweetCellViewModel in
-          TweetDetailView(tweetCellViewModel: tweetCellViewModel, path: $path)
+        .navigationDestination(for: TweetCellViewModel.self) { viewModel in
+          TweetDetailView(viewModel: viewModel, path: $path)
             .navigationTitle("Detail")
             .navigationBarTitleDisplayMode(.inline)
         }
@@ -32,6 +32,11 @@ struct ReverseChronologicalNavigationView: View {
         .navigationDestination(for: FollowerUserViewModel.self) { viewModel in
           UsersView(viewModel: viewModel, path: $path)
             .navigationTitle("Follower")
+            .navigationBarTitleDisplayMode(.inline)
+        }
+        .navigationDestination(for: QuoteTweetsViewModel.self) { viewModel in
+          TweetsView(viewModel: viewModel, path: $path)
+            .navigationTitle("Quote Tweet")
             .navigationBarTitleDisplayMode(.inline)
         }
 

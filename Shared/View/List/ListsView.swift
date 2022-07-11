@@ -219,7 +219,7 @@ struct ListsView: View {
           .navigationBarTitleDisplayMode(.inline)
       }
       .navigationDestination(for: TweetCellViewModel.self) { viewModel in
-        TweetDetailView(tweetCellViewModel: viewModel, path: $path)
+        TweetDetailView(viewModel: viewModel, path: $path)
           .navigationTitle("Detail")
           .navigationBarTitleDisplayMode(.inline)
       }

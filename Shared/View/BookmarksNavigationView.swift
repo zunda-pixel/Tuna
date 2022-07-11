@@ -32,8 +32,8 @@ struct BookmarksNavigationView: View {
             .navigationTitle("Follower")
             .navigationBarTitleDisplayMode(.inline)
         }
-        .navigationDestination(for: TweetCellViewModel.self) { tweetCellViewModel in
-          TweetDetailView(tweetCellViewModel: tweetCellViewModel, path: $path)
+        .navigationDestination(for: TweetCellViewModel.self) { viewModel in
+          TweetDetailView(viewModel: viewModel, path: $path)
             .navigationTitle("Detail")
             .navigationBarTitleDisplayMode(.inline)
         }
