@@ -9,10 +9,25 @@ import SwiftUI
 import Sweet
 
 struct SettingsView: View {
+  @State var path = NavigationPath()
+
+  let userID: String
+
   var body: some View {
-    NavigationStack {
+    NavigationStack(path: $path) {
       List {
         Section("General") {
+          let mutingUsersView: MutingUsersViewModel = .init(userID: userID)
+          NavigationLink(value: mutingUsersView) {
+            Label("Muting", systemImage: "speaker.slash")
+          }
+
+          let blockingUsersView: BlockingUsersViewModel = .init(userID: userID)
+
+          NavigationLink(value: blockingUsersView) {
+            Label("Blocking", systemImage: "xmark.shield")
+          }
+
           NavigationLink {
             Text("Hello")
           } label: {
@@ -91,12 +106,31 @@ struct SettingsView: View {
           }
         }
       }
+      .navigationDestination(for: MutingUsersViewModel.self) { viewModel in
+        UsersView(viewModel: viewModel, path: $path)
+          .navigationTitle("Mute")
+          .navigationBarTitleDisplayMode(.inline)
+      }
+      .navigationDestination(for: BlockingUsersViewModel.self) { viewModel in
+        UsersView(viewModel: viewModel, path: $path)
+          .navigationTitle("Mute")
+          .navigationBarTitleDisplayMode(.inline)
+      }
+      .navigationDestination(for: UserViewModel.self) { viewModel in
+        UserView(viewModel: viewModel, path: $path)
+          .navigationTitle("@\(viewModel.user.userName)")
+          .navigationBarTitleDisplayMode(.inline)
+      }
+      .navigationDestination(for: FollowingUserViewModel.self) { viewModel in
+        UsersView(viewModel: viewModel, path: $path)
+          .navigationTitle("Following")
+          .navigationBarTitleDisplayMode(.inline)
+      }
+      .navigationDestination(for: FollowerUserViewModel.self) { viewModel in
+        UsersView(viewModel: viewModel, path: $path)
+          .navigationTitle("Follower")
+          .navigationBarTitleDisplayMode(.inline)
+      }
     }
-  }
-}
-
-struct SettingView_Previews: PreviewProvider {
-  static var previews: some View {
-    SettingsView()
   }
 }

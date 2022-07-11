@@ -1,7 +1,7 @@
 import Foundation
 import Sweet
 
-final class MutingUsersViewModel: UsersViewProtocol {
+final class MutingUsersViewModel: UsersViewProtocol, Hashable {
   static func == (lhs: MutingUsersViewModel, rhs: MutingUsersViewModel) -> Bool {
     lhs.userID == lhs.userID
   }

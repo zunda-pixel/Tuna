@@ -43,7 +43,7 @@ struct ReverseChronologicalNavigationView: View {
               Image(systemName: "gear")
             }
             .sheet(isPresented: $isPresentedSettingsView) {
-              SettingsView()
+              SettingsView(userID: userID)
             }
           }
           ToolbarItem(placement: .navigationBarTrailing) {
