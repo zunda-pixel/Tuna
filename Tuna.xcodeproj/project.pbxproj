@@ -78,6 +78,7 @@
 		2EB935D828461BA700833663 /* SearchTweetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB935D728461BA700833663 /* SearchTweetsViewModel.swift */; };
 		2ECD7AEA287BA9F3003EA7FB /* MutingUsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECD7AE9287BA9F3003EA7FB /* MutingUsersViewModel.swift */; };
 		2ECD7AEC287BAD01003EA7FB /* BlockingUsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECD7AEB287BAD01003EA7FB /* BlockingUsersViewModel.swift */; };
+		2ECD7AEE287BC8FC003EA7FB /* QuoteTweetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECD7AED287BC8FC003EA7FB /* QuoteTweetsViewModel.swift */; };
 		2ED5C4002868316800B71FCD /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED5C3FF2868316800B71FCD /* PhotoView.swift */; };
 		2ED5C4022868319A00B71FCD /* PhotosPickerItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED5C4012868319A00B71FCD /* PhotosPickerItem+Extension.swift */; };
 		2ED5C404286831B500B71FCD /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED5C403286831B500B71FCD /* Photo.swift */; };
@@ -193,6 +194,7 @@
 		2EB935D728461BA700833663 /* SearchTweetsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTweetsViewModel.swift; sourceTree = "<group>"; };
 		2ECD7AE9287BA9F3003EA7FB /* MutingUsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutingUsersViewModel.swift; sourceTree = "<group>"; };
 		2ECD7AEB287BAD01003EA7FB /* BlockingUsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockingUsersViewModel.swift; sourceTree = "<group>"; };
+		2ECD7AED287BC8FC003EA7FB /* QuoteTweetsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteTweetsViewModel.swift; sourceTree = "<group>"; };
 		2ED5C3FF2868316800B71FCD /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 		2ED5C4012868319A00B71FCD /* PhotosPickerItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotosPickerItem+Extension.swift"; sourceTree = "<group>"; };
 		2ED5C403286831B500B71FCD /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
@@ -488,6 +490,7 @@
 				2E9EE8E5284C882D00759937 /* FollowerUserViewModel.swift */,
 				2E9EE8E2284C87B400759937 /* FollowingUserViewModel.swift */,
 				2EFDB9D028788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift */,
+				2ECD7AED287BC8FC003EA7FB /* QuoteTweetsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -662,6 +665,7 @@
 				2E10384827EE1B7800E8E67B /* NewTweetViewModel.swift in Sources */,
 				2EE07A58285E382500C3D6AE /* QuotedButton.swift in Sources */,
 				2E10386F27F2AD9B00E8E67B /* ListsView.swift in Sources */,
+				2ECD7AEE287BC8FC003EA7FB /* QuoteTweetsViewModel.swift in Sources */,
 				2E63898B27EABF4400964EC8 /* SecurityRandom.swift in Sources */,
 				2E10387827F3411900E8E67B /* NewPollView.swift in Sources */,
 				2E63898E27EABFCC00964EC8 /* Secret.swift in Sources */,
@@ -994,7 +998,7 @@
 			repositoryURL = "https://github.com/zunda-pixel/Sweet";
 			requirement = {
 				kind = exactVersion;
-				version = 1.9.4;
+				version = 1.9.5;
 			};
 		};
 		2E5E4F6727EB59A9009D6D53 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
