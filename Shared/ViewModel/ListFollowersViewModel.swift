@@ -8,7 +8,7 @@
 import Foundation
 import Sweet
 
-final class ListFollowersViewModel: UsersViewProtocol {
+final class ListFollowersViewModel: UsersViewProtocol, Hashable {
   static func == (lhs: ListFollowersViewModel, rhs: ListFollowersViewModel) -> Bool {
     lhs.listID == lhs.listID
   }
