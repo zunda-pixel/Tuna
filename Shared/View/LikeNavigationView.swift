@@ -33,6 +33,11 @@ struct LikeNavigationView: View {
             .navigationTitle("Detail")
             .navigationBarTitleDisplayMode(.inline)
         }
+        .navigationDestination(for: QuoteTweetsViewModel.self) { viewModel in
+          TweetsView(viewModel: viewModel, path: $path)
+            .navigationTitle("Quote Tweet")
+            .navigationBarTitleDisplayMode(.inline)
+        }
     }
   }
 }

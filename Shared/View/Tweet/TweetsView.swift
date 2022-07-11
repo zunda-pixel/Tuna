@@ -28,51 +28,56 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
 
   var body: some View {
     VStack(alignment: .center) {
-      List {
-        ForEach(viewModel.showTweets) { tweet in
-          let cellViewModel = viewModel.getTweetCellViewModel(tweet.id)
+      if !viewModel.loadingTweets && viewModel.showTweets.isEmpty {
+        Image(systemName: "info.square")
+        Text("No Tweets Found.")
+      } else {
+        List {
+          ForEach(viewModel.showTweets) { tweet in
+            let cellViewModel = viewModel.getTweetCellViewModel(tweet.id)
 
-          let isTappedTweet: Bool = {
-            if let latestTapTweetID = viewModel.latestTapTweetID {
-              let sameTweetID = latestTapTweetID == cellViewModel.tweet.id
-              return viewModel.isPresentedTweetToolbar && sameTweetID
-            } else {
-              return false
-            }
-          }()
-
-          VStack {
-            TweetCellView(path: $path, viewModel: cellViewModel)
-              .onTapGesture {
-                viewModel.isPresentedTweetToolbar = viewModel.latestTapTweetID != cellViewModel.tweet.id || !viewModel.isPresentedTweetToolbar
-                viewModel.latestTapTweetID = cellViewModel.tweet.id
+            let isTappedTweet: Bool = {
+              if let latestTapTweetID = viewModel.latestTapTweetID {
+                let sameTweetID = latestTapTweetID == cellViewModel.tweet.id
+                return viewModel.isPresentedTweetToolbar && sameTweetID
+              } else {
+                return false
               }
-            if isTappedTweet {
-              TweetToolBar(userID: viewModel.userID, tweetID: cellViewModel.tweet.id, tweet: cellViewModel.tweetText, metrics: cellViewModel.tweet.publicMetrics!)
-            }
-          }
-          .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-            Button {
-              path.append(cellViewModel)
-            } label: {
-              Image(systemName: "ellipsis")
-            }
-          }
-          .onAppear {
-            guard let lastTweet = viewModel.showTweets.last else {
-              return
-            }
+            }()
 
-            if tweet.id == lastTweet.id {
-              Task {
-                await fetchTweets(first: nil, last: lastTweet.id)
+            VStack {
+              TweetCellView(path: $path, viewModel: cellViewModel)
+                .onTapGesture {
+                  viewModel.isPresentedTweetToolbar = viewModel.latestTapTweetID != cellViewModel.tweet.id || !viewModel.isPresentedTweetToolbar
+                  viewModel.latestTapTweetID = cellViewModel.tweet.id
+                }
+              if isTappedTweet {
+                TweetToolBar(userID: viewModel.userID, tweetID: cellViewModel.tweet.id, tweet: cellViewModel.tweetText, metrics: cellViewModel.tweet.publicMetrics!)
+              }
+            }
+            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+              Button {
+                path.append(cellViewModel)
+              } label: {
+                Image(systemName: "ellipsis")
+              }
+            }
+            .onAppear {
+              guard let lastTweet = viewModel.showTweets.last else {
+                return
+              }
+
+              if tweet.id == lastTweet.id {
+                Task {
+                  await fetchTweets(first: nil, last: lastTweet.id)
+                }
               }
             }
           }
         }
-      }
-      if viewModel.loadingTweets {
-        ProgressView()
+        if viewModel.loadingTweets {
+          ProgressView()
+        }
       }
     }
 
