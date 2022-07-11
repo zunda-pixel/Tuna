@@ -21,13 +21,12 @@ final class SearchTweetsViewModel: TweetsViewProtocol {
     hasher.combine(userID)
   }
 
+  @Published var searchText: String = ""
   @Published var loadingTweets = false
   var paginationToken: String?
   var latestTapTweetID: String?
   var error: Error?
   var timelines: [String] = []
-
-  var searchText: String = ""
 
   let userID: String
 

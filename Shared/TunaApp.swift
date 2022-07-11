@@ -31,7 +31,9 @@ struct TunaApp: App {
                 Image(systemName: "list.dash.header.rectangle")
               }
 
-            SearchView(userID: userID)
+            let searchViewModel: SearchViewModel = .init(userID: userID)
+
+            SearchView(viewModel: searchViewModel)
               .environment(\.managedObjectContext, persistenceController.container.viewContext)
               .tabItem {
                 Image(systemName: "doc.text.magnifyingglass")
