@@ -7,7 +7,6 @@
 
 import Foundation
 import Sweet
-import CoreData
 
 @MainActor protocol ListDetailViewProtocol: ObservableObject, Hashable {
   associatedtype TweetsViewModel: TweetsViewProtocol

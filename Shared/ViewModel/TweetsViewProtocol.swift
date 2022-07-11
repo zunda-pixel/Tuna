@@ -7,7 +7,6 @@
 
 import Foundation
 import Sweet
-import CoreData
 
 @MainActor protocol TweetsViewProtocol: ObservableObject, Hashable {
   var loadingTweets: Bool { get set }

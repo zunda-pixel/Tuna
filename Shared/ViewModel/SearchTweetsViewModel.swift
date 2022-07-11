@@ -7,7 +7,6 @@
 
 import Foundation
 import Sweet
-import CoreData
 
 final class SearchTweetsViewModel: TweetsViewProtocol {
   static func == (lhs: SearchTweetsViewModel, rhs: SearchTweetsViewModel) -> Bool {

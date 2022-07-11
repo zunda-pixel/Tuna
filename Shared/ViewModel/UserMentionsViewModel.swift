@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import CoreData
 import Sweet
 
 final class UserMentionsViewModel: TweetsViewProtocol {
