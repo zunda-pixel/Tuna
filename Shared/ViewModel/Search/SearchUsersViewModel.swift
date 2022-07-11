@@ -8,31 +8,18 @@
 import Foundation
 import Sweet
 
-final class SearchUsersViewModel: UsersViewProtocol, Hashable {
-  static func == (lhs: SearchUsersViewModel, rhs: SearchUsersViewModel) -> Bool {
-    lhs.userID == rhs.userID
-  }
-
-  func hash(into hasher: inout Hasher) {
-    hasher.combine(paginationToken)
-    hasher.combine(searchText)
-    hasher.combine(userID)
-  }
-
-  var paginationToken: String?
-  @Published var searchText: String = ""
-  var error: Error?
-
+@MainActor final class SearchUsersViewModel: ObservableObject {
   let userID: String
+
+  var searchText: String = ""
+
+  @Published var users: [Sweet.UserModel] = []
 
   init(userID: String) {
     self.userID = userID
   }
 
-  @Published var didError: Bool = false
-  @Published var users: [Sweet.UserModel] = []
-
-  func fetchUsers(reset resetData : Bool) async {
+  func fetchUsers() async {
     var newUsers: [Sweet.UserModel] = []
 
     if let response = try? await Sweet(userID: userID).lookUpUser(screenID: searchText) {

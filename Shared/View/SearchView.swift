@@ -8,43 +8,44 @@
 import SwiftUI
 import Sweet
 
-struct SearchView<ViewModel: SearchViewProtocol>: View {
-  @StateObject var viewModel: ViewModel
+struct SearchView: View {
   @State var path = NavigationPath()
+  @State var searchText: String = ""
   @Environment(\.managedObjectContext) var viewContext
+  @StateObject var searchUsersViewModel: SearchUsersViewModel
+  @StateObject var searchTweetsViewModel: SearchTweetsViewModel
 
-  enum Pages: String, CaseIterable, Identifiable {
-    case user = "User"
-    case tweet = "Tweet"
-
-    var id: String { self.rawValue }
+  init(userID: String) {
+    self._searchTweetsViewModel = .init(wrappedValue: .init(userID: userID))
+    self._searchUsersViewModel = .init(wrappedValue: .init(userID: userID))
   }
 
   var body: some View {
-    NavigationStack {
+    NavigationStack(path: $path) {
       List {
-        Section {
-          HStack {
-            Image(systemName: "magnifyingglass")
-            TextField("Search Keyboard", text: $viewModel.tweetsViewModel.searchText)
-              .onChange(of: viewModel.tweetsViewModel.searchText) { newValue in
-                viewModel.usersViewModel.searchText = newValue
+        HStack {
+          Image(systemName: "magnifyingglass")
+          TextField("Search Keyword", text: $searchText)
+            .onSubmit(of: .text) {
+              Task {
+                searchUsersViewModel.searchText = searchText
+                await searchUsersViewModel.fetchUsers()
               }
-          }
+              Task {
+                searchTweetsViewModel.searchText = searchText
+                await searchTweetsViewModel.fetchTweets(first: nil, last: nil)
+              }
+            }
         }
 
-        if !viewModel.tweetsViewModel.searchText.isEmpty {
-          Section {
-            NavigationLink(value: viewModel.tweetsViewModel) {
-              Label("Tweets with \"\(viewModel.tweetsViewModel.searchText)\"", systemImage: "bubble.left")
-            }
-
-            NavigationLink(value: viewModel.usersViewModel) {
-              Label("Users with \"\(viewModel.usersViewModel.searchText)\"", systemImage: "person")
-            }
-          }
+        if !searchUsersViewModel.users.isEmpty {
+          SearchUsersView(viewModel: searchUsersViewModel)
+        }
+        if !searchTweetsViewModel.showTweets.isEmpty {
+          TweetsView(viewModel: searchTweetsViewModel, path: $path)
         }
       }
+
       .navigationTitle("Search")
       .navigationBarTitleDisplayMode(.large)
       .navigationDestination(for: UserViewModel.self) { viewModel in
@@ -66,16 +67,6 @@ struct SearchView<ViewModel: SearchViewProtocol>: View {
       .navigationDestination(for: TweetCellViewModel.self) { viewModel in
         TweetDetailView(viewModel: viewModel, path: $path)
           .navigationTitle("Detail")
-          .navigationBarTitleDisplayMode(.inline)
-      }
-      .navigationDestination(for: SearchTweetsViewModel.self) { viewModel in
-        TweetsView(viewModel: viewModel, path: $path)
-          .navigationTitle(viewModel.searchText)
-          .navigationBarTitleDisplayMode(.inline)
-      }
-      .navigationDestination(for: SearchUsersViewModel.self) { viewModel in
-        UsersView(viewModel: viewModel, path: $path)
-          .navigationTitle(viewModel.searchText)
           .navigationBarTitleDisplayMode(.inline)
       }
     }
