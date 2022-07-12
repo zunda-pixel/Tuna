@@ -106,6 +106,9 @@
 		2EF7DC47287A0B9900126C67 /* ReverseChronologicalNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF7DC46287A0B9900126C67 /* ReverseChronologicalNavigationView.swift */; };
 		2EF92A13287D389700F47E1B /* OneUnitDateFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF92A12287D389700F47E1B /* OneUnitDateFormat.swift */; };
 		2EF92A16287D3B6300F47E1B /* SpaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF92A15287D3B6300F47E1B /* SpaceCell.swift */; };
+		2EF92A18287D3ECD00F47E1B /* SpaceDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF92A17287D3ECD00F47E1B /* SpaceDetail.swift */; };
+		2EF92A1A287D414E00F47E1B /* SpaceDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF92A19287D414E00F47E1B /* SpaceDetailViewModel.swift */; };
+		2EF92A1C287D430800F47E1B /* SpaceTweetsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF92A1B287D430800F47E1B /* SpaceTweetsViewModel.swift */; };
 		2EFDB9CF2877B97400E62368 /* NewListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9CE2877B97400E62368 /* NewListView.swift */; };
 		2EFDB9D128788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9D028788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift */; };
 		2EFDB9D328788AAF00E62368 /* ReverseChronologicalTweetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9D228788AAF00E62368 /* ReverseChronologicalTweetsView.swift */; };
@@ -225,6 +228,9 @@
 		2EF7DC46287A0B9900126C67 /* ReverseChronologicalNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseChronologicalNavigationView.swift; sourceTree = "<group>"; };
 		2EF92A12287D389700F47E1B /* OneUnitDateFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneUnitDateFormat.swift; sourceTree = "<group>"; };
 		2EF92A15287D3B6300F47E1B /* SpaceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceCell.swift; sourceTree = "<group>"; };
+		2EF92A17287D3ECD00F47E1B /* SpaceDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceDetail.swift; sourceTree = "<group>"; };
+		2EF92A19287D414E00F47E1B /* SpaceDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceDetailViewModel.swift; sourceTree = "<group>"; };
+		2EF92A1B287D430800F47E1B /* SpaceTweetsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceTweetsViewModel.swift; sourceTree = "<group>"; };
 		2EFDB9CE2877B97400E62368 /* NewListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListView.swift; sourceTree = "<group>"; };
 		2EFDB9D028788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseChronologicalTweetsViewProtocol.swift; sourceTree = "<group>"; };
 		2EFDB9D228788AAF00E62368 /* ReverseChronologicalTweetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseChronologicalTweetsView.swift; sourceTree = "<group>"; };
@@ -485,6 +491,7 @@
 				2EA6538B27E9A148003E99AE /* TweetCellViewModel.swift */,
 				2EFDB9D028788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift */,
 				2EB3B383283E738000891A5E /* ReverseChronologicalViewModel.swift */,
+				2EF92A19287D414E00F47E1B /* SpaceDetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -499,6 +506,7 @@
 				2ECD7AED287BC8FC003EA7FB /* QuoteTweetsViewModel.swift */,
 				2EB3B389283E9AB300891A5E /* LikesViewModel.swift */,
 				2E8E5E3F2849CD800031D29F /* ListTweetsViewModel.swift */,
+				2EF92A1B287D430800F47E1B /* SpaceTweetsViewModel.swift */,
 			);
 			path = Tweets;
 			sourceTree = "<group>";
@@ -543,6 +551,7 @@
 			children = (
 				2ECD7AF6287C1E9E003EA7FB /* SearchSpacesView.swift */,
 				2EF92A15287D3B6300F47E1B /* SpaceCell.swift */,
+				2EF92A17287D3ECD00F47E1B /* SpaceDetail.swift */,
 			);
 			path = Space;
 			sourceTree = "<group>";
@@ -672,7 +681,9 @@
 				2ECD7AEA287BA9F3003EA7FB /* MutingUsersViewModel.swift in Sources */,
 				2E027FB927E8269A00521378 /* Tuna.xcdatamodeld in Sources */,
 				2EE07A5A285F303400C3D6AE /* MediasView.swift in Sources */,
+				2EF92A18287D3ECD00F47E1B /* SpaceDetail.swift in Sources */,
 				2EF3987227EB4B3800EEFA51 /* Tweet+Extension.swift in Sources */,
+				2EF92A1C287D430800F47E1B /* SpaceTweetsViewModel.swift in Sources */,
 				2EEE9E002816E8F000721ADD /* UserCellView.swift in Sources */,
 				2EA6539027E9A188003E99AE /* Date+Extension.swift in Sources */,
 				2EFDB9D328788AAF00E62368 /* ReverseChronologicalTweetsView.swift in Sources */,
@@ -683,6 +694,7 @@
 				2EB3B38A283E9AB300891A5E /* LikesViewModel.swift in Sources */,
 				2E5324F328046AD0008D5EFB /* ReplySetting+Extension.swift in Sources */,
 				2E63899427EAC39D00964EC8 /* TwitterOAuth2+Extension.swift in Sources */,
+				2EF92A1A287D414E00F47E1B /* SpaceDetailViewModel.swift in Sources */,
 				2EF92A13287D389700F47E1B /* OneUnitDateFormat.swift in Sources */,
 				2E915C5B2838FA8400DAD4AE /* UserView.swift in Sources */,
 				2EA6538C27E9A148003E99AE /* TweetCellViewModel.swift in Sources */,
@@ -1041,24 +1053,24 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/zunda-pixel/Sweet";
 			requirement = {
-				kind = exactVersion;
-				version = 1.9.9;
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
 			};
 		};
 		2E5E4F6727EB59A9009D6D53 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
 			requirement = {
-				kind = exactVersion;
-				version = 4.2.2;
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.2.2;
 			};
 		};
 		2E5E4F6A27EB59BB009D6D53 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher";
 			requirement = {
-				kind = exactVersion;
-				version = 7.2.0;
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.2.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

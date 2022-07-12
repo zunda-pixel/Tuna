@@ -4,6 +4,7 @@ import Sweet
 struct SearchSpacesView: View {
   let userID: String
 
+  @State var path = NavigationPath()
   @State var searchText: String = ""
   @State var spaces: [Sweet.SpaceModel] = []
   @State var users: [Sweet.UserModel] = []
@@ -41,7 +42,7 @@ struct SearchSpacesView: View {
   }
 
   var body: some View {
-    NavigationStack {
+    NavigationStack(path: $path) {
       VStack {
         TextField("Search Space", text: $searchText)
           .padding()
@@ -58,6 +59,7 @@ struct SearchSpacesView: View {
           }
         }
         .pickerStyle(.segmented)
+        .padding(.bottom)
 
         TabView(selection: $selectedTab) {
           ScrollView {
@@ -65,7 +67,7 @@ struct SearchSpacesView: View {
               ForEach(liveSpaces) { space in
                 let creator = users.first { $0.id == space.creatorID }
                 let speakers = users.filter { space.speakerIDs.contains($0.id) }
-                SpaceCell(space: space, creator: creator!, speakers: speakers)
+                SpaceCell(userID: userID, space: space, creator: creator!, speakers: speakers, path: $path)
               }
             }
           }
@@ -76,7 +78,7 @@ struct SearchSpacesView: View {
               ForEach(scheduledSpaces) { space in
                 let creator = users.first { $0.id == space.creatorID }
                 let speakers = users.filter { space.speakerIDs.contains($0.id) }
-                SpaceCell(space: space, creator: creator!, speakers: speakers)
+                SpaceCell(userID: userID, space: space, creator: creator!, speakers: speakers, path: $path)
               }
             }
           }
@@ -84,10 +86,16 @@ struct SearchSpacesView: View {
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
       }
+      .padding(.horizontal)
       .alert("Error", isPresented: $didError) {
         Button("Close") {
           print(error!)
         }
+      }
+      .navigationTitle("Search Space")
+      .navigationBarTitleDisplayMode(.large)
+      .navigationDestination(for: SpaceDetailViewModel.self) { viewModel in
+        SpaceDetail(viewModel: viewModel, path: $path)
       }
     }
   }

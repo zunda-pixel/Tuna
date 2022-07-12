@@ -2,9 +2,12 @@ import SwiftUI
 import Sweet
 
 struct SpaceCell: View {
+  let userID: String
   let space: Sweet.SpaceModel
   let creator: Sweet.UserModel
   let speakers: [Sweet.UserModel]
+
+  @Binding var path: NavigationPath
 
   var body: some View {
     HStack {
@@ -26,9 +29,7 @@ struct SpaceCell: View {
               let range = startedAt..<context.date
               Text(range, format: .twitter)
             }
-          }
-
-          if let scheduledAt = space.scheduledStart {
+          } else if let scheduledAt = space.scheduledStart {
             Text(scheduledAt, format: .dateTime)
           }
         }
@@ -55,8 +56,12 @@ struct SpaceCell: View {
       }
     }
     .padding()
-    .background(Color.random)
+    .background(Color.random.opacity(0.5))
     .cornerRadius(24)
     .padding()
+    .onTapGesture {
+      let spaceDetailViewModel: SpaceDetailViewModel = .init(userID: userID, space: space, creator: creator, speakers: speakers)
+      path.append(spaceDetailViewModel)
+    }
   }
 }
