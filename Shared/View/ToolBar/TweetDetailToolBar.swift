@@ -9,18 +9,13 @@ struct TweetDetailInformation: View {
 
   var body: some View {
     HStack {
-      NavigationLink {
-        Text("Reply")
-      } label: {
-        HStack {
-          Image(systemName: "arrow.turn.up.left")
-          Text("\(metrics.replyCount)")
-        }
+      HStack {
+        Image(systemName: "arrow.turn.up.left")
+        Text("\(metrics.replyCount)")
       }
 
-      NavigationLink {
-        Text("Retweet")
-      } label: {
+      let retweetUsersViewModel: RetweetUsersViewModel = .init(userID: userID, tweetID: tweetID)
+      NavigationLink(value: retweetUsersViewModel) {
         HStack {
           Image(systemName: "arrow.2.squarepath")
           Text("\(metrics.retweetCount)")
@@ -35,16 +30,13 @@ struct TweetDetailInformation: View {
         }
       }
 
-      NavigationLink {
-        Text("Like")
-      } label: {
+      let likeUsersViewModel: LikeUsersViewModel = .init(userID: userID, tweetID: tweetID)
+      NavigationLink(value: likeUsersViewModel) {
         HStack {
           Image(systemName: "heart")
           Text("\(metrics.likeCount)")
         }
       }
-
-
     }
   }
 }

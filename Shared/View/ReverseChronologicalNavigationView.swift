@@ -39,6 +39,16 @@ struct ReverseChronologicalNavigationView: View {
             .navigationTitle("Quote Tweet")
             .navigationBarTitleDisplayMode(.inline)
         }
+        .navigationDestination(for: LikeUsersViewModel.self) { viewModel in
+          UsersView(viewModel: viewModel, path: $path)
+            .navigationTitle("Like")
+            .navigationBarTitleDisplayMode(.inline)
+        }
+        .navigationDestination(for: RetweetUsersViewModel.self) { viewModel in
+          UsersView(viewModel: viewModel, path: $path)
+            .navigationTitle("Retweet")
+            .navigationBarTitleDisplayMode(.inline)
+        }
 
         .toolbar {
           ToolbarItem(placement: .navigationBarLeading) {
