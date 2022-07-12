@@ -155,7 +155,7 @@ extension TweetsViewProtocol {
 
       // TODO ほんとはCalendar.current.yesterdayらへんは必要ない
       // 取得できていないユーザーツイートが問題
-      let tweet = getTweet(tweet.referencedTweet?.id) ?? .init(id: "312", text: "mikan", createdAt: Calendar.current.yesterday!)
+      let tweet = getTweet(tweet.referencedTweet?.id) ?? .init(id: "312", text: "mikan", createdAt: Calendar.current.date(byAdding: .day, value: -1, to: .now)!)
       let user = getUser(tweet.authorID) ?? .init(id: "423", name: "jflsda", userName: "fdjklsa")
 
       return (user, tweet)

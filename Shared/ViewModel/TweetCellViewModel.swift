@@ -25,7 +25,7 @@ import MapKit
   var poll: Sweet.PollModel? { get }
   var place: Sweet.PlaceModel? { get }
   var tweetText: String { get }
-  func duration(nowDate: Date) -> String
+  var showDate: Date { get }
 }
 
 class TweetCellViewModel: TweetCellViewProtocol {
@@ -90,27 +90,17 @@ class TweetCellViewModel: TweetCellViewProtocol {
     }
   }
 
-  func duration(nowDate: Date) -> String {
-    let createdAt: Date? = {
-      switch tweet.referencedTweet?.type {
-        case .none:
-          return tweet.createdAt
-        case .quoted:
-          return tweet.createdAt
-        case .repliedTo:
-          return tweet.createdAt
-        case .retweeted:
-          return retweet?.tweet.createdAt
-      }
-    }()
-
-    let components: [Calendar.Component] = [.day, .hour, .minute, .second]
-
-    let durationString = Calendar.current.durationString(
-      candidate: components, from: createdAt!, to: nowDate)
-
-    return durationString!
+  var showDate: Date {
+    switch tweet.referencedTweet?.type {
+      case .none:
+        return tweet.createdAt!
+      case .quoted:
+        return tweet.createdAt!
+      case .repliedTo:
+        return tweet.createdAt!
+      case .retweeted:
+        return retweet!.tweet.createdAt!
+    }
   }
 }
-
 

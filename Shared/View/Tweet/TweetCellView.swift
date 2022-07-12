@@ -42,8 +42,8 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           }
 
           TimelineView(.periodic(from: .now, by: 1)) { context in
-            let duration = viewModel.duration(nowDate: context.date)
-            Text(duration)
+            let range = viewModel.showDate..<context.date
+            Text(range, format: .twitter)
           }
         }
 
