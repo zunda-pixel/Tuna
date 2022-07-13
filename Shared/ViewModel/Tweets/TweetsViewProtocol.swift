@@ -104,7 +104,7 @@ extension TweetsViewProtocol {
   func getTweet(_ tweetID: String?) -> Sweet.TweetModel? {
     guard let tweetID = tweetID else { return nil }
 
-    guard let tweet = showTweets.first(where: { $0.id == tweetID }) else { return nil }
+    guard let tweet = allTweets.first(where: { $0.id == tweetID }) else { return nil }
 
     return tweet
   }
@@ -151,11 +151,11 @@ extension TweetsViewProtocol {
     let author = getUser(tweet.authorID!)!
 
     let retweet: (user: Sweet.UserModel, tweet: Sweet.TweetModel)? = {
-      if tweet.referencedTweet?.type != .retweeted { return nil }
+      guard let retweet = tweet.referencedTweets.first(where: { $0.type == .retweeted }) else  { return nil }
 
       // TODO ほんとはCalendar.current.yesterdayらへんは必要ない
       // 取得できていないユーザーツイートが問題
-      let tweet = getTweet(tweet.referencedTweet?.id) ?? .init(id: "312", text: "mikan", createdAt: Calendar.current.date(byAdding: .day, value: -1, to: .now)!)
+      let tweet = getTweet(retweet.id) ?? .init(id: "312", text: "mikan", createdAt: Calendar.current.date(byAdding: .day, value: -1, to: .now)!)
       let user = getUser(tweet.authorID) ?? .init(id: "423", name: "jflsda", userName: "fdjklsa")
 
       return (user, tweet)
@@ -163,12 +163,12 @@ extension TweetsViewProtocol {
 
     let quoted: (user: Sweet.UserModel, tweet: Sweet.TweetModel)? = {
       guard let quotedTweetID: String? = {
-        if tweet.referencedTweet?.type == .quoted {
-          return tweet.referencedTweet?.id
+        if let quoted = tweet.referencedTweets.first(where: { $0.type == .quoted}) {
+          return quoted.id
         }
 
-        if retweet?.tweet.referencedTweet?.type == .quoted {
-          return retweet?.tweet.referencedTweet?.id
+        if let quoted = retweet?.tweet.referencedTweets.first(where: { $0.type == .quoted}) {
+          return quoted.id
         }
 
         return nil

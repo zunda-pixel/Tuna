@@ -57,7 +57,15 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
             }
             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
               Button {
-                let tweetDetailViewModel: TweetDetailViewModel = .init(cellViewModel: cellViewModel)
+                let parentTweetCellViewModel: TweetCellViewModel? = {
+                  if let reply = cellViewModel.tweet.referencedTweets.first(where: { $0.type == .repliedTo}) {
+                    return viewModel.getTweetCellViewModel(reply.id)
+                  } else {
+                    return nil
+                  }
+                }()
+
+                let tweetDetailViewModel: TweetDetailViewModel = .init(cellViewModel: cellViewModel, parentTweetViewModel: parentTweetCellViewModel)
                 path.append(tweetDetailViewModel)
               } label: {
                 Image(systemName: "ellipsis")

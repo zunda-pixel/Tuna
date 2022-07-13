@@ -179,9 +179,9 @@ extension ReverseChronologicalTweetsViewProtocol {
     let author = getUser(tweet.authorID!)!
 
     let retweet: (user: Sweet.UserModel, tweet: Sweet.TweetModel)? = {
-      if tweet.referencedTweet?.type != .retweeted { return nil }
+      guard let retweet = tweet.referencedTweets.first(where: { $0.type == .retweeted }) else { return nil }
 
-      let tweet = getTweet(tweet.referencedTweet?.id)!
+      let tweet = getTweet(retweet.id)!
       let user = getUser(tweet.authorID)!
 
       return (user, tweet)
@@ -189,12 +189,12 @@ extension ReverseChronologicalTweetsViewProtocol {
 
     let quoted: (user: Sweet.UserModel, tweet: Sweet.TweetModel)? = {
       guard let quotedTweetID: String? = {
-        if tweet.referencedTweet?.type == .quoted {
-          return tweet.referencedTweet?.id
+        if let quoted = tweet.referencedTweets.first(where: { $0.type == .quoted }) {
+          return quoted.id
         }
 
-        if retweet?.tweet.referencedTweet?.type == .quoted {
-          return retweet?.tweet.referencedTweet?.id
+        if let quoted = retweet?.tweet.referencedTweets.first(where: { $0.type == .quoted }) {
+          return quoted.id
         }
 
         return nil

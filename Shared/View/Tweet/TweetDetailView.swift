@@ -19,7 +19,6 @@ final class TweetDetailViewModel: ObservableObject, Hashable {
   let cellViewModel: TweetCellViewModel
 
   let parentTweetViewModel: TweetCellViewModel?
-  @Published var childrenTweetViewModels: [TweetCellViewModel]?
 
   init(cellViewModel: TweetCellViewModel, parentTweetViewModel: TweetCellViewModel? = nil) {
     self.cellViewModel = cellViewModel
@@ -32,12 +31,23 @@ struct TweetDetailView<Tweet: TweetDetailViewModel>: View {
   @Binding var path: NavigationPath
 
   var body: some View {
-    VStack {
-      TweetCellView(path: $path, viewModel: viewModel.cellViewModel)
-      TweetToolBar(userID: viewModel.cellViewModel.userID, tweetID: viewModel.cellViewModel.tweet.id,
-                   tweet: viewModel.cellViewModel.tweet.text, metrics: viewModel.cellViewModel.tweet.publicMetrics!)
-      TweetDetailInformation(userID: viewModel.cellViewModel.userID, tweetID: viewModel.cellViewModel.tweet.id, metrics: viewModel.cellViewModel.tweet.publicMetrics!)
-      Spacer()
+    List {
+      if let parentTweetCellViewModel = viewModel.parentTweetViewModel {
+        VStack {
+          TweetCellView(path: $path, viewModel: parentTweetCellViewModel)
+          TweetToolBar(userID: parentTweetCellViewModel.userID, tweetID: parentTweetCellViewModel.tweet.id,
+                       tweet: viewModel.cellViewModel.tweet.text, metrics: parentTweetCellViewModel.tweet.publicMetrics!)
+          TweetDetailInformation(userID: parentTweetCellViewModel.userID, tweetID: parentTweetCellViewModel.tweet.id, metrics: parentTweetCellViewModel.tweet.publicMetrics!)
+        }
+      }
+      VStack {
+        TweetCellView(path: $path, viewModel: viewModel.cellViewModel)
+        TweetToolBar(userID: viewModel.cellViewModel.userID, tweetID: viewModel.cellViewModel.tweet.id,
+                     tweet: viewModel.cellViewModel.tweet.text, metrics: viewModel.cellViewModel.tweet.publicMetrics!)
+        TweetDetailInformation(userID: viewModel.cellViewModel.userID, tweetID: viewModel.cellViewModel.tweet.id, metrics: viewModel.cellViewModel.tweet.publicMetrics!)
+      }
     }
   }
 }
+
+
