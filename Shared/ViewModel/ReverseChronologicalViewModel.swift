@@ -150,42 +150,54 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
     objectWillChange.send()
   }
 
+  func addResponse(response: Sweet.TweetsResponse) throws {
+    try response.tweets.forEach { tweet in
+      try addTweet(tweet)
+      try addTimeline(tweet.id)
+    }
+
+    try response.relatedTweets.forEach { tweet in
+      try addTweet(tweet)
+    }
+
+    try response.users.forEach { user in
+      try addUser(user)
+    }
+
+    try response.medias.forEach { media in
+      try addMedia(media)
+    }
+    try response.polls.forEach { poll in
+      try addPoll(poll)
+    }
+
+    try response.places.forEach { place in
+      try addPlace(place)
+    }
+  }
+
   func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
     do {
       let maxResults = 100
 
       let response = try await Sweet(userID: userID).fetchReverseChronological(userID: userID, maxResults: maxResults, untilID: lastTweetID, sinceID: firstTweetID, paginationToken: paginationToken)
 
-      try response.tweets.forEach { tweet in
-        try addTweet(tweet)
-        try addTimeline(tweet.id)
+      try addResponse(response: response)
+
+      let referencedTweetIDs = response.relatedTweets.flatMap(\.referencedTweets).map(\.id)
+
+      if referencedTweetIDs.count > 0 {
+        print(referencedTweetIDs)
+        let referencedResponse = try await Sweet(userID: userID).lookUpTweets(by: referencedTweetIDs)
+        try addResponse(response: referencedResponse)
       }
 
-      try response.relatedTweets.forEach { tweet in
-        try addTweet(tweet)
-      }
-
-      try response.users.forEach { user in
-        try addUser(user)
-      }
-
-      try response.medias.forEach { media in
-        try addMedia(media)
-      }
-      try response.polls.forEach { poll in
-        try addPoll(poll)
-      }
-
-      try response.places.forEach { place in
-        try addPlace(place)
-      }
+      updateTimeLine()
 
       if firstTweetID != nil && response.tweets.count == maxResults {
         let firstTweetID = showTweets.first?.id
         await fetchTweets(first: firstTweetID, last: nil)
       }
-
-      updateTimeLine()
     } catch let newError {
       self.error = newError
       self.didError.toggle()

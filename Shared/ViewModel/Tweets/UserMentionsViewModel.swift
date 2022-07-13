@@ -47,28 +47,16 @@ final class UserMentionsViewModel: TweetsViewProtocol {
 
       paginationToken = response.meta?.nextToken
 
-      response.tweets.forEach { tweet in
-        addTweet(tweet)
-      }
+      addAllResponse(response: response)
 
-      response.relatedTweets.forEach { tweet in
-        addTweet(tweet)
-      }
+      let referencedTweetIDs = response.relatedTweets.flatMap(\.referencedTweets).map(\.id)
 
-      response.users.forEach { user in
-        addUser(user)
-      }
+      if referencedTweetIDs.count > 0 {
+        print(referencedTweetIDs)
+        
+        let referencedResponse = try await Sweet(userID: userID).lookUpTweets(by: referencedTweetIDs)
 
-      response.medias.forEach { media in
-        addMedia(media)
-      }
-
-      response.polls.forEach { poll in
-        addPoll(poll)
-      }
-
-      response.places.forEach { place in
-        addPlace(place)
+        addAllResponse(response: referencedResponse)
       }
 
       response.tweets.forEach { tweet in

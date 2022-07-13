@@ -43,32 +43,22 @@ final class UserTimelineViewModel: TweetsViewProtocol {
   
   func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
     do {
-      let response = try await Sweet(userID: userID).fetchTimeLine(userID: ownerID, untilID: lastTweetID, sinceID: firstTweetID, paginationToken: paginationToken)
+      let response = try await Sweet(userID: userID).fetchTimeLine(userID: ownerID, maxResults: 10, untilID: lastTweetID, sinceID: firstTweetID, paginationToken: paginationToken)
+
+
 
       paginationToken = response.meta?.nextToken
 
-      response.tweets.forEach { tweet in
-        addTweet(tweet)
-      }
+      addAllResponse(response: response)
 
-      response.relatedTweets.forEach { tweet in
-        addTweet(tweet)
-      }
+      let referencedTweetIDs = response.relatedTweets.flatMap(\.referencedTweets).map(\.id)
 
-      response.users.forEach { user in
-        addUser(user)
-      }
+      if referencedTweetIDs.count > 0 {
+        print(referencedTweetIDs)
 
-      response.medias.forEach { media in
-        addMedia(media)
-      }
+        let referencedResponse = try await Sweet(userID: userID).lookUpTweets(by: referencedTweetIDs)
 
-      response.polls.forEach { poll in
-        addPoll(poll)
-      }
-
-      response.places.forEach { place in
-        addPlace(place)
+        addAllResponse(response: referencedResponse)
       }
 
       response.tweets.forEach { tweet in
