@@ -23,7 +23,6 @@ struct UsersView<ViewModel: UsersViewProtocol>: View {
           }
         }
     }
-    .listStyle(.plain)
     .alert("Error", isPresented: $viewModel.didError) {
       Button {
         print(viewModel.error!)

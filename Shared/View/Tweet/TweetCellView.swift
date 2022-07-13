@@ -32,10 +32,8 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
 
       VStack(alignment: .leading) {
         HStack {
-          if let userName = user.userName {
-            (Text(user.name) + Text(" @\(userName)").foregroundColor(.gray))
+          (Text(user.name) + Text(" @\(user.userName)").foregroundColor(.gray))
               .lineLimit(1)
-          }
 
           Spacer()
 

@@ -235,7 +235,6 @@ struct ListsView: View {
       .sheet(isPresented: $isPresentedAddList) {
         NewListView(userID: userID, delegate: self)
       }
-      .listStyle(.insetGrouped)
     }
     .alert("Error", isPresented: $didError) {
       Button {

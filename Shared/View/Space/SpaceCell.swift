@@ -10,17 +10,15 @@ struct SpaceCell: View {
   @Binding var path: NavigationPath
 
   var body: some View {
-    HStack {
+    HStack(alignment: .top) {
       ProfileImageView(creator.profileImageURL)
         .frame(width: 50, height: 50)
+        .padding(.trailing)
 
       VStack {
         HStack {
-          if let title = space.title {
-            Text(title)
+          (Text(creator.name) + Text(" @\(creator.userName)").foregroundColor(.gray))
               .lineLimit(1)
-              .font(.title)
-          }
 
           Spacer()
 
@@ -35,21 +33,22 @@ struct SpaceCell: View {
         }
 
         HStack {
-          Text("\(creator.name) @\(creator.userName)")
-            .font(.title3)
-
+          Text(space.title!)
+            .lineLimit(nil)
           Spacer()
+        }
 
+        HStack {
+          Spacer()
           ForEach(speakers.indices, id: \.self) { index in
             if index < 4 {
               ProfileImageView(speakers[index].profileImageURL)
-                .frame(width: 30, height: 30)
+                .frame(width: 15, height: 15)
             }
           }
 
           if !speakers.isEmpty {
             Text("\(speakers.count) Listening")
-              .padding(.horizontal)
           }
         }
       }
@@ -57,7 +56,6 @@ struct SpaceCell: View {
     .padding()
     .background(Color.random.opacity(0.5))
     .cornerRadius(24)
-    .padding()
     .onTapGesture {
       let spaceDetailViewModel: SpaceDetailViewModel = .init(userID: userID, space: space, creator: creator, speakers: speakers)
       path.append(spaceDetailViewModel)

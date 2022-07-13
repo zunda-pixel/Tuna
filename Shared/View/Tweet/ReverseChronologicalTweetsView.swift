@@ -63,17 +63,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
           }
         }
       }
-
-
-      Button {
-        Task {
-          await fetchTweets(first: nil, last: viewModel.showTweets.last?.id)
-        }
-      } label: {
-        Text("more Loading")
-      }
     }
-
     .alert("Error", isPresented: $viewModel.didError) {
       Button {
         print(viewModel.error!)
@@ -81,7 +71,6 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
         Text("Close")
       }
     }
-    .listStyle(.plain)
     .refreshable {
       let firstTweetID = viewModel.showTweets.first?.id
       await fetchTweets(first: firstTweetID, last: nil)

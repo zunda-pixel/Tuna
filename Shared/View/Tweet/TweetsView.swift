@@ -97,7 +97,6 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
         Text("Close")
       }
     }
-    .listStyle(.plain)
     .refreshable {
       let firstTweetID = viewModel.showTweets.first?.id
       await fetchTweets(first: firstTweetID, last: nil)
