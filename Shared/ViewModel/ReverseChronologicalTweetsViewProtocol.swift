@@ -188,7 +188,7 @@ extension ReverseChronologicalTweetsViewProtocol {
     }()
 
     let quoted: (user: Sweet.UserModel, tweet: Sweet.TweetModel)? = {
-      guard let quotedTweetID: String? = {
+      let quotedTweetID: String? = {
         if let quoted = tweet.referencedTweets.first(where: { $0.type == .quoted }) {
           return quoted.id
         }
@@ -198,11 +198,12 @@ extension ReverseChronologicalTweetsViewProtocol {
         }
 
         return nil
-      }() else { return nil }
+      }()
 
-      let tweet = getTweet(quotedTweetID) ?? .init(id: UUID().uuidString, text: "Nothing Tweet")
+      guard let quotedTweetID else { return nil }
 
-      let user = getUser(tweet.authorID) ?? .init(id: UUID().uuidString, name: "Nothing Name", userName: "Nothing Name")
+      let tweet = getTweet(quotedTweetID)!
+      let user = getUser(tweet.authorID)!
 
       return (user, tweet)
     }()
