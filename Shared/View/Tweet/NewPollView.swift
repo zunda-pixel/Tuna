@@ -23,7 +23,6 @@ struct NewPollView: View {
 
   var body: some View {
     VStack {
-      // TODO indicesではForEachでは保証されていない
       ForEach($options.indices, id: \.self) { index in
         HStack {
           TextField("Answer \(index + 1) \(index < 2 ? "" : "(Optional)")", text: $options[index])

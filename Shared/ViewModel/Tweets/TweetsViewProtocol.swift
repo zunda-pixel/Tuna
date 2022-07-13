@@ -153,10 +153,8 @@ extension TweetsViewProtocol {
     let retweet: (user: Sweet.UserModel, tweet: Sweet.TweetModel)? = {
       guard let retweet = tweet.referencedTweets.first(where: { $0.type == .retweeted }) else  { return nil }
 
-      // TODO ほんとはCalendar.current.yesterdayらへんは必要ない
-      // 取得できていないユーザーツイートが問題
-      let tweet = getTweet(retweet.id) ?? .init(id: "312", text: "mikan", createdAt: Calendar.current.date(byAdding: .day, value: -1, to: .now)!)
-      let user = getUser(tweet.authorID) ?? .init(id: "423", name: "jflsda", userName: "fdjklsa")
+      let tweet = getTweet(retweet.id)!
+      let user = getUser(tweet.authorID)!
 
       return (user, tweet)
     }()
@@ -174,11 +172,8 @@ extension TweetsViewProtocol {
         return nil
       }() else { return nil }
 
-      // TODO ほんとはUUIDらへんは必要ない
-      // 取得できていないユーザーツイートが問題
-      let tweet = getTweet(quotedTweetID) ?? .init(id: UUID().uuidString, text: "Nothing Tweet")
-
-      let user = getUser(tweet.authorID) ?? .init(id: UUID().uuidString, name: "Nothing Name", userName: "Nothing Name")
+      let tweet = getTweet(quotedTweetID)!
+      let user = getUser(tweet.authorID)!
 
       return (user, tweet)
     }()
