@@ -182,14 +182,14 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
 
       let response = try await Sweet(userID: userID).fetchReverseChronological(userID: userID, maxResults: maxResults, untilID: lastTweetID, sinceID: firstTweetID, paginationToken: paginationToken)
 
-      try addResponse(response: response)
-
       let referencedTweetIDs = response.relatedTweets.lazy.flatMap(\.referencedTweets).filter({$0.type == .quoted}).map(\.id)
 
       if referencedTweetIDs.count > 0 {
         let referencedResponse = try await Sweet(userID: userID).lookUpTweets(by: Array(referencedTweetIDs))
         try addResponse(response: referencedResponse)
       }
+
+      try addResponse(response: response)
 
       updateTimeLine()
 
