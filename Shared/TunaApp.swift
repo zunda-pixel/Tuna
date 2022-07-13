@@ -25,11 +25,6 @@ struct TunaApp: App {
                 Image(systemName: "house")
               }
 
-            SearchSpacesView(userID: userID)
-              .tabItem {
-                Image(systemName: "speaker.wave.2.circle")
-              }
-            
             ListsView(userID: userID)
               .environment(\.managedObjectContext, persistenceController.container.viewContext)
               .tabItem {
@@ -42,6 +37,11 @@ struct TunaApp: App {
               .environment(\.managedObjectContext, persistenceController.container.viewContext)
               .tabItem {
                 Image(systemName: "doc.text.magnifyingglass")
+              }
+
+            SearchSpacesView(userID: userID)
+              .tabItem {
+                Image(systemName: "airplane")
               }
 
             BookmarksNavigationView(userID: userID)

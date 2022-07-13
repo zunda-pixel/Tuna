@@ -1,6 +1,3 @@
-//
-
-
 import SwiftUI
 
 struct SpaceDetail: View {
@@ -15,6 +12,10 @@ struct SpaceDetail: View {
 
       ProfileImageView(viewModel.creator.profileImageURL)
         .frame(width: 100, height: 100)
+        .onTapGesture {
+          let userViewModel: UserViewModel = .init(userID: viewModel.userID, user: viewModel.creator)
+          path.append(userViewModel)
+        }
 
       ScrollView(.horizontal) {
         HStack {
@@ -22,6 +23,10 @@ struct SpaceDetail: View {
             ProfileImageView(speaker.profileImageURL)
               .frame(width: 60, height: 60)
               .padding(.vertical)
+              .onTapGesture {
+                let userViewModel: UserViewModel = .init(userID: viewModel.userID, user: speaker)
+                path.append(userViewModel)
+              }
           }
         }
         .padding(.horizontal, 50)

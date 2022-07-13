@@ -30,7 +30,7 @@ struct SpaceCell: View {
               Text(range, format: .twitter)
             }
           } else if let scheduledAt = space.scheduledStart {
-            Text(scheduledAt, format: .dateTime)
+            Text(scheduledAt, style: .relative)
           }
         }
 
@@ -41,10 +41,9 @@ struct SpaceCell: View {
           Spacer()
 
           ForEach(speakers.indices, id: \.self) { index in
-            if index < 5 {
+            if index < 4 {
               ProfileImageView(speakers[index].profileImageURL)
                 .frame(width: 30, height: 30)
-                .offset(x: CGFloat(speakers.count - index) * 15)
             }
           }
 
