@@ -46,15 +46,6 @@ final class BookmarksViewModel: TweetsViewProtocol {
 
       addResponse(response: response)
 
-      let referencedTweetIDs = response.relatedTweets.flatMap(\.referencedTweets).map(\.id)
-
-      if referencedTweetIDs.count > 0 {
-        let referencedResponse = try await Sweet(userID: userID).lookUpTweets(by: referencedTweetIDs)
-
-        addResponse(response: referencedResponse)
-      }
-
-
       response.tweets.forEach { tweet in
         addTimeline(tweet.id)
       }
