@@ -11,7 +11,6 @@ import Sweet
 
 final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsViewProtocol {
   var loadingTweets = false
-  var paginationToken: String?
   let userID: String
 
   var error: Error?
@@ -153,7 +152,6 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
   func addResponse(response: Sweet.TweetsResponse) throws {
     try response.tweets.forEach { tweet in
       try addTweet(tweet)
-      try addTimeline(tweet.id)
     }
 
     try response.relatedTweets.forEach { tweet in
@@ -180,7 +178,7 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
     do {
       let maxResults = 100
 
-      let response = try await Sweet(userID: userID).fetchReverseChronological(userID: userID, maxResults: maxResults, untilID: lastTweetID, sinceID: firstTweetID, paginationToken: paginationToken)
+      let response = try await Sweet(userID: userID).fetchReverseChronological(userID: userID, maxResults: maxResults, untilID: lastTweetID, sinceID: firstTweetID)
 
       let referencedTweetIDs = response.relatedTweets.lazy.flatMap(\.referencedTweets).filter({$0.type == .quoted}).map(\.id)
 
@@ -191,10 +189,14 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
 
       try addResponse(response: response)
 
+      try response.tweets.forEach { tweet in
+        try addTimeline(tweet.id)
+      }
+
       updateTimeLine()
 
       if firstTweetID != nil && response.tweets.count == maxResults {
-        let firstTweetID = showTweets.first?.id
+        let firstTweetID = response.tweets.first?.id
         await fetchTweets(first: firstTweetID, last: nil)
       }
     } catch let newError {

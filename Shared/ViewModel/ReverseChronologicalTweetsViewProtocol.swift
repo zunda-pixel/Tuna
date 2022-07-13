@@ -12,7 +12,6 @@ import CoreData
   var error: Error? { get }
   var didError: Bool { get set }
 
-  var paginationToken: String? { get set }
   var viewContext: NSManagedObjectContext { get }
 
   var showTweets: [Tweet] { get }
