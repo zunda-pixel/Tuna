@@ -141,7 +141,7 @@ struct SearchSpacesView: View {
           .navigationTitle("@\(viewModel.user.userName)")
           .navigationBarTitleDisplayMode(.inline)
       }
-      .navigationDestination(for: TweetCellViewModel.self) { viewModel in
+      .navigationDestination(for: TweetDetailViewModel.self) { viewModel in
         TweetDetailView(viewModel: viewModel, path: $path)
           .navigationTitle("Detail")
           .navigationBarTitleDisplayMode(.inline)

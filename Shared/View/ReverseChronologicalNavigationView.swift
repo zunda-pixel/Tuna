@@ -13,7 +13,7 @@ struct ReverseChronologicalNavigationView: View {
       ReverseChronologicalTweetsView(path: $path, viewModel: tweetViewModel)
         .navigationTitle("Timeline")
         .navigationBarTitleDisplayMode(.inline)
-        .navigationDestination(for: TweetCellViewModel.self) { viewModel in
+        .navigationDestination(for: TweetDetailViewModel.self) { viewModel in
           TweetDetailView(viewModel: viewModel, path: $path)
             .navigationTitle("Detail")
             .navigationBarTitleDisplayMode(.inline)

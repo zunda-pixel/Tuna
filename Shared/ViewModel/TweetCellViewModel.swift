@@ -10,7 +10,7 @@ import Sweet
 import Combine
 import MapKit
 
-@MainActor protocol TweetCellViewProtocol: ObservableObject, Hashable {
+protocol TweetCellViewProtocol: ObservableObject, Hashable {
   var userID: String { get }
   var error: Error? { get set }
   var didError: Bool { get set }

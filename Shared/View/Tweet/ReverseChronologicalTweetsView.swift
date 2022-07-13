@@ -45,7 +45,8 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
           Button {
-            path.append(cellViewModel)
+            let tweetDetailViewModel: TweetDetailViewModel = .init(cellViewModel: cellViewModel)
+            path.append(tweetDetailViewModel)
           } label: {
             Image(systemName: "ellipsis")
           }
