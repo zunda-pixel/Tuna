@@ -51,11 +51,9 @@ final class UserTimelineViewModel: TweetsViewProtocol {
 
       addResponse(response: response)
 
-      let referencedTweetIDs = response.relatedTweets.flatMap(\.referencedTweets).map(\.id)
+      let referencedTweetIDs: [String] = response.relatedTweets.lazy.flatMap(\.referencedTweets).filter({$0.type == .quoted}).map(\.id)
 
       if referencedTweetIDs.count > 0 {
-        print(referencedTweetIDs)
-
         let referencedResponse = try await Sweet(userID: userID).lookUpTweets(by: referencedTweetIDs)
 
         addResponse(response: referencedResponse)
