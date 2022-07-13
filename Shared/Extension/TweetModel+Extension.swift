@@ -23,7 +23,7 @@ extension Sweet.TweetModel {
     let withheld = try? decoder.decode(Sweet.WithheldModel.self, from: tweet.withheld ?? emptyData)
     let contextAnnotations = try? decoder.decode([Sweet.ContextAnnotationModel].self, from: tweet.contextAnnotations ?? emptyData)
     let entity = try? decoder.decode(Sweet.TweetEntityModel.self, from: tweet.entities ?? emptyData)
-    let referencedTweet = try? decoder.decode(Sweet.ReferencedTweetModel.self, from: tweet.referencedTweet ?? emptyData)
+    let referencedTweets = try? decoder.decode([Sweet.ReferencedTweetModel].self, from: tweet.referencedTweets ?? emptyData)
     let replySettings: Sweet.ReplySetting? = .init(rawValue: tweet.replySetting ?? "")
 
     self.init(
@@ -34,6 +34,6 @@ extension Sweet.TweetModel {
       organicMetrics: organicMetrics, privateMetrics: privateMetrics,
       attachments: attachments, promotedMetrics: promotedMetrics,
       withheld: withheld, contextAnnotations: contextAnnotations ?? [],
-      entity: entity, referencedTweet: referencedTweet)
+      entity: entity, referencedTweets: referencedTweets ?? [])
   }
 }

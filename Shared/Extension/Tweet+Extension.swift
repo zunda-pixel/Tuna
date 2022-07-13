@@ -29,7 +29,7 @@ extension Tweet {
     self.privateMetrics = try encoder.encode(tweet.privateMetrics)
     self.promotedMetrics = try encoder.encode(tweet.promotedMetrics)
     self.publicMetrics = try encoder.encode(tweet.publicMetrics)
-    self.referencedTweet = try encoder.encode(tweet.referencedTweet)
+    self.referencedTweets = try encoder.encode(tweet.referencedTweets)
     self.withheld = try encoder.encode(tweet.withheld)
   }
 }
