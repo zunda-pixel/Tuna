@@ -35,10 +35,10 @@ import Sweet
   func addPoll(_ poll: Sweet.PollModel)
   func addMedia(_ media: Sweet.MediaModel)
 
-  func getTweet(_ tweetID: String?) -> Sweet.TweetModel?
+  func getTweet(_ tweetID: String) -> Sweet.TweetModel?
   func getPoll(_ pollID: String?) -> Sweet.PollModel?
-  func getUser(_ userID: String?) -> Sweet.UserModel?
-  func getMedias(_ mediaIDs: [String]?) -> [Sweet.MediaModel]
+  func getUser(_ userID: String) -> Sweet.UserModel?
+  func getMedias(_ mediaIDs: [String]) -> [Sweet.MediaModel]
   func getPlace(_ placeID: String?) -> Sweet.PlaceModel?
 
   func getTweetCellViewModel(_ tweetID: String) -> TweetCellViewModel
@@ -128,16 +128,14 @@ extension TweetsViewProtocol {
     }
   }
 
-  func getTweet(_ tweetID: String?) -> Sweet.TweetModel? {
-    guard let tweetID = tweetID else { return nil }
-
+  func getTweet(_ tweetID: String) -> Sweet.TweetModel? {
     guard let tweet = allTweets.first(where: { $0.id == tweetID }) else { return nil }
 
     return tweet
   }
 
   func getPlace(_ placeID: String?) -> Sweet.PlaceModel? {
-    guard let placeID = placeID else { return nil }
+    guard let placeID else { return nil }
 
     guard let firstPlace = allPlaces.first(where: { $0.id == placeID }) else {
       return nil
@@ -147,26 +145,20 @@ extension TweetsViewProtocol {
   }
 
   func getPoll(_ pollID: String?) -> Sweet.PollModel? {
-    guard let pollID = pollID else { return nil }
+    guard let pollID else { return nil }
 
     guard let firstPoll = allPolls.first(where: { $0.id == pollID }) else { return nil }
 
     return firstPoll
   }
 
-  func getMedias(_ mediaIDs: [String]?) -> [Sweet.MediaModel] {
-    guard let mediaIDs = mediaIDs else {
-      return []
-    }
-
+  func getMedias(_ mediaIDs: [String]) -> [Sweet.MediaModel] {
     let medias = allMedias.filter({ mediaIDs.contains($0.key) })
 
     return medias
   }
 
-  func getUser(_ userID: String?) -> Sweet.UserModel? {
-    guard let userID = userID else { return nil }
-
+  func getUser(_ userID: String) -> Sweet.UserModel? {
     guard let firstUser = allUsers.first(where: { $0.id == userID }) else { return nil }
 
     return firstUser
@@ -181,13 +173,13 @@ extension TweetsViewProtocol {
       guard let retweet = tweet.referencedTweets.first(where: { $0.type == .retweeted }) else  { return nil }
 
       let tweet = getTweet(retweet.id)!
-      let user = getUser(tweet.authorID)!
+      let user = getUser(tweet.authorID!)!
 
       return (user, tweet)
     }()
 
     let quoted: (user: Sweet.UserModel, tweet: Sweet.TweetModel)? = {
-      guard let quotedTweetID: String? = {
+      let quotedTweetID: String? = {
         if let quoted = tweet.referencedTweets.first(where: { $0.type == .quoted}) {
           return quoted.id
         }
@@ -197,15 +189,17 @@ extension TweetsViewProtocol {
         }
 
         return nil
-      }() else { return nil }
+      }()
+
+      guard let quotedTweetID else { return nil}
 
       let tweet = getTweet(quotedTweetID)!
-      let user = getUser(tweet.authorID)!
+      let user = getUser(tweet.authorID!)!
 
       return (user, tweet)
     }()
 
-    let medias = getMedias(tweet.attachments?.mediaKeys)
+    let medias = getMedias(tweet.attachments?.mediaKeys ?? [])
 
     let poll = getPoll(tweet.attachments?.pollID)
 

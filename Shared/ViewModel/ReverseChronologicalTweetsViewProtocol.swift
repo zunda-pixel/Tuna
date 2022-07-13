@@ -1,8 +1,3 @@
-//
-
-
-import Foundation
-
 import Foundation
 import Sweet
 import CoreData
@@ -33,10 +28,10 @@ import CoreData
   func addPoll(_ poll: Sweet.PollModel) throws
   func addMedia(_ media: Sweet.MediaModel) throws
 
-  func getTweet(_ tweetID: String?) -> Sweet.TweetModel?
+  func getTweet(_ tweetID: String) -> Sweet.TweetModel?
   func getPoll(_ pollID: String?) -> Sweet.PollModel?
-  func getUser(_ userID: String?) -> Sweet.UserModel?
-  func getMedias(_ mediaIDs: [String]?) -> [Sweet.MediaModel]
+  func getUser(_ userID: String) -> Sweet.UserModel?
+  func getMedias(_ mediaIDs: [String]) -> [Sweet.MediaModel]
   func getPlace(_ placeID: String?) -> Sweet.PlaceModel?
 
   func getTweetCellViewModel(_ tweetID: String) -> TweetCellViewModel
@@ -62,9 +57,7 @@ extension ReverseChronologicalTweetsViewProtocol {
   var allPolls: [Poll] { fetchPollController.fetchedObjects ?? [] }
   var allPlaces: [Place] { fetchPlaceController.fetchedObjects ?? [] }
 
-  func getTweet(_ tweetID: String?) -> Sweet.TweetModel? {
-    guard let tweetID = tweetID else { return nil }
-
+  func getTweet(_ tweetID: String) -> Sweet.TweetModel? {
     guard let tweet = allTweets.first(where: { $0.id == tweetID }) else { return nil }
 
     return .init(tweet: tweet)
@@ -138,7 +131,7 @@ extension ReverseChronologicalTweetsViewProtocol {
   }
   
   func getPlace(_ placeID: String?) -> Sweet.PlaceModel? {
-    guard let placeID = placeID else { return nil }
+    guard let placeID else { return nil }
 
     guard let firstPlace = allPlaces.first(where: { $0.id == placeID }) else {
       return nil
@@ -148,26 +141,20 @@ extension ReverseChronologicalTweetsViewProtocol {
   }
 
   func getPoll(_ pollID: String?) -> Sweet.PollModel? {
-    guard let pollID = pollID else { return nil }
+    guard let pollID else { return nil }
 
     guard let firstPoll = allPolls.first(where: { $0.id == pollID }) else { return nil }
 
     return .init(poll: firstPoll)
   }
 
-  func getMedias(_ mediaIDs: [String]?) -> [Sweet.MediaModel] {
-    guard let mediaIDs = mediaIDs else {
-      return []
-    }
-
-    let medias = allMedias.filter({ mediaIDs.contains($0.key!) })
+  func getMedias(_ mediaIDs: [String]) -> [Sweet.MediaModel] {
+    let medias = allMedias.filter { mediaIDs.contains($0.key!) }
 
     return medias.map { .init(media: $0) }
   }
 
-  func getUser(_ userID: String?) -> Sweet.UserModel? {
-    guard let userID = userID else { return nil }
-
+  func getUser(_ userID: String) -> Sweet.UserModel? {
     guard let firstUser = allUsers.first(where: { $0.id == userID }) else { return nil }
 
     return .init(user: firstUser)
@@ -182,7 +169,7 @@ extension ReverseChronologicalTweetsViewProtocol {
       guard let retweet = tweet.referencedTweets.first(where: { $0.type == .retweeted }) else { return nil }
 
       let tweet = getTweet(retweet.id)!
-      let user = getUser(tweet.authorID)!
+      let user = getUser(tweet.authorID!)!
 
       return (user, tweet)
     }()
@@ -203,12 +190,12 @@ extension ReverseChronologicalTweetsViewProtocol {
       guard let quotedTweetID else { return nil }
 
       let tweet = getTweet(quotedTweetID)!
-      let user = getUser(tweet.authorID)!
+      let user = getUser(tweet.authorID!)!
 
       return (user, tweet)
     }()
 
-    let medias = getMedias(tweet.attachments?.mediaKeys)
+    let medias = getMedias(tweet.attachments?.mediaKeys ?? [])
 
     let poll = getPoll(tweet.attachments?.pollID)
 
