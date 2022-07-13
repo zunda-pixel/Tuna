@@ -43,37 +43,15 @@ final class ListTweetsViewModel: NSObject, TweetsViewProtocol {
 
       let tweetResponse = try await  Sweet(userID: userID).lookUpTweets(by: tweetIDs)
 
+      addAllResponse(response: tweetResponse)
+
       tweetResponse.tweets.forEach { tweet in
-        addTweet(tweet)
-      }
-
-      tweetResponse.relatedTweets.forEach { tweet in
-        addTweet(tweet)
-      }
-
-      tweetResponse.users.forEach { user in
-        addUser(user)
-      }
-
-      tweetResponse.medias.forEach { media in
-        addMedia(media)
-      }
-
-      tweetResponse.polls.forEach { poll in
-        addPoll(poll)
-      }
-
-      tweetResponse.places.forEach { place in
-        addPlace(place)
+        addTimeline(tweet.id)
       }
 
       if let firstTweetID, tweetResponse.tweets.count == maxResults {
         await fetchTweets(first: firstTweetID, last: nil)
         return
-      }
-
-      tweetResponse.tweets.forEach { tweet in
-        addTimeline(tweet.id)
       }
 
       objectWillChange.send()

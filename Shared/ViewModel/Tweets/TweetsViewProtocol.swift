@@ -44,9 +44,36 @@ import Sweet
   func getTweetCellViewModel(_ tweetID: String) -> TweetCellViewModel
 
   func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async
+  func addAllResponse(response: Sweet.TweetsResponse)
 }
 
 extension TweetsViewProtocol {
+  func addAllResponse(response: Sweet.TweetsResponse) {
+    response.tweets.forEach { tweet in
+      addTweet(tweet)
+    }
+
+    response.relatedTweets.forEach { tweet in
+      addTweet(tweet)
+    }
+
+    response.users.forEach { user in
+      addUser(user)
+    }
+
+    response.medias.forEach { media in
+      addMedia(media)
+    }
+
+    response.polls.forEach { poll in
+      addPoll(poll)
+    }
+
+    response.places.forEach { place in
+      addPlace(place)
+    }
+  }
+  
   var showTweets: [Sweet.TweetModel] {
     timelines.map { timeline in
       allTweets.first(where: { $0.id == timeline })!

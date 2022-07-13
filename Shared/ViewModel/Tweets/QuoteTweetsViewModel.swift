@@ -38,29 +38,7 @@ final class QuoteTweetsViewModel: TweetsViewProtocol {
 
       paginationToken = response.meta?.nextToken
 
-      response.tweets.forEach { tweet in
-        addTweet(tweet)
-      }
-
-      response.relatedTweets.forEach { tweet in
-        addTweet(tweet)
-      }
-
-      response.users.forEach { user in
-         addUser(user)
-      }
-
-      response.medias.forEach { media in
-        addMedia(media)
-      }
-
-      response.polls.forEach { poll in
-        addPoll(poll)
-      }
-
-      response.places.forEach { place in
-        addPlace(place)
-      }
+      addAllResponse(response: response)
 
       response.tweets.forEach { tweet in
         addTimeline(tweet.id)
