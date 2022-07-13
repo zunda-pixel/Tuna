@@ -44,11 +44,11 @@ import Sweet
   func getTweetCellViewModel(_ tweetID: String) -> TweetCellViewModel
 
   func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async
-  func addAllResponse(response: Sweet.TweetsResponse)
+  func addResponse(response: Sweet.TweetsResponse)
 }
 
 extension TweetsViewProtocol {
-  func addAllResponse(response: Sweet.TweetsResponse) {
+  func addResponse(response: Sweet.TweetsResponse) {
     response.tweets.forEach { tweet in
       addTweet(tweet)
     }

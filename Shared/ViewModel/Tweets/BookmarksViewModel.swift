@@ -44,14 +44,14 @@ final class BookmarksViewModel: TweetsViewProtocol {
 
       paginationToken = response.meta?.nextToken
 
-      addAllResponse(response: response)
+      addResponse(response: response)
 
       let referencedTweetIDs = response.relatedTweets.flatMap(\.referencedTweets).map(\.id)
 
       if referencedTweetIDs.count > 0 {
         let referencedResponse = try await Sweet(userID: userID).lookUpTweets(by: referencedTweetIDs)
 
-        addAllResponse(response: referencedResponse)
+        addResponse(response: referencedResponse)
       }
 
 

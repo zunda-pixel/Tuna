@@ -43,7 +43,7 @@ final class ListTweetsViewModel: NSObject, TweetsViewProtocol {
 
       let tweetResponse = try await  Sweet(userID: userID).lookUpTweets(by: tweetIDs)
 
-      addAllResponse(response: tweetResponse)
+      addResponse(response: tweetResponse)
 
       tweetResponse.tweets.forEach { tweet in
         addTimeline(tweet.id)

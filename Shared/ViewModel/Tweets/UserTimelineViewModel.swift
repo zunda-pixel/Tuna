@@ -49,7 +49,7 @@ final class UserTimelineViewModel: TweetsViewProtocol {
 
       paginationToken = response.meta?.nextToken
 
-      addAllResponse(response: response)
+      addResponse(response: response)
 
       let referencedTweetIDs = response.relatedTweets.flatMap(\.referencedTweets).map(\.id)
 
@@ -58,7 +58,7 @@ final class UserTimelineViewModel: TweetsViewProtocol {
 
         let referencedResponse = try await Sweet(userID: userID).lookUpTweets(by: referencedTweetIDs)
 
-        addAllResponse(response: referencedResponse)
+        addResponse(response: referencedResponse)
       }
 
       response.tweets.forEach { tweet in

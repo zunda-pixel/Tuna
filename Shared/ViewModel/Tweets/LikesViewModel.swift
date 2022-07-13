@@ -33,7 +33,7 @@ final class LikesViewModel: NSObject, TweetsViewProtocol {
 
       paginationToken = response.meta?.nextToken
 
-      addAllResponse(response: response)
+      addResponse(response: response)
 
       response.tweets.forEach { tweet in
         addTimeline(tweet.id)
