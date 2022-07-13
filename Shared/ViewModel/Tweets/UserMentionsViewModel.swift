@@ -49,10 +49,10 @@ final class UserMentionsViewModel: TweetsViewProtocol {
 
       addResponse(response: response)
 
-      let referencedTweetIDs: [String] = response.relatedTweets.lazy.flatMap(\.referencedTweets).filter({$0.type == .quoted}).map(\.id)
+      let referencedTweetIDs = response.relatedTweets.lazy.flatMap(\.referencedTweets).filter({$0.type == .quoted}).map(\.id)
 
       if referencedTweetIDs.count > 0 {        
-        let referencedResponse = try await Sweet(userID: userID).lookUpTweets(by: referencedTweetIDs)
+        let referencedResponse = try await Sweet(userID: userID).lookUpTweets(by:Array(referencedTweetIDs))
 
         addResponse(response: referencedResponse)
       }

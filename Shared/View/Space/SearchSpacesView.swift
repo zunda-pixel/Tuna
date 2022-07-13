@@ -28,11 +28,11 @@ struct SearchSpacesView: View {
   }
 
   var liveSpaces: [Sweet.SpaceModel] {
-    spaces.filter { $0.state == .live }.lazy.sorted { compareSpace(space1: $0, space2: $1, status: .live) }
+    spaces.lazy.filter { $0.state == .live }.sorted { compareSpace(space1: $0, space2: $1, status: .live) }
   }
 
   var scheduledSpaces: [Sweet.SpaceModel] {
-    spaces.filter { $0.state == .scheduled }.lazy.sorted { compareSpace(space1: $0, space2: $1, status: .scheduled) }
+    spaces.lazy.filter { $0.state == .scheduled }.sorted { compareSpace(space1: $0, space2: $1, status: .scheduled) }
   }
 
   func compareSpace(space1: Sweet.SpaceModel, space2: Sweet.SpaceModel, status: Sweet.SpaceState) -> Bool {
