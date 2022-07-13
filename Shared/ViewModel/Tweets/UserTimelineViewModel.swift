@@ -45,8 +45,6 @@ final class UserTimelineViewModel: TweetsViewProtocol {
     do {
       let response = try await Sweet(userID: userID).fetchTimeLine(userID: ownerID, maxResults: 10, untilID: lastTweetID, sinceID: firstTweetID, paginationToken: paginationToken)
 
-
-
       paginationToken = response.meta?.nextToken
 
       addResponse(response: response)

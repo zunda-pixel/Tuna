@@ -26,12 +26,12 @@ final class TweetDetailViewModel: ObservableObject, Hashable {
   }
 }
 
-struct TweetDetailView<Tweet: TweetDetailViewModel>: View {
-  @StateObject var viewModel: Tweet
+struct TweetDetailView<ViewModel: TweetDetailViewModel>: View {
+  @StateObject var viewModel: ViewModel
   @Binding var path: NavigationPath
 
   var body: some View {
-    List {
+    VStack {
       if let parentTweetCellViewModel = viewModel.parentTweetViewModel {
         VStack {
           TweetCellView(path: $path, viewModel: parentTweetCellViewModel)
@@ -40,12 +40,17 @@ struct TweetDetailView<Tweet: TweetDetailViewModel>: View {
           TweetDetailInformation(userID: parentTweetCellViewModel.userID, tweetID: parentTweetCellViewModel.tweet.id, metrics: parentTweetCellViewModel.tweet.publicMetrics!, path: $path)
         }
       }
+
       VStack {
         TweetCellView(path: $path, viewModel: viewModel.cellViewModel)
         TweetToolBar(userID: viewModel.cellViewModel.userID, tweetID: viewModel.cellViewModel.tweet.id,
                      tweet: viewModel.cellViewModel.tweet.text, metrics: viewModel.cellViewModel.tweet.publicMetrics!)
         TweetDetailInformation(userID: viewModel.cellViewModel.userID, tweetID: viewModel.cellViewModel.tweet.id, metrics: viewModel.cellViewModel.tweet.publicMetrics!, path: $path)
       }
+
+      let repliesTweetsViewModel: RepliesTweetsViewModel = .init(userID: viewModel.cellViewModel.userID, conversationID: viewModel.cellViewModel.tweet.conversationID!)
+
+      TweetsView(viewModel: repliesTweetsViewModel, path: $path)
     }
   }
 }
