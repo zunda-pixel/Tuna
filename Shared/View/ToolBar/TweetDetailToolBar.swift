@@ -7,6 +7,8 @@ struct TweetDetailInformation: View {
 
   let metrics: Sweet.TweetPublicMetrics
 
+  @Binding var path: NavigationPath
+  
   var body: some View {
     HStack {
       HStack {
@@ -14,28 +16,31 @@ struct TweetDetailInformation: View {
         Text("\(metrics.replyCount)")
       }
 
-      let retweetUsersViewModel: RetweetUsersViewModel = .init(userID: userID, tweetID: tweetID)
-      NavigationLink(value: retweetUsersViewModel) {
-        HStack {
-          Image(systemName: "arrow.2.squarepath")
-          Text("\(metrics.retweetCount)")
-        }
+      HStack {
+        Image(systemName: "arrow.2.squarepath")
+        Text("\(metrics.retweetCount)")
+      }
+      .onTapGesture {
+        let retweetUsersViewModel: RetweetUsersViewModel = .init(userID: userID, tweetID: tweetID)
+        path.append(retweetUsersViewModel)
       }
 
-      let quotedTweetViewModel: QuoteTweetsViewModel = .init(userID: userID, source: tweetID)
-      NavigationLink(value: quotedTweetViewModel) {
-        HStack {
-          Image(systemName: "quote.bubble")
-          Text("\(metrics.quoteCount)")
-        }
+      HStack {
+        Image(systemName: "quote.bubble")
+        Text("\(metrics.quoteCount)")
+      }
+      .onTapGesture {
+        let quoteTweetViewModel: QuoteTweetsViewModel = .init(userID: userID, source: tweetID)
+        path.append(quoteTweetViewModel)
       }
 
-      let likeUsersViewModel: LikeUsersViewModel = .init(userID: userID, tweetID: tweetID)
-      NavigationLink(value: likeUsersViewModel) {
-        HStack {
-          Image(systemName: "heart")
-          Text("\(metrics.likeCount)")
-        }
+      HStack {
+        Image(systemName: "heart")
+        Text("\(metrics.likeCount)")
+      }
+      .onTapGesture {
+        let likeUsersViewModel: LikeUsersViewModel = .init(userID: userID, tweetID: tweetID)
+        path.append(likeUsersViewModel)
       }
     }
   }
