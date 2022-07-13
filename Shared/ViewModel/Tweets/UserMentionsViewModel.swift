@@ -15,7 +15,6 @@ final class UserMentionsViewModel: TweetsViewProtocol {
 
   func hash(into hasher: inout Hasher) {
     hasher.combine(loadingTweets)
-    hasher.combine(paginationToken)
     hasher.combine(latestTapTweetID)
     hasher.combine(timelines)
     hasher.combine(userID)
@@ -32,8 +31,6 @@ final class UserMentionsViewModel: TweetsViewProtocol {
   @Published var loadingTweets: Bool = false
   @Published var isPresentedTweetToolbar: Bool = false
 
-  var paginationToken: String?
-
   var timelines: [String] = []
   var allTweets: [Sweet.TweetModel] = []
   var allUsers: [Sweet.UserModel] = []
@@ -43,9 +40,7 @@ final class UserMentionsViewModel: TweetsViewProtocol {
   
   func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
     do {
-      let response = try await Sweet(userID: userID).fetchMentions(userID: ownerID, untilID: lastTweetID, sinceID: firstTweetID, paginationToken: paginationToken)
-
-      paginationToken = response.meta?.nextToken
+      let response = try await Sweet(userID: userID).fetchMentions(userID: ownerID, untilID: lastTweetID, sinceID: firstTweetID)
 
       addResponse(response: response)
 

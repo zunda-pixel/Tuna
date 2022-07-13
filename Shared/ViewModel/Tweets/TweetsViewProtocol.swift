@@ -18,8 +18,6 @@ import Sweet
   var error: Error? { get }
   var didError: Bool { get set }
 
-  var paginationToken: String? { get set }
-
   var timelines: [String] { get set }
   var showTweets: [Sweet.TweetModel] { get }
   var allTweets: [Sweet.TweetModel] { get set }
