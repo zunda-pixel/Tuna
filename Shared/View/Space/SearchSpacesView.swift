@@ -76,14 +76,22 @@ struct SearchSpacesView: View {
             }
           }
 
-        Picker("Space Tab", selection: $selectedTab) {
-          ForEach(SpaceTab.allCases) { tab in
-            Text(tab.rawValue)
-              .tag(tab)
+        HStack {
+          Picker("Space Tab", selection: $selectedTab) {
+            ForEach(SpaceTab.allCases) { tab in
+              Text(tab.rawValue)
+                .tag(tab)
+            }
+          }
+          .pickerStyle(.segmented)
+
+          Picker("Sort By", selection: $selectedSortType) {
+            ForEach(SortType.allCases) { sortType in
+              Label(sortType.rawValue, systemImage: "arrow.up.arrow.down")
+              .tag(sortType)
+            }
           }
         }
-        .pickerStyle(.segmented)
-        .padding(.bottom)
 
         TabView(selection: $selectedTab) {
           ScrollView {
@@ -114,20 +122,6 @@ struct SearchSpacesView: View {
       .alert("Error", isPresented: $didError) {
         Button("Close") {
           print(error!)
-        }
-      }
-      .toolbar {
-        ToolbarItem(placement: .navigationBarTrailing) {
-          Picker("Sort By", selection: $selectedSortType) {
-            ForEach(SortType.allCases) { sortType in
-              Label {
-                Text("Sort by \(sortType.rawValue)")
-              } icon: {
-                Image(systemName: "arrow.up.and.down.text.horizontal")
-              }
-              .tag(sortType)
-            }
-          }
         }
       }
       .navigationTitle("Search Space")

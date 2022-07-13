@@ -31,9 +31,9 @@ struct ListDetailView<ViewModel:  ListDetailViewProtocol>: View {
           Text("\(viewModel.list.followerCount!) followers")
         }
       }
+      Spacer()
+      let listTweetsViewModel: ListTweetsViewModel =  .init(userID: viewModel.userID, listID: viewModel.list.id)
+      TweetsView(viewModel: listTweetsViewModel, path: $path)
     }
-
-    let listTweetsViewModel: ListTweetsViewModel =  .init(userID: viewModel.userID, listID: viewModel.list.id)
-    TweetsView(viewModel: listTweetsViewModel, path: $path)
   }
 }
