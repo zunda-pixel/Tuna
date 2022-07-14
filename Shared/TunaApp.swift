@@ -22,13 +22,15 @@ struct TunaApp: App {
             ReverseChronologicalNavigationView(userID: userID)
               .environment(\.managedObjectContext, persistenceController.container.viewContext)
               .tabItem {
-                Image(systemName: "house")
+                Label("Timeline", systemImage: "house")
+                  .labelStyle(.iconOnly)
               }
 
             ListsView(userID: userID)
               .environment(\.managedObjectContext, persistenceController.container.viewContext)
               .tabItem {
-                Image(systemName: "list.dash.header.rectangle")
+                Label("List", systemImage: "list.dash.header.rectangle")
+                  .labelStyle(.iconOnly)
               }
 
             let searchViewModel: SearchViewModel = .init(userID: userID)
@@ -36,24 +38,28 @@ struct TunaApp: App {
             SearchView(viewModel: searchViewModel)
               .environment(\.managedObjectContext, persistenceController.container.viewContext)
               .tabItem {
-                Image(systemName: "doc.text.magnifyingglass")
+                Label("Search Tweet User", systemImage: "doc.text.magnifyingglass")
+                  .labelStyle(.iconOnly)
               }
 
             SearchSpacesView(userID: userID)
               .tabItem {
-                Image(systemName: "airplane")
+                Label("Search Space", systemImage: "airplane")
+                  .labelStyle(.iconOnly)
               }
 
             BookmarksNavigationView(userID: userID)
               .environment(\.managedObjectContext, persistenceController.container.viewContext)
               .tabItem {
-                Image(systemName: "book.closed")
+                Label("Bookmark", systemImage: "book.closed")
+                  .labelStyle(.iconOnly)
               }
 
             LikeNavigationView(userID: userID)
               .environment(\.managedObjectContext, persistenceController.container.viewContext)
               .tabItem {
-                Image(systemName: "heart")
+                Label("Like", systemImage: "heart")
+                  .labelStyle(.iconOnly)
               }
           }
         } else {

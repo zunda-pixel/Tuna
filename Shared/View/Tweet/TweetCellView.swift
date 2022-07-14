@@ -69,7 +69,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
         }
 
         if let quoted = viewModel.quoted {
-          QuotedTweetCellView(tweet: quoted.tweet, user: quoted.user)
+          QuotedTweetCellView(userID: viewModel.userID, tweet: quoted.tweet, user: quoted.user, path: $path)
             .padding(.horizontal, 10)
             .padding(.vertical, 5)
             .overlay(RoundedRectangle(cornerRadius: 20).stroke(.gray, lineWidth: 2))
