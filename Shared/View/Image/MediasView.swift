@@ -36,6 +36,7 @@ struct MediasView: View {
           .scaledToFill()
           .frame(height: 100)
           .clipped()
+          .contentShape(Rectangle())
           .onTapGesture {
             selectedMedia = media
             isPresentedImageView.toggle()
