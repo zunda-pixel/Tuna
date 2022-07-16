@@ -9,16 +9,13 @@ import Foundation
 import Sweet
 
 final class ListTweetsViewModel: NSObject, TweetsViewProtocol {
-  var loadingTweets = false
   var paginationToken: String?
-  var latestTapTweetID: String?
   var error: Error?
   var timelines: [String] = []
 
   let listID: String
   let userID: String
 
-  @Published var isPresentedTweetToolbar: Bool = false
   @Published var didError: Bool = false
 
   var allTweets: [Sweet.TweetModel] = []

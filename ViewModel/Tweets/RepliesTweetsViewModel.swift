@@ -7,24 +7,19 @@ final class RepliesTweetsViewModel: TweetsViewProtocol {
   }
 
   func hash(into hasher: inout Hasher) {
-    hasher.combine(loadingTweets)
     hasher.combine(paginationToken)
-    hasher.combine(latestTapTweetID)
     hasher.combine(timelines)
     hasher.combine(userID)
     hasher.combine(conversationID)
   }
 
-  @Published var loadingTweets = false
   var paginationToken: String?
-  var latestTapTweetID: String?
   var error: Error?
   var timelines: [String] = []
 
   let userID: String
   let conversationID: String
 
-  @Published var isPresentedTweetToolbar: Bool = false
   @Published var didError: Bool = false
 
   var allTweets: [Sweet.TweetModel] = []

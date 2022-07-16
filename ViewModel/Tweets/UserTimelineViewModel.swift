@@ -14,8 +14,6 @@ final class UserTimelineViewModel: TweetsViewProtocol {
   }
 
   func hash(into hasher: inout Hasher) {
-    hasher.combine(loadingTweets)
-    hasher.combine(latestTapTweetID)
     hasher.combine(timelines)
     hasher.combine(userID)
     hasher.combine(ownerID)
@@ -24,12 +22,9 @@ final class UserTimelineViewModel: TweetsViewProtocol {
   let userID: String
   let ownerID: String
 
-  var latestTapTweetID: String?
   var error: Error?
 
   @Published var didError: Bool = false
-  @Published var loadingTweets: Bool = false
-  @Published var isPresentedTweetToolbar: Bool = false
 
   var timelines: [String] = []
   var allTweets: [Sweet.TweetModel] = []
