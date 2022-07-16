@@ -139,7 +139,7 @@
 		2E027FAB27E8269A00521378 /* Tests_iOSLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_iOSLaunchTests.swift; sourceTree = "<group>"; };
 		2E027FB527E8269A00521378 /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		2E027FB727E8269A00521378 /* Tests_macOSLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOSLaunchTests.swift; sourceTree = "<group>"; };
-		2E044A8E27EAE49100736B9F /* Tuna--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Tuna--iOS--Info.plist"; sourceTree = "<group>"; };
+		2E044A8E27EAE49100736B9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E044A9527EAE7D000736B9F /* KeychainAccess+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeychainAccess+Extension.swift"; sourceTree = "<group>"; };
 		2E044A9827EAF3B200736B9F /* DeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLink.swift; sourceTree = "<group>"; };
 		2E0981442809482A00431C50 /* QuotedTweetCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotedTweetCellView.swift; sourceTree = "<group>"; };
@@ -182,7 +182,6 @@
 		2E63898D27EABFCC00964EC8 /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 		2E63899327EAC39D00964EC8 /* TwitterOAuth2+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TwitterOAuth2+Extension.swift"; sourceTree = "<group>"; };
 		2E63899627EAC56000964EC8 /* Sweet+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sweet+Extension.swift"; sourceTree = "<group>"; };
-		2E63899927EADA5F00964EC8 /* Tuna--macOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Tuna--macOS--Info.plist"; sourceTree = "<group>"; };
 		2E6A8C59285DD01D003BFD7C /* PollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollView.swift; sourceTree = "<group>"; };
 		2E71094228485FC0000A4603 /* UserTimelineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTimelineViewModel.swift; sourceTree = "<group>"; };
 		2E7DD5E9283B569E00F16C53 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
@@ -268,8 +267,7 @@
 		2E027F8827E8269800521378 = {
 			isa = PBXGroup;
 			children = (
-				2E044A8E27EAE49100736B9F /* Tuna--iOS--Info.plist */,
-				2E63899927EADA5F00964EC8 /* Tuna--macOS--Info.plist */,
+				2E044A8E27EAE49100736B9F /* Info.plist */,
 				2E027F8D27E8269800521378 /* Shared */,
 				2E027F9F27E8269A00521378 /* macOS */,
 				2E027FA827E8269A00521378 /* Tests iOS */,
@@ -930,7 +928,7 @@
 				DEVELOPMENT_TEAM = PU5HXZ4FZ2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Tuna--iOS--Info.plist";
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -965,7 +963,7 @@
 				DEVELOPMENT_TEAM = PU5HXZ4FZ2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Tuna--iOS--Info.plist";
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
