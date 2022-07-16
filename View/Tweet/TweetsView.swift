@@ -12,23 +12,9 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
   @StateObject var viewModel: ViewModel
   @Binding var path: NavigationPath
 
-  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
-    if viewModel.loadingTweets {
-      return
-    }
-
-    viewModel.loadingTweets = true
-
-    defer {
-      viewModel.loadingTweets = false
-    }
-
-    await viewModel.fetchTweets(first: firstTweetID, last: lastTweetID)
-  }
-
   var body: some View {
     VStack {
-      if !viewModel.loadingTweets && viewModel.showTweets.isEmpty {
+      if viewModel.showTweets.isEmpty {
         Image(systemName: "info.square")
         Text("No Tweets Found.")
       } else {
@@ -58,26 +44,20 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
                 path.append(tweetDetailViewModel)
               }
 
-
               .onAppear {
-                guard let lastTweet = viewModel.showTweets.last else {
-                  return
-                }
+                guard let lastTweet = viewModel.showTweets.last else { return }
 
-                if tweet.id == lastTweet.id {
-                  Task {
-                    await fetchTweets(first: nil, last: lastTweet.id)
-                  }
+                guard tweet.id == lastTweet.id else { return }
+
+                Task {
+                  await viewModel.fetchTweets(first: nil, last: lastTweet.id)
                 }
               }
-            }
-            if viewModel.loadingTweets {
-              ProgressView()
             }
           }
           .anyRefreshable {
             let firstTweetID = viewModel.showTweets.first?.id
-            await fetchTweets(first: firstTweetID, last: nil)
+            await viewModel.fetchTweets(first: firstTweetID, last: nil)
           }
         }
         .alert("Error", isPresented: $viewModel.didError) {
@@ -93,7 +73,7 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
       Task {
         guard viewModel.showTweets.isEmpty else { return }
         let firstTweetID = viewModel.showTweets.first?.id
-        await fetchTweets(first: firstTweetID, last: nil)
+        await viewModel.fetchTweets(first: firstTweetID, last: nil)
       }
     }
   }
