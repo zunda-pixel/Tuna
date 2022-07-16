@@ -26,7 +26,7 @@ struct SearchView<ViewModel: SearchViewProtocol>: View {
         Section {
           HStack {
             Image(systemName: "magnifyingglass")
-            TextField("Search Keyboard", text: $viewModel.tweetsViewModel.searchText)
+            TextField("Search Twitter", text: $viewModel.tweetsViewModel.searchText)
               .onChange(of: viewModel.tweetsViewModel.searchText) { newValue in
                 viewModel.usersViewModel.searchText = newValue
               }
