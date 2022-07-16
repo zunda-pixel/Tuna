@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2E027FAA27E8269A00521378 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E027FA927E8269A00521378 /* Tests_iOS.swift */; };
-		2E027FAC27E8269A00521378 /* Tests_iOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E027FAB27E8269A00521378 /* Tests_iOSLaunchTests.swift */; };
+		2E027FAA27E8269A00521378 /* UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E027FA927E8269A00521378 /* UITests.swift */; };
+		2E027FAC27E8269A00521378 /* UITests_LaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E027FAB27E8269A00521378 /* UITests_LaunchTests.swift */; };
 		2E027FB927E8269A00521378 /* Tuna.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2E027F8E27E8269800521378 /* Tuna.xcdatamodeld */; };
 		2E027FBB27E8269A00521378 /* TunaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E027F9027E8269800521378 /* TunaApp.swift */; };
 		2E027FC127E8269A00521378 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E027F9327E8269A00521378 /* Assets.xcassets */; };
@@ -34,6 +34,7 @@
 		2E10387227F2AF3700E8E67B /* ListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E10387127F2AF3700E8E67B /* ListCellView.swift */; };
 		2E10387527F2D33400E8E67B /* ListDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E10387427F2D33400E8E67B /* ListDetailView.swift */; };
 		2E10387827F3411900E8E67B /* NewPollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E10387727F3411900E8E67B /* NewPollView.swift */; };
+		2E1175762882404A00413A71 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1175752882404A00413A71 /* Tests.swift */; };
 		2E13ED47280D0A1300BF79CD /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E13ED46280D0A1200BF79CD /* Array+Extension.swift */; };
 		2E13ED4A280D175C00BF79CD /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E13ED49280D175C00BF79CD /* SearchView.swift */; };
 		2E1914F5283F1EBC00F03C7C /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1914F4283F1EBC00F03C7C /* SearchViewModel.swift */; };
@@ -133,12 +134,9 @@
 		2E027F9027E8269800521378 /* TunaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TunaApp.swift; sourceTree = "<group>"; };
 		2E027F9327E8269A00521378 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2E027F9827E8269A00521378 /* Tuna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tuna.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2E027FA027E8269A00521378 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		2E027FA527E8269A00521378 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2E027FA927E8269A00521378 /* Tests_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_iOS.swift; sourceTree = "<group>"; };
-		2E027FAB27E8269A00521378 /* Tests_iOSLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_iOSLaunchTests.swift; sourceTree = "<group>"; };
-		2E027FB527E8269A00521378 /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
-		2E027FB727E8269A00521378 /* Tests_macOSLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOSLaunchTests.swift; sourceTree = "<group>"; };
+		2E027FA927E8269A00521378 /* UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITests.swift; sourceTree = "<group>"; };
+		2E027FAB27E8269A00521378 /* UITests_LaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITests_LaunchTests.swift; sourceTree = "<group>"; };
 		2E044A8E27EAE49100736B9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E044A9527EAE7D000736B9F /* KeychainAccess+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeychainAccess+Extension.swift"; sourceTree = "<group>"; };
 		2E044A9827EAF3B200736B9F /* DeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLink.swift; sourceTree = "<group>"; };
@@ -162,6 +160,7 @@
 		2E10387127F2AF3700E8E67B /* ListCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCellView.swift; sourceTree = "<group>"; };
 		2E10387427F2D33400E8E67B /* ListDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDetailView.swift; sourceTree = "<group>"; };
 		2E10387727F3411900E8E67B /* NewPollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPollView.swift; sourceTree = "<group>"; };
+		2E1175752882404A00413A71 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		2E13ED46280D0A1200BF79CD /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		2E13ED49280D175C00BF79CD /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		2E1914F4283F1EBC00F03C7C /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
@@ -268,32 +267,22 @@
 			isa = PBXGroup;
 			children = (
 				2E044A8E27EAE49100736B9F /* Info.plist */,
-				2E027F8D27E8269800521378 /* Shared */,
-				2E027F9F27E8269A00521378 /* macOS */,
-				2E027FA827E8269A00521378 /* Tests iOS */,
-				2E027FB427E8269A00521378 /* Tests macOS */,
-				2E027F9927E8269A00521378 /* Products */,
-				2E5E4F5F27EB58C7009D6D53 /* Frameworks */,
-			);
-			sourceTree = "<group>";
-		};
-		2E027F8D27E8269800521378 /* Shared */ = {
-			isa = PBXGroup;
-			children = (
-				2E612BC2280997FE00CD4111 /* Model */,
-				2EA6538A27E9A137003E99AE /* ViewModel */,
-				2E4E983327E9959D00D9A15F /* View */,
-				2E5E4F6D27EB632B009D6D53 /* Extension */,
+				2E027F9327E8269A00521378 /* Assets.xcassets */,
+				2E027F8E27E8269800521378 /* Tuna.xcdatamodeld */,
 				2E027F9027E8269800521378 /* TunaApp.swift */,
 				2E4E983827E9963C00D9A15F /* Persistence.swift */,
 				2E63898A27EABF4400964EC8 /* SecurityRandom.swift */,
 				2E63898727EAB9C200964EC8 /* TwitterOAuth2.swift */,
 				2E044A9827EAF3B200736B9F /* DeepLink.swift */,
 				2E63898D27EABFCC00964EC8 /* Secret.swift */,
-				2E027F9327E8269A00521378 /* Assets.xcassets */,
-				2E027F8E27E8269800521378 /* Tuna.xcdatamodeld */,
+				2E612BC2280997FE00CD4111 /* Model */,
+				2EA6538A27E9A137003E99AE /* ViewModel */,
+				2E4E983327E9959D00D9A15F /* View */,
+				2E5E4F6D27EB632B009D6D53 /* Extension */,
+				2E1175742882402300413A71 /* Tests */,
+				2E027FA827E8269A00521378 /* UITests */,
+				2E027F9927E8269A00521378 /* Products */,
 			);
-			path = Shared;
 			sourceTree = "<group>";
 		};
 		2E027F9927E8269A00521378 /* Products */ = {
@@ -305,30 +294,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2E027F9F27E8269A00521378 /* macOS */ = {
+		2E027FA827E8269A00521378 /* UITests */ = {
 			isa = PBXGroup;
 			children = (
-				2E027FA027E8269A00521378 /* macOS.entitlements */,
+				2E027FA927E8269A00521378 /* UITests.swift */,
+				2E027FAB27E8269A00521378 /* UITests_LaunchTests.swift */,
 			);
-			path = macOS;
-			sourceTree = "<group>";
-		};
-		2E027FA827E8269A00521378 /* Tests iOS */ = {
-			isa = PBXGroup;
-			children = (
-				2E027FA927E8269A00521378 /* Tests_iOS.swift */,
-				2E027FAB27E8269A00521378 /* Tests_iOSLaunchTests.swift */,
-			);
-			path = "Tests iOS";
-			sourceTree = "<group>";
-		};
-		2E027FB427E8269A00521378 /* Tests macOS */ = {
-			isa = PBXGroup;
-			children = (
-				2E027FB527E8269A00521378 /* Tests_macOS.swift */,
-				2E027FB727E8269A00521378 /* Tests_macOSLaunchTests.swift */,
-			);
-			path = "Tests macOS";
+			path = UITests;
 			sourceTree = "<group>";
 		};
 		2E0E4ECE28604F5B00D4B64F /* Image */ = {
@@ -340,6 +312,14 @@
 				2E0E4ECF28604F6700D4B64F /* ScalableImage.swift */,
 			);
 			path = Image;
+			sourceTree = "<group>";
+		};
+		2E1175742882402300413A71 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				2E1175752882404A00413A71 /* Tests.swift */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		2E4E983327E9959D00D9A15F /* View */ = {
@@ -365,13 +345,6 @@
 				2E49C22128814C5900FA092A /* RefreshableView.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		2E5E4F5F27EB58C7009D6D53 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		2E5E4F6D27EB632B009D6D53 /* Extension */ = {
@@ -785,8 +758,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E027FAC27E8269A00521378 /* Tests_iOSLaunchTests.swift in Sources */,
-				2E027FAA27E8269A00521378 /* Tests_iOS.swift in Sources */,
+				2E027FAC27E8269A00521378 /* UITests_LaunchTests.swift in Sources */,
+				2E1175762882404A00413A71 /* Tests.swift in Sources */,
+				2E027FAA27E8269A00521378 /* UITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -993,6 +967,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = PU5HXZ4FZ2;
@@ -1013,6 +988,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = PU5HXZ4FZ2;

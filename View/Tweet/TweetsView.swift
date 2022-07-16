@@ -27,36 +27,25 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
   }
 
   var body: some View {
-    VStack(alignment: .center) {
+    VStack {
       if !viewModel.loadingTweets && viewModel.showTweets.isEmpty {
         Image(systemName: "info.square")
         Text("No Tweets Found.")
       } else {
-        List {
-          ForEach(viewModel.showTweets) { tweet in
-            let cellViewModel = viewModel.getTweetCellViewModel(tweet.id)
+        ScrollView {
+          LazyVStack {
+            Divider()
+            ForEach(viewModel.showTweets) { tweet in
+              let cellViewModel = viewModel.getTweetCellViewModel(tweet.id)
 
-            let isTappedTweet: Bool = {
-              if let latestTapTweetID = viewModel.latestTapTweetID {
-                let sameTweetID = latestTapTweetID == cellViewModel.tweet.id
-                return viewModel.isPresentedTweetToolbar && sameTweetID
-              } else {
-                return false
-              }
-            }()
-
-            VStack {
-              TweetCellView(path: $path, viewModel: cellViewModel)
-                .onTapGesture {
-                  viewModel.isPresentedTweetToolbar = viewModel.latestTapTweetID != cellViewModel.tweet.id || !viewModel.isPresentedTweetToolbar
-                  viewModel.latestTapTweetID = cellViewModel.tweet.id
-                }
-              if isTappedTweet {
+              VStack {
+                TweetCellView(path: $path, viewModel: cellViewModel)
                 TweetToolBar(userID: viewModel.userID, tweetID: cellViewModel.tweet.id, tweet: cellViewModel.tweetText, metrics: cellViewModel.tweet.publicMetrics!)
+
+                Divider()
               }
-            }
-            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-              Button {
+              .contentShape(Rectangle())
+              .onTapGesture {
                 let parentTweetCellViewModel: TweetCellViewModel? = {
                   if let reply = cellViewModel.tweet.referencedTweets.first(where: { $0.type == .repliedTo}) {
                     return viewModel.getTweetCellViewModel(reply.id)
@@ -67,39 +56,38 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
 
                 let tweetDetailViewModel: TweetDetailViewModel = .init(cellViewModel: cellViewModel, parentTweetViewModel: parentTweetCellViewModel)
                 path.append(tweetDetailViewModel)
-              } label: {
-                Image(systemName: "ellipsis")
-              }
-            }
-            .onAppear {
-              guard let lastTweet = viewModel.showTweets.last else {
-                return
               }
 
-              if tweet.id == lastTweet.id {
-                Task {
-                  await fetchTweets(first: nil, last: lastTweet.id)
+
+              .onAppear {
+                guard let lastTweet = viewModel.showTweets.last else {
+                  return
+                }
+
+                if tweet.id == lastTweet.id {
+                  Task {
+                    await fetchTweets(first: nil, last: lastTweet.id)
+                  }
                 }
               }
             }
+            if viewModel.loadingTweets {
+              ProgressView()
+            }
+          }
+          .anyRefreshable {
+            let firstTweetID = viewModel.showTweets.first?.id
+            await fetchTweets(first: firstTweetID, last: nil)
           }
         }
-        if viewModel.loadingTweets {
-          ProgressView()
+        .alert("Error", isPresented: $viewModel.didError) {
+          Button {
+            print(viewModel.error!)
+          } label: {
+            Text("Close")
+          }
         }
       }
-    }
-
-    .alert("Error", isPresented: $viewModel.didError) {
-      Button {
-        print(viewModel.error!)
-      } label: {
-        Text("Close")
-      }
-    }
-    .refreshable {
-      let firstTweetID = viewModel.showTweets.first?.id
-      await fetchTweets(first: firstTweetID, last: nil)
     }
     .onAppear {
       Task {

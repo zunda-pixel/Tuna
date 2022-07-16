@@ -1,13 +1,6 @@
-//
-//  Tests_iOSLaunchTests.swift
-//  Tests iOS
-//
-//  Created by zunda on 2022/03/21.
-//
-
 import XCTest
 
-class Tests_iOSLaunchTests: XCTestCase {
+class Tests_LaunchTests: XCTestCase {
 
   override class var runsForEachTargetApplicationUIConfiguration: Bool {
     true
