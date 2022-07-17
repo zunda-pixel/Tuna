@@ -52,23 +52,21 @@ struct UserView: View {
 
       UserProfileView(user:viewModel.user)
 
-      if let metrics = viewModel.user.metrics {
-        HStack(alignment: .center) {
-          let followerUserViewModel: FollowerUserViewModel = .init(userID: viewModel.userID, ownerID: viewModel.user.id)
+      HStack(alignment: .center) {
+        let followerUserViewModel: FollowerUserViewModel = .init(userID: viewModel.userID, ownerID: viewModel.user.id)
 
-          NavigationLink(value: followerUserViewModel) {
-            VStack {
-              Text("FOLLOWERS")
-              Text("\(metrics.followersCount)")
-            }
+        NavigationLink(value: followerUserViewModel) {
+          VStack {
+            Text("FOLLOWERS")
+            Text("\(viewModel.user.metrics!.followersCount)")
           }
+        }
 
-          let followingUserViewModel: FollowingUserViewModel = .init(userID: viewModel.userID, ownerID: viewModel.user.id)
-          NavigationLink(value: followingUserViewModel) {
-            VStack {
-              Text("FOLLOWING")
-              Text("\(metrics.followingCount)")
-            }
+        let followingUserViewModel: FollowingUserViewModel = .init(userID: viewModel.userID, ownerID: viewModel.user.id)
+        NavigationLink(value: followingUserViewModel) {
+          VStack {
+            Text("FOLLOWING")
+            Text("\(viewModel.user.metrics!.followingCount)")
           }
         }
       }
