@@ -21,7 +21,7 @@ struct SearchView<ViewModel: SearchViewProtocol>: View {
   }
 
   var body: some View {
-    NavigationStack {
+    NavigationStack(path: $path) {
       List {
         Section {
           HStack {

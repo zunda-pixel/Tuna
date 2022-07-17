@@ -51,6 +51,8 @@ struct TweetDetailView<ViewModel: TweetDetailViewModel>: View {
       let repliesTweetsViewModel: RepliesTweetsViewModel = .init(userID: viewModel.cellViewModel.userID, conversationID: viewModel.cellViewModel.tweet.conversationID!)
 
       TweetsView(viewModel: repliesTweetsViewModel, path: $path)
+
+      Spacer()
     }
   }
 }
