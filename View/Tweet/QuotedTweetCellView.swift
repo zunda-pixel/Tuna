@@ -25,7 +25,7 @@ struct QuotedTweetCellView: View {
             .lineLimit(1)
         }
 
-        Text(tweet.text)
+        Text(tweet.tweetText)
           .lineLimit(nil)
           .fixedSize(horizontal: false, vertical: true)
       }

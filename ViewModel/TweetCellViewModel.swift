@@ -85,11 +85,9 @@ class TweetCellViewModel: TweetCellViewProtocol {
   var tweetText: String {
     let isRetweeted  = tweet.referencedTweets.contains { $0.type == .retweeted }
 
-    if isRetweeted {
-      return retweet!.tweet.text
-    } else {
-      return tweet.text
-    }
+    let tweet = isRetweeted ? retweet!.tweet : tweet
+
+    return tweet.tweetText
   }
 
   var showDate: Date {
@@ -102,4 +100,3 @@ class TweetCellViewModel: TweetCellViewProtocol {
     }
   }
 }
-

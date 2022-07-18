@@ -36,4 +36,27 @@ extension Sweet.TweetModel {
       withheld: withheld, contextAnnotations: contextAnnotations ?? [],
       entity: entity, referencedTweets: referencedTweets ?? [])
   }
+  
+  var tweetText: String {
+    let tweetText = removeTwitterURL(from: self.text)
+    return tweetText
+  }
+
+  func removeTwitterURL(from tweet: String) -> String {
+    var tweetText = tweet
+
+    let twitterURLRegex: String = "https://twitter.com"
+
+    let urls = self.entity?.urls ?? []
+
+    for url in urls {
+      if tweetText.contains(url.url.absoluteString) {
+        if url.expandedURL.contains(twitterURLRegex) {
+          tweetText = tweetText.replacingOccurrences(of: url.url.absoluteString, with: "")
+        }
+      }
+    }
+
+    return tweetText
+  }
 }
