@@ -50,7 +50,6 @@ struct BookmarkButton: View {
     } label: {
       Image(systemName: viewModel.isBookmarked ? "bookmark.slash" : "bookmark")
     }
-    .tint(viewModel.isBookmarked ? .brown : .gray)
     .disabled(viewModel.loading)
     .alert("Error", isPresented: $viewModel.didError) {
       Button {

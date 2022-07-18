@@ -23,13 +23,13 @@ struct TweetToolBar: View {
       } label: {
         Text("\(Image(systemName: "arrow.2.squarepath")) \(metrics.retweetCount + metrics.quoteCount)")
       }
-      .tint(.gray)
       .buttonStyle(.borderless)
       .padding(.horizontal)
 
       LikeButton(viewModel: .init(user: userID, tweet: tweetID, likeCount: metrics.likeCount))
         .buttonStyle(.borderless)
         .padding(.horizontal)
+
       BookmarkButton(viewModel: .init(user: userID, tweet: tweetID))
         .buttonStyle(.borderless)
         .padding(.horizontal)

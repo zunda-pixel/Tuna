@@ -52,7 +52,6 @@ struct LikeButton: View {
     } label: {
       Text("\(Image(systemName: "heart")) \(viewModel.likeCount)")
     }
-    .tint(viewModel.isLiked ? .pink : .gray)
     .disabled(viewModel.loading)
     .alert("Error", isPresented: $viewModel.didError) {
       Button {
