@@ -9,12 +9,21 @@ import SwiftUI
 
 struct TweetMenu: View {
   @State var isPresentedDeleteTweetAlert = false
+
+  let userID: String
+  let tweetID: String
+
   func removeTweet() {
 
   }
 
   var body: some View {
     Menu {
+      let url: URL = .init(string: "https://twitter.com/\(userID)/status/\(tweetID)")!
+      ShareLink(item: url) {
+        Label("Share", systemImage: "square.and.arrow.up")
+      }
+
       Button {
         isPresentedDeleteTweetAlert.toggle()
       } label: {
@@ -40,6 +49,6 @@ struct TweetMenu: View {
 
 struct TweetMenu_Previews: PreviewProvider {
   static var previews: some View {
-    TweetMenu()
+    TweetMenu(userID: "", tweetID: "'")
   }
 }

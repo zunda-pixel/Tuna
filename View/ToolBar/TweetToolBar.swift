@@ -34,15 +34,7 @@ struct TweetToolBar: View {
         .buttonStyle(.borderless)
         .padding(.horizontal)
 
-      let url: URL = .init(string: "https://twitter.com/\(userID)/status/\(tweetID)")!
-      ShareLink(item: url) {
-        Image(systemName: "square.and.arrow.up")
-      }
-      .presentationDetents([.medium, .large])
-      .padding(.horizontal)
-
-
-      TweetMenu()
+      TweetMenu(userID: userID, tweetID: tweetID)
         .menuStyle(.borderlessButton)
         .padding(.horizontal)
     }
