@@ -11,6 +11,8 @@ import PhotosUI
 import Photos
 import SwiftUI
 
+typealias TweetAndUser = (tweet: Sweet.TweetModel, user: Sweet.UserModel)
+
 @MainActor protocol NewTweetViewProtocol: NSObject, ObservableObject, CLLocationManagerDelegate {
   var userID: String { get }
   var text: String { get set }
@@ -25,8 +27,8 @@ import SwiftUI
   var locationManager: CLLocationManager { get }
   var leftTweetCount: Int { get }
   var loadingLocation: Bool { get set }
-  var quotedTweet: Sweet.TweetModel? { get }
-  func tweet() async
+  var quoted: TweetAndUser? { get }
+  func postTweet() async
   func setLocation() async
   func loadPhotos(with pickers: [PhotosPickerItem]) async
   func pollButtonAction()
@@ -43,14 +45,14 @@ final class NewTweetViewModel: NSObject, NewTweetViewProtocol {
   @Published var loadingLocation: Bool = false
 
   let userID: String
-  let quotedTweet: Sweet.TweetModel?
+  let quoted: TweetAndUser?
 
   var error: Error?
   var locationManager: CLLocationManager = .init()
 
-  init(userID: String, quoted quotedTweet: Sweet.TweetModel? = nil) {
+  init(userID: String, quoted: TweetAndUser? = nil) {
     self.userID = userID
-    self.quotedTweet = quotedTweet
+    self.quoted = quoted
 
     super.init()
     locationManager.delegate = self
@@ -80,11 +82,11 @@ final class NewTweetViewModel: NSObject, NewTweetViewProtocol {
     return false
   }
 
-  func tweet() async {
+  func postTweet() async {
     let tweet = Sweet.PostTweetModel(
       text: text, directMessageDeepLink: nil,
       forSuperFollowersOnly: false, geo: nil,
-      media: nil, poll: poll, quoteTweetID: quotedTweet?.id,
+      media: nil, poll: poll, quoteTweetID: quoted?.tweet.id,
       reply: nil, replySettings: selectedReplySetting)
     do {
       let _ = try await Sweet(userID: userID).createTweet(tweet)

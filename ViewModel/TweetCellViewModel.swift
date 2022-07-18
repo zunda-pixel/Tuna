@@ -18,8 +18,8 @@ protocol TweetCellViewProtocol: ObservableObject, Hashable {
   var author: Sweet.UserModel { get }
   var tweet: Sweet.TweetModel  { get }
 
-  var retweet: (user: Sweet.UserModel, tweet: Sweet.TweetModel)? { get }
-  var quoted: (user: Sweet.UserModel, tweet: Sweet.TweetModel)? { get }
+  var retweet: TweetAndUser? { get }
+  var quoted: TweetAndUser? { get }
 
   var medias: [Sweet.MediaModel] { get }
   var poll: Sweet.PollModel? { get }
@@ -52,9 +52,9 @@ class TweetCellViewModel: TweetCellViewProtocol {
   let author: Sweet.UserModel
   let tweet: Sweet.TweetModel
 
-  let retweet: (user: Sweet.UserModel, tweet: Sweet.TweetModel)?
+  let retweet: TweetAndUser?
 
-  let quoted: (user: Sweet.UserModel, tweet: Sweet.TweetModel)?
+  let quoted: TweetAndUser?
 
   let medias: [Sweet.MediaModel]
   let poll: Sweet.PollModel?
@@ -64,8 +64,8 @@ class TweetCellViewModel: TweetCellViewProtocol {
 
   init(userID: String,
        tweet: Sweet.TweetModel, author : Sweet.UserModel,
-       retweet: (Sweet.UserModel, Sweet.TweetModel)? = nil,
-       quoted: (Sweet.UserModel, Sweet.TweetModel)? = nil,
+       retweet: TweetAndUser? = nil,
+       quoted: TweetAndUser? = nil,
        medias: [Sweet.MediaModel] = [],poll: Sweet.PollModel? = nil, place: Sweet.PlaceModel? = nil) {
     self.userID = userID
 

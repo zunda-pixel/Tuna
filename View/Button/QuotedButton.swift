@@ -8,23 +8,13 @@
 import SwiftUI
 
 struct QuotedButton: View {
-  @State var isPresented = false
+  @Binding var isPresentedNewTweetView: Bool
 
   let userID: String
   
   var body: some View {
     Button("Quoted Tweet") {
-      isPresented.toggle()
-    }
-    .sheet(isPresented: $isPresented) {
-      let viewModel: NewTweetViewModel = .init(userID: userID)
-      NewTweetView(viewModel: viewModel)
+      isPresentedNewTweetView.toggle()
     }
   }
-}
-
-struct QuotedButton_Previews: PreviewProvider {
-    static var previews: some View {
-        QuotedButton(userID: "")
-    }
 }

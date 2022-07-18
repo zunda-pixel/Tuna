@@ -44,7 +44,7 @@ final class BookmarksViewModel: TweetsViewProtocol {
       response.tweets.forEach { tweet in
         addTimeline(tweet.id)
       }
-
+      
       objectWillChange.send()
     } catch let newError {
       self.error = newError

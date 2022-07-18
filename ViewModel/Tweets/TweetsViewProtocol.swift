@@ -163,16 +163,16 @@ extension TweetsViewProtocol {
 
     let author = getUser(tweet.authorID!)!
 
-    let retweet: (user: Sweet.UserModel, tweet: Sweet.TweetModel)? = {
+    let retweet: TweetAndUser? = {
       guard let retweet = tweet.referencedTweets.first(where: { $0.type == .retweeted }) else  { return nil }
 
       let tweet = getTweet(retweet.id)!
       let user = getUser(tweet.authorID!)!
 
-      return (user, tweet)
+      return (tweet, user)
     }()
 
-    let quoted: (user: Sweet.UserModel, tweet: Sweet.TweetModel)? = {
+    let quoted: TweetAndUser? = {
       let quotedTweetID: String? = {
         if let quoted = tweet.referencedTweets.first(where: { $0.type == .quoted}) {
           return quoted.id
@@ -190,7 +190,7 @@ extension TweetsViewProtocol {
       let tweet = getTweet(quotedTweetID)!
       let user = getUser(tweet.authorID!)!
 
-      return (user, tweet)
+      return (tweet, user)
     }()
 
     let medias = getMedias(tweet.attachments?.mediaKeys ?? [])
