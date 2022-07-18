@@ -18,146 +18,144 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
 
   var body: some View {
     ScrollView {
-      HStack {
-        Button("Close") {
-          dismiss()
-        }
-        Spacer()
-        Text("New Tweet")
-        Spacer()
-        Button("Tweet") {
-          Task {
-            await viewModel.tweet()
+      VStack {
+        HStack {
+          Button("Close") {
             dismiss()
           }
+          Spacer()
+          Text("New Tweet")
+          Spacer()
+          Button("Tweet") {
+            Task {
+              await viewModel.postTweet()
+              dismiss()
+            }
+          }
+          .disabled(viewModel.disableTweetButton)
+          .buttonStyle(.bordered)
         }
-        .disabled(viewModel.disableTweetButton)
-        .buttonStyle(.bordered)
-      }
-      HStack(alignment: .top) {
-        Image(systemName: "person")
-        VStack {
-          HStack(alignment: .top) {
-            ZStack {
-              TextEditor(text: $viewModel.text)
-                .focused($showKeyboard, equals: true)
-              if viewModel.text.isEmpty {
-                HStack {
-                  Text("Say something...")
-                    .opacity(0.25)
-                  Spacer()
+
+        HStack(alignment: .top) {
+          Image(systemName: "person")
+          VStack {
+            HStack(alignment: .top) {
+              ZStack {
+                TextEditor(text: $viewModel.text)
+                  .focused($showKeyboard, equals: true)
+                if viewModel.text.isEmpty {
+                  HStack {
+                    Text(viewModel.quoted == nil ? " Say something..." : " Add Comment...")
+                      .opacity(0.25)
+                    Spacer()
+                  }
                 }
+                Text(viewModel.text).opacity(0)
               }
-              Text(viewModel.text).opacity(0)
+
+              Text("\(viewModel.leftTweetCount)")
             }
 
-            Text("\(viewModel.leftTweetCount)")
-          }
-
-          if let poll = viewModel.poll, poll.options.count > 1 {
-            NewPollView(
-              options: .init(
-                get: { viewModel.poll!.options },
-                set: { viewModel.poll?.options = $0 }
-              ),
-              duration: .init(
-                get: { TimeInterval(poll.durationMinutes * 60) },
-                set: { viewModel.poll?.durationMinutes = Int($0 / 60) })
-            )
-            .padding()
-            .overlay(
-              RoundedRectangle(cornerRadius: 20)
-                .stroke(.black.opacity(0.2), lineWidth: 2)
-            )
-            .padding(.horizontal, 2)
+            if let poll = viewModel.poll, poll.options.count > 1 {
+              NewPollView(
+                options: .init(
+                  get: { viewModel.poll!.options },
+                  set: { viewModel.poll?.options = $0 }
+                ),
+                duration: .init(
+                  get: { TimeInterval(poll.durationMinutes * 60) },
+                  set: { viewModel.poll?.durationMinutes = Int($0 / 60) })
+              )
+              .padding()
+              .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                  .stroke(.black.opacity(0.2), lineWidth: 2)
+              )
+              .padding(.horizontal, 2)
+            }
           }
         }
-      }
 
-      LazyVGrid(columns: [.init(), .init()]) {
-        ForEach(viewModel.photos) { photo in
-          PhotoView(photo: photo)
-            .frame(width: 100, height: 100, alignment: .center)
-            .scaledToFit()
+        LazyVGrid(columns: [.init(), .init()]) {
+          ForEach(viewModel.photos) { photo in
+            PhotoView(photo: photo)
+              .frame(width: 100, height: 100, alignment: .center)
+              .scaledToFit()
+          }
         }
-      }
 
-      if let location = viewModel.locationString {
+        VStack(alignment: .leading) {
+          if let quoted = viewModel.quoted {
+            QuotedTweetCellView(userID: viewModel.userID, tweet: quoted.tweet, user: quoted.user)
+              .padding()
+              .overlay(RoundedRectangle(cornerRadius: 20).stroke(.gray, lineWidth: 2))
+          }
+        }
+
+
+        if let location = viewModel.locationString {
+          HStack {
+            Text(location)
+              .foregroundColor(.gray)
+
+            Button {
+              self.viewModel.locationString = nil
+            } label: {
+              Image(systemName: "multiply.circle")
+            }
+          }
+        }
+
+        Picker("ReplySetting", selection: $viewModel.selectedReplySetting) {
+          ForEach(Sweet.ReplySetting.allCases, id: \.rawValue) { replySetting in
+            Text(replySetting.description)
+          }
+        }
+
         HStack {
-          Text(location)
-            .foregroundColor(.gray)
+          PhotosPicker(selection: $viewModel.photosPickerItems,
+                       maxSelectionCount: 0,
+                       selectionBehavior: .ordered,
+                       preferredItemEncoding: .current,
+                       photoLibrary: .shared()) {
+            Image(systemName: "photo")
+          }
+
+          LocationButton(.currentLocation) {
+            Task {
+              await viewModel.setLocation()
+            }
+          }
+          .foregroundColor(.blue)
+          .tint(.white)
+          .labelStyle(.iconOnly)
+          .disabled(viewModel.loadingLocation)
 
           Button {
-            self.viewModel.locationString = nil
+            viewModel.pollButtonAction()
           } label: {
-            Image(systemName: "multiply.circle")
+            Image(systemName: "chart.bar.xaxis")
+              .rotationEffect(.degrees(90))
           }
+          .disabled(viewModel.photos.count != 0)
         }
-      }
-
-      Picker("ReplySetting", selection: $viewModel.selectedReplySetting) {
-        ForEach(Sweet.ReplySetting.allCases, id: \.rawValue) { replySetting in
-          Text(replySetting.description)
-        }
-      }
-
-      HStack {
-        PhotosPicker(selection: $viewModel.photosPickerItems,
-                     maxSelectionCount: 0,
-                     selectionBehavior: .ordered,
-                     preferredItemEncoding: .current,
-                     photoLibrary: .shared()) {
-          Image(systemName: "photo")
-        }
-        
-        LocationButton(.currentLocation) {
+        .onChange(of: viewModel.photosPickerItems, perform: { newResults in
           Task {
-            await viewModel.setLocation()
+            await viewModel.loadPhotos(with: newResults)
           }
+        })
+        .alert("Error", isPresented: $viewModel.didError) {
+          Button(role: .destructive) {
+            print(viewModel.error!)
+          } label: {
+            Text("Close")
+          }
+        } message: {
+          Text("\(viewModel.error?.localizedDescription ?? "Error Detail")")
         }
-        .foregroundColor(.blue)
-        .tint(.white)
-        .labelStyle(.iconOnly)
-        .disabled(viewModel.loadingLocation)
-        
-        Button {
-          viewModel.pollButtonAction()
-        } label: {
-          Image(systemName: "chart.bar.xaxis")
-            .rotationEffect(.degrees(90))
-        }
-        .disabled(viewModel.photos.count != 0)
       }
-      .onChange(of: viewModel.photosPickerItems, perform: { newResults in
-        Task {
-          await viewModel.loadPhotos(with: newResults)
-        }
-      })
-      .alert("Error", isPresented: $viewModel.didError) {
-        Button(role: .destructive) {
-          print(viewModel.error!)
-        } label: {
-          Text("Close")
-        }
-      } message: {
-        Text("\(viewModel.error?.localizedDescription ?? "Error Detail")")
-      }
+      .defaultFocus($showKeyboard, true)
+      .padding()
     }
-    .defaultFocus($showKeyboard, true)
-    .padding()
-  }
-}
-
-struct NewTweetView_Previews: PreviewProvider {
-  @State static var isPresentedDismiss = false
-  static var previews: some View {
-    let viewModel: NewTweetViewModel = {
-      let viewModel = NewTweetViewModel(userID: "")
-      viewModel.poll = .init(options: ["", ""], durationMinutes: 10)
-      viewModel.locationString = "sample geo"
-      return viewModel
-    }()
-
-    NewTweetView(viewModel: viewModel)
   }
 }

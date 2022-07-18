@@ -13,8 +13,6 @@ struct QuotedTweetCellView: View {
   let tweet: Sweet.TweetModel
   let user: Sweet.UserModel
 
-  @Binding var path: NavigationPath
-
   var body: some View {
     HStack(alignment: .top) {
       ProfileImageView(user.profileImageURL)
@@ -29,12 +27,6 @@ struct QuotedTweetCellView: View {
           .lineLimit(nil)
           .fixedSize(horizontal: false, vertical: true)
       }
-    }
-    .onTapGesture {
-      let tweetCellViewModel: TweetCellViewModel = .init(userID: userID, tweet: tweet, author: user)
-      let tweetDetailViewModel: TweetDetailViewModel = .init(cellViewModel: tweetCellViewModel)
-
-      path.append(tweetDetailViewModel)
     }
   }
 }

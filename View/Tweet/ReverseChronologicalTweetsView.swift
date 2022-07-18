@@ -40,7 +40,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
               viewModel.latestTapTweetID = cellViewModel.tweet.id
             }
           if isTappedTweet {
-            TweetToolBar(userID: viewModel.userID, tweetID: cellViewModel.tweet.id, tweet: cellViewModel.tweetText, metrics: cellViewModel.tweet.publicMetrics!)
+            TweetToolBar(userID: viewModel.userID, tweet: cellViewModel.tweet, user: cellViewModel.author)
           }
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {

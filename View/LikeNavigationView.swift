@@ -28,7 +28,7 @@ struct LikeNavigationView: View {
             .navigationTitle("Follower")
             .navigationBarTitleDisplayMode(.inline)
         }
-        .navigationDestination(for: TweetDetailViewModel.self) { viewModel in
+        .navigationDestination(for: TweetDetailViewModel<TweetCellViewModel>.self) { viewModel in
           TweetDetailView(viewModel: viewModel, path: $path)
             .navigationTitle("Detail")
             .navigationBarTitleDisplayMode(.inline)

@@ -20,13 +20,12 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
       } else {
         ScrollView {
           LazyVStack {
-            Divider()
             ForEach(viewModel.showTweets) { tweet in
               let cellViewModel = viewModel.getTweetCellViewModel(tweet.id)
 
               VStack {
                 TweetCellView(path: $path, viewModel: cellViewModel)
-                TweetToolBar(userID: viewModel.userID, tweetID: cellViewModel.tweet.id, tweet: cellViewModel.tweetText, metrics: cellViewModel.tweet.publicMetrics!)
+                TweetToolBar(userID: viewModel.userID, tweet: cellViewModel.tweet, user: cellViewModel.author)
 
                 Divider()
               }

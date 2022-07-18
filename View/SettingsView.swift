@@ -106,6 +106,8 @@ struct SettingsView: View {
           }
         }
       }
+      .navigationTitle("Settings")
+      .navigationBarTitleDisplayMode(.large)
       .navigationDestination(for: MutingUsersViewModel.self) { viewModel in
         UsersView(viewModel: viewModel, path: $path)
           .navigationTitle("Mute")
