@@ -43,7 +43,14 @@ struct TweetDetailView<ViewModel: TweetDetailViewModel<TweetCellViewModel>>: Vie
       VStack {
         TweetCellView(path: $path, viewModel: viewModel.cellViewModel)
         TweetToolBar(userID: viewModel.cellViewModel.userID, tweet: viewModel.cellViewModel.tweet, user: viewModel.cellViewModel.author)
+          .padding(.bottom)
+        HStack {
+          Text(viewModel.cellViewModel.tweet.createdAt!, format: .dateTime)
+          Text("via \(viewModel.cellViewModel.tweet.source!)")
+        }
+        .padding(.bottom)
         TweetDetailInformation(userID: viewModel.cellViewModel.userID, tweetID: viewModel.cellViewModel.tweet.id, metrics: viewModel.cellViewModel.tweet.publicMetrics!, path: $path)
+          .padding(.bottom)
       }
 
       let repliesTweetsViewModel: RepliesTweetsViewModel = .init(userID: viewModel.cellViewModel.userID, conversationID: viewModel.cellViewModel.tweet.conversationID!)
