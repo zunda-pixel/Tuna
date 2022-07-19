@@ -15,11 +15,13 @@ struct TweetDetailInformation: View {
         Image(systemName: "arrow.turn.up.left")
         Text("\(metrics.replyCount)")
       }
+      .frame(maxWidth: .infinity)
 
       HStack {
         Image(systemName: "arrow.2.squarepath")
         Text("\(metrics.retweetCount)")
       }
+      .frame(maxWidth: .infinity)
       .onTapGesture {
         let retweetUsersViewModel: RetweetUsersViewModel = .init(userID: userID, tweetID: tweetID)
         path.append(retweetUsersViewModel)
@@ -29,6 +31,7 @@ struct TweetDetailInformation: View {
         Image(systemName: "quote.bubble")
         Text("\(metrics.quoteCount)")
       }
+      .frame(maxWidth: .infinity)
       .onTapGesture {
         let quoteTweetViewModel: QuoteTweetsViewModel = .init(userID: userID, source: tweetID)
         path.append(quoteTweetViewModel)
@@ -38,6 +41,7 @@ struct TweetDetailInformation: View {
         Image(systemName: "heart")
         Text("\(metrics.likeCount)")
       }
+      .frame(maxWidth: .infinity)
       .onTapGesture {
         let likeUsersViewModel: LikeUsersViewModel = .init(userID: userID, tweetID: tweetID)
         path.append(likeUsersViewModel)
