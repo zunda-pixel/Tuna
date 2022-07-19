@@ -26,6 +26,10 @@ import Sweet
   }
 
   func likeOrLikeUser() async {
+    guard !loading else { return }
+
+    loading.toggle()
+
     do {
       if isLiked {
         try await Sweet(userID: userID).like(userID: userID, tweetID: tweetID)
@@ -38,6 +42,8 @@ import Sweet
       error = newError
       didError.toggle()
     }
+
+    loading.toggle()
   }
 }
 
@@ -45,26 +51,23 @@ struct LikeButton: View {
   @StateObject var viewModel: LikeButtonViewModel
 
   var body: some View {
-    Button {
-      Task {
-        await viewModel.likeOrLikeUser()
+    let imageName = viewModel.isLiked ? "heart.fill" : "heart"
+    Label("\(viewModel.likeCount)", systemImage: imageName)
+      .onTapGesture {
+        Task {
+          await viewModel.likeOrLikeUser()
+        }
       }
-    } label: {
-      Text("\(Image(systemName: "heart")) \(viewModel.likeCount)")
-    }
-    .disabled(viewModel.loading)
-    .alert("Error", isPresented: $viewModel.didError) {
-      Button {
-        print(viewModel.error!)
-      } label: {
-        Text("Close")
+      .alert("Error", isPresented: $viewModel.didError) {
+        Button("Close") {
+          print(viewModel.error!)
+        }
       }
-    }
   }
 }
 
 struct LikeButton_Previews: PreviewProvider {
-    static var previews: some View {
-      LikeButton(viewModel: .init(user: "", tweet: "", likeCount: 12))
-    }
+  static var previews: some View {
+    LikeButton(viewModel: .init(user: "", tweet: "", likeCount: 12))
+  }
 }

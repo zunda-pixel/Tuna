@@ -24,6 +24,10 @@ import Sweet
   }
 
   func addOrDeleteBookmark() async {
+    guard !loading else { return }
+
+    loading.toggle()
+
     do {
       if isBookmarked {
         try await Sweet(userID: userID).addBookmark(userID: userID, tweetID: tweetID)
@@ -32,10 +36,13 @@ import Sweet
       }
 
       isBookmarked.toggle()
+
     } catch let newError {
       error = newError
       didError.toggle()
     }
+
+    loading.toggle()
   }
 }
 
@@ -43,28 +50,26 @@ struct BookmarkButton: View {
   @StateObject var viewModel: BookmarkButtonViewModel
 
   var body: some View {
-    Button {
-      Task {
-        await viewModel.addOrDeleteBookmark()
+    let imageName = viewModel.isBookmarked ? "bookmark.slash" : "bookmark"
+    Label("Bookmark", systemImage: imageName)
+      .labelStyle(.iconOnly)
+      .onTapGesture {
+        Task {
+          await viewModel.addOrDeleteBookmark()
+        }
       }
-    } label: {
-      Image(systemName: viewModel.isBookmarked ? "bookmark.slash" : "bookmark")
-    }
-    .disabled(viewModel.loading)
-    .alert("Error", isPresented: $viewModel.didError) {
-      Button {
-        print(viewModel.error!)
-      } label: {
-        Text("Close")
+      .alert("Error", isPresented: $viewModel.didError) {
+        Button("Close") {
+          print(viewModel.error!)
+        }
       }
-    }
   }
 }
 
 struct BookmarkButton_Previews: PreviewProvider {
-    static var previews: some View {
-      BookmarkButton(viewModel: .init(user: "", tweet: ""))
-    }
+  static var previews: some View {
+    BookmarkButton(viewModel: .init(user: "", tweet: ""))
+  }
 }
 
 

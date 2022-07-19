@@ -18,31 +18,24 @@ struct TweetToolBar: View {
   @State var isPresentedNewTweetView = false
 
   var body: some View {
-    HStack(alignment: .lastTextBaseline) {
-      Button {
-        isPresentedRetweetQuotedAlert.toggle()
-      } label: {
-        Text("\(Image(systemName: "arrow.2.squarepath")) \(tweet.publicMetrics!.retweetCount + tweet.publicMetrics!.quoteCount)")
-      }
-      .buttonStyle(.borderless)
-      .padding(.horizontal)
+    HStack {
+      Text("\(Image(systemName: "arrow.2.squarepath")) \(tweet.publicMetrics!.retweetCount + tweet.publicMetrics!.quoteCount)")
+        .frame(maxWidth: .infinity)
+        .onTapGesture {
+          isPresentedRetweetQuotedAlert.toggle()
+        }
+        .confirmationDialog("Retweet Tweet Or Quoted Tweet", isPresented: $isPresentedRetweetQuotedAlert) {
+          RetweetButton(viewModel: .init(user: userID, tweet: tweet.id, retweetCount: tweet.publicMetrics!.retweetCount))
+          QuotedButton(isPresentedNewTweetView: $isPresentedNewTweetView, userID: userID)
+        }
 
       LikeButton(viewModel: .init(user: userID, tweet: tweet.id, likeCount: tweet.publicMetrics!.likeCount))
-        .buttonStyle(.borderless)
-        .padding(.horizontal)
+        .frame(maxWidth: .infinity)
 
       BookmarkButton(viewModel: .init(user: userID, tweet: tweet.id))
-        .buttonStyle(.borderless)
-        .padding(.horizontal)
+        .frame(maxWidth: .infinity)
+    }
 
-      TweetMenu(userID: userID, tweetID: tweet.id)
-        .menuStyle(.borderlessButton)
-        .padding(.horizontal)
-    }
-    .confirmationDialog("Retweet Tweet Or Quoted Tweet", isPresented: $isPresentedRetweetQuotedAlert) {
-      RetweetButton(viewModel: .init(user: userID, tweet: tweet.id, retweetCount: tweet.publicMetrics!.retweetCount))
-      QuotedButton(isPresentedNewTweetView: $isPresentedNewTweetView, userID: userID)
-    }
     .sheet(isPresented: $isPresentedNewTweetView) {
       let viewModel: NewTweetViewModel = .init(userID: userID, quoted: (tweet, user))
       NewTweetView(viewModel: viewModel)
