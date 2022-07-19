@@ -54,10 +54,11 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
               }
             }
           }
-          .anyRefreshable {
-            let firstTweetID = viewModel.showTweets.first?.id
-            await viewModel.fetchTweets(first: firstTweetID, last: nil)
-          }
+          .refreshableView()
+        }
+        .refreshable {
+          let firstTweetID = viewModel.showTweets.first?.id
+          await viewModel.fetchTweets(first: firstTweetID, last: nil)
         }
         .alert("Error", isPresented: $viewModel.didError) {
           Button {
