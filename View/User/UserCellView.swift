@@ -52,7 +52,7 @@ struct UserCellView: View {
     }
     .contentShape(Rectangle())
     .onTapGesture {
-      let userViewModel: UserViewModel = .init(userID: ownerID, user: user)
+      let userViewModel: UserDetailViewModel = .init(userID: ownerID, user: user)
       path.append(userViewModel)
     }
   }

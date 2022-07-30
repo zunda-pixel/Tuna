@@ -26,7 +26,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
       ProfileImageView(user.profileImageURL)
         .frame(width: 50, height: 50)
         .onTapGesture {
-          let userViewModel: UserViewModel = .init(userID: viewModel.userID, user: user)
+          let userViewModel: UserDetailViewModel = .init(userID: viewModel.userID, user: user)
           path.append(userViewModel)
         }
 

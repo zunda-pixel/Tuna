@@ -12,8 +12,8 @@ struct LikeNavigationView: View {
       TweetsView(viewModel: likesViewModel, path: $path)
         .navigationTitle("Likes")
         .navigationBarTitleDisplayMode(.large)
-        .navigationDestination(for: UserViewModel.self) { viewModel in
-          UserView(viewModel: viewModel, path: $path, timelineViewModel: .init(userID: userID, ownerID: viewModel.user.id))
+        .navigationDestination(for: UserDetailViewModel.self) { viewModel in
+          UserDetailView(viewModel: viewModel, path: $path, timelineViewModel: .init(userID: userID, ownerID: viewModel.user.id))
             .navigationTitle("@\(viewModel.user.userName)")
             .navigationBarTitleDisplayMode(.inline)
             .environment(\.managedObjectContext, viewContext)

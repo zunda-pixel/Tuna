@@ -44,7 +44,7 @@ struct ListCellView: View {
       ProfileImageView(owner.profileImageURL)
         .frame(width: 50, height: 50)
         .onTapGesture {
-          let userViewModel: UserViewModel = .init(userID: userID, user: owner)
+          let userViewModel: UserDetailViewModel = .init(userID: userID, user: owner)
           path.append(userViewModel)
         }
 

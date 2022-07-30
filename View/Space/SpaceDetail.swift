@@ -13,7 +13,7 @@ struct SpaceDetail: View {
       ProfileImageView(viewModel.creator.profileImageURL)
         .frame(width: 100, height: 100)
         .onTapGesture {
-          let userViewModel: UserViewModel = .init(userID: viewModel.userID, user: viewModel.creator)
+          let userViewModel: UserDetailViewModel = .init(userID: viewModel.userID, user: viewModel.creator)
           path.append(userViewModel)
         }
 
@@ -24,7 +24,7 @@ struct SpaceDetail: View {
               .frame(width: 60, height: 60)
               .padding(.vertical)
               .onTapGesture {
-                let userViewModel: UserViewModel = .init(userID: viewModel.userID, user: speaker)
+                let userViewModel: UserDetailViewModel = .init(userID: viewModel.userID, user: speaker)
                 path.append(userViewModel)
               }
           }

@@ -8,27 +8,8 @@
 import SwiftUI
 import Sweet
 
-final class UserViewModel: ObservableObject, Hashable {
-  static func == (lhs: UserViewModel, rhs: UserViewModel) -> Bool {
-    lhs.userID == rhs.userID && lhs.user == rhs.user
-  }
-
-  func hash(into hasher: inout Hasher) {
-    hasher.combine(userID)
-    hasher.combine(user)
-  }
-
-  let userID: String
-  let user: Sweet.UserModel
-
-  init(userID: String, user: Sweet.UserModel) {
-    self.userID = userID
-    self.user = user
-  }
-}
-
-struct UserView: View {
-  @StateObject var viewModel: UserViewModel
+struct UserDetailView: View {
+  @StateObject var viewModel: UserDetailViewModel
 
   @Binding var path: NavigationPath
 
