@@ -188,7 +188,7 @@ struct ListsView: View {
       .navigationTitle("List")
       .navigationBarTitleDisplayMode(.large)
       .navigationDestination(for: UserViewModel.self) { viewModel in
-        UserView(viewModel: viewModel, path: $path)
+        UserView(viewModel: viewModel, path: $path, timelineViewModel: .init(userID: viewModel.userID, ownerID: viewModel.user.id))
           .navigationTitle("@\(viewModel.user.userName)")
           .navigationBarTitleDisplayMode(.inline)
           .environment(\.managedObjectContext, viewContext)

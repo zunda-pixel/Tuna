@@ -131,7 +131,7 @@ struct SearchSpacesView: View {
         SpaceDetail(viewModel: viewModel, path: $path)
       }
       .navigationDestination(for: UserViewModel.self) { viewModel in
-        UserView(viewModel: viewModel, path: $path)
+        UserView(viewModel: viewModel, path: $path, timelineViewModel: .init(userID: viewModel.userID, ownerID: viewModel.user.id))
           .navigationTitle("@\(viewModel.user.userName)")
           .navigationBarTitleDisplayMode(.inline)
       }

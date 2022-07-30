@@ -13,7 +13,7 @@ struct LikeNavigationView: View {
         .navigationTitle("Likes")
         .navigationBarTitleDisplayMode(.large)
         .navigationDestination(for: UserViewModel.self) { viewModel in
-          UserView(viewModel: viewModel, path: $path)
+          UserView(viewModel: viewModel, path: $path, timelineViewModel: .init(userID: userID, ownerID: viewModel.user.id))
             .navigationTitle("@\(viewModel.user.userName)")
             .navigationBarTitleDisplayMode(.inline)
             .environment(\.managedObjectContext, viewContext)
@@ -38,6 +38,17 @@ struct LikeNavigationView: View {
             .navigationTitle("Quote Tweet")
             .navigationBarTitleDisplayMode(.inline)
         }
+        .navigationDestination(for: UserMentionsViewModel.self) { viewModel in
+          TweetsView(viewModel: viewModel, path: $path)
+            .navigationTitle("Mention")
+            .navigationBarTitleDisplayMode(.inline)
+        }
+        .navigationDestination(for: LikesViewModel.self) { viewModel in
+          TweetsView(viewModel: viewModel, path: $path)
+            .navigationTitle("Like")
+            .navigationBarTitleDisplayMode(.inline)
+        }
+
     }
   }
 }

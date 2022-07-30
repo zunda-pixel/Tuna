@@ -6,8 +6,6 @@ import CoreData
   var loadingTweets: Bool { get set }
 
   var userID: String { get }
-  var isPresentedTweetToolbar: Bool { get set }
-  var latestTapTweetID: String? { get set }
 
   var error: Error? { get }
   var didError: Bool { get set }

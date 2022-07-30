@@ -6,7 +6,6 @@ import SwiftUI
 struct BookmarksNavigationView: View {
   @State var path = NavigationPath()
   @Environment(\.managedObjectContext) var viewContext
-  
   let userID: String
 
   var body: some View {
@@ -17,7 +16,7 @@ struct BookmarksNavigationView: View {
         .navigationTitle("Book")
         .navigationBarTitleDisplayMode(.large)
         .navigationDestination(for: UserViewModel.self) { viewModel in
-          UserView(viewModel: viewModel, path: $path)
+          UserView(viewModel: viewModel, path: $path, timelineViewModel: .init(userID: userID, ownerID: viewModel.user.id))
             .navigationTitle("@\(viewModel.user.userName)")
             .navigationBarTitleDisplayMode(.inline)
             .environment(\.managedObjectContext, viewContext)
