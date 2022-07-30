@@ -11,41 +11,29 @@ struct TweetDetailInformation: View {
   
   var body: some View {
     HStack {
-      HStack {
-        Image(systemName: "arrow.turn.up.left")
-        Text("\(metrics.replyCount)")
-      }
-      .frame(maxWidth: .infinity)
+      Label("\(metrics.replyCount)", systemImage: "arrow.turn.up.left")
+        .frame(maxWidth: .infinity)
 
-      HStack {
-        Image(systemName: "arrow.2.squarepath")
-        Text("\(metrics.retweetCount)")
-      }
-      .frame(maxWidth: .infinity)
-      .onTapGesture {
-        let retweetUsersViewModel: RetweetUsersViewModel = .init(userID: userID, tweetID: tweetID)
-        path.append(retweetUsersViewModel)
-      }
+      Label("\(metrics.retweetCount)", systemImage: "arrow.2.squarepath")
+        .frame(maxWidth: .infinity)
+        .onTapGesture {
+          let retweetUsersViewModel: RetweetUsersViewModel = .init(userID: userID, tweetID: tweetID)
+          path.append(retweetUsersViewModel)
+        }
 
-      HStack {
-        Image(systemName: "quote.bubble")
-        Text("\(metrics.quoteCount)")
-      }
-      .frame(maxWidth: .infinity)
-      .onTapGesture {
-        let quoteTweetViewModel: QuoteTweetsViewModel = .init(userID: userID, source: tweetID)
-        path.append(quoteTweetViewModel)
-      }
+      Label("\(metrics.quoteCount)", systemImage: "quote.bubble")
+        .frame(maxWidth: .infinity)
+        .onTapGesture {
+          let quoteTweetViewModel: QuoteTweetsViewModel = .init(userID: userID, source: tweetID)
+          path.append(quoteTweetViewModel)
+        }
 
-      HStack {
-        Image(systemName: "heart")
-        Text("\(metrics.likeCount)")
-      }
-      .frame(maxWidth: .infinity)
-      .onTapGesture {
-        let likeUsersViewModel: LikeUsersViewModel = .init(userID: userID, tweetID: tweetID)
-        path.append(likeUsersViewModel)
-      }
+      Label("\(metrics.likeCount)", systemImage: "heart")
+        .frame(maxWidth: .infinity)
+        .onTapGesture {
+          let likeUsersViewModel: LikeUsersViewModel = .init(userID: userID, tweetID: tweetID)
+          path.append(likeUsersViewModel)
+        }
     }
   }
 }
