@@ -8,16 +8,6 @@
 import SwiftUI
 import Sweet
 
-enum TweetTab: String, CaseIterable, Identifiable {
-  var id: String {
-    return rawValue
-  }
-
-  case tweet = "Tweet"
-  case mention = "Mention"
-  case like = "Like"
-}
-
 final class UserViewModel: ObservableObject, Hashable {
   static func == (lhs: UserViewModel, rhs: UserViewModel) -> Bool {
     lhs.userID == rhs.userID && lhs.user == rhs.user
@@ -30,7 +20,6 @@ final class UserViewModel: ObservableObject, Hashable {
 
   let userID: String
   let user: Sweet.UserModel
-  @Published var selection: TweetTab = .tweet
 
   init(userID: String, user: Sweet.UserModel) {
     self.userID = userID
@@ -45,54 +34,64 @@ struct UserView: View {
 
   @Environment(\.managedObjectContext) private var viewContext
 
+  @StateObject var timelineViewModel: UserTimelineViewModel
+
   var body: some View {
-    VStack {
-      ProfileImageView(viewModel.user.profileImageURL)
-        .frame(width: 100, height: 100)
+    ScrollView {
+      VStack {
+        ProfileImageView(viewModel.user.profileImageURL)
+          .frame(width: 100, height: 100)
 
-      UserProfileView(user:viewModel.user)
+        UserProfileView(user:viewModel.user)
 
-      HStack(alignment: .center) {
-        let followerUserViewModel: FollowerUserViewModel = .init(userID: viewModel.userID, ownerID: viewModel.user.id)
+        HStack(alignment: .center) {
+          Button {
+            let viewModel: FollowerUserViewModel = .init(userID: viewModel.userID, ownerID: viewModel.user.id)
+            path.append(viewModel)
+          } label: {
+            VStack {
+              Label("FOLLOWERS", systemImage: "figure.wave")
+              Text("\(viewModel.user.metrics!.followersCount)")
+            }
+          }
 
-        NavigationLink(value: followerUserViewModel) {
-          VStack {
-            Text("FOLLOWERS")
-            Text("\(viewModel.user.metrics!.followersCount)")
+          Button {
+            let viewModel: FollowingUserViewModel = .init(userID: viewModel.userID, ownerID: viewModel.user.id)
+            path.append(viewModel)
+          } label: {
+            VStack {
+              Label("FOLLOWING", systemImage: "figure.walk")
+              Text("\(viewModel.user.metrics!.followingCount)")
+            }
           }
         }
 
-        let followingUserViewModel: FollowingUserViewModel = .init(userID: viewModel.userID, ownerID: viewModel.user.id)
-        NavigationLink(value: followingUserViewModel) {
-          VStack {
-            Text("FOLLOWING")
-            Text("\(viewModel.user.metrics!.followingCount)")
-          }
+        Button {
+          let viewModel: UserMentionsViewModel = .init(userID: viewModel.userID, ownerID: viewModel.user.id)
+          path.append(viewModel)
+        } label: {
+          Label("Mention", systemImage: "ellipsis.message")
         }
-      }
+        .padding()
 
-      Picker("User Tab", selection: $viewModel.selection) {
-        ForEach(TweetTab.allCases) { tab in
-          Text(tab.rawValue)
-            .tag(tab)
+        Button {
+          let viewModel: LikesViewModel = .init(userID: viewModel.userID, ownerID: viewModel.user.id)
+          path.append(viewModel)
+        } label: {
+          Label("Like", systemImage: "heart")
         }
+        .padding()
+
+        TweetsView(viewModel: timelineViewModel, path: $path)
       }
-      .pickerStyle(.segmented)
-
-      TabView(selection: $viewModel.selection) {
-        let userTimelineViewModel: UserTimelineViewModel = .init(userID: viewModel.userID, ownerID: viewModel.user.id)
-        TweetsView(viewModel: userTimelineViewModel, path: $path)
-          .tag(TweetTab.tweet)
-
-        let userMentionsViewModel: UserMentionsViewModel = .init(userID: viewModel.userID, ownerID: viewModel.user.id)
-        TweetsView(viewModel: userMentionsViewModel, path: $path)
-          .tag(TweetTab.mention)
-
-        let likeViewModel: LikesViewModel = .init(userID: viewModel.userID, ownerID: viewModel.user.id)
-        TweetsView(viewModel: likeViewModel, path: $path)
-          .tag(TweetTab.like)
+    }
+    .refreshable {
+      await timelineViewModel.fetchTweets(first: nil, last: nil)
+    }
+    .onAppear {
+      Task {
+        await timelineViewModel.fetchTweets(first: nil, last: nil)
       }
-      .tabViewStyle(.page(indexDisplayMode: .never))
     }
     .toolbar {
       if viewModel.userID != viewModel.user.id {
