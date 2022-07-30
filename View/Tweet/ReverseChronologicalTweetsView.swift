@@ -20,45 +20,29 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
   }
 
   var body: some View {
-    List {
-      ForEach(viewModel.showTweets) { tweet in
-        let cellViewModel = viewModel.getTweetCellViewModel(tweet.id!)
+    ScrollView {
+      LazyVStack {
+        ForEach(viewModel.showTweets) { tweet in
+          let cellViewModel = viewModel.getTweetCellViewModel(tweet.id!)
 
-        let isTappedTweet: Bool = {
-          if let latestTapTweetID = viewModel.latestTapTweetID {
-            let sameTweetID = latestTapTweetID == cellViewModel.tweet.id
-            return viewModel.isPresentedTweetToolbar && sameTweetID
-          } else {
-            return false
-          }
-        }()
-
-        VStack {
-          TweetCellView(path: $path, viewModel: cellViewModel)
-            .onTapGesture {
-              viewModel.isPresentedTweetToolbar = viewModel.latestTapTweetID != cellViewModel.tweet.id || !viewModel.isPresentedTweetToolbar
-              viewModel.latestTapTweetID = cellViewModel.tweet.id
-            }
-          if isTappedTweet {
+          VStack {
+            TweetCellView(path: $path, viewModel: cellViewModel)
             TweetToolBar(userID: viewModel.userID, tweet: cellViewModel.tweet, user: cellViewModel.author)
           }
-        }
-        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-          Button {
+          .contentShape(Rectangle())
+          .onTapGesture {
             let tweetDetailViewModel: TweetDetailViewModel = .init(cellViewModel: cellViewModel)
             path.append(tweetDetailViewModel)
-          } label: {
-            Image(systemName: "ellipsis")
           }
-        }
-        .onAppear {
-          guard let lastTweet = viewModel.showTweets.last else {
-            return
-          }
+          .onAppear {
+            guard let lastTweet = viewModel.showTweets.last else {
+              return
+            }
 
-          if tweet.id == lastTweet.id {
-            Task {
-              await fetchTweets(first: nil, last: lastTweet.id)
+            if tweet.id == lastTweet.id {
+              Task {
+                await fetchTweets(first: nil, last: lastTweet.id)
+              }
             }
           }
         }

@@ -9,7 +9,7 @@ import Sweet
 import SwiftUI
 
 struct TweetsView<ViewModel: TweetsViewProtocol>: View {
-  @StateObject var viewModel: ViewModel
+  @ObservedObject var viewModel: ViewModel
   @Binding var path: NavigationPath
 
   var body: some View {
@@ -26,10 +26,14 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
               VStack {
                 TweetCellView(path: $path, viewModel: cellViewModel)
                 TweetToolBar(userID: viewModel.userID, tweet: cellViewModel.tweet, user: cellViewModel.author)
-
-                Divider()
               }
               .contentShape(Rectangle())
+              .contextMenu {
+                let url: URL = .init(string: "https://twitter.com/\(cellViewModel.author.id)/status/\(cellViewModel.tweet.id)")!
+                ShareLink(item: url) {
+                  Label("Share", systemImage: "square.and.arrow.up")
+                }
+              }
               .onTapGesture {
                 let parentTweetCellViewModel: TweetCellViewModel? = {
                   if let reply = cellViewModel.tweet.referencedTweets.first(where: { $0.type == .repliedTo}) {
@@ -54,7 +58,6 @@ struct TweetsView<ViewModel: TweetsViewProtocol>: View {
               }
             }
           }
-          .refreshableView()
         }
         .refreshable {
           let firstTweetID = viewModel.showTweets.first?.id
